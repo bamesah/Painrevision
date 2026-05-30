@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact Us — PainRevision</title>
+<meta name="description" content="Get in touch with the PainRevision team. Send us an email or fill in the contact form and we'll get back to you."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ===== RESET & ROOT ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --shadow-lg:0 2px 4px rgba(36,27,22,.06),0 28px 56px -20px rgba(36,27,22,.32);
+  --r:18px;--maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+
+/* ===== SHARED UTILITIES ===== */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;font-family:var(--san);font-size:15px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s cubic-bezier(.2,.7,.2,1),border-color .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1);letter-spacing:-.01em;white-space:nowrap}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn-secondary{background:transparent;color:var(--ink);border-color:var(--border-strong)}
+.btn-secondary:hover{background:var(--surface-warm);border-color:var(--ink);transform:translateY(-1px)}
+.btn-white{background:#fff;color:var(--ink);border-color:#fff}
+.btn-white:hover{background:var(--cream);transform:translateY(-1px)}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+@media(prefers-reduced-motion:reduce){
+  .reveal{animation:none!important;opacity:1!important;transform:none!important;transition:none!important}
+}
+
+/* ===== NAVIGATION ===== */
+.nav{position:sticky;top:0;z-index:100;transition:background .3s,box-shadow .3s;background:rgba(251,245,238,0);border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(251,245,238,.88);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom-color:var(--border);box-shadow:var(--shadow-sm)}
+.nav-in{display:flex;align-items:center;gap:16px;padding:16px 32px;max-width:var(--maxw);margin:0 auto}
+.nav-logo{display:flex;align-items:center;gap:11px;font-family:var(--san);font-weight:800;font-size:18px;letter-spacing:-.03em;flex-shrink:0}
+.nav-logo svg{width:32px;height:32px;flex-shrink:0}
+.nav-logo .pain{color:var(--ink)}
+.nav-logo .rev{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-warm)}
+.nav-links a.active{color:var(--coral);font-weight:600}
+.nav-cta{margin-left:12px}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;background:none;border:none;-webkit-tap-highlight-color:transparent}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:99px;transition:transform .3s,opacity .3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* mobile drawer */
+.nav-drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
+.nav-drawer-overlay{position:absolute;inset:0;background:rgba(36,27,22,.4);opacity:0;transition:opacity .3s}
+.nav-drawer-panel{position:absolute;top:0;right:0;width:min(300px,85vw);height:100%;background:var(--surface);padding:80px 28px 40px;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-lg)}
+.nav-drawer.open{pointer-events:all}
+.nav-drawer.open .nav-drawer-overlay{opacity:1}
+.nav-drawer.open .nav-drawer-panel{transform:none}
+.nav-drawer-panel a{font-size:17px;font-weight:600;color:var(--ink);padding:12px 16px;border-radius:12px;display:block;transition:background .18s}
+.nav-drawer-panel a:hover{background:var(--surface-warm)}
+.nav-drawer-panel .drawer-cta{margin-top:20px;display:block;text-align:center}
+
+/* ===== PAGE HEADER ===== */
+.page-header{padding:100px 0 80px;position:relative;overflow:hidden;border-top:none}
+.page-header-glow{position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(640px 400px at 60% -10%,rgba(245,165,36,.14),transparent 65%),
+    radial-gradient(700px 500px at 70% 0%,rgba(240,98,60,.10),transparent 60%),
+    radial-gradient(350px 250px at 0% 90%,rgba(240,98,60,.05),transparent 70%)}
+.page-header-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.35;z-index:0}
+.page-header .wrap{position:relative;z-index:1}
+.page-header-inner{max-width:680px}
+.page-header h1{font-size:clamp(40px,7vw,72px);font-weight:800;letter-spacing:-.035em;line-height:.95;margin:16px 0 20px}
+.page-header h1 .hi{color:var(--ink)}
+.page-header h1 .hc{color:var(--coral)}
+.page-header-desc{font-size:clamp(16px,2.2vw,18.5px);color:var(--stone);line-height:1.65;max-width:560px;text-wrap:pretty}
+.page-header-desc a{color:var(--coral);font-weight:600;border-bottom:1.5px solid var(--coral-soft);padding-bottom:1px;transition:border-color .18s,color .18s}
+.page-header-desc a:hover{color:var(--coral-deep);border-color:var(--coral)}
+
+/* ===== CONTACT SECTION ===== */
+.contact-section{padding:0 0 110px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+
+/* info column */
+.contact-info{display:flex;flex-direction:column;gap:24px}
+.contact-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:28px 32px;box-shadow:var(--shadow-sm);transition:box-shadow .22s cubic-bezier(.2,.7,.2,1),border-color .22s cubic-bezier(.2,.7,.2,1)}
+.contact-card:hover{box-shadow:var(--shadow);border-color:var(--border-strong)}
+.contact-card-icon{width:44px;height:44px;border-radius:12px;background:var(--coral-soft);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.contact-card-icon svg{width:22px;height:22px;fill:none;stroke:var(--coral);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.contact-card h3{font-size:16px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.contact-card p{font-size:14.5px;color:var(--stone);line-height:1.6}
+.contact-card a{color:var(--coral);font-weight:600;transition:color .18s}
+.contact-card a:hover{color:var(--coral-deep)}
+.response-badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);background:var(--surface-warm);border:1px solid var(--border);border-radius:999px;padding:6px 14px;margin-top:8px}
+.response-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#4CAF50;flex-shrink:0}
+
+/* form column */
+.contact-form-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:calc(var(--r) + 4px);padding:40px;box-shadow:var(--shadow)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.form-group:last-of-type{margin-bottom:0}
+.form-label{font-size:13.5px;font-weight:600;color:var(--ink-soft);letter-spacing:-.01em}
+.form-label .opt{font-weight:400;color:var(--stone-light);font-family:var(--mono);font-size:11px;letter-spacing:.06em;margin-left:6px}
+.form-input,.form-textarea{width:100%;font-family:var(--san);font-size:15px;color:var(--ink);background:var(--surface-warm);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--stone-light)}
+.form-input:hover,.form-textarea:hover{border-color:var(--border-strong)}
+.form-input:focus,.form-textarea:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(240,98,60,.12);background:var(--surface)}
+.form-textarea{resize:vertical;min-height:140px;line-height:1.6}
+.form-submit-row{margin-top:28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.btn-submit{background:var(--coral);color:#fff;border:2px solid var(--coral);border-radius:999px;font-family:var(--san);font-size:15px;font-weight:600;padding:15px 32px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;letter-spacing:-.01em;transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s cubic-bezier(.2,.7,.2,1),border-color .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1)}
+.btn-submit:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-submit:active{transform:translateY(0);box-shadow:none}
+.btn-submit svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.btn-submit:hover svg{transform:translateX(3px)}
+.form-note{font-family:var(--mono);font-size:11.5px;color:var(--stone-light);letter-spacing:.04em;line-height:1.55}
+
+/* success state */
+.form-success{display:none;flex-direction:column;align-items:center;gap:16px;padding:48px 32px;text-align:center}
+.form-success.show{display:flex}
+.success-icon{width:64px;height:64px;border-radius:50%;background:var(--coral-soft);display:flex;align-items:center;justify-content:center}
+.success-icon svg{width:28px;height:28px;fill:none;stroke:var(--coral);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.success-title{font-size:22px;font-weight:800;letter-spacing:-.025em;color:var(--ink)}
+.success-desc{font-size:15px;color:var(--stone);line-height:1.6;max-width:320px}
+
+/* ===== FOOTER ===== */
+footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
+.footer-inner{display:flex;flex-direction:column;align-items:center;gap:28px}
+.f-logo{display:flex;align-items:center;gap:12px}
+.f-logo svg{width:38px;height:38px;flex-shrink:0}
+.f-logo .wm{font-size:22px;font-weight:800;letter-spacing:-.03em}
+.f-logo .wm .a{color:#fff}
+.f-logo .wm .b{color:var(--amber)}
+.footer-social{display:flex;gap:12px}
+.social-btn{width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.social-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+.social-btn svg{width:18px;height:18px;fill:rgba(255,255,255,.7);transition:fill .2s}
+.social-btn:hover svg{fill:#fff}
+.footer-copy{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.04em;text-align:center}
+.footer-copy .f-domain{color:rgba(255,255,255,.55)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:840px){
+  .contact-grid{grid-template-columns:1fr;gap:36px}
+  .contact-form-wrap{padding:28px 24px}
+  .form-row{grid-template-columns:1fr;gap:0}
+}
+@media(max-width:760px){
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  .wrap{padding:0 20px}
+  .nav-in{padding:14px 20px}
+  .page-header{padding:72px 0 60px}
+  .contact-section{padding:0 0 80px}
+  .btn{padding:12px 22px;font-size:14px}
+}
+@media(max-width:480px){
+  .form-submit-row{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HIDDEN SVG DEFS ===== -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html" aria-label="PainRevision home">
+      <svg viewBox="0 0 100 100" width="32" height="32" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <div class="nav-links" role="menubar">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="index.html#courses" role="menuitem">Courses</a>
+      <a href="index.html#about" role="menuitem">About</a>
+      <a href="contact.html" class="active" role="menuitem">Contact us</a>
+    </div>
+    <a href="index.html#courses" class="btn btn-primary nav-cta" style="padding:10px 22px;font-size:14px">Get started</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-overlay" id="drawer-overlay"></div>
+  <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#courses">Courses</a>
+    <a href="index.html#about">About</a>
+    <a href="contact.html">Contact us</a>
+    <a href="index.html#courses" class="btn btn-primary drawer-cta">Get started →</a>
+  </div>
+</div>
+
+<!-- ===== PAGE HEADER ===== -->
+<header class="page-header">
+  <div class="page-header-glow" aria-hidden="true"></div>
+  <div class="page-header-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="page-header-inner reveal">
+      <span class="eyebrow">Get in touch</span>
+      <h1><span class="hi">Contact&nbsp;&nbsp;</span><span class="hc">us.</span></h1>
+    </div>
+  </div>
+</header>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact-section" aria-label="Contact">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- Info cards -->
+      <div class="contact-info reveal">
+        <div class="contact-card">
+          <div class="contact-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><polyline points="2 7 12 13 22 7"/></svg>
+          </div>
+          <h3>Email us directly</h3>
+          <p>For any queries about our FFPMRCA courses, or general enquiries, send us an email and we'll respond within 2 business days.</p>
+          <p style="margin-top:10px"><a href="mailto:contact@painrevision.com">contact@painrevision.com</a></p>
+          <div class="response-badge">Responds within 2 business days</div>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Use the form</h3>
+          <p>Fill in the contact form and we'll get back to you at the email address you provide. Don't forget to tell us a little about your query.</p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form-wrap reveal reveal-d1" id="form-wrap">
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="cf-name">Name</label>
+            <input class="form-input" type="text" id="cf-name" name="name" placeholder="Dr. Ann Algaesia" autocomplete="name" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-email">Email</label>
+            <input class="form-input" type="email" id="cf-email" name="email" placeholder="n.dorphin@example.com" autocomplete="email" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cf-phone">Phone number <span class="opt">optional</span></label>
+            <input class="form-input" type="tel" id="cf-phone" name="phone" placeholder="+44 7700 900000" autocomplete="tel"/>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cf-message">Message</label>
+            <textarea class="form-textarea" id="cf-message" name="message" placeholder="Tell us what's on your mind…" required></textarea>
+          </div>
+
+          <div class="form-submit-row">
+            <button type="submit" class="btn-submit">
+              Send message
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <p class="form-note">We'll reply to your<br/>email address.</p>
+          </div>
+        </form>
+
+        <!-- Success state (hidden until submit) -->
+        <div class="form-success" id="form-success" aria-live="polite">
+          <div class="success-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p class="success-title">Message sent!</p>
+          <p class="success-desc">Your email client has opened with your message pre-filled. Just hit send and we'll get back to you soon.</p>
+          <button class="btn btn-secondary" id="form-reset" style="margin-top:8px;font-size:14px;padding:11px 22px">Send another message</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="f-logo">
+        <svg viewBox="0 0 100 100" width="38" height="38" aria-hidden="true" style="--mark-stroke:#fff;--mark-dot:#F5A524"><use href="#pr-mark"/></svg>
+        <span class="wm"><span class="a">Pain</span><span class="b">Revision</span></span>
+      </div>
+      <div class="footer-social" aria-label="Social media links">
+        <a href="#" class="social-btn" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#241B16"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="#241B16"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" style="stroke:#241B16;stroke-width:2;fill:none"/></svg>
+        </a>
+      </div>
+      <p class="footer-copy">© 2026 <span class="f-domain">painrevision.com</span> · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---- nav scroll state ---- */
+  var nav = document.getElementById('main-nav');
+  function onScroll(){
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---- mobile hamburger ---- */
+  var hamburger = document.getElementById('hamburger');
+  var drawer = document.getElementById('nav-drawer');
+  var overlay = document.getElementById('drawer-overlay');
+  var drawerLinks = drawer.querySelectorAll('a');
+
+  function openDrawer(){
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded','true');
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded','false');
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', function(){
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+  overlay.addEventListener('click', closeDrawer);
+  drawerLinks.forEach(function(a){ a.addEventListener('click', closeDrawer); });
+
+  /* ---- scroll reveal ---- */
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---- contact form ---- */
+  var form = document.getElementById('contact-form');
+  var success = document.getElementById('form-success');
+  var resetBtn = document.getElementById('form-reset');
+
+  function validateField(el){
+    if(el.required && !el.value.trim()){
+      el.style.borderColor = '#E53E3E';
+      el.style.boxShadow = '0 0 0 3px rgba(229,62,62,.12)';
+      return false;
+    }
+    if(el.type === 'email' && el.value.trim()){
+      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
+      if(!ok){
+        el.style.borderColor = '#E53E3E';
+        el.style.boxShadow = '0 0 0 3px rgba(229,62,62,.12)';
+        return false;
+      }
+    }
+    el.style.borderColor = '';
+    el.style.boxShadow = '';
+    return true;
+  }
+
+  ['cf-name','cf-email','cf-message'].forEach(function(id){
+    var el = document.getElementById(id);
+    el.addEventListener('blur', function(){ validateField(el); });
+    el.addEventListener('input', function(){
+      if(el.style.borderColor === 'rgb(229, 62, 62)') validateField(el);
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var nameEl = document.getElementById('cf-name');
+    var emailEl = document.getElementById('cf-email');
+    var phoneEl = document.getElementById('cf-phone');
+    var msgEl = document.getElementById('cf-message');
+
+    var ok = true;
+    if(!validateField(nameEl)) ok = false;
+    if(!validateField(emailEl)) ok = false;
+    if(!validateField(msgEl)) ok = false;
+    if(!ok){ nameEl.focus(); return; }
+
+    var name = nameEl.value.trim();
+    var email = emailEl.value.trim();
+    var phone = phoneEl.value.trim();
+    var msg = msgEl.value.trim();
+
+    var subject = encodeURIComponent('PainRevision Enquiry from ' + name);
+    var body = encodeURIComponent(
+      'Name: ' + name + '\r\n' +
+      'Email: ' + email + '\r\n' +
+      (phone ? 'Phone: ' + phone + '\r\n' : '') +
+      '\r\nMessage:\r\n' + msg
+    );
+    var mailto = 'mailto:contact@painrevision.com?subject=' + subject + '&body=' + body;
+    window.location.href = mailto;
+
+    form.style.display = 'none';
+    success.classList.add('show');
+  });
+
+  if(resetBtn){
+    resetBtn.addEventListener('click', function(){
+      success.classList.remove('show');
+      form.style.display = '';
+      form.reset();
+      ['cf-name','cf-email','cf-phone','cf-message'].forEach(function(id){
+        var el = document.getElementById(id);
+        el.style.borderColor = '';
+        el.style.boxShadow = '';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

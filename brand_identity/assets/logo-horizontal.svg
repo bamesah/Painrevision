@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 100" width="360" height="100" role="img" aria-label="PainRevision horizontal logo">
+  <g transform="translate(0 23)">
+    <path fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M37.45 12.74 A27 27 0 1 1 6.55 12.74" transform="translate(0 0)"></path>
+    <circle fill="#F5A524" cx="22" cy="4" r="7.2"></circle>
+  </g>
+  <text x="64" y="63" font-family="&#39;Plus Jakarta Sans&#39;, system-ui, sans-serif" font-size="40" font-weight="800" letter-spacing="-1.2">
+    <tspan fill="#241B16">Pain</tspan><tspan fill="#F0623C">Revision</tspan>
+  </text>
+</svg>
