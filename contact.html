@@ -299,7 +299,7 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <p class="success-title">Message sent!</p>
-          <p class="success-desc">Your email client has opened with your message pre-filled. Just hit send and we'll get back to you soon.</p>
+          <p class="success-desc">We've received your message and will get back to you within 2 business days.</p>
           <button class="btn btn-secondary" id="form-reset" style="margin-top:8px;font-size:14px;padding:11px 22px">Send another message</button>
         </div>
       </div>
@@ -412,7 +412,7 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
     });
   });
 
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit', async function(e){
     e.preventDefault();
     var nameEl = document.getElementById('cf-name');
     var emailEl = document.getElementById('cf-email');
@@ -425,24 +425,46 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
     if(!validateField(msgEl)) ok = false;
     if(!ok){ nameEl.focus(); return; }
 
-    var name = nameEl.value.trim();
-    var email = emailEl.value.trim();
-    var phone = phoneEl.value.trim();
-    var msg = msgEl.value.trim();
+    var submitBtn = form.querySelector('.btn-submit');
+    var originalHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
+    submitBtn.innerHTML = 'Sending…';
 
-    var subject = encodeURIComponent('PainRevision Enquiry from ' + name);
-    var body = encodeURIComponent(
-      'Name: ' + name + '\r\n' +
-      'Email: ' + email + '\r\n' +
-      (phone ? 'Phone: ' + phone + '\r\n' : '') +
-      '\r\nMessage:\r\n' + msg
-    );
-    var mailto = 'mailto:contact@painrevision.com?subject=' + subject + '&body=' + body;
-    window.location.href = mailto;
+    var formData = new FormData(form);
+    formData.append('access_key', 'fd4aafe7-0849-486e-ac5d-27aa91661964');
+    formData.append('subject', 'PainRevision Enquiry from ' + nameEl.value.trim());
+    formData.append('from_name', 'PainRevision Contact Form');
 
-    form.style.display = 'none';
-    success.classList.add('show');
+    try {
+      var res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+      var data = await res.json();
+      if(data.success){
+        form.style.display = 'none';
+        success.classList.add('show');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '';
+        submitBtn.innerHTML = originalHTML;
+        showFormError('Something went wrong. Please try again or email us at contact@painrevision.com.');
+      }
+    } catch(err){
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '';
+      submitBtn.innerHTML = originalHTML;
+      showFormError('Network error. Please check your connection and try again.');
+    }
   });
+
+  function showFormError(msg){
+    var existing = document.getElementById('form-error-msg');
+    if(existing) existing.remove();
+    var p = document.createElement('p');
+    p.id = 'form-error-msg';
+    p.style.cssText = 'color:#E53E3E;font-size:13.5px;margin-top:12px;font-weight:500';
+    p.textContent = msg;
+    form.querySelector('.form-submit-row').after(p);
+  }
 
   if(resetBtn){
     resetBtn.addEventListener('click', function(){
