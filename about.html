@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About — PainRevision</title>
+<meta name="description" content="PainRevision was started by a pain medicine trainee who passed the exams the hard way — built to change how trainees prepare for the FFPMRCA."/>
+<meta property="og:title" content="About — PainRevision"/>
+<meta property="og:description" content="Built by a trainee, for every trainee that follows."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://painrevision.com/about"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ===== RESET & ROOT ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --shadow-lg:0 2px 4px rgba(36,27,22,.06),0 28px 56px -20px rgba(36,27,22,.32);
+  --r:18px;--maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+
+/* ===== SHARED UTILITIES ===== */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;font-family:var(--san);font-size:15px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s cubic-bezier(.2,.7,.2,1),border-color .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1);letter-spacing:-.01em;white-space:nowrap}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn-secondary{background:transparent;color:var(--ink);border-color:var(--border-strong)}
+.btn-secondary:hover{background:var(--surface-warm);border-color:var(--ink);transform:translateY(-1px)}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal-d1{transition-delay:.08s}
+.reveal-d2{transition-delay:.16s}
+.reveal-d3{transition-delay:.24s}
+@media(prefers-reduced-motion:reduce){
+  .reveal,.hero-mark-svg .m-loop,.hero-mark-svg .m-dot{animation:none!important;opacity:1!important;transform:none!important;transition:none!important;stroke-dashoffset:0!important}
+}
+
+/* ===== NAVIGATION ===== */
+.nav{position:sticky;top:0;z-index:100;transition:background .3s,box-shadow .3s;background:rgba(251,245,238,0);border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(251,245,238,.88);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom-color:var(--border);box-shadow:var(--shadow-sm)}
+.nav-in{display:flex;align-items:center;gap:16px;padding:16px 32px;max-width:var(--maxw);margin:0 auto}
+.nav-logo{display:flex;align-items:center;gap:11px;font-family:var(--san);font-weight:800;font-size:18px;letter-spacing:-.03em;flex-shrink:0}
+.nav-logo svg{width:32px;height:32px;flex-shrink:0}
+.nav-logo .pain{color:var(--ink)}
+.nav-logo .rev{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-warm)}
+.nav-links a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-cta{margin-left:12px}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;background:none;border:none;-webkit-tap-highlight-color:transparent}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:99px;transition:transform .3s,opacity .3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
+.nav-drawer-overlay{position:absolute;inset:0;background:rgba(36,27,22,.4);opacity:0;transition:opacity .3s}
+.nav-drawer-panel{position:absolute;top:0;right:0;width:min(300px,85vw);height:100%;background:var(--surface);padding:80px 28px 40px;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-lg)}
+.nav-drawer.open{pointer-events:all}
+.nav-drawer.open .nav-drawer-overlay{opacity:1}
+.nav-drawer.open .nav-drawer-panel{transform:none}
+.nav-drawer-panel a{font-size:17px;font-weight:600;color:var(--ink);padding:12px 16px;border-radius:12px;display:block;transition:background .18s}
+.nav-drawer-panel a:hover{background:var(--surface-warm)}
+.nav-drawer-panel .drawer-cta{margin-top:20px;display:block;text-align:center}
+
+/* ===== PAGE HERO — compact ===== */
+.page-hero{padding:52px 0 40px;position:relative;overflow:hidden;text-align:center}
+.hero-glow{position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(560px 340px at 50% -5%,rgba(245,165,36,.16),transparent 65%),
+    radial-gradient(680px 420px at 50% 0%,rgba(240,98,60,.10),transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.35;z-index:0}
+.page-hero .wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+.hero-mark{width:52px;height:52px;margin-bottom:16px}
+.hero-mark-svg .m-loop{fill:none;stroke:#F0623C;stroke-width:14;stroke-linecap:round;stroke-dasharray:200;stroke-dashoffset:200;animation:draw-loop 1.15s .1s cubic-bezier(.5,0,.2,1) forwards}
+.hero-mark-svg .m-dot{fill:#F5A524;opacity:0;transform-origin:50px 13px;animation:pop-dot .5s 1s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes draw-loop{to{stroke-dashoffset:0}}
+@keyframes pop-dot{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}
+.page-hero-eyebrow{margin-bottom:12px}
+.page-hero h1{font-size:clamp(34px,5.5vw,56px);font-weight:800;letter-spacing:-.04em;line-height:.96;margin-bottom:14px}
+.page-hero h1 .pain{color:var(--ink)}
+.page-hero h1 .rev{color:var(--coral)}
+.page-hero-tag{font-size:clamp(15px,1.8vw,17px);color:var(--stone);max-width:400px;line-height:1.45;font-weight:400;text-wrap:balance;font-style:italic}
+
+/* ===== STORY SECTION — two-column ===== */
+.story{padding:64px 0;background:var(--surface-warm);border-top:1px solid var(--border)}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.story-text p{font-size:17px;color:var(--stone);line-height:1.72;text-wrap:pretty}
+.story-text p+p{margin-top:20px}
+.story-text p strong{color:var(--ink);font-weight:600}
+.story-illustration{border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--border)}
+
+/* ===== VIDEO SECTION — compact ===== */
+.video-section{background:var(--ink);padding:44px 0}
+.video-inner{display:flex;flex-direction:column;align-items:center;gap:20px}
+.video-label{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.video-heading{font-size:clamp(20px,2.8vw,28px);font-weight:800;letter-spacing:-.025em;color:#fff;text-align:center;max-width:540px;line-height:1.2}
+.video-frame{width:100%;max-width:760px;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:var(--ink-soft);border:1px solid rgba(255,255,255,.12);box-shadow:0 4px 6px rgba(0,0,0,.2),0 28px 56px -20px rgba(0,0,0,.5);position:relative}
+.video-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;cursor:default}
+.video-placeholder-icon{width:64px;height:64px;border-radius:50%;background:rgba(240,98,60,.2);border:2px solid rgba(240,98,60,.4);display:flex;align-items:center;justify-content:center}
+.video-placeholder-icon svg{width:26px;height:26px;fill:var(--coral);margin-left:4px}
+.video-placeholder p{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+
+/* ===== MISSION SECTION ===== */
+.mission{padding:60px 0;background:var(--cream);border-top:1px solid var(--border)}
+.mission-inner{max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center}
+.mission-bar{width:40px;height:3px;background:var(--coral);border-radius:99px;margin-bottom:22px}
+.mission-inner .eyebrow{margin-bottom:20px}
+.mission-statement{font-size:clamp(22px,3vw,34px);font-weight:700;letter-spacing:-.03em;line-height:1.2;color:var(--ink);text-wrap:balance}
+.mission-statement .accent{color:var(--coral)}
+
+/* ===== RESOURCES SECTION ===== */
+.resources{padding:60px 0;background:var(--surface-warm);border-top:1px solid var(--border)}
+.resources-header{text-align:center;margin-bottom:36px}
+.resources-header .eyebrow{margin-bottom:12px}
+.resources-header h2{font-size:clamp(24px,3.2vw,36px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.resources-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:26px 22px;box-shadow:var(--shadow-sm);transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1),border-color .22s}
+.resource-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border-strong)}
+.resource-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;flex-shrink:0}
+.resource-icon svg{width:22px;height:22px}
+.resource-icon-coral{background:rgba(240,98,60,.1)}
+.resource-icon-coral svg{stroke:var(--coral);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.resource-icon-amber{background:rgba(245,165,36,.12)}
+.resource-icon-amber svg{stroke:var(--amber);fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.resource-card h3{font-size:16px;font-weight:700;letter-spacing:-.015em;margin-bottom:8px;color:var(--ink)}
+.resource-card p{font-size:14px;color:var(--stone);line-height:1.6}
+
+/* ===== FOOTER ===== */
+footer{background:var(--ink);padding:52px 0}
+.footer-inner{display:flex;flex-direction:column;align-items:center;gap:28px}
+.f-logo{display:flex;align-items:center;gap:12px}
+.f-logo svg{width:38px;height:38px;flex-shrink:0}
+.f-logo .wm{font-size:22px;font-weight:800;letter-spacing:-.03em}
+.f-logo .wm .a{color:#fff}
+.f-logo .wm .b{color:var(--amber)}
+.footer-social{display:flex;gap:12px}
+.social-btn{width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.social-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+.social-btn svg{width:18px;height:18px;fill:rgba(255,255,255,.7);transition:fill .2s}
+.social-btn:hover svg{fill:#fff}
+.footer-copy{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.04em;text-align:center}
+.footer-copy .f-domain{color:rgba(255,255,255,.55)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .resources-grid{grid-template-columns:repeat(2,1fr)}
+  .story-grid{grid-template-columns:1fr;gap:40px}
+  .story-illustration{max-width:520px}
+}
+@media(max-width:760px){
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  .wrap{padding:0 20px}
+  .nav-in{padding:14px 20px}
+  .page-hero{padding:44px 0 32px}
+  .story,.mission,.resources{padding:52px 0}
+  .video-section{padding:36px 0}
+}
+@media(max-width:480px){
+  .resources-grid{grid-template-columns:1fr}
+  .hero-mark{width:44px;height:44px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HIDDEN SVG DEFS ===== -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html" aria-label="PainRevision home">
+      <svg viewBox="0 0 100 100" width="32" height="32" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <div class="nav-links" role="menubar">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="index.html#courses" role="menuitem">Courses</a>
+      <a href="about.html" role="menuitem" class="active" aria-current="page">About</a>
+      <a href="contact.html" role="menuitem">Contact us</a>
+    </div>
+    <a href="index.html#courses" class="btn btn-primary nav-cta" style="padding:10px 22px;font-size:14px">Get started</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-overlay" id="drawer-overlay"></div>
+  <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
+    <a href="index.html">Home</a>
+    <a href="index.html#courses">Courses</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact us</a>
+    <a href="index.html#courses" class="btn btn-primary drawer-cta">Get started →</a>
+  </div>
+</div>
+
+<!-- ===== PAGE HERO ===== -->
+<section class="page-hero" aria-labelledby="about-heading">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-mark" aria-hidden="true">
+      <svg class="hero-mark-svg" viewBox="0 0 100 100" width="52" height="52">
+        <path class="m-loop" fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+        <circle class="m-dot" fill="#F5A524" cx="50" cy="13" r="8.5"/>
+      </svg>
+    </div>
+    <span class="eyebrow page-hero-eyebrow">Our Story</span>
+    <h1 id="about-heading">
+      <span class="pain">About </span><span class="rev">PainRevision</span>
+    </h1>
+    <p class="page-hero-tag">Built by a trainee, for every trainee that follows.</p>
+  </div>
+</section>
+
+<!-- ===== STORY SECTION ===== -->
+<section class="story" aria-label="Our story">
+  <div class="wrap">
+    <div class="story-grid reveal">
+      <div class="story-text">
+        <p>PainRevision was started by a pain medicine trainee who passed the exams <strong>the hard way</strong> — navigating a fragmented landscape of resources, outdated textbooks, and a near-total absence of video tutorials that trainees in other specialities take for granted.</p>
+        <p>Pain medicine is a complex, multidisciplinary speciality. Yet when it comes to exam preparation, trainees are largely left to piece things together alone — no central hub, no consistent resource library, no community. PainRevision was built to change that.</p>
+      </div>
+      <div class="story-illustration" aria-hidden="true">
+        <!-- Inline SVG illustration: stressed trainee surrounded by scattered study materials -->
+        <svg viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+          <defs>
+            <pattern id="illus-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+              <path d="M28 0H0V28" fill="none" stroke="#EDE3D7" stroke-width="0.7"/>
+            </pattern>
+          </defs>
+          <!-- background -->
+          <rect width="480" height="340" fill="#FFFAF4"/>
+          <rect width="480" height="340" fill="url(#illus-grid)" opacity="0.7"/>
+
+          <!-- DESK SURFACE -->
+          <rect x="20" y="272" width="440" height="11" rx="4" fill="#D5C8B8"/>
+          <rect x="40" y="283" width="400" height="44" rx="4" fill="#C8BAA9"/>
+
+          <!-- BOOK STACK (far left on desk) -->
+          <rect x="38" y="228" width="82" height="46" rx="4" fill="#241B16"/>
+          <rect x="44" y="238" width="46" height="5" rx="2" fill="rgba(255,255,255,.18)"/>
+          <rect x="34" y="188" width="88" height="42" rx="4" fill="#F5A524"/>
+          <rect x="42" y="198" width="52" height="5" rx="2" fill="rgba(255,255,255,.28)"/>
+          <rect x="40" y="154" width="82" height="36" rx="4" fill="#F0623C"/>
+          <rect x="48" y="164" width="48" height="5" rx="2" fill="rgba(255,255,255,.28)"/>
+          <rect x="48" y="174" width="36" height="3" rx="1.5" fill="rgba(255,255,255,.18)"/>
+          <!-- thin paperback on top -->
+          <rect x="44" y="136" width="72" height="20" rx="3" fill="#7C7068" opacity="0.75"/>
+          <rect x="50" y="141" width="38" height="4" rx="2" fill="rgba(255,255,255,.2)"/>
+
+          <!-- LAPTOP (centre desk) -->
+          <rect x="158" y="188" width="166" height="86" rx="6" fill="#241B16"/>
+          <rect x="164" y="194" width="154" height="74" rx="3" fill="#1a1310"/>
+          <!-- browser tabs -->
+          <rect x="168" y="197" width="42" height="10" rx="3" fill="#3A2D25"/>
+          <rect x="214" y="197" width="42" height="10" rx="3" fill="#3A2D25"/>
+          <rect x="260" y="197" width="48" height="10" rx="3" fill="#F0623C" opacity="0.55"/>
+          <!-- screen content lines -->
+          <rect x="168" y="212" width="142" height="5" rx="2" fill="#3A2D25"/>
+          <rect x="168" y="222" width="118" height="5" rx="2" fill="#3A2D25"/>
+          <rect x="168" y="232" width="132" height="5" rx="2" fill="#3A2D25"/>
+          <rect x="168" y="242" width="108" height="5" rx="2" fill="#3A2D25"/>
+          <rect x="168" y="252" width="126" height="5" rx="2" fill="#3A2D25"/>
+          <!-- laptop hinge -->
+          <rect x="168" y="274" width="144" height="5" rx="2" fill="#241B16"/>
+
+          <!-- PERSON (right side, seated, looking stressed) -->
+          <!-- legs -->
+          <rect x="346" y="252" width="58" height="28" rx="10" fill="#C8BAA9"/>
+          <!-- torso -->
+          <rect x="343" y="192" width="64" height="66" rx="14" fill="#F0623C" opacity="0.88"/>
+          <!-- neck -->
+          <rect x="361" y="176" width="22" height="20" rx="6" fill="#F5DEC2"/>
+          <!-- head -->
+          <circle cx="372" cy="152" r="30" fill="#F5DEC2"/>
+          <!-- hair -->
+          <path d="M344 150 Q348 122 372 118 Q396 122 400 150 Q393 133 372 130 Q351 133 344 150Z" fill="#3A2D25"/>
+          <!-- stressed brows -->
+          <path d="M358 143 Q363 140 367 143" stroke="#3A2D25" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M377 143 Q381 140 386 143" stroke="#3A2D25" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- eyes (wide) -->
+          <circle cx="363" cy="152" r="4" fill="#3A2D25"/>
+          <circle cx="381" cy="152" r="4" fill="#3A2D25"/>
+          <circle cx="364.5" cy="150.5" r="1.5" fill="white"/>
+          <circle cx="382.5" cy="150.5" r="1.5" fill="white"/>
+          <!-- worried mouth -->
+          <path d="M364 165 Q372 162 380 165" stroke="#3A2D25" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- left arm (reaching toward screen) -->
+          <path d="M346 215 Q318 232 295 255" stroke="#F5DEC2" stroke-width="13" stroke-linecap="round" fill="none"/>
+          <circle cx="295" cy="257" r="7" fill="#F5DEC2"/>
+          <!-- right arm (resting on desk) -->
+          <path d="M405 218 Q420 240 422 262" stroke="#F5DEC2" stroke-width="13" stroke-linecap="round" fill="none"/>
+          <circle cx="422" cy="264" r="7" fill="#F5DEC2"/>
+
+          <!-- PAPER 1 (right side, tilted) -->
+          <g transform="rotate(-13 435 228)">
+            <rect x="404" y="192" width="62" height="82" rx="3" fill="white" stroke="#EDE3D7" stroke-width="1.5"/>
+            <rect x="413" y="206" width="44" height="4" rx="2" fill="#EDE3D7"/>
+            <rect x="413" y="216" width="36" height="4" rx="2" fill="#EDE3D7"/>
+            <rect x="413" y="225" width="42" height="4" rx="2" fill="#EDE3D7"/>
+            <rect x="413" y="234" width="32" height="4" rx="2" fill="#EDE3D7"/>
+            <rect x="413" y="243" width="38" height="4" rx="2" fill="#EDE3D7"/>
+            <!-- red X mark -->
+            <line x1="413" y1="255" x2="422" y2="265" stroke="#F0623C" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <line x1="422" y1="255" x2="413" y2="265" stroke="#F0623C" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+          </g>
+
+          <!-- PAPER 2 (on desk, slightly behind laptop) -->
+          <g transform="rotate(7 188 276)">
+            <rect x="158" y="258" width="62" height="80" rx="3" fill="white" stroke="#EDE3D7" stroke-width="1.5"/>
+            <rect x="167" y="272" width="44" height="4" rx="2" fill="#EDE3D7"/>
+            <rect x="167" y="282" width="36" height="4" rx="2" fill="#EDE3D7"/>
+            <rect x="167" y="291" width="42" height="4" rx="2" fill="#EDE3D7"/>
+            <rect x="167" y="300" width="32" height="4" rx="2" fill="#EDE3D7"/>
+            <!-- MCQ dots -->
+            <circle cx="168" cy="312" r="3" fill="#F5A524" opacity="0.7"/>
+            <circle cx="177" cy="312" r="3" fill="#EDE3D7"/>
+            <circle cx="186" cy="312" r="3" fill="#EDE3D7"/>
+            <circle cx="195" cy="312" r="3" fill="#EDE3D7"/>
+          </g>
+
+          <!-- STICKY NOTE (top-left floating) -->
+          <g transform="rotate(-14 72 76)">
+            <rect x="48" y="55" width="50" height="50" rx="3" fill="#FCE6BF"/>
+            <rect x="57" y="67" width="32" height="3.5" rx="1.75" fill="#F5A524" opacity="0.55"/>
+            <rect x="57" y="76" width="26" height="3.5" rx="1.75" fill="#F5A524" opacity="0.4"/>
+            <rect x="57" y="85" width="30" height="3.5" rx="1.75" fill="#F5A524" opacity="0.4"/>
+            <rect x="57" y="94" width="22" height="3.5" rx="1.75" fill="#F5A524" opacity="0.3"/>
+          </g>
+
+          <!-- FLOATING QUESTION MARKS -->
+          <text x="108" y="128" font-size="34" fill="#F5A524" opacity="0.62" font-weight="800" font-family="system-ui,sans-serif">?</text>
+          <text x="430" y="112" font-size="24" fill="#F0623C" opacity="0.5" font-weight="800" font-family="system-ui,sans-serif">?</text>
+          <text x="142" y="184" font-size="16" fill="#F0623C" opacity="0.38" font-weight="700" font-family="system-ui,sans-serif">?</text>
+          <text x="452" y="174" font-size="15" fill="#F5A524" opacity="0.42" font-weight="700" font-family="system-ui,sans-serif">?</text>
+
+          <!-- STRESS LINES around head -->
+          <line x1="402" y1="124" x2="416" y2="112" stroke="#F0623C" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+          <line x1="408" y1="140" x2="426" y2="134" stroke="#F0623C" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+          <line x1="340" y1="124" x2="326" y2="112" stroke="#F0623C" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+          <line x1="337" y1="142" x2="320" y2="136" stroke="#F0623C" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VIDEO SECTION ===== -->
+<div class="video-section">
+  <div class="wrap">
+    <div class="video-inner reveal">
+      <span class="video-label">Our Story</span>
+      <h2 class="video-heading">Hear the story — why PainRevision was built</h2>
+      <div class="video-frame">
+        <div class="video-placeholder" aria-label="Video coming soon">
+          <div class="video-placeholder-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <p>Video coming soon</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MISSION SECTION ===== -->
+<section class="mission" aria-label="Our mission">
+  <div class="wrap">
+    <div class="mission-inner reveal">
+      <div class="mission-bar" aria-hidden="true"></div>
+      <span class="eyebrow">Our Mission</span>
+      <p class="mission-statement">To become the <span class="accent">one-stop resource</span> every pain trainee needs — from first principles to exam-day confidence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESOURCES SECTION ===== -->
+<section class="resources" aria-labelledby="resources-heading">
+  <div class="wrap">
+    <div class="resources-header reveal">
+      <span class="eyebrow">What We Offer</span>
+      <h2 id="resources-heading">Everything you need to pass your exams</h2>
+    </div>
+    <div class="resources-grid">
+
+      <div class="resource-card reveal">
+        <div class="resource-icon resource-icon-coral" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10 8 16 12 10 16 10 8" fill="var(--coral)" stroke="none"/>
+          </svg>
+        </div>
+        <h3>Video Tutorials</h3>
+        <p>Short content mapped to relevant FFPMRCA topics — structured to make complex concepts stick.</p>
+      </div>
+
+      <div class="resource-card reveal reveal-d1">
+        <div class="resource-icon resource-icon-amber" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+            <rect x="9" y="3" width="6" height="4" rx="2"/>
+            <line x1="9" y1="12" x2="15" y2="12"/>
+            <line x1="9" y1="16" x2="13" y2="16"/>
+          </svg>
+        </div>
+        <h3>Question Bank</h3>
+        <p>The best way to boost your confidence for the written exam — questions mapped to the curriculum.</p>
+      </div>
+
+      <div class="resource-card reveal reveal-d2">
+        <div class="resource-icon resource-icon-coral" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <h3>Courses</h3>
+        <p>Mock exams to practise your technique and be ready for the oral — with expert feedback.</p>
+      </div>
+
+      <div class="resource-card reveal reveal-d3">
+        <div class="resource-icon resource-icon-amber" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3>Community</h3>
+        <p>Peer support built into the trainee journey — so no one navigates exam prep alone.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="f-logo">
+        <svg viewBox="0 0 100 100" width="38" height="38" aria-hidden="true" style="--mark-stroke:#fff;--mark-dot:#F5A524"><use href="#pr-mark"/></svg>
+        <span class="wm"><span class="a">Pain</span><span class="b">Revision</span></span>
+      </div>
+      <div class="footer-social" aria-label="Social media links">
+        <a href="https://www.youtube.com/@PainRevision" class="social-btn" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#241B16"/></svg>
+        </a>
+      </div>
+      <p class="footer-copy">© 2026 <span class="f-domain">painrevision.com</span> · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('main-nav');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY > 20); }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  var hamburger = document.getElementById('hamburger');
+  var drawer = document.getElementById('nav-drawer');
+  var overlay = document.getElementById('drawer-overlay');
+  function openDrawer(){ hamburger.classList.add('open'); hamburger.setAttribute('aria-expanded','true'); drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function closeDrawer(){ hamburger.classList.remove('open'); hamburger.setAttribute('aria-expanded','false'); drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  hamburger.addEventListener('click', function(){ drawer.classList.contains('open') ? closeDrawer() : openDrawer(); });
+  overlay.addEventListener('click', closeDrawer);
+  drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeDrawer); });
+
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
+</body>
+</html>
