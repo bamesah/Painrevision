@@ -77,13 +77,13 @@ a{color:inherit;text-decoration:none}
 .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .nav-drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
 .nav-drawer-overlay{position:absolute;inset:0;background:rgba(36,27,22,.4);opacity:0;transition:opacity .3s}
-.nav-drawer-panel{position:absolute;top:0;right:0;width:min(300px,85vw);height:100%;background:var(--surface);padding:80px 28px 40px;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-lg)}
+.nav-drawer-panel{position:absolute;top:56px;right:0;width:min(210px,68vw);height:auto;max-height:calc(100vh - 100px);overflow-y:auto;background:rgba(251,245,238,.96);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);padding:8px 12px 16px;border-radius:0 0 0 16px;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:2px;box-shadow:-4px 12px 32px -8px rgba(36,27,22,.18)}
 .nav-drawer.open{pointer-events:all}
 .nav-drawer.open .nav-drawer-overlay{opacity:1}
 .nav-drawer.open .nav-drawer-panel{transform:none}
-.nav-drawer-panel a{font-size:17px;font-weight:600;color:var(--ink);padding:12px 16px;border-radius:12px;display:block;transition:background .18s}
-.nav-drawer-panel a:hover{background:var(--surface-warm)}
-.nav-drawer-panel .drawer-cta{margin-top:20px;display:block;text-align:center}
+.nav-drawer-panel a{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:block;transition:background .18s}
+.nav-drawer-panel a:hover{background:rgba(36,27,22,.06)}
+.nav-drawer-panel .drawer-cta{margin-top:12px;display:block;text-align:center}
 
 /* ===== PAGE HERO — slim horizontal ===== */
 .page-hero{padding:28px 0 30px;position:relative;overflow:hidden}
@@ -111,9 +111,31 @@ a{color:inherit;text-decoration:none}
 .page-hero-sub{font-size:15px;color:var(--stone);max-width:560px;line-height:1.5;font-weight:400;text-wrap:balance}
 
 /* ===== WAITLIST BANNER ===== */
-.waitlist-banner{background:rgba(245,165,36,.1);border:1.5px solid rgba(245,165,36,.38);border-radius:10px;padding:9px 16px;margin-bottom:24px}
-.waitlist-banner-text strong{font-size:13.5px;font-weight:700;color:var(--ink);display:inline;letter-spacing:-.01em}
-.waitlist-banner-text p{font-size:13px;color:var(--stone);line-height:1.5;margin-top:3px}
+.waitlist-banner{background:var(--surface);border:1.5px solid var(--border-strong);border-radius:14px;overflow:hidden;margin-bottom:28px}
+.waitlist-banner-top{display:flex;align-items:center;gap:9px;padding:8px 16px;background:var(--coral)}
+.waitlist-banner-top-icon{flex-shrink:0;width:13px;height:13px;stroke:rgba(255,255,255,.85);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.waitlist-banner-eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+.waitlist-banner-mid{padding:14px 18px 13px;display:flex;align-items:center;gap:20px}
+.waitlist-banner-body{font-size:14px;color:var(--ink);line-height:1.65;font-weight:500;flex:1;margin-bottom:0;min-width:0}
+.waitlist-banner-body-sub{font-size:13px;color:var(--stone);font-weight:400}
+.btn-waitlist{flex-shrink:0}
+.btn-waitlist{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-family:var(--san);font-size:13.5px;font-weight:700;cursor:pointer;border:none;background:var(--coral);color:#fff;letter-spacing:-.01em;transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1)}
+.btn-waitlist:hover{background:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-waitlist:active{transform:translateY(0);box-shadow:none}
+.btn-waitlist-arrow{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.waitlist-banner-foot{display:flex;align-items:flex-start;gap:9px;padding:10px 18px;border-top:1px solid var(--border);background:rgba(245,165,36,.05)}
+.waitlist-banner-foot-icon{flex-shrink:0;margin-top:1px;width:13px;height:13px;stroke:var(--amber);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.waitlist-banner-foot p{font-size:12.5px;color:var(--stone);line-height:1.5}
+.refund-asterisk{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(124,112,104,.18);font-family:var(--mono);font-size:9px;font-weight:700;color:var(--stone);cursor:default;position:relative;vertical-align:middle;margin-left:2px;flex-shrink:0}
+.refund-asterisk .tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--san);font-size:12px;font-weight:400;line-height:1.45;padding:8px 12px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:10;box-shadow:var(--shadow-lg);letter-spacing:0}
+.refund-asterisk .tooltip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink)}
+.refund-asterisk:hover .tooltip{opacity:1}
+/* booking top CTA */
+.booking-top-cta{display:flex;align-items:center;justify-content:center;gap:11px;padding:22px 24px;background:var(--coral);cursor:pointer;transition:background .22s cubic-bezier(.2,.7,.2,1)}
+.booking-top-cta:hover{background:var(--coral-deep)}
+.booking-top-cta:active{background:var(--coral-deep)}
+.booking-top-cta-text{font-family:var(--san);font-size:19px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.booking-top-cta svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
 /* ===== COURSES GRID INTRO ===== */
 .courses-intro{padding:20px 0 64px;background:var(--cream)}
@@ -175,18 +197,6 @@ a{color:inherit;text-decoration:none}
 .booking-cta{padding:0 24px 24px}
 .booking-note{font-size:12px;color:var(--stone-light);text-align:center;margin-top:10px;font-family:var(--mono);letter-spacing:.03em}
 
-/* ===== TICKET TAILOR EMBED SECTION ===== */
-.embed-section{padding:72px 0;background:var(--surface-warm);border-top:1px solid var(--border)}
-.embed-header{text-align:center;margin-bottom:40px}
-.embed-header .eyebrow{margin-bottom:12px}
-.embed-header h2{font-size:clamp(24px,3.2vw,36px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px}
-.embed-header p{font-size:16px;color:var(--stone);max-width:460px;margin:0 auto;line-height:1.6}
-.embed-container{max-width:780px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
-
-/* Ticket Tailor widget wrapper */
-.tt-widget{display:block}
-.tt-widget-fallback{padding:24px;text-align:center;font-family:var(--san);font-size:14px}
-.tt-widget-fallback a{color:var(--coral);font-weight:600}
 
 /* ===== TRUST STRIP ===== */
 .trust-strip{padding:52px 0;background:var(--cream);border-top:1px solid var(--border)}
@@ -240,7 +250,7 @@ footer{background:var(--ink);padding:52px 0}
   .courses-intro{padding:16px 0 48px}
   .course-card-left{padding:28px 24px}
   .course-card-right{padding:24px 24px}
-  .embed-section,.trust-strip{padding:52px 0}
+  .trust-strip{padding:52px 0}
   .questions-cta{padding:64px 0}
   .trust-inner{gap:20px}
   .trust-sep{display:none}
@@ -313,9 +323,20 @@ footer{background:var(--ink);padding:52px 0}
   <div class="wrap">
     <!-- WAITLIST BANNER -->
     <div class="waitlist-banner reveal" role="note">
-      <div class="waitlist-banner-text">
-        <strong>Planning to sit the September 2026 FFPMRCA written exam?</strong>
-        <p>Apply immediately after sitting — don't wait for your result. Places are limited and fill fast. If unsuccessful in the written exam and unable to sit the November SOE, we will issue a <strong>full refund</strong>.<br>— No questions asked.</p>
+      <div class="waitlist-banner-top">
+        <svg class="waitlist-banner-top-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="waitlist-banner-eyebrow">September 2026 Written Exam Candidates</span>
+      </div>
+      <div class="waitlist-banner-mid">
+        <p class="waitlist-banner-body">Apply for the SOE Course after sitting the exam — don't wait for your result.<br><span class="waitlist-banner-body-sub">Places are limited and fill fast on a first-come, first-served basis.</span></p>
+        <a href="https://www.tickettailor.com/events/painrevision/2242524" target="_blank" rel="noopener noreferrer" class="btn-waitlist">
+          <svg class="btn-waitlist-arrow" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Apply now
+        </a>
+      </div>
+      <div class="waitlist-banner-foot">
+        <svg class="waitlist-banner-foot-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <p>If you're unsuccessful in the written exam and unable to sit the November SOE, we'll issue a <strong>full refund</strong> — no questions asked.<span class="refund-asterisk" role="note" aria-label="Refund terms">*<span class="tooltip">Refund will be issued net of any third-party payment processing fees.</span></span></p>
       </div>
     </div>
 
@@ -396,6 +417,10 @@ footer{background:var(--ink);padding:52px 0}
         <!-- RIGHT: booking sidebar -->
         <div class="course-card-right">
           <div class="booking-card" id="book">
+            <a href="https://www.tickettailor.com/all-tickets/painrevision/" target="_blank" rel="noopener noreferrer" class="booking-top-cta">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <span class="booking-top-cta-text">Secure your spot</span>
+            </a>
             <div class="booking-price-band">
               <p class="booking-price-eyebrow">Course fee</p>
               <p class="booking-price"><sup>£</sup>150</p>
@@ -438,19 +463,6 @@ footer{background:var(--ink);padding:52px 0}
                 </div>
               </div>
             </div>
-            <div class="booking-cta">
-              <!-- =====================================================
-                   TICKET TAILOR BUTTON EMBED
-                   Replace this <a> tag with your Ticket Tailor
-                   "Buy Button" embed code from your dashboard.
-                   Dashboard → Events → Your event → Embed & share
-                   → Buy Button → Copy code → paste here.
-                   ===================================================== -->
-              <a href="#embed-section" class="btn btn-primary btn-full" style="font-size:16px;padding:16px 28px" onclick="document.getElementById('embed-section').scrollIntoView({behavior:'smooth'});return false;">
-                Book your place →
-              </a>
-              <p class="booking-note">Secure booking via Ticket Tailor</p>
-            </div>
           </div>
         </div>
 
@@ -460,49 +472,7 @@ footer{background:var(--ink);padding:52px 0}
   </div>
 </section>
 
-<!-- ===== TICKET TAILOR EMBED SECTION ===== -->
-<section class="embed-section" id="embed-section" aria-labelledby="booking-section-heading">
-  <div class="wrap">
-    <div class="embed-header reveal">
-      <span class="eyebrow">Secure Booking</span>
-      <h2 id="booking-section-heading">Reserve your place</h2>
-      <p>Book directly below. Places are limited to keep cohort sizes small and feedback quality high.</p>
-    </div>
 
-    <div class="embed-container reveal reveal-d1">
-      <!-- Ticket Tailor Widget -->
-      <div class="tt-widget"><div class="tt-widget-fallback"><p><a href="https://www.tickettailor.com/all-tickets/painrevision/?ref=website_widget&amp;show_search_filter=true&amp;show_date_filter=true&amp;show_sort=true" target="_blank">Click here to buy tickets</a></p></div><script src="https://cdn.tickettailor.com/js/widgets/min/widget.js" data-url="https://www.tickettailor.com/all-tickets/painrevision/?ref=website_widget&show_search_filter=true&show_date_filter=true&show_sort=true" data-type="inline" data-inline-minimal="true" data-inline-show-logo="false" data-inline-bg-fill="false" data-inline-inherit-ref-from-url-param="" data-inline-ref="website_widget"></script></div>
-      <!-- End of Ticket Tailor Widget -->
-    </div>
-  </div>
-</section>
-
-<!-- ===== TRUST STRIP ===== */-->
-<div class="trust-strip" aria-label="Trust indicators">
-  <div class="wrap">
-    <div class="trust-inner reveal">
-      <div class="trust-item">
-        <div class="trust-dot" aria-hidden="true"></div>
-        <span class="trust-text">Built by FFPMRCA trainees</span>
-      </div>
-      <div class="trust-sep" aria-hidden="true"></div>
-      <div class="trust-item">
-        <div class="trust-dot" aria-hidden="true"></div>
-        <span class="trust-text">Real exam conditions</span>
-      </div>
-      <div class="trust-sep" aria-hidden="true"></div>
-      <div class="trust-item">
-        <div class="trust-dot" aria-hidden="true"></div>
-        <span class="trust-text">Individual written feedback</span>
-      </div>
-      <div class="trust-sep" aria-hidden="true"></div>
-      <div class="trust-item">
-        <div class="trust-dot" aria-hidden="true"></div>
-        <span class="trust-text">Limited places</span>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ===== QUESTIONS CTA ===== -->
 <div class="questions-cta">
@@ -545,6 +515,7 @@ footer{background:var(--ink);padding:52px 0}
   var drawer = document.getElementById('nav-drawer');
   var overlay = document.getElementById('drawer-overlay');
   function openDrawer(){
+    drawer.querySelector('.nav-drawer-panel').style.top = nav.getBoundingClientRect().bottom + 'px';
     hamburger.classList.add('open');hamburger.setAttribute('aria-expanded','true');
     drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');
     document.body.style.overflow='hidden';
