@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Question of the Day — PainRevision</title>
+<meta name="description" content="FFPMRCA MCQ question of the day — Single Best Answer, Multiple True/False, and Extended Matching Questions."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);--correct-border:rgba(26,138,74,.32);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);--wrong-border:rgba(192,57,43,.32);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --r:18px;--maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-family:var(--san);font-size:14.5px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:100;transition:background .3s,box-shadow .3s;background:rgba(251,245,238,0);border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(251,245,238,.88);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom-color:var(--border);box-shadow:var(--shadow-sm)}
+.nav-in{display:flex;align-items:center;gap:16px;padding:16px 32px;max-width:var(--maxw);margin:0 auto}
+.nav-logo{display:flex;align-items:center;gap:11px;font-family:var(--san);font-weight:800;font-size:18px;letter-spacing:-.03em;flex-shrink:0}
+.nav-logo svg{width:32px;height:32px;flex-shrink:0}
+.nav-logo .pain{color:var(--ink)}
+.nav-logo .rev{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-warm)}
+.nav-links a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;background:none;border:none}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:99px;transition:transform .3s,opacity .3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
+.nav-drawer-overlay{position:absolute;inset:0;background:rgba(36,27,22,.4);opacity:0;transition:opacity .3s}
+.nav-drawer-panel{position:absolute;top:56px;right:0;width:min(210px,68vw);background:rgba(251,245,238,.96);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);padding:8px 12px 16px;border-radius:0 0 0 16px;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:2px;box-shadow:-4px 12px 32px -8px rgba(36,27,22,.18)}
+.nav-drawer.open{pointer-events:all}
+.nav-drawer.open .nav-drawer-overlay{opacity:1}
+.nav-drawer.open .nav-drawer-panel{transform:none}
+.nav-drawer-panel a{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:block;transition:background .18s}
+.nav-drawer-panel a:hover{background:rgba(36,27,22,.06)}
+
+/* ===== PAGE HERO ===== */
+.page-hero{padding:40px 0 36px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.page-hero-glow{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 300px at 50% -10%,rgba(245,165,36,.14),transparent 65%),
+             radial-gradient(700px 400px at 50% 0%,rgba(240,98,60,.09),transparent 60%)}
+.page-hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.3;z-index:0}
+.page-hero .wrap{position:relative;z-index:1}
+.page-hero-inner{display:flex;flex-direction:column;gap:8px}
+.page-hero h1{font-size:clamp(26px,3.5vw,40px);font-weight:800;letter-spacing:-.04em;line-height:1}
+.page-hero h1 .ink{color:var(--ink)}
+.page-hero h1 .coral{color:var(--coral)}
+.page-hero-sub{font-size:15px;color:var(--stone);max-width:520px;line-height:1.5;font-weight:400}
+
+/* ===== MAIN LAYOUT ===== */
+.mcq-main{padding:40px 0 80px}
+.mcq-content{max-width:780px;margin:0 auto}
+
+/* ===== DOTD HEADER ===== */
+.dotd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.dotd-date{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone)}
+
+/* ===== QUESTION CARD ===== */
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.q-card-top{height:4px;background:linear-gradient(90deg,var(--coral),var(--amber))}
+.q-card-body{padding:36px 40px}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.q-badge{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid}
+.q-badge-sba{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
+.q-badge-mtf{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
+.q-badge-emq{color:#1a7a5a;background:rgba(26,122,90,.08);border-color:rgba(26,122,90,.2)}
+.q-topic{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light);background:var(--cream);padding:4px 10px;border-radius:999px;border:1px solid var(--border)}
+.q-text{font-size:17px;font-weight:500;line-height:1.65;color:var(--ink);margin-bottom:28px;text-wrap:pretty}
+.q-stem{font-size:16px;font-weight:500;line-height:1.6;color:var(--ink);margin-bottom:24px;text-wrap:pretty}
+
+/* ===== SBA CHOICES ===== */
+.sba-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.sba-option{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;transition:border-color .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.sba-option:hover:not(.locked){border-color:var(--coral);background:var(--coral-faint)}
+.sba-option.selected{border-color:var(--coral);background:var(--coral-faint)}
+.sba-option.correct{border-color:var(--correct-border) !important;background:var(--correct-bg) !important;cursor:default}
+.sba-option.wrong{border-color:var(--wrong-border) !important;background:var(--wrong-bg) !important;cursor:default}
+.sba-option.locked:not(.correct):not(.wrong){opacity:.5;cursor:default}
+.sba-letter{width:28px;height:28px;border-radius:8px;background:var(--cream);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);flex-shrink:0;transition:background .15s,border-color .15s,color .15s}
+.sba-option.selected .sba-letter{background:var(--coral);border-color:var(--coral);color:#fff}
+.sba-option.correct .sba-letter{background:var(--correct);border-color:var(--correct);color:#fff}
+.sba-option.wrong .sba-letter{background:var(--wrong);border-color:var(--wrong);color:#fff}
+.sba-option-text{font-size:15px;line-height:1.55;color:var(--ink);flex:1;padding-top:2px}
+.sba-option-icon{width:18px;height:18px;flex-shrink:0;margin-top:4px}
+
+/* ===== MTF CHOICES ===== */
+.mtf-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.mtf-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface)}
+.mtf-row.revealed-correct{border-color:var(--correct-border);background:var(--correct-bg)}
+.mtf-row.revealed-wrong{border-color:var(--wrong-border);background:var(--wrong-bg)}
+.mtf-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);width:22px;flex-shrink:0;padding-top:3px}
+.mtf-statement{flex:1;font-size:15px;line-height:1.55;color:var(--ink)}
+.mtf-toggles{display:flex;gap:6px;flex-shrink:0}
+.mtf-toggle{padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--cream);font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--stone);cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.mtf-toggle:hover:not([disabled]){border-color:var(--stone)}
+.mtf-toggle.selected-true{background:rgba(26,74,138,.1);border-color:rgba(26,74,138,.35);color:#1a4a8a}
+.mtf-toggle.selected-false{background:rgba(90,26,138,.1);border-color:rgba(90,26,138,.35);color:#5a1a8a}
+.mtf-toggle[disabled]{cursor:default;opacity:.75}
+.mtf-result-badge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:999px;flex-shrink:0;align-self:center}
+.mtf-result-correct{color:var(--correct);background:var(--correct-bg);border:1px solid var(--correct-border)}
+.mtf-result-wrong{color:var(--wrong);background:var(--wrong-bg);border:1px solid var(--wrong-border)}
+
+/* ===== EMQ ===== */
+.emq-lead{font-size:15px;color:var(--stone);line-height:1.6;margin-bottom:20px;font-style:italic}
+.emq-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px;background:var(--cream);border-radius:14px;padding:16px;border:1px solid var(--border)}
+.emq-options-label{grid-column:1/-1;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:4px}
+.emq-opt{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.5;color:var(--stone)}
+.emq-opt-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--coral);flex-shrink:0;min-width:18px}
+.emq-questions{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.emq-q-row{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px 18px}
+.emq-q-row.correct-ans{border-color:var(--correct-border);background:var(--correct-bg)}
+.emq-q-row.wrong-ans{border-color:var(--wrong-border);background:var(--wrong-bg)}
+.emq-q-num{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:6px}
+.emq-q-text{font-size:14.5px;line-height:1.6;color:var(--ink);margin-bottom:12px}
+.emq-select{width:100%;padding:9px 14px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--cream);font-family:var(--san);font-size:14px;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237C7068' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;transition:border-color .15s}
+.emq-select:focus{outline:none;border-color:var(--coral)}
+.emq-select:disabled{opacity:.65;cursor:default}
+.emq-answer-reveal{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:8px;display:inline-block;margin-top:8px}
+.emq-answer-correct{color:var(--correct);background:var(--correct-bg)}
+.emq-answer-wrong{color:var(--wrong);background:var(--wrong-bg)}
+
+/* ===== EXPLANATION BOX ===== */
+.explanation{display:none;margin-top:24px;padding:20px 22px;background:var(--surface-warm);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:14px}
+.explanation.visible{display:block}
+.explanation-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.explanation-text{font-size:14.5px;line-height:1.7;color:var(--stone);text-wrap:pretty}
+.explanation-text table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+.explanation-text th,.explanation-text td{border:1px solid var(--border-strong);padding:7px 11px;text-align:left}
+.explanation-text th{background:var(--cream);font-weight:700;color:var(--ink)}
+.explanation-text strong{color:var(--ink);font-weight:700}
+.explanation-text em{font-style:italic}
+.explanation-text hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+
+/* ===== ACTION ROW ===== */
+.q-actions{display:flex;align-items:center;gap:12px;padding:24px 40px;border-top:1px solid var(--border);background:var(--surface-warm);flex-wrap:wrap}
+
+/* ===== TOMORROW NOTE ===== */
+.tomorrow-note{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--cream);border:1px solid var(--border);border-radius:14px;margin-top:20px}
+.tomorrow-note svg{width:16px;height:16px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.tomorrow-note p{font-family:var(--mono);font-size:12px;color:var(--stone-light);letter-spacing:.04em}
+
+/* ===== REVEAL ANIMATIONS ===== */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .reveal{animation:none!important;opacity:1!important;transform:none!important;transition:none!important}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:760px){
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  .wrap{padding:0 20px}
+  .nav-in{padding:14px 20px}
+  .mcq-main{padding:28px 0 60px}
+  .q-card-body{padding:24px 20px}
+  .q-actions{padding:18px 20px}
+  .emq-options-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG DEFS -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html" aria-label="PainRevision home">
+      <svg viewBox="0 0 100 100" width="32" height="32" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <div class="nav-links" role="menubar">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="courses.html" role="menuitem">Courses</a>
+      <a href="questions.html" class="active" role="menuitem">MCQ Practice</a>
+      <a href="about.html" role="menuitem">About</a>
+      <a href="contact.html" role="menuitem">Contact</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-overlay" id="drawer-overlay"></div>
+  <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="questions.html">MCQ Practice</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-glow" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="page-hero-inner">
+      <span class="eyebrow">MCQ Practice</span>
+      <h1><span class="ink">Question</span> <span class="coral">of the Day</span></h1>
+      <p class="page-hero-sub">A new FFPMRCA question every day — SBA, MTF, and EMQ formats.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="mcq-main">
+  <div class="wrap">
+    <div class="mcq-content">
+      <div class="dotd-header reveal">
+        <div>
+          <div class="eyebrow" style="margin-bottom:4px">Today</div>
+          <div class="dotd-date" id="dotd-date-label"></div>
+        </div>
+      </div>
+      <div id="dotd-question-wrap" class="reveal reveal-d1"></div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer style="background:var(--ink);padding:44px 0;border-top:none">
+  <div class="wrap">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+      <div style="display:flex;align-items:center;gap:11px">
+        <svg viewBox="0 0 100 100" width="34" height="34" style="--mark-stroke:#F0623C;--mark-dot:#F5A524"><use href="#pr-mark"/></svg>
+        <span style="font-size:20px;font-weight:800;letter-spacing:-.03em;color:#fff"><span style="color:#fff">Pain</span><span style="color:var(--amber)">Revision</span></span>
+      </div>
+      <p style="font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.32);letter-spacing:.04em;text-align:center">© 2026 PainRevision. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const LETTERS = ['A','B','C','D','E','F','G','H'];
+let allQuestions = [];
+
+/* ===== LOAD ===== */
+async function loadQuestions() {
+  try {
+    const r = await fetch('questions.json?_=' + Date.now());
+    const data = await r.json();
+    allQuestions = data.questions || [];
+  } catch(e) {
+    allQuestions = [];
+  }
+  init();
+}
+
+/* ===== INIT ===== */
+function init() {
+  setupNav();
+  setupScrollReveal();
+  initDOTD();
+}
+
+/* ===== NAV ===== */
+function setupNav() {
+  const nav = document.getElementById('main-nav');
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('nav-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 10));
+  function toggleDrawer(open) {
+    hamburger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    drawer.setAttribute('aria-hidden', String(!open));
+    hamburger.setAttribute('aria-expanded', String(open));
+  }
+  hamburger.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('open')));
+  overlay.addEventListener('click', () => toggleDrawer(false));
+}
+
+/* ===== SCROLL REVEAL ===== */
+function triggerReveal() {
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.add('in');
+    });
+  });
+}
+function setupScrollReveal() {
+  window.addEventListener('scroll', triggerReveal, { passive: true });
+  triggerReveal();
+  setTimeout(triggerReveal, 100);
+}
+
+/* ===== QUESTION OF THE DAY ===== */
+function initDOTD() {
+  const label = document.getElementById('dotd-date-label');
+  const wrap = document.getElementById('dotd-question-wrap');
+  const now = new Date();
+  label.textContent = now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+  const rotated = allQuestions.filter(q => q.rotationIndex !== undefined);
+  if (!rotated.length) {
+    wrap.innerHTML = '<p style="color:var(--stone);font-size:15px">No questions available yet.</p>';
+    return;
+  }
+
+  const cycleLength = Math.max(...rotated.map(q => q.rotationIndex)) + 1;
+  const dayNum = Math.floor(now.getTime() / 86400000);
+  const todaySlot = dayNum % cycleLength;
+  const q = rotated.find(q => q.rotationIndex === todaySlot) || rotated[0];
+
+  renderQuestion(q, wrap);
+  triggerReveal();
+}
+
+/* ===== RENDER QUESTION ===== */
+function renderQuestion(q, container) {
+  container.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'q-card';
+
+  const typeClass = `q-badge-${q.type.toLowerCase()}`;
+  let html = `<div class="q-card-top"></div><div class="q-card-body">
+    <div class="q-meta">
+      <span class="q-badge ${typeClass}">${q.type}</span>
+      <span class="q-topic q-badge">${escHtml(q.topic)}</span>
+    </div>`;
+
+  if (q.type === 'SBA') html += renderSBA(q);
+  else if (q.type === 'MTF') html += renderMTF(q);
+  else if (q.type === 'EMQ') html += renderEMQ(q);
+
+  html += `</div><div class="q-actions">
+    <button class="btn btn-primary" id="reveal-btn">Reveal Answer</button>
+  </div>`;
+
+  card.innerHTML = html;
+  container.appendChild(card);
+
+  if (q.type === 'SBA') wireSBA(card, q);
+  else if (q.type === 'MTF') wireMTF(card, q);
+  else if (q.type === 'EMQ') wireEMQ(card, q);
+}
+
+/* ===== SBA ===== */
+function renderSBA(q) {
+  let h = `<p class="q-text">${escHtml(q.question)}</p><div class="sba-choices">`;
+  q.choices.forEach((c, i) => {
+    h += `<div class="sba-option" data-idx="${i}" role="radio" aria-checked="false" tabindex="0">
+      <div class="sba-letter">${LETTERS[i]}</div>
+      <span class="sba-option-text">${escHtml(c)}</span>
+    </div>`;
+  });
+  return h + `</div>`;
+}
+
+function wireSBA(card, q) {
+  let selected = null;
+
+  card.querySelectorAll('.sba-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (selected !== null) return;
+      selected = parseInt(opt.dataset.idx);
+      card.querySelectorAll('.sba-option').forEach(o => {
+        o.classList.toggle('selected', parseInt(o.dataset.idx) === selected);
+      });
+    });
+    opt.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); } });
+  });
+
+  card.querySelector('#reveal-btn').addEventListener('click', () => {
+    if (selected === null) {
+      const btn = card.querySelector('#reveal-btn');
+      btn.textContent = 'Select an answer first';
+      setTimeout(() => { btn.textContent = 'Reveal Answer'; }, 1500);
+      return;
+    }
+
+    // Apply correct/wrong states
+    card.querySelectorAll('.sba-option').forEach(o => {
+      const i = parseInt(o.dataset.idx);
+      o.classList.remove('selected'); // clear selection highlight first
+      o.classList.add('locked');
+
+      if (i === q.correct) {
+        o.classList.add('correct');
+        o.innerHTML = `
+          <div class="sba-letter">${LETTERS[i]}</div>
+          <span class="sba-option-text">${escHtml(q.choices[i])}</span>
+          <svg class="sba-option-icon" viewBox="0 0 24 24" fill="none" stroke="var(--correct)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      } else if (i === selected) {
+        o.classList.add('wrong');
+        o.innerHTML = `
+          <div class="sba-letter">${LETTERS[i]}</div>
+          <span class="sba-option-text">${escHtml(q.choices[i])}</span>
+          <svg class="sba-option-icon" viewBox="0 0 24 24" fill="none" stroke="var(--wrong)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+      }
+    });
+
+    // Show explanation
+    const expDiv = document.createElement('div');
+    expDiv.className = 'explanation visible';
+    expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
+    card.querySelector('.q-card-body').appendChild(expDiv);
+
+    // Replace action row
+    card.querySelector('.q-actions').innerHTML = `
+      <div class="tomorrow-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <p>Come back tomorrow for the next question.</p>
+      </div>`;
+  }, { once: true });
+}
+
+/* ===== MTF ===== */
+function renderMTF(q) {
+  let h = `<p class="q-stem">${escHtml(q.stem)}</p><div class="mtf-choices">`;
+  q.choices.forEach((c, i) => {
+    h += `<div class="mtf-row" data-idx="${i}">
+      <span class="mtf-letter">${LETTERS[i]}.</span>
+      <span class="mtf-statement">${escHtml(c)}</span>
+      <div class="mtf-toggles">
+        <button class="mtf-toggle" data-val="true">TRUE</button>
+        <button class="mtf-toggle" data-val="false">FALSE</button>
+      </div>
+    </div>`;
+  });
+  return h + `</div>`;
+}
+
+function wireMTF(card, q) {
+  const selections = new Array(q.choices.length).fill(null);
+
+  card.querySelectorAll('.mtf-row').forEach(row => {
+    const i = parseInt(row.dataset.idx);
+    row.querySelectorAll('.mtf-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.val === 'true';
+        selections[i] = val;
+        row.querySelectorAll('.mtf-toggle').forEach(b => b.classList.remove('selected-true', 'selected-false'));
+        btn.classList.add(val ? 'selected-true' : 'selected-false');
+      });
+    });
+  });
+
+  card.querySelector('#reveal-btn').addEventListener('click', () => {
+    card.querySelectorAll('.mtf-row').forEach(row => {
+      const i = parseInt(row.dataset.idx);
+      const correct = q.correct[i];
+      const isRight = selections[i] === correct;
+      row.classList.add(isRight ? 'revealed-correct' : 'revealed-wrong');
+      row.querySelectorAll('.mtf-toggle').forEach(b => b.disabled = true);
+      const badge = document.createElement('span');
+      badge.className = `mtf-result-badge ${correct ? 'mtf-result-correct' : 'mtf-result-wrong'}`;
+      badge.textContent = correct ? 'TRUE ✓' : 'FALSE ✓';
+      row.appendChild(badge);
+    });
+
+    const expDiv = document.createElement('div');
+    expDiv.className = 'explanation visible';
+    expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
+    card.querySelector('.q-card-body').appendChild(expDiv);
+
+    card.querySelector('.q-actions').innerHTML = `
+      <div class="tomorrow-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <p>Come back tomorrow for the next question.</p>
+      </div>`;
+  }, { once: true });
+}
+
+/* ===== EMQ ===== */
+function renderEMQ(q) {
+  let h = `<p class="q-stem">${escHtml(q.topic)}</p>
+  <p class="emq-lead">${escHtml(q.lead)}</p>
+  <div class="emq-options-grid">
+    <div class="emq-options-label">Options</div>`;
+  q.options.forEach((opt, i) => {
+    h += `<div class="emq-opt"><span class="emq-opt-letter">${LETTERS[i]}.</span><span>${escHtml(opt)}</span></div>`;
+  });
+  h += `</div><div class="emq-questions">`;
+  q.questions.forEach((sq, i) => {
+    h += `<div class="emq-q-row" data-qidx="${i}">
+      <div class="emq-q-num">Question ${i + 1}</div>
+      <p class="emq-q-text">${escHtml(sq.question)}</p>
+      <select class="emq-select" data-qidx="${i}">
+        <option value="">— Select an answer —</option>
+        ${q.options.map((opt, oi) => `<option value="${oi}">${LETTERS[oi]}. ${escHtml(opt)}</option>`).join('')}
+      </select>
+    </div>`;
+  });
+  return h + `</div>`;
+}
+
+function wireEMQ(card, q) {
+  card.querySelector('#reveal-btn').addEventListener('click', () => {
+    card.querySelectorAll('.emq-select').forEach(sel => {
+      const qi = parseInt(sel.dataset.qidx);
+      const sq = q.questions[qi];
+      const userVal = parseInt(sel.value);
+      const isRight = userVal === sq.correct;
+      const row = card.querySelector(`.emq-q-row[data-qidx="${qi}"]`);
+      row.classList.add(isRight ? 'correct-ans' : 'wrong-ans');
+      sel.disabled = true;
+      const reveal = document.createElement('div');
+      reveal.className = 'emq-answer-reveal ' + (isRight ? 'emq-answer-correct' : 'emq-answer-wrong');
+      reveal.textContent = (isRight ? '✓ Correct: ' : '✗ Correct: ') + LETTERS[sq.correct] + '. ' + q.options[sq.correct];
+      const exp = document.createElement('div');
+      exp.className = 'explanation visible';
+      exp.style.marginTop = '12px';
+      exp.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${sq.explanation || ''}</div>`;
+      row.appendChild(reveal);
+      row.appendChild(exp);
+    });
+
+    card.querySelector('.q-actions').innerHTML = `
+      <div class="tomorrow-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <p>Come back tomorrow for the next question.</p>
+      </div>`;
+  }, { once: true });
+}
+
+/* ===== UTILS ===== */
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+}
+
+loadQuestions();
+</script>
+</body>
+</html>

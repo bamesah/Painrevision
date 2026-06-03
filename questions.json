@@ -1,0 +1,38 @@
+{
+  "questions": [
+    {
+      "id": "qmpyoyzx3vjl",
+      "type": "SBA",
+      "topic": "Pharmacology",
+      "dateAdded": "2026-06-03",
+      "rotationIndex": 0,
+      "question": "which one is correct",
+      "choices": [
+        "2",
+        "1",
+        "4",
+        "5",
+        "5"
+      ],
+      "correct": 1,
+      "explanation": "kefkefl"
+    },
+    {
+      "id": "q_beta_arrestin_001",
+      "type": "MTF",
+      "topic": "Opioid Receptor Pharmacology",
+      "dateAdded": "2026-06-04",
+      "rotationIndex": 1,
+      "stem": "Regarding the β-Arrestin pathway in opioid receptors:",
+      "choices": [
+        "Mediates receptor internalisation",
+        "Reduces receptor desensitisation",
+        "Contributes to respiratory depression",
+        "Is reduced in biased agonists",
+        "Increases intracellular cAMP"
+      ],
+      "correct": [true, false, true, true, false],
+      "explanation": "<p>When a ligand binds to an opioid receptor, it activates two distinct intracellular pathways:</p>\n\n<table>\n  <tr><th>Pathway</th><th>Key Effects</th></tr>\n  <tr><td><strong>G-protein (Gᵢ) pathway</strong></td><td>Inhibition of adenylate cyclase → ↓ cAMP; closure of voltage-gated Ca²⁺ channels; opening of voltage-gated K⁺ channels → hyperpolarisation → inhibition of neurotransmitter release</td></tr>\n  <tr><td><strong>β-Arrestin pathway</strong></td><td>Receptor desensitisation and <strong>internalisation</strong> (contributing to tolerance); side effects including <strong>respiratory depression</strong></td></tr>\n</table>\n\n<p><strong>Biased agonism</strong> refers to ligands that preferentially activate one pathway over the other. Biased agonists such as <strong>oliceridine</strong> favour the G-protein pathway over the β-Arrestin pathway, potentially resulting in less tolerance and fewer side effects (including less respiratory depression).</p>\n\n<p><strong>G-protein signalling cascade — step by step:</strong></p>\n<ol>\n  <li>Ligand binds to the extracellular <strong>N-terminus</strong> of the 7-transmembrane Gᵢ-protein coupled receptor</li>\n  <li>Conformational change → intracellular <strong>GDP is exchanged for GTP</strong> on the α-subunit</li>\n  <li>α-GTP <strong>dissociates</strong> from the βγ dimer</li>\n  <li>α-GTP <strong>inhibits adenylate cyclase</strong> → ↓ conversion of ATP to cAMP</li>\n  <li>βγ dimer <strong>closes voltage-gated Ca²⁺ channels</strong> and <strong>opens inwardly-rectifying K⁺ channels</strong></li>\n  <li>Net result: membrane <strong>hyperpolarisation</strong> → inhibition of glutamate release and propagation of action potentials in nociceptive fibres</li>\n</ol>\n\n<p style=\"color:#7C7068;font-size:13px;margin-top:8px\">Note: all opioid receptors are 7-transmembrane Gᵢ-protein coupled receptors. The transmembrane domain is highly conserved across receptor subtypes (μ, δ, κ); differences occur mainly in the extracellular regions, which accounts for ligand selectivity.</p>\n\n<img src=\"images/opioid-gpcr.png\" alt=\"G-protein coupled receptor signalling diagram showing Gi-protein activation, adenylate cyclase inhibition, and ion channel modulation\" style=\"max-width:100%;border-radius:10px;margin-top:20px;border:1px solid #EDE3D7\">"
+    }
+  ]
+}
