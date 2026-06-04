@@ -1,28 +1,11 @@
 {
   "questions": [
     {
-      "id": "qmpyoyzx3vjl",
-      "type": "SBA",
-      "topic": "Pharmacology",
-      "dateAdded": "2026-06-03",
-      "rotationIndex": 0,
-      "question": "which one is correct",
-      "choices": [
-        "2",
-        "1",
-        "4",
-        "5",
-        "5"
-      ],
-      "correct": 1,
-      "explanation": "kefkefl"
-    },
-    {
       "id": "q_beta_arrestin_001",
       "type": "MTF",
       "topic": "Opioid Receptor Pharmacology",
       "dateAdded": "2026-06-04",
-      "rotationIndex": 1,
+      "rotationIndex": 0,
       "stem": "Regarding the β-Arrestin pathway in opioid receptors:",
       "choices": [
         "Mediates receptor internalisation",
