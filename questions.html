@@ -177,6 +177,17 @@ button{font-family:var(--san);cursor:pointer}
   .reveal{animation:none!important;opacity:1!important;transform:none!important;transition:none!important}
 }
 
+/* ===== INCOMPLETE ANSWER WIGGLE ===== */
+@keyframes wiggle{
+  0%,100%{transform:translateX(0)}
+  15%{transform:translateX(-6px)}
+  35%{transform:translateX(6px)}
+  50%{transform:translateX(-4px)}
+  70%{transform:translateX(4px)}
+  85%{transform:translateX(-2px)}
+}
+.wiggle{animation:wiggle .45s ease}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:760px){
   .nav-links,.nav-cta{display:none}
@@ -187,6 +198,9 @@ button{font-family:var(--san);cursor:pointer}
   .q-card-body{padding:24px 20px}
   .q-actions{padding:18px 20px}
   .emq-options-grid{grid-template-columns:1fr}
+  .mtf-row{flex-wrap:wrap;gap:8px 12px}
+  .mtf-statement{min-width:0;word-break:break-word}
+  .mtf-toggles{flex:0 0 100%;justify-content:flex-end;padding-left:34px}
 }
 </style>
 </head>
@@ -378,6 +392,14 @@ function renderQuestion(q, container) {
   else if (q.type === 'EMQ') wireEMQ(card, q);
 }
 
+/* ===== WIGGLE UTILITY ===== */
+function wiggleEl(el) {
+  el.classList.remove('wiggle');
+  void el.offsetWidth;
+  el.classList.add('wiggle');
+  el.addEventListener('animationend', () => el.classList.remove('wiggle'), { once: true });
+}
+
 /* ===== SBA ===== */
 function renderSBA(q) {
   let h = `<p class="q-text">${escHtml(q.question)}</p><div class="sba-choices">`;
@@ -392,6 +414,7 @@ function renderSBA(q) {
 
 function wireSBA(card, q) {
   let selected = null;
+  let revealed = false;
 
   card.querySelectorAll('.sba-option').forEach(opt => {
     opt.addEventListener('click', () => {
@@ -405,17 +428,18 @@ function wireSBA(card, q) {
   });
 
   card.querySelector('#reveal-btn').addEventListener('click', () => {
+    if (revealed) return;
     if (selected === null) {
-      const btn = card.querySelector('#reveal-btn');
-      btn.textContent = 'Select an answer first';
-      setTimeout(() => { btn.textContent = 'Reveal Answer'; }, 1500);
+      card.querySelectorAll('.sba-option').forEach(o => wiggleEl(o));
+      wiggleEl(card.querySelector('#reveal-btn'));
       return;
     }
+    revealed = true;
 
     // Apply correct/wrong states
     card.querySelectorAll('.sba-option').forEach(o => {
       const i = parseInt(o.dataset.idx);
-      o.classList.remove('selected'); // clear selection highlight first
+      o.classList.remove('selected');
       o.classList.add('locked');
 
       if (i === q.correct) {
@@ -445,7 +469,7 @@ function wireSBA(card, q) {
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <p>Come back tomorrow for the next question.</p>
       </div>`;
-  }, { once: true });
+  });
 }
 
 /* ===== MTF ===== */
@@ -466,6 +490,7 @@ function renderMTF(q) {
 
 function wireMTF(card, q) {
   const selections = new Array(q.choices.length).fill(null);
+  let revealed = false;
 
   card.querySelectorAll('.mtf-row').forEach(row => {
     const i = parseInt(row.dataset.idx);
@@ -480,6 +505,15 @@ function wireMTF(card, q) {
   });
 
   card.querySelector('#reveal-btn').addEventListener('click', () => {
+    if (revealed) return;
+    const unfilledRows = [...card.querySelectorAll('.mtf-row')].filter((_, i) => selections[i] === null);
+    if (unfilledRows.length) {
+      unfilledRows.forEach(row => wiggleEl(row));
+      wiggleEl(card.querySelector('#reveal-btn'));
+      return;
+    }
+    revealed = true;
+
     card.querySelectorAll('.mtf-row').forEach(row => {
       const i = parseInt(row.dataset.idx);
       const correct = q.correct[i];
@@ -502,7 +536,7 @@ function wireMTF(card, q) {
         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <p>Come back tomorrow for the next question.</p>
       </div>`;
-  }, { once: true });
+  });
 }
 
 /* ===== EMQ ===== */
@@ -529,7 +563,18 @@ function renderEMQ(q) {
 }
 
 function wireEMQ(card, q) {
+  let revealed = false;
+
   card.querySelector('#reveal-btn').addEventListener('click', () => {
+    if (revealed) return;
+    const emptySelects = [...card.querySelectorAll('.emq-select')].filter(sel => sel.value === '');
+    if (emptySelects.length) {
+      emptySelects.forEach(sel => wiggleEl(sel.closest('.emq-q-row')));
+      wiggleEl(card.querySelector('#reveal-btn'));
+      return;
+    }
+    revealed = true;
+
     card.querySelectorAll('.emq-select').forEach(sel => {
       const qi = parseInt(sel.dataset.qidx);
       const sq = q.questions[qi];
@@ -554,7 +599,7 @@ function wireEMQ(card, q) {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <p>Come back tomorrow for the next question.</p>
       </div>`;
-  }, { once: true });
+  });
 }
 
 /* ===== UTILS ===== */
