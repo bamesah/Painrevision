@@ -488,6 +488,7 @@ function wireMTF(card, q) {
       row.classList.add(isRight ? 'revealed-correct' : 'revealed-wrong');
       row.querySelectorAll('.mtf-toggle').forEach(b => {
         b.disabled = true;
+        b.classList.remove('selected-true', 'selected-false');
         if ((b.dataset.val === 'true') === correct) b.classList.add('correct-answer');
       });
     });
