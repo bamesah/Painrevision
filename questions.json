@@ -33,6 +33,57 @@
       ],
       "correct": 4,
       "explanation": "<p><strong>A. Incorrect.</strong> Cluster headache is a trigeminal autonomic cephalalgia (TAC), which is associated with autonomic features (e.g. lacrimation, nasal congestion, ptosis) absent in this case.</p><p style=\"margin-top:8px\"><strong>B. Incorrect.</strong> Trigeminal neuropathic pain presents as a constant pain, and examination will reveal negative and positive neurological signs — the normal examination here makes this diagnosis unlikely.</p><p style=\"margin-top:8px\"><strong>C. Incorrect.</strong> Paroxysmal hemicrania is a TAC, which is also associated with autonomic features absent in this case.</p><p style=\"margin-top:8px\"><strong>D. Incorrect.</strong> TMJ syndrome causes continuous pain that worsens with chewing; examination typically reveals masseter tenderness — neither feature is present here.</p><p style=\"margin-top:8px\"><strong>E. Correct.</strong> Trigeminal neuralgia (TN) presents as short-lasting, lancinating, electric shock-like paroxysms in one or more branches of the trigeminal nerve, triggered by light stimuli (eating, talking, touch). The pain-free interval between attacks and a normal neurological examination are characteristic. First-line treatment is pharmacological (carbamazepine or oxcarbazepine). Surgical options — including microvascular decompression — are considered when medical treatment fails, particularly in the presence of a neurovascular conflict on MRI.</p>"
+    },
+    {
+      "id": "q_oird_risk_factors_001",
+      "type": "MTF",
+      "topic": "Physiology",
+      "dateAdded": "2026-06-05",
+      "rotationIndex": 2,
+      "stem": "Factors associated with high risk of postoperative respiratory depression include:",
+      "choices": [
+        "Age of at least 60 years",
+        "Male sex",
+        "Chronic opioid use",
+        "Sleep-disordered breathing",
+        "Chronic heart failure"
+      ],
+      "correct": [true, true, false, true, true],
+      "explanation": "<p><strong>A. True.</strong> Individuals aged 60 years or older fall into a higher-risk category for opioid-induced respiratory depression (OIRD).</p><p style=\"margin-top:12px\"><strong>B. True.</strong> The PRODIGY analysis showed that male patients are more likely to experience OIRD compared with women. Being male contributes 8 points in the PRODIGY scoring system.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Opioid-naïve patients are at greater risk of postoperative respiratory depression. Those on long-term opioids develop tolerance to both the analgesic and respiratory-depressant effects, reducing — but not eliminating — their susceptibility. Chronic users can still develop respiratory depression if they receive excessive doses.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> Sleep-disordered breathing (e.g. obstructive sleep apnoea) is a strong predictor of postoperative respiratory depression following opioid use, as identified in the PRODIGY model.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Chronic heart failure is also recognised as a contributing risk factor in the PRODIGY model.</p>"
+    },
+    {
+      "id": "q_naloxone_factors_001",
+      "type": "MTF",
+      "topic": "Physiology",
+      "dateAdded": "2026-06-05",
+      "rotationIndex": 3,
+      "stem": "Factors that may affect the use of naloxone for opioid-induced respiratory depression include:",
+      "choices": [
+        "Duration of opioid use",
+        "Type of opioid taken in overdose",
+        "Development of withdrawal symptoms",
+        "Co-intoxication with tranquillisers",
+        "Presence of an opioid use disorder (OUD)"
+      ],
+      "correct": [false, true, true, true, false],
+      "explanation": "<p><strong>A. False.</strong> The duration of opioid use does not directly alter naloxone's ability to block opioid receptors. However, individuals accustomed to very large opioid doses may require substantially higher naloxone doses to achieve adequate reversal.</p><p style=\"margin-top:12px\"><strong>B. True.</strong> Naloxone is less effective against opioids with high μ-receptor affinity. Agents such as buprenorphine are considerably harder to antagonise, making reversal more challenging and often requiring higher or repeated doses.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> Large doses of naloxone can precipitate acute withdrawal, manifesting as severe pain in chronic pain patients, or agitation, irritability, abdominal discomfort, and flu-like symptoms in opioid-dependent individuals.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> If the patient has also taken sedative drugs (e.g. benzodiazepines), naloxone will only counteract the opioid component of respiratory depression. The sedative-induced respiratory suppression persists, making full reversal impossible with naloxone alone.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> Having an opioid use disorder does not interfere with naloxone's pharmacological action. It will still reverse opioid-mediated respiratory depression, although higher doses may be needed depending on the amount and potency of opioid used.</p>"
+    },
+    {
+      "id": "q_opioid_ventilation_001",
+      "type": "MTF",
+      "topic": "Physiology",
+      "dateAdded": "2026-06-05",
+      "rotationIndex": 4,
+      "stem": "Effects of opioids on ventilatory physiology include:",
+      "choices": [
+        "Suppression of activity of the pre-Bötzinger complex",
+        "Increased excitatory drive from the parabrachial complex",
+        "Reduction of baseline ventilation",
+        "Leftward shift of the CO₂ response curve",
+        "Reduction of the slope of the hypercapnic ventilatory response"
+      ],
+      "correct": [true, false, true, false, true],
+      "explanation": "<p><strong>A. True.</strong> Opioids depress the pre-Bötzinger complex — the key respiratory rhythm generator in the brainstem — thereby reducing central respiratory drive.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Opioids decrease, rather than increase, excitatory input from the parabrachial/Kölliker-Fuse complex, further blunting respiratory drive.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> Baseline ventilation falls as a consequence of reduced central respiratory drive and blunted peripheral and central chemosensitivity.</p><p style=\"margin-top:12px\"><strong>D. False.</strong> Opioids shift the CO₂ response curve <em>rightwards</em>, meaning a higher PaCO₂ is required to trigger an increase in ventilation.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Opioids flatten the hypercapnic ventilatory response slope, reflecting a reduced ventilatory response per unit rise in CO₂ — i.e. diminished sensitivity to hypercapnia.</p>"
     }
   ]
 }
