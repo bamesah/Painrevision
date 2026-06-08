@@ -84,6 +84,205 @@
       ],
       "correct": [true, false, true, false, true],
       "explanation": "<p><strong>A. True.</strong> Opioids depress the pre-Bötzinger complex — the key respiratory rhythm generator in the brainstem — thereby reducing central respiratory drive.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Opioids decrease, rather than increase, excitatory input from the parabrachial/Kölliker-Fuse complex, further blunting respiratory drive.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> Baseline ventilation falls as a consequence of reduced central respiratory drive and blunted peripheral and central chemosensitivity.</p><p style=\"margin-top:12px\"><strong>D. False.</strong> Opioids shift the CO₂ response curve <em>rightwards</em>, meaning a higher PaCO₂ is required to trigger an increase in ventilation.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Opioids flatten the hypercapnic ventilatory response slope, reflecting a reduced ventilatory response per unit rise in CO₂ — i.e. diminished sensitivity to hypercapnia.</p>"
+    },
+    {
+      "id": "q_gabapentin_001",
+      "type": "MTF",
+      "topic": "Pharmacology",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 5,
+      "stem": "Gabapentin:",
+      "choices": [
+        "Has lower oral bioavailability than pregabalin",
+        "Acts primarily on GABA-A receptors",
+        "Is absorbed via a saturable active transport system in the gut",
+        "Reaches peak plasma concentration approximately 30 minutes after oral dosing",
+        "Has a dose-dependent reduction in bioavailability at higher doses"
+      ],
+      "correct": [true, false, true, false, true],
+      "explanation": "<p>Gabapentin and pregabalin are α2-δ ligands that modulate voltage-gated calcium channels at presynaptic terminals, reducing excitatory neurotransmitter release. Despite their names, they do not act at GABA receptors. Their pharmacokinetics differ importantly, especially in terms of absorption.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — Gabapentin has variable and dose-dependent oral bioavailability of approximately 27–60%, whereas pregabalin has linear, higher bioavailability of ~90%. This is a key pharmacokinetic difference between the two drugs.</p><p style=\"margin-top:12px\"><strong>B. FALSE</strong> — Despite being named after GABA, gabapentin does not bind to GABA-A or GABA-B receptors. It binds to the α2-δ subunit of voltage-gated calcium channels. Confusing it with a GABAergic agent is a classic examination trap.</p><p style=\"margin-top:12px\"><strong>C. TRUE</strong> — Gabapentin is absorbed via the LAT1 (large neutral amino acid transporter) in the small intestine. This is a saturable system, which is why bioavailability decreases at higher doses — a clinically relevant fact.</p><p style=\"margin-top:12px\"><strong>D. FALSE</strong> — Gabapentin typically reaches peak plasma concentration at approximately 2–3 hours after oral dosing, not 30 minutes. The 30-minute figure is more consistent with rapidly absorbed agents like immediate-release opioids.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — Because of the saturable transporter mechanism, as the oral dose increases, the fraction absorbed decreases. This means higher single doses are proportionally less effective — a key reason for TDS rather than once-daily dosing.</p>"
+    },
+    {
+      "id": "q_descending_pain_001",
+      "type": "MTF",
+      "topic": "Physiology",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 6,
+      "stem": "The descending pain inhibitory system:",
+      "choices": [
+        "Includes the periaqueductal grey matter",
+        "Includes the gamma efferent system",
+        "Includes the locus coeruleus",
+        "Includes the nucleus tractus solitarius",
+        "Includes the nucleus raphe magnus"
+      ],
+      "correct": [true, false, true, false, true],
+      "explanation": "<p>The descending inhibitory pain system modulates nociceptive transmission at the level of the dorsal horn of the spinal cord. It is activated by opioids, stress, and certain analgesic drugs. Key structures include the midbrain, brainstem, and descending projections via the dorsolateral funiculus.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — The periaqueductal grey (PAG) in the midbrain is the principal hub of descending inhibition. When activated by endogenous opioids or exogenous morphine, it projects to the rostral ventromedial medulla, which in turn modulates dorsal horn activity.</p><p style=\"margin-top:12px\"><strong>B. FALSE</strong> — The gamma efferent system refers to motor neurons controlling intrafusal fibres in muscle spindles. It is part of the motor system and plays no role in pain modulation.</p><p style=\"margin-top:12px\"><strong>C. TRUE</strong> — The locus coeruleus in the pons is the main noradrenergic nucleus in the brain. It contributes to descending inhibition via noradrenergic pathways acting on α2 receptors in the dorsal horn — the basis of action of drugs like clonidine and duloxetine.</p><p style=\"margin-top:12px\"><strong>D. FALSE</strong> — The nucleus tractus solitarius is a brainstem nucleus involved in autonomic and visceral afferent processing. It is not a primary component of the descending inhibitory pain pathway, though indirect connections exist.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — The nucleus raphe magnus is a serotonergic nucleus in the rostral ventromedial medulla. It is a key relay in the PAG–RVM–spinal cord axis, exerting inhibitory effects on nociceptive neurons in the dorsal horn via serotonergic projections.</p>"
+    },
+    {
+      "id": "q_methadone_001",
+      "type": "MTF",
+      "topic": "Pharmacology",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 7,
+      "stem": "Methadone:",
+      "choices": [
+        "Has a predictable half-life of 8–12 hours",
+        "Prolongs the QTc interval",
+        "Is a pure mu-opioid receptor agonist",
+        "May accumulate with repeated dosing due to redistribution from tissue stores",
+        "Requires dose reduction in renal failure"
+      ],
+      "correct": [false, true, false, true, false],
+      "explanation": "<p>Methadone is a synthetic opioid used in pain management and opioid substitution therapy. It has unique pharmacological properties that distinguish it from other opioids, including NMDA receptor antagonism and serotonin reuptake inhibition. Its complex pharmacokinetics make dose titration hazardous.</p><p style=\"margin-top:12px\"><strong>A. FALSE</strong> — Methadone has a highly variable and unpredictable half-life ranging from 8–120 hours, most commonly quoted as 24–36 hours. This wide variability reflects inter-individual differences in CYP3A4 and CYP2D6 metabolism and makes accumulation a significant clinical risk.</p><p style=\"margin-top:12px\"><strong>B. TRUE</strong> — Methadone prolongs the QTc interval, predisposing to torsades de pointes, particularly at higher doses and in patients with hypokalaemia, hypomagnesaemia, or concurrent use of other QTc-prolonging drugs. A baseline ECG is recommended before initiation.</p><p style=\"margin-top:12px\"><strong>C. FALSE</strong> — Methadone is not a pure mu-agonist. It also acts as an NMDA receptor antagonist — contributing to efficacy in neuropathic pain and reducing opioid tolerance — and inhibits reuptake of serotonin and noradrenaline.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — Methadone is highly lipophilic and accumulates in fat, muscle and other tissues. With repeated dosing, tissue stores build up and then continue to release drug into plasma — this is why late accumulation and respiratory depression can occur days after what appeared to be a stable dose.</p><p style=\"margin-top:12px\"><strong>E. FALSE</strong> — Unlike morphine, whose active metabolite morphine-6-glucuronide accumulates in renal failure, methadone is primarily hepatically metabolised and does not require dose reduction in renal failure. This makes it a useful option in patients with chronic kidney disease requiring strong opioids.</p>"
+    },
+    {
+      "id": "q_coeliac_plexus_001",
+      "type": "MTF",
+      "topic": "Anatomy",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 8,
+      "stem": "The coeliac plexus:",
+      "choices": [
+        "Lies directly anterior to the crura of the diaphragm",
+        "Lies at the level of the L1–L2 vertebrae",
+        "Lies directly anterior to the aorta",
+        "Lies directly posterior to the pancreas",
+        "Receives preganglionic fibres from the greater, lesser and least splanchnic nerves"
+      ],
+      "correct": [true, false, true, true, true],
+      "explanation": "<p>The coeliac plexus is the largest autonomic plexus in the abdomen. It transmits nociceptive signals from upper abdominal viscera including the stomach, liver, biliary tree, pancreas, spleen, and small bowel to the splenic flexure. Coeliac plexus block and neurolysis are used for pancreatic cancer and chronic pancreatitis pain.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — The coeliac plexus lies directly anterior to the crura of the diaphragm at the level of T12–L1. This is clinically important when performing posterior approaches, where needles are directed toward this region.</p><p style=\"margin-top:12px\"><strong>B. FALSE</strong> — The plexus lies at the level of T12–L1, not L1–L2. Confusion between these levels is a common examination error. The aortic bifurcation is at L4; the coeliac axis originates from the aorta at T12/L1.</p><p style=\"margin-top:12px\"><strong>C. TRUE</strong> — The coeliac plexus surrounds the origins of the coeliac axis and superior mesenteric artery and is positioned directly anterior to the aorta between these vessels.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — The pancreas lies anterior to the coeliac plexus, which is therefore directly posterior to it. A pancreatic tumour can encase the plexus, complicating neurolytic block.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — The coeliac plexus receives preganglionic sympathetic fibres via the greater splanchnic (T5–T9), lesser splanchnic (T10–T11), and least splanchnic (T12) nerves. These carry visceral afferents centrally and efferent sympathetic signals peripherally.</p>"
+    },
+    {
+      "id": "q_pancreatic_cancer_pain_001",
+      "type": "SBA",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 9,
+      "question": "A 68-year-old woman with known pancreatic adenocarcinoma presents with severe epigastric and back pain rated 9/10. She is on oral morphine 120 mg modified-release twice daily but pain control is inadequate and side effects of nausea and constipation are limiting dose escalation. Her performance status is declining. She has no coagulopathy. What is the single best next step in pain management?",
+      "choices": [
+        "Switch to transdermal fentanyl patch",
+        "Add pregabalin 75 mg twice daily",
+        "Perform coeliac plexus neurolysis",
+        "Commence ketamine infusion",
+        "Refer for cordotomy"
+      ],
+      "correct": 2,
+      "explanation": "<p>Pancreatic cancer pain is primarily visceral nociceptive pain transmitted via the coeliac plexus. When systemic opioids are dose-limited by side effects or inadequate analgesia, coeliac plexus neurolysis using alcohol is a well-evidenced interventional option. The WHO analgesic framework supports early interventional approaches in cancer pain when systemic analgesia is insufficient.</p><p style=\"margin-top:12px\"><strong>A. Incorrect</strong> — Switching to transdermal fentanyl addresses the opioid side effect profile, particularly constipation, but does not tackle the root cause of inadequate analgesia. It represents an opioid rotation rather than treatment targeting the pain mechanism, and is unlikely to be sufficient given the severity of pain.</p><p style=\"margin-top:12px\"><strong>B. Incorrect</strong> — Pregabalin may add modest benefit if there is a neuropathic component from nerve invasion, but the primary mechanism here is visceral nociception. It would not address the dominant pain pathway and introduces additional side effects without substantial benefit.</p><p style=\"margin-top:12px\"><strong>C. Correct</strong> — Coeliac plexus neurolysis interrupts nociceptive signalling from the pancreas and upper abdomen via the splanchnic nerves. RCT evidence demonstrates superior pain control and reduced opioid consumption compared with systemic analgesia alone. It is the intervention of choice when opioids are inadequate or poorly tolerated in upper abdominal cancer pain.</p><p style=\"margin-top:12px\"><strong>D. Incorrect</strong> — Ketamine infusion can be effective for opioid-refractory pain through NMDA antagonism, but requires inpatient administration and monitoring. It would not be the best single next step over a targeted intervention directly addressing the pain mechanism.</p><p style=\"margin-top:12px\"><strong>E. Incorrect</strong> — Cordotomy interrupts the spinothalamic tract and is reserved for unilateral somatic or neuropathic cancer pain in patients with short life expectancy. It is not the first-line interventional choice for bilateral visceral pancreatic pain and carries risks of weakness, bladder dysfunction, and Ondine's curse with bilateral procedures.</p>"
+    },
+    {
+      "id": "q_cabg_brachial_plexus_001",
+      "type": "SBA",
+      "topic": "Anatomy",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 10,
+      "question": "A 65-year-old man who underwent a coronary artery bypass graft six months ago presents with inability to extend the ring and little fingers of his right hand. He reports numbness and pain along the medial aspect of the forearm and the ulnar two fingers. On examination there is wasting of the intrinsic hand muscles and a claw-hand deformity of the ring and little fingers. What is the most likely diagnosis?",
+      "choices": [
+        "C8 cervical radiculopathy",
+        "Thoracic outlet syndrome",
+        "Ulnar nerve injury at the elbow",
+        "Median nerve injury at the wrist",
+        "Brachial plexus lower trunk injury"
+      ],
+      "correct": 4,
+      "explanation": "<p>Brachial plexus injuries following cardiac surgery typically affect the lower trunk (C8–T1), which is vulnerable to stretch during sternal retraction or positioning during prolonged procedures. The lower trunk supplies both the intrinsic hand muscles via the ulnar nerve and the medial forearm skin via the medial cutaneous nerve of the forearm — a combination that localises the lesion proximal to the elbow.</p><p style=\"margin-top:12px\"><strong>A. Incorrect</strong> — C8 radiculopathy produces a similar finger pattern and sensory loss in the same dermatomal territory. However, it does not explain the medial forearm sensory loss (which is not a C8 dermatome) and the perioperative temporal relationship to prolonged cardiac surgery points strongly away from a cervical cause.</p><p style=\"margin-top:12px\"><strong>B. Incorrect</strong> — Thoracic outlet syndrome can affect the lower trunk and produce a similar distribution, but typically presents in younger patients, often female, with positional symptoms provoked by arm elevation. It is not classically precipitated by sternotomy and sternal retraction.</p><p style=\"margin-top:12px\"><strong>C. Incorrect</strong> — Ulnar nerve injury at the elbow produces ring and little finger weakness and intrinsic wasting. However, it spares the medial forearm, as the medial cutaneous nerve of the forearm arises from the medial cord proximal to the elbow. Medial forearm sensory loss localises the lesion to the lower trunk or medial cord, not an isolated ulnar neuropathy at the elbow.</p><p style=\"margin-top:12px\"><strong>D. Incorrect</strong> — Median nerve injury at the wrist produces weakness of the LOAF muscles and sensory loss over the lateral 3½ fingers. It does not explain ring/little finger weakness or medial forearm sensory loss.</p><p style=\"margin-top:12px\"><strong>E. Correct</strong> — The lower trunk (C8–T1) supplies intrinsic hand muscles via the ulnar nerve and medial forearm sensation via the medial cutaneous nerve of the forearm. Prolonged CABG with sternal retraction is a well-recognised cause of lower trunk brachial plexopathy. The combination of intrinsic wasting, ring/little finger clawing, and medial forearm sensory loss following cardiac surgery is the classic presentation.</p>"
+    },
+    {
+      "id": "q_opioid_renal_001",
+      "type": "SBA",
+      "topic": "Pharmacology",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 11,
+      "question": "A 72-year-old woman with metastatic ovarian cancer and stage 4 chronic kidney disease (eGFR 18 ml/min) requires strong opioid analgesia for poorly controlled pain. She is currently on oral morphine 30 mg modified-release twice daily with inadequate analgesia and is becoming increasingly drowsy and confused. Which opioid is the most appropriate substitution to minimise toxic accumulation?",
+      "choices": [
+        "Oxycodone",
+        "Tramadol",
+        "Hydromorphone",
+        "Fentanyl",
+        "Codeine"
+      ],
+      "correct": 3,
+      "explanation": "<p>In renal failure, opioids that rely on renal excretion of active or neuroexcitatory metabolites are hazardous. Morphine, oxycodone, hydromorphone, and codeine all have metabolites that accumulate in renal impairment. The drowsiness and confusion in this patient are consistent with morphine-6-glucuronide accumulation. Fentanyl is primarily hepatically metabolised to the inactive metabolite norfentanyl and is the safest strong opioid in significant renal impairment.</p><p style=\"margin-top:12px\"><strong>A. Incorrect</strong> — Oxycodone is metabolised to oxymorphone (active) and noroxycodone. While oxymorphone accumulation is less problematic than morphine-6-glucuronide, oxycodone is not recommended as first-choice in severe renal failure and is inferior to fentanyl in this setting.</p><p style=\"margin-top:12px\"><strong>B. Incorrect</strong> — Tramadol should be avoided when eGFR is below 30. Its active metabolite O-desmethyltramadol accumulates, it lowers the seizure threshold, and it risks serotonin syndrome through its noradrenaline and serotonin reuptake inhibition. It is also insufficient as a strong analgesic for cancer pain.</p><p style=\"margin-top:12px\"><strong>C. Incorrect</strong> — Hydromorphone produces hydromorphone-3-glucuronide, which accumulates in renal failure and is neuroexcitatory, causing myoclonus, cognitive impairment, and seizures. It is not a safe alternative in severe renal impairment.</p><p style=\"margin-top:12px\"><strong>D. Correct</strong> — Fentanyl undergoes extensive hepatic metabolism to norfentanyl, which is pharmacologically inactive and does not accumulate in renal failure in clinically significant amounts. It can be delivered transdermally, making it practical in this patient and the preferred strong opioid in significant renal impairment.</p><p style=\"margin-top:12px\"><strong>E. Incorrect</strong> — Codeine is a prodrug converted by CYP2D6 to morphine, whose active metabolites accumulate in renal failure. It is contraindicated in renal impairment, and even in normal renal function it does not provide adequate analgesia for cancer pain at this stage.</p>"
+    },
+    {
+      "id": "q_emq_opioid_001",
+      "type": "EMQ",
+      "topic": "Pharmacology",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 12,
+      "stem": "Opioid pharmacology and clinical scenarios",
+      "lead": "For each scenario below, select the single most appropriate opioid from the options above. Each option may be used once, more than once, or not at all.",
+      "options": [
+        "Buprenorphine",
+        "Codeine",
+        "Fentanyl",
+        "Hydromorphone",
+        "Methadone",
+        "Pethidine",
+        "Remifentanil",
+        "Tapentadol"
+      ],
+      "questions": [
+        {
+          "question": "A 45-year-old man is undergoing surgery under general anaesthesia. The anaesthetist requires an opioid with an ultra-short, predictable duration of action that is independent of hepatic or renal function for intraoperative analgesia.",
+          "correct": 6,
+          "explanation": "<strong>G. Remifentanil</strong> — Remifentanil has a unique ester bond in its structure that is hydrolysed by non-specific plasma and tissue esterases, giving it an elimination half-life of approximately 3–5 minutes. This is entirely independent of hepatic or renal function. Its context-sensitive half-time remains short regardless of infusion duration, making it the ideal opioid for infusion-based intraoperative analgesia when rapid offset is required."
+        },
+        {
+          "question": "A 58-year-old woman with chronic cancer pain has a prolonged QTc interval of 490 ms on her pre-treatment ECG. She requires strong opioid analgesia. Which of the available strong opioids has the least risk of QTc prolongation?",
+          "correct": 0,
+          "explanation": "<strong>A. Buprenorphine</strong> — Of the strong opioids, buprenorphine has the least effect on QTc prolongation at standard analgesic doses. Methadone is the opioid most strongly associated with QTc prolongation and torsades de pointes. In a patient with an already prolonged QTc, buprenorphine — available as a transdermal patch or sublingual formulation — is the preferred strong opioid with a favourable cardiac safety profile."
+        },
+        {
+          "question": "A 32-year-old woman in acute severe pain following a renal colic episode is given an intramuscular opioid in the emergency department. She subsequently develops a generalised tonic-clonic seizure. Which opioid is most likely responsible?",
+          "correct": 5,
+          "explanation": "<strong>F. Pethidine</strong> — Pethidine is metabolised to norpethidine, a neuroexcitatory metabolite that accumulates even with standard doses and lowers the seizure threshold. This is a well-known toxicity that has led to pethidine being largely removed from formularies in many hospitals. The risk is amplified in renal impairment and with repeated dosing."
+        },
+        {
+          "question": "A 70-year-old man with severe COPD and end-stage renal failure (eGFR 8 ml/min) requires a strong opioid patch for chronic cancer pain. Which opioid is most appropriate?",
+          "correct": 2,
+          "explanation": "<strong>C. Fentanyl</strong> — Fentanyl is metabolised to the inactive metabolite norfentanyl and does not accumulate in renal failure. It is available as a transdermal patch, which is appropriate for patients with COPD where respiratory sensitivity makes dose titration important and where a non-oral route is advantageous. Its predictable transdermal kinetics make it suitable for this patient."
+        },
+        {
+          "question": "A 40-year-old man on opioid substitution therapy presents for management of acute postoperative pain. He is on a daily supervised oral opioid programme. This opioid is also known to act as an NMDA receptor antagonist.",
+          "correct": 4,
+          "explanation": "<strong>E. Methadone</strong> — Methadone is used in opioid substitution programmes as a once-daily supervised oral dose. In addition to mu-opioid agonism, it is an NMDA receptor antagonist — contributing to neuropathic pain efficacy and reducing analgesic tolerance — and inhibits serotonin and noradrenaline reuptake. This multimodal pharmacological profile is unique among opioids and a frequently examined characteristic."
+        }
+      ]
+    },
+    {
+      "id": "q_statistics_001",
+      "type": "MTF",
+      "topic": "Clinical Science",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 13,
+      "stem": "Regarding statistical concepts used in pain medicine research:",
+      "choices": [
+        "The number needed to treat (NNT) is the inverse of the absolute risk reduction",
+        "A normal distribution has the mean equal to the median",
+        "In a positively skewed distribution, the mean is less than the median",
+        "The Mann-Whitney U test is a non-parametric equivalent of the independent samples t-test",
+        "Increasing sample size reduces the risk of a type II error"
+      ],
+      "correct": [true, true, false, true, true],
+      "explanation": "<p>Statistical literacy is directly examined in the FFPMRCA. Key concepts include measures of central tendency and spread, statistical test selection for parametric versus non-parametric data, and clinical epidemiology metrics such as NNT and NNH.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — NNT = 1 / ARR (absolute risk reduction). If a treatment reduces the risk of an event from 40% to 30%, the ARR is 10% and the NNT is 10. Lower NNT values indicate more effective treatment. This formula is fundamental and frequently tested.</p><p style=\"margin-top:12px\"><strong>B. TRUE</strong> — In a perfect normal (Gaussian) distribution, the mean, median, and mode are all identical, coinciding at the centre of the symmetrical bell curve. This is a defining characteristic of the normal distribution.</p><p style=\"margin-top:12px\"><strong>C. FALSE</strong> — In a positively skewed (right-skewed) distribution, there is a long tail to the right caused by high-value outliers. These outliers pull the mean upward relative to the median, so mean > median in positive skew. A helpful mnemonic: the mean is dragged in the direction of the skew.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — The Mann-Whitney U test is used to compare two independent groups when data are non-parametric. It is the non-parametric equivalent of the independent samples t-test. For paired non-parametric data, the Wilcoxon signed-rank test is used instead.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — A type II error is failing to detect a true effect (false negative). The power of a study (1 – β) increases with sample size. A larger sample provides greater ability to detect a true difference, which is why underpowered studies fail to reach statistical significance even when a real effect exists.</p>"
+    },
+    {
+      "id": "q_psychology_001",
+      "type": "MTF",
+      "topic": "Psychology",
+      "dateAdded": "2026-06-08",
+      "rotationIndex": 14,
+      "stem": "Regarding psychological models and assessment in chronic pain:",
+      "choices": [
+        "Fear-avoidance behaviour is associated with poorer outcomes in chronic low back pain",
+        "Catastrophising is defined as the tendency to overestimate the threat value of pain",
+        "The Hospital Anxiety and Depression Scale (HADS) was specifically designed for use in pain clinics",
+        "Operant conditioning in the context of pain refers to the modification of pain behaviour by its consequences",
+        "The McGill Pain Questionnaire assesses only the intensity of pain"
+      ],
+      "correct": [true, true, false, true, false],
+      "explanation": "<p>Psychological factors are central to the biopsychosocial model of chronic pain. The FFPMRCA curriculum specifically includes fear-avoidance, catastrophising, psychological assessment tools, and conditioning models, which appear in both MTF and SBA format.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — The fear-avoidance model (Vlaeyen &amp; Linton) proposes that pain leads to catastrophic misinterpretation, fear of movement (kinesiophobia), avoidance behaviour, and disability in susceptible patients. This cycle is strongly associated with poor rehabilitation outcomes in chronic musculoskeletal pain and is a cornerstone of cognitive-behavioural pain management programmes.</p><p style=\"margin-top:12px\"><strong>B. TRUE</strong> — Pain catastrophising involves three components: magnification (exaggerating pain threat), rumination (persistent focus on pain), and helplessness (belief that nothing can be done). The Pain Catastrophising Scale (PCS) by Sullivan measures it quantitatively. High scores predict poorer treatment outcomes and greater disability.</p><p style=\"margin-top:12px\"><strong>C. FALSE</strong> — The HADS was developed by Zigmond and Snaith in 1983 for use in general medical and surgical outpatient settings, not specifically for pain clinics. It was designed to detect anxiety and depression while avoiding somatic items such as sleep disturbance and fatigue that could be confounded by physical illness. It is widely used in pain clinics but was not purpose-built for them.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — Operant conditioning (Fordyce model) proposes that pain behaviours — guarding, grimacing, help-seeking, and medication use — can be positively or negatively reinforced by environmental responses such as attention or avoidance of responsibility. This is the theoretical basis for operant-behavioural treatment in pain management programmes, which aim to reduce reinforcement of pain behaviour and increase well behaviour.</p><p style=\"margin-top:12px\"><strong>E. FALSE</strong> — The McGill Pain Questionnaire (MPQ), developed by Melzack and Torgerson, is a multidimensional tool assessing sensory (e.g. throbbing, stabbing), affective (e.g. exhausting, fearful), and evaluative dimensions of pain using word descriptor categories. The VAS and NRS measure intensity only; the MPQ is a far richer instrument.</p>"
     }
   ]
 }

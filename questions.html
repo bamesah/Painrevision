@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Question of the Day — PainRevision</title>
-<meta name="description" content="FFPMRCA MCQ question of the day — Single Best Answer, Multiple True/False, and Extended Matching Questions."/>
+<title>MCQ Practice — PainRevision</title>
+<meta name="description" content="FFPMRCA MCQ practice — daily question and practice sets in SBA, MTF, and EMQ formats."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -81,6 +81,17 @@ button{font-family:var(--san);cursor:pointer}
 /* ===== MAIN LAYOUT ===== */
 .mcq-main{padding:40px 0 80px}
 .mcq-content{max-width:780px;margin:0 auto}
+
+/* ===== TAB BAR ===== */
+.tab-bar{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:4px;gap:4px;margin-bottom:28px;box-shadow:var(--shadow-sm)}
+.tab-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:12px;border:none;background:transparent;font-family:var(--san);font-size:14px;font-weight:600;color:var(--stone);cursor:pointer;transition:all .22s cubic-bezier(.2,.7,.2,1);letter-spacing:-.01em}
+.tab-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.tab-btn.active{background:var(--coral);color:#fff;box-shadow:0 2px 10px rgba(240,98,60,.32)}
+.tab-btn:not(.active):hover{background:var(--cream);color:var(--ink)}
+
+/* ===== TAB PANES ===== */
+.tab-pane{display:block}
+.tab-pane.hidden{display:none}
 
 /* ===== DOTD HEADER ===== */
 .dotd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
@@ -170,6 +181,46 @@ button{font-family:var(--san);cursor:pointer}
 .tomorrow-note svg{width:16px;height:16px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .tomorrow-note p{font-family:var(--mono);font-size:12px;color:var(--stone-light);letter-spacing:.04em}
 
+/* ===== PRACTICE — START SCREEN ===== */
+.practice-start-screen{display:flex;justify-content:center;padding:16px 0 24px}
+.practice-start-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:52px 44px;max-width:460px;width:100%;text-align:center;box-shadow:var(--shadow)}
+.practice-start-icon{width:64px;height:64px;background:var(--coral-faint);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;border:1.5px solid rgba(240,98,60,.2)}
+.practice-start-icon svg{width:28px;height:28px;stroke:var(--coral);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.practice-start-card h2{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-bottom:10px}
+.practice-start-card p{font-size:15px;color:var(--stone);line-height:1.65;margin-bottom:28px}
+.practice-feature-list{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;text-align:left}
+.practice-feature-item{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--stone)}
+.practice-feature-item svg{width:16px;height:16px;stroke:var(--coral);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* ===== PRACTICE — ACTIVE SESSION ===== */
+.practice-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}
+.practice-dots{display:flex;gap:8px;align-items:center}
+.practice-dot{width:40px;height:40px;border-radius:999px;border:2px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;color:var(--stone);cursor:pointer;transition:all .22s cubic-bezier(.2,.7,.2,1);-webkit-tap-highlight-color:transparent}
+.practice-dot:hover{border-color:var(--coral);color:var(--coral)}
+.practice-dot.is-current{border-color:var(--coral);color:var(--coral);background:var(--coral-faint)}
+.practice-dot.is-answered{background:var(--coral);border-color:var(--coral);color:#fff}
+.practice-dot.is-answered.is-current{box-shadow:0 0 0 3px rgba(240,98,60,.22)}
+.practice-reset-btn{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .18s;white-space:nowrap}
+.practice-reset-btn:hover{border-color:var(--coral);color:var(--coral)}
+
+/* ===== PRACTICE — SLIDES ===== */
+.practice-q-slide{display:none}
+.practice-q-slide.is-active{display:block;animation:practiceIn .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes practiceIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ===== PRACTICE — NAV ROW ===== */
+.practice-nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding:16px 0}
+.practice-nav-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:14px;font-weight:600;color:var(--stone);cursor:pointer;transition:all .2s cubic-bezier(.2,.7,.2,1)}
+.practice-nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.practice-nav-btn:not(:disabled):hover{border-color:var(--coral);color:var(--coral);transform:translateY(-1px)}
+.practice-nav-btn:disabled{opacity:.35;cursor:default}
+.practice-progress-text{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light)}
+
+/* ===== PRACTICE — ANSWERED NOTE ===== */
+.practice-answered-note{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--correct-bg);border-radius:12px;border:1px solid var(--correct-border)}
+.practice-answered-note svg{width:16px;height:16px;stroke:var(--correct);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.practice-answered-note p{font-size:13.5px;font-weight:600;color:var(--correct)}
+
 /* ===== REVEAL ANIMATIONS ===== */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
@@ -201,6 +252,9 @@ button{font-family:var(--san);cursor:pointer}
   .mtf-row{flex-wrap:wrap;gap:8px 12px}
   .mtf-statement{min-width:0;word-break:break-word}
   .mtf-toggles{flex:0 0 100%;justify-content:flex-end;padding-left:34px}
+  .tab-btn span.tab-label{display:none}
+  .practice-start-card{padding:36px 24px}
+  .practice-dot{width:36px;height:36px;font-size:12px}
 }
 </style>
 </head>
@@ -253,8 +307,8 @@ button{font-family:var(--san);cursor:pointer}
   <div class="wrap">
     <div class="page-hero-inner">
       <span class="eyebrow">MCQ Practice</span>
-      <h1><span class="ink">Question</span> <span class="coral">of the Day</span></h1>
-      <p class="page-hero-sub">A new FFPMRCA question every day — SBA, MTF, and EMQ formats.</p>
+      <h1><span class="ink">FFPMRCA</span> <span class="coral">Question Bank</span></h1>
+      <p class="page-hero-sub">Daily question of the day and on-demand practice sets — SBA, MTF, and EMQ formats.</p>
     </div>
   </div>
 </section>
@@ -263,13 +317,73 @@ button{font-family:var(--san);cursor:pointer}
 <main class="mcq-main">
   <div class="wrap">
     <div class="mcq-content">
-      <div class="dotd-header reveal">
-        <div>
-          <div class="eyebrow" style="margin-bottom:4px">Today</div>
-          <div class="dotd-date" id="dotd-date-label"></div>
-        </div>
+
+      <!-- TAB BAR -->
+      <div class="tab-bar reveal">
+        <button class="tab-btn active" data-tab="dotd" aria-selected="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="tab-label">Question of the Day</span>
+        </button>
+        <button class="tab-btn" data-tab="practice" aria-selected="false">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span class="tab-label">Practice Set</span>
+        </button>
       </div>
-      <div id="dotd-question-wrap" class="reveal reveal-d1"></div>
+
+      <!-- DOTD TAB -->
+      <div id="tab-dotd" class="tab-pane">
+        <div class="dotd-header reveal">
+          <div>
+            <div class="eyebrow" style="margin-bottom:4px">Today</div>
+            <div class="dotd-date" id="dotd-date-label"></div>
+          </div>
+        </div>
+        <div id="dotd-question-wrap" class="reveal"></div>
+      </div>
+
+      <!-- PRACTICE TAB -->
+      <div id="tab-practice" class="tab-pane hidden">
+
+        <!-- Start screen -->
+        <div id="practice-start" class="practice-start-screen">
+          <div class="practice-start-card reveal">
+            <div class="practice-start-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <h2>Practice Set</h2>
+            <p>Generate 4 random questions from the full question bank.</p>
+            <div class="practice-feature-list">
+              <div class="practice-feature-item">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                Mix of SBA, MTF, and EMQ formats
+              </div>
+            </div>
+            <button class="btn btn-primary" id="generate-btn">Generate 4 Questions</button>
+          </div>
+        </div>
+
+        <!-- Active session -->
+        <div id="practice-active" style="display:none">
+          <div class="practice-header">
+            <div class="practice-dots" id="practice-dots"></div>
+            <button class="practice-reset-btn" id="practice-reset-btn">New Set</button>
+          </div>
+          <div id="practice-q-wrapper"></div>
+          <div class="practice-nav-row">
+            <button class="practice-nav-btn" id="prev-btn" disabled>
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              Previous
+            </button>
+            <span class="practice-progress-text" id="practice-progress">Question 1 of 4</span>
+            <button class="practice-nav-btn" id="next-btn">
+              Next
+              <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /tab-practice -->
+
     </div>
   </div>
 </main>
@@ -307,7 +421,9 @@ async function loadQuestions() {
 function init() {
   setupNav();
   setupScrollReveal();
+  initTabs();
   initDOTD();
+  initPracticeUI();
 }
 
 /* ===== NAV ===== */
@@ -341,6 +457,26 @@ function setupScrollReveal() {
   setTimeout(triggerReveal, 100);
 }
 
+/* ===== TABS ===== */
+let activeTab = 'dotd';
+
+function initTabs() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      if (tab === activeTab) return;
+      activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tab);
+        b.setAttribute('aria-selected', String(b.dataset.tab === tab));
+      });
+      document.getElementById('tab-dotd').classList.toggle('hidden', tab !== 'dotd');
+      document.getElementById('tab-practice').classList.toggle('hidden', tab !== 'practice');
+      setTimeout(triggerReveal, 50);
+    });
+  });
+}
+
 /* ===== QUESTION OF THE DAY ===== */
 function initDOTD() {
   const label = document.getElementById('dotd-date-label');
@@ -359,17 +495,18 @@ function initDOTD() {
   const todaySlot = dayNum % cycleLength;
   const q = rotated.find(q => q.rotationIndex === todaySlot) || rotated[0];
 
-  renderQuestion(q, wrap);
+  renderQuestion(q, wrap, 'dotd');
   triggerReveal();
 }
 
 /* ===== RENDER QUESTION ===== */
-function renderQuestion(q, container) {
+function renderQuestion(q, container, mode, onReveal) {
+  mode = mode || 'dotd';
   container.innerHTML = '';
   const card = document.createElement('div');
   card.className = 'q-card';
 
-  const typeClass = `q-badge-${q.type.toLowerCase()}`;
+  const typeClass = 'q-badge-' + q.type.toLowerCase();
   let html = `<div class="q-card-top"></div><div class="q-card-body">
     <div class="q-meta">
       <span class="q-badge ${typeClass}">${q.type}</span>
@@ -381,15 +518,15 @@ function renderQuestion(q, container) {
   else if (q.type === 'EMQ') html += renderEMQ(q);
 
   html += `</div><div class="q-actions">
-    <button class="btn btn-primary" id="reveal-btn">Reveal Answer</button>
+    <button class="btn btn-primary reveal-btn">Reveal Answer</button>
   </div>`;
 
   card.innerHTML = html;
   container.appendChild(card);
 
-  if (q.type === 'SBA') wireSBA(card, q);
-  else if (q.type === 'MTF') wireMTF(card, q);
-  else if (q.type === 'EMQ') wireEMQ(card, q);
+  if (q.type === 'SBA') wireSBA(card, q, mode, onReveal);
+  else if (q.type === 'MTF') wireMTF(card, q, mode, onReveal);
+  else if (q.type === 'EMQ') wireEMQ(card, q, mode, onReveal);
 }
 
 /* ===== WIGGLE UTILITY ===== */
@@ -398,6 +535,23 @@ function wiggleEl(el) {
   void el.offsetWidth;
   el.classList.add('wiggle');
   el.addEventListener('animationend', () => el.classList.remove('wiggle'), { once: true });
+}
+
+/* ===== POST-REVEAL ACTION ROW ===== */
+function postRevealActions(card, mode) {
+  if (mode === 'practice') {
+    card.querySelector('.q-actions').innerHTML = `
+      <div class="practice-answered-note">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <p>Answered — use the navigation below to continue</p>
+      </div>`;
+  } else {
+    card.querySelector('.q-actions').innerHTML = `
+      <div class="tomorrow-note">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <p>Come back tomorrow for the next question.</p>
+      </div>`;
+  }
 }
 
 /* ===== SBA ===== */
@@ -412,7 +566,7 @@ function renderSBA(q) {
   return h + `</div>`;
 }
 
-function wireSBA(card, q) {
+function wireSBA(card, q, mode, onReveal) {
   let selected = null;
   let revealed = false;
 
@@ -427,21 +581,19 @@ function wireSBA(card, q) {
     opt.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); } });
   });
 
-  card.querySelector('#reveal-btn').addEventListener('click', () => {
+  card.querySelector('.reveal-btn').addEventListener('click', () => {
     if (revealed) return;
     if (selected === null) {
       card.querySelectorAll('.sba-option').forEach(o => wiggleEl(o));
-      wiggleEl(card.querySelector('#reveal-btn'));
+      wiggleEl(card.querySelector('.reveal-btn'));
       return;
     }
     revealed = true;
 
-    // Apply correct/wrong states
     card.querySelectorAll('.sba-option').forEach(o => {
       const i = parseInt(o.dataset.idx);
       o.classList.remove('selected');
       o.classList.add('locked');
-
       if (i === q.correct) {
         o.classList.add('correct');
         o.innerHTML = `
@@ -457,18 +609,13 @@ function wireSBA(card, q) {
       }
     });
 
-    // Show explanation
     const expDiv = document.createElement('div');
     expDiv.className = 'explanation visible';
     expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
     card.querySelector('.q-card-body').appendChild(expDiv);
 
-    // Replace action row
-    card.querySelector('.q-actions').innerHTML = `
-      <div class="tomorrow-note">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <p>Come back tomorrow for the next question.</p>
-      </div>`;
+    postRevealActions(card, mode);
+    if (onReveal) onReveal();
   });
 }
 
@@ -488,7 +635,7 @@ function renderMTF(q) {
   return h + `</div>`;
 }
 
-function wireMTF(card, q) {
+function wireMTF(card, q, mode, onReveal) {
   const selections = new Array(q.choices.length).fill(null);
   let revealed = false;
 
@@ -504,12 +651,12 @@ function wireMTF(card, q) {
     });
   });
 
-  card.querySelector('#reveal-btn').addEventListener('click', () => {
+  card.querySelector('.reveal-btn').addEventListener('click', () => {
     if (revealed) return;
     const unfilledRows = [...card.querySelectorAll('.mtf-row')].filter((_, i) => selections[i] === null);
     if (unfilledRows.length) {
       unfilledRows.forEach(row => wiggleEl(row));
-      wiggleEl(card.querySelector('#reveal-btn'));
+      wiggleEl(card.querySelector('.reveal-btn'));
       return;
     }
     revealed = true;
@@ -531,17 +678,15 @@ function wireMTF(card, q) {
     expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
     card.querySelector('.q-card-body').appendChild(expDiv);
 
-    card.querySelector('.q-actions').innerHTML = `
-      <div class="tomorrow-note">
-        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <p>Come back tomorrow for the next question.</p>
-      </div>`;
+    postRevealActions(card, mode);
+    if (onReveal) onReveal();
   });
 }
 
 /* ===== EMQ ===== */
 function renderEMQ(q) {
-  let h = `<p class="q-stem">${escHtml(q.topic)}</p>
+  const stemText = q.stem || q.topic;
+  let h = `<p class="q-stem">${escHtml(stemText)}</p>
   <p class="emq-lead">${escHtml(q.lead)}</p>
   <div class="emq-options-grid">
     <div class="emq-options-label">Options</div>`;
@@ -562,15 +707,15 @@ function renderEMQ(q) {
   return h + `</div>`;
 }
 
-function wireEMQ(card, q) {
+function wireEMQ(card, q, mode, onReveal) {
   let revealed = false;
 
-  card.querySelector('#reveal-btn').addEventListener('click', () => {
+  card.querySelector('.reveal-btn').addEventListener('click', () => {
     if (revealed) return;
     const emptySelects = [...card.querySelectorAll('.emq-select')].filter(sel => sel.value === '');
     if (emptySelects.length) {
       emptySelects.forEach(sel => wiggleEl(sel.closest('.emq-q-row')));
-      wiggleEl(card.querySelector('#reveal-btn'));
+      wiggleEl(card.querySelector('.reveal-btn'));
       return;
     }
     revealed = true;
@@ -594,12 +739,94 @@ function wireEMQ(card, q) {
       row.appendChild(exp);
     });
 
-    card.querySelector('.q-actions').innerHTML = `
-      <div class="tomorrow-note">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <p>Come back tomorrow for the next question.</p>
-      </div>`;
+    postRevealActions(card, mode);
+    if (onReveal) onReveal();
   });
+}
+
+/* ===== PRACTICE SET ===== */
+let practiceQuestions = [];
+let practiceAnswered = [];
+let practiceCurrentIdx = 0;
+
+function initPracticeUI() {
+  document.getElementById('generate-btn').addEventListener('click', generatePracticeSet);
+  document.getElementById('practice-reset-btn').addEventListener('click', () => {
+    document.getElementById('practice-active').style.display = 'none';
+    document.getElementById('practice-start').style.display = 'flex';
+  });
+  document.getElementById('prev-btn').addEventListener('click', () => navigatePractice(-1));
+  document.getElementById('next-btn').addEventListener('click', () => navigatePractice(1));
+}
+
+function generatePracticeSet() {
+  if (!allQuestions.length) return;
+  const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+  practiceQuestions = shuffled.slice(0, Math.min(4, shuffled.length));
+  practiceAnswered = new Array(practiceQuestions.length).fill(false);
+  practiceCurrentIdx = 0;
+
+  document.getElementById('practice-start').style.display = 'none';
+  document.getElementById('practice-active').style.display = 'block';
+
+  const wrapper = document.getElementById('practice-q-wrapper');
+  wrapper.innerHTML = '';
+
+  practiceQuestions.forEach((q, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'practice-q-slide' + (i === 0 ? ' is-active' : '');
+    slide.dataset.idx = i;
+    const idx = i;
+    renderQuestion(q, slide, 'practice', function() {
+      practiceAnswered[idx] = true;
+      renderPracticeDots();
+    });
+    wrapper.appendChild(slide);
+  });
+
+  renderPracticeDots();
+  updatePracticeNav();
+}
+
+function navigatePractice(delta) {
+  const newIdx = practiceCurrentIdx + delta;
+  if (newIdx < 0 || newIdx >= practiceQuestions.length) return;
+  document.querySelectorAll('.practice-q-slide').forEach(s => s.classList.remove('is-active'));
+  practiceCurrentIdx = newIdx;
+  document.querySelectorAll('.practice-q-slide')[newIdx].classList.add('is-active');
+  renderPracticeDots();
+  updatePracticeNav();
+  window.scrollTo({ top: document.getElementById('practice-active').offsetTop - 80, behavior: 'smooth' });
+}
+
+function renderPracticeDots() {
+  const container = document.getElementById('practice-dots');
+  container.innerHTML = '';
+  practiceQuestions.forEach((q, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'practice-dot';
+    if (practiceAnswered[i]) dot.classList.add('is-answered');
+    if (i === practiceCurrentIdx) dot.classList.add('is-current');
+    dot.textContent = i + 1;
+    dot.setAttribute('aria-label', `Question ${i + 1}${practiceAnswered[i] ? ' (answered)' : ''}`);
+    dot.addEventListener('click', () => {
+      if (i === practiceCurrentIdx) return;
+      document.querySelectorAll('.practice-q-slide').forEach(s => s.classList.remove('is-active'));
+      practiceCurrentIdx = i;
+      document.querySelectorAll('.practice-q-slide')[i].classList.add('is-active');
+      renderPracticeDots();
+      updatePracticeNav();
+    });
+    container.appendChild(dot);
+  });
+}
+
+function updatePracticeNav() {
+  const n = practiceQuestions.length;
+  const idx = practiceCurrentIdx;
+  document.getElementById('prev-btn').disabled = idx === 0;
+  document.getElementById('next-btn').disabled = idx === n - 1;
+  document.getElementById('practice-progress').textContent = `Question ${idx + 1} of ${n}`;
 }
 
 /* ===== UTILS ===== */
