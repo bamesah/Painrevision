@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Video Tutorials — PainRevision</title>
+<meta name="description" content="Free video tutorials for the FFPMRCA exam — pain medicine concepts explained clearly by a pain medicine trainee."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --shadow-lg:0 2px 4px rgba(36,27,22,.06),0 28px 56px -20px rgba(36,27,22,.32);
+  --r:18px;--maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:100;transition:background .3s,box-shadow .3s;background:rgba(251,245,238,0);border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(251,245,238,.88);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom-color:var(--border);box-shadow:var(--shadow-sm)}
+.nav-in{display:flex;align-items:center;gap:16px;padding:16px 32px;max-width:var(--maxw);margin:0 auto}
+.nav-logo{display:flex;align-items:center;gap:11px;font-family:var(--san);font-weight:800;font-size:18px;letter-spacing:-.03em;flex-shrink:0}
+.nav-logo svg{width:32px;height:32px;flex-shrink:0}
+.nav-logo .pain{color:var(--ink)}
+.nav-logo .rev{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-warm)}
+.nav-links a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;background:none;border:none}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:99px;transition:transform .3s,opacity .3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
+.nav-drawer-overlay{position:absolute;inset:0;background:rgba(36,27,22,.4);opacity:0;transition:opacity .3s}
+.nav-drawer-panel{position:absolute;top:56px;right:0;width:min(210px,68vw);background:rgba(251,245,238,.96);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);padding:8px 12px 16px;border-radius:0 0 0 16px;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:2px;box-shadow:-4px 12px 32px -8px rgba(36,27,22,.18)}
+.nav-drawer.open{pointer-events:all}
+.nav-drawer.open .nav-drawer-overlay{opacity:1}
+.nav-drawer.open .nav-drawer-panel{transform:none}
+.nav-drawer-panel a{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:block;transition:background .18s}
+.nav-drawer-panel a:hover{background:rgba(36,27,22,.06)}
+.nav-dropdown{position:relative;display:inline-flex;align-items:center}
+.nav-dropdown-trigger{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s;cursor:pointer;display:flex;align-items:center;gap:4px;background:none;border:none;font-family:var(--san);line-height:1}
+.nav-dropdown-trigger:hover,.nav-dropdown.open .nav-dropdown-trigger{color:var(--ink);background:var(--surface-warm)}
+.nav-dropdown-trigger.has-active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-dropdown-chevron{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.nav-dropdown.open .nav-dropdown-chevron{transform:rotate(180deg)}
+.nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:196px;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s,transform .22s cubic-bezier(.2,.7,.2,1)}
+.nav-dropdown.open .nav-dropdown-menu{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:500;color:var(--stone);transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown-menu a:hover{background:var(--cream);color:var(--ink)}
+.nav-dropdown-menu a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.drop-icon{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.6}
+
+/* ===== PAGE HERO ===== */
+.page-hero{padding:40px 0 36px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.page-hero-glow{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 300px at 50% -10%,rgba(245,165,36,.14),transparent 65%),
+             radial-gradient(700px 400px at 50% 0%,rgba(240,98,60,.09),transparent 60%)}
+.page-hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.3;z-index:0}
+.page-hero .wrap{position:relative;z-index:1}
+.page-hero-inner{display:flex;flex-direction:column;gap:8px}
+.page-hero h1{font-size:clamp(26px,3.5vw,40px);font-weight:800;letter-spacing:-.04em;line-height:1}
+.page-hero h1 .ink{color:var(--ink)}
+.page-hero h1 .coral{color:var(--coral)}
+.page-hero-sub{font-size:15px;color:var(--stone);max-width:520px;line-height:1.5;font-weight:400}
+
+/* ===== MAIN ===== */
+.videos-main{padding:44px 0 80px}
+
+/* ===== FILTER BAR ===== */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:36px;flex-wrap:wrap}
+.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:999px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--surface);color:var(--stone);cursor:pointer;transition:all .18s cubic-bezier(.2,.7,.2,1);font-family:var(--san)}
+.filter-chip:hover{border-color:var(--border-strong);color:var(--ink);background:var(--surface-warm)}
+.filter-chip.active{background:var(--coral);border-color:var(--coral);color:#fff}
+.filter-chip .chip-count{font-family:var(--mono);font-size:10.5px;opacity:.75}
+
+/* ===== VIDEO GRID ===== */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+
+/* ===== VIDEO CARD ===== */
+.video-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1)}
+.video-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.video-thumb{position:relative;width:100%;aspect-ratio:16/9;background:var(--ink-soft);overflow:hidden;cursor:pointer}
+.video-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s cubic-bezier(.2,.7,.2,1),opacity .3s}
+.video-card:hover .video-thumb img{transform:scale(1.03)}
+.thumb-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(36,27,22,.55));transition:opacity .2s}
+.video-card:hover .thumb-overlay{opacity:.85}
+.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.92);border:none;display:flex;align-items:center;justify-content:center;transition:transform .22s cubic-bezier(.2,.7,.2,1),background .2s;cursor:pointer;box-shadow:0 4px 16px -4px rgba(36,27,22,.4)}
+.video-card:hover .play-btn{transform:translate(-50%,-50%) scale(1.1);background:#fff}
+.play-btn svg{width:20px;height:20px;fill:var(--coral);margin-left:3px}
+.thumb-duration{position:absolute;bottom:10px;right:10px;font-family:var(--mono);font-size:11px;font-weight:600;background:rgba(36,27,22,.78);color:#fff;padding:3px 8px;border-radius:6px;letter-spacing:.04em}
+.video-thumb iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+.video-card-body{padding:20px 22px 22px}
+.video-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.topic-badge{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid}
+.badge-pharmacology{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
+.badge-physiology{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
+.badge-anatomy{color:#1a7a5a;background:rgba(26,122,90,.08);border-color:rgba(26,122,90,.2)}
+.badge-clinical{color:#8a4a1a;background:rgba(138,74,26,.08);border-color:rgba(138,74,26,.2)}
+.badge-general{color:var(--stone);background:rgba(124,112,104,.08);border-color:rgba(124,112,104,.2)}
+.video-title{font-size:16px;font-weight:700;line-height:1.35;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px}
+.video-desc{font-size:13.5px;color:var(--stone);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.video-footer{display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.video-footer-tag{font-family:var(--mono);font-size:11px;color:var(--stone-light);letter-spacing:.04em}
+.watch-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--coral);transition:gap .18s,opacity .18s}
+.watch-btn:hover{opacity:.75;gap:10px}
+.watch-btn svg{width:13px;height:13px;stroke:var(--coral);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== COMING SOON CARD ===== */
+.video-card-soon{background:var(--surface-warm);border:1.5px dashed var(--border-strong);border-radius:20px;aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 32px;text-align:center;gap:14px}
+.soon-icon{width:48px;height:48px;border-radius:14px;background:var(--coral-faint);border:1.5px solid var(--coral-soft);display:flex;align-items:center;justify-content:center}
+.soon-icon svg{width:22px;height:22px;stroke:var(--coral);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.soon-label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--coral)}
+.soon-text{font-size:14px;color:var(--stone);line-height:1.5}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:760px){
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  .wrap{padding:0 20px}
+  .nav-in{padding:14px 20px}
+  .videos-main{padding:28px 0 60px}
+  .video-grid{grid-template-columns:1fr;gap:16px}
+  .filter-bar{gap:6px}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG DEFS -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html" aria-label="PainRevision home">
+      <svg viewBox="0 0 100 100" width="32" height="32" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <div class="nav-links" role="menubar">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="courses.html" role="menuitem">Courses</a>
+      <div class="nav-dropdown" id="resources-dropdown">
+        <button class="nav-dropdown-trigger has-active" id="resources-trigger" aria-expanded="false" aria-haspopup="true">
+          Resources
+          <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="questions.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            MCQ Practice
+          </a>
+          <a href="videos.html" role="menuitem" class="active">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Video Tutorials
+          </a>
+        </div>
+      </div>
+      <a href="about.html" role="menuitem">About</a>
+      <a href="contact.html" role="menuitem">Contact</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-overlay" id="drawer-overlay"></div>
+  <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="questions.html">MCQ Practice</a>
+    <a href="videos.html">Video Tutorials</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-glow" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="page-hero-inner">
+      <h1><span class="ink">Video</span> <span class="coral">Tutorials</span></h1>
+      <p class="page-hero-sub">Pain medicine concepts explained clearly — built for FFPMRCA candidates by a trainee who's been through it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="videos-main">
+  <div class="wrap">
+
+    <!-- Filter bar -->
+    <div class="filter-bar" id="filter-bar" role="group" aria-label="Filter by topic">
+      <button class="filter-chip active" data-filter="all">All <span class="chip-count">(1)</span></button>
+      <button class="filter-chip" data-filter="clinical">Clinical Measurement</button>
+      <button class="filter-chip" data-filter="pharmacology">Pharmacology</button>
+      <button class="filter-chip" data-filter="physiology">Physiology</button>
+      <button class="filter-chip" data-filter="anatomy">Anatomy</button>
+    </div>
+
+    <!-- Video grid -->
+    <div class="video-grid" id="video-grid">
+
+      <!-- Video 1 -->
+      <article class="video-card" data-topics="clinical">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/B1pdmhSw9aU/hqdefault.jpg" alt="Ionising Radiation for FFPMRCA Part 1 thumbnail" loading="lazy"/>
+          <div class="thumb-overlay"></div>
+          <a class="play-btn" href="https://www.youtube.com/watch?v=B1pdmhSw9aU&t=18s" target="_blank" rel="noopener noreferrer" aria-label="Watch on YouTube">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </a>
+        </div>
+        <div class="video-card-body">
+          <div class="video-meta">
+            <span class="topic-badge badge-clinical">Clinical Measurement</span>
+          </div>
+          <h2 class="video-title">Ionising Radiation for FFPMRCA : Part 1</h2>
+          <div class="video-footer">
+            <span class="video-footer-tag">PainRevision</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Coming soon placeholders -->
+      <div class="video-card-soon">
+        <div class="soon-icon">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <span class="soon-label">Coming soon</span>
+        <p class="soon-text">More video tutorials are in production — check back soon or subscribe on YouTube.</p>
+      </div>
+
+      <div class="video-card-soon">
+        <div class="soon-icon">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <span class="soon-label">Coming soon</span>
+        <p class="soon-text">Anatomy, physiology, and clinical topics — all the high-yield areas for the FFPMRCA.</p>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer style="background:var(--ink);padding:44px 0;border-top:none">
+  <div class="wrap">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+      <div style="display:flex;align-items:center;gap:11px">
+        <svg viewBox="0 0 100 100" width="34" height="34" style="--mark-stroke:#F0623C;--mark-dot:#F5A524"><use href="#pr-mark"/></svg>
+        <span style="font-size:20px;font-weight:800;letter-spacing:-.03em;color:#fff"><span style="color:#fff">Pain</span><span style="color:var(--amber)">Revision</span></span>
+      </div>
+      <p style="font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.32);letter-spacing:.04em;text-align:center">© 2026 PainRevision. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== NAV ===== */
+(function(){
+  const nav = document.getElementById('main-nav');
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('nav-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 10));
+  function toggleDrawer(open) {
+    hamburger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    drawer.setAttribute('aria-hidden', String(!open));
+    hamburger.setAttribute('aria-expanded', String(open));
+  }
+  hamburger.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('open')));
+  overlay.addEventListener('click', () => toggleDrawer(false));
+
+  /* ---- resources dropdown ---- */
+  const resDropdown = document.getElementById('resources-dropdown');
+  const resTrigger = document.getElementById('resources-trigger');
+  let resTimer;
+  if(resDropdown && resTrigger){
+    resDropdown.addEventListener('mouseenter', () => {
+      clearTimeout(resTimer);
+      resDropdown.classList.add('open');
+      resTrigger.setAttribute('aria-expanded','true');
+    });
+    resDropdown.addEventListener('mouseleave', () => {
+      resTimer = setTimeout(() => {
+        resDropdown.classList.remove('open');
+        resTrigger.setAttribute('aria-expanded','false');
+      }, 150);
+    });
+  }
+})();
+
+/* ===== FILTER ===== */
+(function(){
+  const chips = document.querySelectorAll('.filter-chip');
+  const cards = document.querySelectorAll('.video-grid .video-card');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const filter = chip.dataset.filter;
+      cards.forEach(card => {
+        const topics = card.dataset.topics || '';
+        const show = filter === 'all' || topics.split(',').includes(filter);
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

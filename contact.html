@@ -81,6 +81,18 @@ a{color:inherit;text-decoration:none}
 .nav-drawer-panel a{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:block;transition:background .18s}
 .nav-drawer-panel a:hover{background:rgba(36,27,22,.06)}
 .nav-drawer-panel .drawer-cta{margin-top:12px;display:block;text-align:center}
+.nav-dropdown{position:relative;display:inline-flex;align-items:center}
+.nav-dropdown-trigger{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s;cursor:pointer;display:flex;align-items:center;gap:4px;background:none;border:none;font-family:var(--san);line-height:1}
+.nav-dropdown-trigger:hover,.nav-dropdown.open .nav-dropdown-trigger{color:var(--ink);background:var(--surface-warm)}
+.nav-dropdown-trigger.has-active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-dropdown-chevron{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.nav-dropdown.open .nav-dropdown-chevron{transform:rotate(180deg)}
+.nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:196px;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s,transform .22s cubic-bezier(.2,.7,.2,1)}
+.nav-dropdown.open .nav-dropdown-menu{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:500;color:var(--stone);transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown-menu a:hover{background:var(--cream);color:var(--ink)}
+.nav-dropdown-menu a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.drop-icon{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.6}
 
 /* ===== PAGE HEADER ===== */
 .page-header{padding:100px 0 80px;position:relative;overflow:hidden;border-top:none}
@@ -202,7 +214,22 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
     <div class="nav-links" role="menubar">
       <a href="index.html" role="menuitem">Home</a>
       <a href="courses.html" role="menuitem">Courses</a>
-      <a href="questions.html" role="menuitem">MCQ Practice</a>
+      <div class="nav-dropdown" id="resources-dropdown">
+        <button class="nav-dropdown-trigger" id="resources-trigger" aria-expanded="false" aria-haspopup="true">
+          Resources
+          <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="questions.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            MCQ Practice
+          </a>
+          <a href="videos.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Video Tutorials
+          </a>
+        </div>
+      </div>
       <a href="about.html" role="menuitem">About</a>
       <a href="contact.html" class="active" role="menuitem">Contact us</a>
     </div>
@@ -219,6 +246,7 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
     <a href="index.html">Home</a>
     <a href="courses.html">Courses</a>
     <a href="questions.html">MCQ Practice</a>
+    <a href="videos.html">Video Tutorials</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact us</a>
   </div>
@@ -362,6 +390,22 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
   });
   overlay.addEventListener('click', closeDrawer);
   drawerLinks.forEach(function(a){ a.addEventListener('click', closeDrawer); });
+  var resDropdown = document.getElementById('resources-dropdown');
+  var resTrigger = document.getElementById('resources-trigger');
+  var resTimer;
+  if(resDropdown && resTrigger){
+    resDropdown.addEventListener('mouseenter', function(){
+      clearTimeout(resTimer);
+      resDropdown.classList.add('open');
+      resTrigger.setAttribute('aria-expanded','true');
+    });
+    resDropdown.addEventListener('mouseleave', function(){
+      resTimer = setTimeout(function(){
+        resDropdown.classList.remove('open');
+        resTrigger.setAttribute('aria-expanded','false');
+      }, 150);
+    });
+  }
 
   /* ---- scroll reveal ---- */
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
