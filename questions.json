@@ -14,7 +14,13 @@
         "Is reduced in biased agonists",
         "Increases intracellular cAMP"
       ],
-      "correct": [true, false, true, true, false],
+      "correct": [
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
       "explanation": "<p>When a ligand binds to an opioid receptor, it activates two distinct intracellular pathways:</p>\n\n<table style=\"margin-top:20px\">\n  <tr><th>Pathway</th><th>Key Effects</th></tr>\n  <tr><td><strong>G-protein (Gᵢ) pathway</strong></td><td>Inhibition of adenylate cyclase → ↓ cAMP; closure of voltage-gated Ca²⁺ channels; opening of voltage-gated K⁺ channels → hyperpolarisation → inhibition of neurotransmitter release</td></tr>\n  <tr><td><strong>β-Arrestin pathway</strong></td><td>Receptor desensitisation and <strong>internalisation</strong> (contributing to tolerance); side effects including <strong>respiratory depression</strong></td></tr>\n</table>\n\n<p style=\"margin-top:20px\"><strong>Biased agonism</strong> refers to ligands that preferentially activate one pathway over the other. Biased agonists such as <strong>oliceridine</strong> favour the G-protein pathway over the β-Arrestin pathway, potentially resulting in less tolerance and fewer side effects (including less respiratory depression).</p>\n\n<p style=\"margin-top:20px\"><strong>G-protein signalling cascade — step by step:</strong></p>\n<ol>\n  <li>Ligand binds to the extracellular <strong>N-terminus</strong> of the 7-transmembrane Gᵢ-protein coupled receptor</li>\n  <li>Conformational change → intracellular <strong>GDP is exchanged for GTP</strong> on the α-subunit</li>\n  <li>α-GTP <strong>dissociates</strong> from the βγ dimer</li>\n  <li>α-GTP <strong>inhibits adenylate cyclase</strong> → ↓ conversion of ATP to cAMP</li>\n  <li>βγ dimer <strong>closes voltage-gated Ca²⁺ channels</strong> and <strong>opens inwardly-rectifying K⁺ channels</strong></li>\n  <li>Net result: membrane <strong>hyperpolarisation</strong> → inhibition of glutamate release and propagation of action potentials in nociceptive fibres</li>\n</ol>\n\n<p style=\"color:#7C7068;font-size:13px;margin-top:20px\">Note: all opioid receptors are 7-transmembrane Gᵢ-protein coupled receptors. The transmembrane domain is highly conserved across receptor subtypes (μ, δ, κ); differences occur mainly in the extracellular regions, which accounts for ligand selectivity.</p>\n\n<img src=\"images/opioid-gpcr.png\" alt=\"G-protein coupled receptor signalling diagram showing Gi-protein activation, adenylate cyclase inhibition, and ion channel modulation\" style=\"max-width:100%;border-radius:10px;margin-top:20px;border:1px solid #EDE3D7\">"
     },
     {
@@ -48,7 +54,13 @@
         "Sleep-disordered breathing",
         "Chronic heart failure"
       ],
-      "correct": [true, true, false, true, true],
+      "correct": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
       "explanation": "<p><strong>A. True.</strong> Individuals aged 60 years or older fall into a higher-risk category for opioid-induced respiratory depression (OIRD).</p><p style=\"margin-top:12px\"><strong>B. True.</strong> The PRODIGY analysis showed that male patients are more likely to experience OIRD compared with women. Being male contributes 8 points in the PRODIGY scoring system.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Opioid-naïve patients are at greater risk of postoperative respiratory depression. Those on long-term opioids develop tolerance to both the analgesic and respiratory-depressant effects, reducing — but not eliminating — their susceptibility. Chronic users can still develop respiratory depression if they receive excessive doses.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> Sleep-disordered breathing (e.g. obstructive sleep apnoea) is a strong predictor of postoperative respiratory depression following opioid use, as identified in the PRODIGY model.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Chronic heart failure is also recognised as a contributing risk factor in the PRODIGY model.</p>"
     },
     {
@@ -65,7 +77,13 @@
         "Co-intoxication with tranquillisers",
         "Presence of an opioid use disorder (OUD)"
       ],
-      "correct": [false, true, true, true, false],
+      "correct": [
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
       "explanation": "<p><strong>A. False.</strong> The duration of opioid use does not directly alter naloxone's ability to block opioid receptors. However, individuals accustomed to very large opioid doses may require substantially higher naloxone doses to achieve adequate reversal.</p><p style=\"margin-top:12px\"><strong>B. True.</strong> Naloxone is less effective against opioids with high μ-receptor affinity. Agents such as buprenorphine are considerably harder to antagonise, making reversal more challenging and often requiring higher or repeated doses.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> Large doses of naloxone can precipitate acute withdrawal, manifesting as severe pain in chronic pain patients, or agitation, irritability, abdominal discomfort, and flu-like symptoms in opioid-dependent individuals.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> If the patient has also taken sedative drugs (e.g. benzodiazepines), naloxone will only counteract the opioid component of respiratory depression. The sedative-induced respiratory suppression persists, making full reversal impossible with naloxone alone.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> Having an opioid use disorder does not interfere with naloxone's pharmacological action. It will still reverse opioid-mediated respiratory depression, although higher doses may be needed depending on the amount and potency of opioid used.</p>"
     },
     {
@@ -82,7 +100,13 @@
         "Leftward shift of the CO₂ response curve",
         "Reduction of the slope of the hypercapnic ventilatory response"
       ],
-      "correct": [true, false, true, false, true],
+      "correct": [
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
       "explanation": "<p><strong>A. True.</strong> Opioids depress the pre-Bötzinger complex — the key respiratory rhythm generator in the brainstem — thereby reducing central respiratory drive.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Opioids decrease, rather than increase, excitatory input from the parabrachial/Kölliker-Fuse complex, further blunting respiratory drive.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> Baseline ventilation falls as a consequence of reduced central respiratory drive and blunted peripheral and central chemosensitivity.</p><p style=\"margin-top:12px\"><strong>D. False.</strong> Opioids shift the CO₂ response curve <em>rightwards</em>, meaning a higher PaCO₂ is required to trigger an increase in ventilation.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Opioids flatten the hypercapnic ventilatory response slope, reflecting a reduced ventilatory response per unit rise in CO₂ — i.e. diminished sensitivity to hypercapnia.</p>"
     },
     {
@@ -99,7 +123,13 @@
         "Reaches peak plasma concentration approximately 30 minutes after oral dosing",
         "Has a dose-dependent reduction in bioavailability at higher doses"
       ],
-      "correct": [true, false, true, false, true],
+      "correct": [
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
       "explanation": "<p>Gabapentin and pregabalin are α2-δ ligands that modulate voltage-gated calcium channels at presynaptic terminals, reducing excitatory neurotransmitter release. Despite their names, they do not act at GABA receptors. Their pharmacokinetics differ importantly, especially in terms of absorption.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — Gabapentin has variable and dose-dependent oral bioavailability of approximately 27–60%, whereas pregabalin has linear, higher bioavailability of ~90%. This is a key pharmacokinetic difference between the two drugs.</p><p style=\"margin-top:12px\"><strong>B. FALSE</strong> — Despite being named after GABA, gabapentin does not bind to GABA-A or GABA-B receptors. It binds to the α2-δ subunit of voltage-gated calcium channels. Confusing it with a GABAergic agent is a classic examination trap.</p><p style=\"margin-top:12px\"><strong>C. TRUE</strong> — Gabapentin is absorbed via the LAT1 (large neutral amino acid transporter) in the small intestine. This is a saturable system, which is why bioavailability decreases at higher doses — a clinically relevant fact.</p><p style=\"margin-top:12px\"><strong>D. FALSE</strong> — Gabapentin typically reaches peak plasma concentration at approximately 2–3 hours after oral dosing, not 30 minutes. The 30-minute figure is more consistent with rapidly absorbed agents like immediate-release opioids.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — Because of the saturable transporter mechanism, as the oral dose increases, the fraction absorbed decreases. This means higher single doses are proportionally less effective — a key reason for TDS rather than once-daily dosing.</p>"
     },
     {
@@ -116,7 +146,13 @@
         "Includes the nucleus tractus solitarius",
         "Includes the nucleus raphe magnus"
       ],
-      "correct": [true, false, true, false, true],
+      "correct": [
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
       "explanation": "<p>The descending inhibitory pain system modulates nociceptive transmission at the level of the dorsal horn of the spinal cord. It is activated by opioids, stress, and certain analgesic drugs. Key structures include the midbrain, brainstem, and descending projections via the dorsolateral funiculus.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — The periaqueductal grey (PAG) in the midbrain is the principal hub of descending inhibition. When activated by endogenous opioids or exogenous morphine, it projects to the rostral ventromedial medulla, which in turn modulates dorsal horn activity.</p><p style=\"margin-top:12px\"><strong>B. FALSE</strong> — The gamma efferent system refers to motor neurons controlling intrafusal fibres in muscle spindles. It is part of the motor system and plays no role in pain modulation.</p><p style=\"margin-top:12px\"><strong>C. TRUE</strong> — The locus coeruleus in the pons is the main noradrenergic nucleus in the brain. It contributes to descending inhibition via noradrenergic pathways acting on α2 receptors in the dorsal horn — the basis of action of drugs like clonidine and duloxetine.</p><p style=\"margin-top:12px\"><strong>D. FALSE</strong> — The nucleus tractus solitarius is a brainstem nucleus involved in autonomic and visceral afferent processing. It is not a primary component of the descending inhibitory pain pathway, though indirect connections exist.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — The nucleus raphe magnus is a serotonergic nucleus in the rostral ventromedial medulla. It is a key relay in the PAG–RVM–spinal cord axis, exerting inhibitory effects on nociceptive neurons in the dorsal horn via serotonergic projections.</p>"
     },
     {
@@ -133,7 +169,13 @@
         "May accumulate with repeated dosing due to redistribution from tissue stores",
         "Requires dose reduction in renal failure"
       ],
-      "correct": [false, true, false, true, false],
+      "correct": [
+        false,
+        true,
+        false,
+        true,
+        false
+      ],
       "explanation": "<p>Methadone is a synthetic opioid used in pain management and opioid substitution therapy. It has unique pharmacological properties that distinguish it from other opioids, including NMDA receptor antagonism and serotonin reuptake inhibition. Its complex pharmacokinetics make dose titration hazardous.</p><p style=\"margin-top:12px\"><strong>A. FALSE</strong> — Methadone has a highly variable and unpredictable half-life ranging from 8–120 hours, most commonly quoted as 24–36 hours. This wide variability reflects inter-individual differences in CYP3A4 and CYP2D6 metabolism and makes accumulation a significant clinical risk.</p><p style=\"margin-top:12px\"><strong>B. TRUE</strong> — Methadone prolongs the QTc interval, predisposing to torsades de pointes, particularly at higher doses and in patients with hypokalaemia, hypomagnesaemia, or concurrent use of other QTc-prolonging drugs. A baseline ECG is recommended before initiation.</p><p style=\"margin-top:12px\"><strong>C. FALSE</strong> — Methadone is not a pure mu-agonist. It also acts as an NMDA receptor antagonist — contributing to efficacy in neuropathic pain and reducing opioid tolerance — and inhibits reuptake of serotonin and noradrenaline.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — Methadone is highly lipophilic and accumulates in fat, muscle and other tissues. With repeated dosing, tissue stores build up and then continue to release drug into plasma — this is why late accumulation and respiratory depression can occur days after what appeared to be a stable dose.</p><p style=\"margin-top:12px\"><strong>E. FALSE</strong> — Unlike morphine, whose active metabolite morphine-6-glucuronide accumulates in renal failure, methadone is primarily hepatically metabolised and does not require dose reduction in renal failure. This makes it a useful option in patients with chronic kidney disease requiring strong opioids.</p>"
     },
     {
@@ -150,7 +192,13 @@
         "Lies directly posterior to the pancreas",
         "Receives preganglionic fibres from the greater, lesser and least splanchnic nerves"
       ],
-      "correct": [true, false, true, true, true],
+      "correct": [
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
       "explanation": "<p>The coeliac plexus is the largest autonomic plexus in the abdomen. It transmits nociceptive signals from upper abdominal viscera including the stomach, liver, biliary tree, pancreas, spleen, and small bowel to the splenic flexure. Coeliac plexus block and neurolysis are used for pancreatic cancer and chronic pancreatitis pain.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — The coeliac plexus lies directly anterior to the crura of the diaphragm at the level of T12–L1. This is clinically important when performing posterior approaches, where needles are directed toward this region.</p><p style=\"margin-top:12px\"><strong>B. FALSE</strong> — The plexus lies at the level of T12–L1, not L1–L2. Confusion between these levels is a common examination error. The aortic bifurcation is at L4; the coeliac axis originates from the aorta at T12/L1.</p><p style=\"margin-top:12px\"><strong>C. TRUE</strong> — The coeliac plexus surrounds the origins of the coeliac axis and superior mesenteric artery and is positioned directly anterior to the aorta between these vessels.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — The pancreas lies anterior to the coeliac plexus, which is therefore directly posterior to it. A pancreatic tumour can encase the plexus, complicating neurolytic block.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — The coeliac plexus receives preganglionic sympathetic fibres via the greater splanchnic (T5–T9), lesser splanchnic (T10–T11), and least splanchnic (T12) nerves. These carry visceral afferents centrally and efferent sympathetic signals peripherally.</p>"
     },
     {
@@ -264,7 +312,13 @@
         "The Mann-Whitney U test is a non-parametric equivalent of the independent samples t-test",
         "Increasing sample size reduces the risk of a type II error"
       ],
-      "correct": [true, true, false, true, true],
+      "correct": [
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
       "explanation": "<p>Statistical literacy is directly examined in the FFPMRCA. Key concepts include measures of central tendency and spread, statistical test selection for parametric versus non-parametric data, and clinical epidemiology metrics such as NNT and NNH.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — NNT = 1 / ARR (absolute risk reduction). If a treatment reduces the risk of an event from 40% to 30%, the ARR is 10% and the NNT is 10. Lower NNT values indicate more effective treatment. This formula is fundamental and frequently tested.</p><p style=\"margin-top:12px\"><strong>B. TRUE</strong> — In a perfect normal (Gaussian) distribution, the mean, median, and mode are all identical, coinciding at the centre of the symmetrical bell curve. This is a defining characteristic of the normal distribution.</p><p style=\"margin-top:12px\"><strong>C. FALSE</strong> — In a positively skewed (right-skewed) distribution, there is a long tail to the right caused by high-value outliers. These outliers pull the mean upward relative to the median, so mean > median in positive skew. A helpful mnemonic: the mean is dragged in the direction of the skew.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — The Mann-Whitney U test is used to compare two independent groups when data are non-parametric. It is the non-parametric equivalent of the independent samples t-test. For paired non-parametric data, the Wilcoxon signed-rank test is used instead.</p><p style=\"margin-top:12px\"><strong>E. TRUE</strong> — A type II error is failing to detect a true effect (false negative). The power of a study (1 – β) increases with sample size. A larger sample provides greater ability to detect a true difference, which is why underpowered studies fail to reach statistical significance even when a real effect exists.</p>"
     },
     {
@@ -281,7 +335,13 @@
         "Operant conditioning in the context of pain refers to the modification of pain behaviour by its consequences",
         "The McGill Pain Questionnaire assesses only the intensity of pain"
       ],
-      "correct": [true, true, false, true, false],
+      "correct": [
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
       "explanation": "<p>Psychological factors are central to the biopsychosocial model of chronic pain. The FFPMRCA curriculum specifically includes fear-avoidance, catastrophising, psychological assessment tools, and conditioning models, which appear in both MTF and SBA format.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — The fear-avoidance model (Vlaeyen &amp; Linton) proposes that pain leads to catastrophic misinterpretation, fear of movement (kinesiophobia), avoidance behaviour, and disability in susceptible patients. This cycle is strongly associated with poor rehabilitation outcomes in chronic musculoskeletal pain and is a cornerstone of cognitive-behavioural pain management programmes.</p><p style=\"margin-top:12px\"><strong>B. TRUE</strong> — Pain catastrophising involves three components: magnification (exaggerating pain threat), rumination (persistent focus on pain), and helplessness (belief that nothing can be done). The Pain Catastrophising Scale (PCS) by Sullivan measures it quantitatively. High scores predict poorer treatment outcomes and greater disability.</p><p style=\"margin-top:12px\"><strong>C. FALSE</strong> — The HADS was developed by Zigmond and Snaith in 1983 for use in general medical and surgical outpatient settings, not specifically for pain clinics. It was designed to detect anxiety and depression while avoiding somatic items such as sleep disturbance and fatigue that could be confounded by physical illness. It is widely used in pain clinics but was not purpose-built for them.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — Operant conditioning (Fordyce model) proposes that pain behaviours — guarding, grimacing, help-seeking, and medication use — can be positively or negatively reinforced by environmental responses such as attention or avoidance of responsibility. This is the theoretical basis for operant-behavioural treatment in pain management programmes, which aim to reduce reinforcement of pain behaviour and increase well behaviour.</p><p style=\"margin-top:12px\"><strong>E. FALSE</strong> — The McGill Pain Questionnaire (MPQ), developed by Melzack and Torgerson, is a multidimensional tool assessing sensory (e.g. throbbing, stabbing), affective (e.g. exhausting, fearful), and evaluative dimensions of pain using word descriptor categories. The VAS and NRS measure intensity only; the MPQ is a far richer instrument.</p>"
     },
     {
@@ -298,7 +358,13 @@
         "Effective dose takes into account the differing radiosensitivity of the various organs and tissues exposed",
         "The roentgen is the current SI unit used to quantify a patient's ionising radiation exposure in clinical practice"
       ],
-      "correct": [true, false, true, true, false],
+      "correct": [
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
       "explanation": "<p><strong>A. True.</strong> The Gray is defined exactly this way (J/kg) and measures absorbed dose only, with no biological weighting.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> The Sievert is used for equivalent and effective dose, which are derived from absorbed dose by applying weighting factors for radiation type and tissue sensitivity — it is not a raw, unadjusted measure.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> This is the standard definition of the Becquerel, replacing the older Curie.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> This is precisely what distinguishes effective dose from equivalent dose — it sums weighted equivalent doses across all exposed organs according to their relative radiosensitivity.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> The roentgen is an older, non-SI unit of exposure (ionisation in air). The SI unit of exposure is the coulomb per kilogram (C/kg); clinical dose reporting now uses Gray and Sievert rather than the roentgen.</p><p style=\"margin-top:20px\">When ionising radiation interacts with the body, several distinct quantities are used to describe it, and confusing them is a common source of error. Absorbed dose (Gray) simply measures energy deposited per unit mass, regardless of the biological effect that energy produces. To account for the fact that different types of radiation (alpha, beta, X-ray, neutron) cause different amounts of biological damage for the same absorbed dose, a radiation weighting factor is applied to give the equivalent dose, measured in Sieverts. X-rays have a weighting factor of 1, so 1 gray = 1 Sievert. A further tissue weighting factor (reflecting how radiosensitive a given organ is) gives the effective dose — also expressed in Sieverts. Activity, the rate at which a radioactive source decays, is a separate concept measured in Becquerels and is unrelated to the dose received by a person nearby.</p>"
     },
     {
@@ -334,6 +400,162 @@
       ],
       "correct": 4,
       "explanation": "<p><strong>A. Zygoma — incorrect.</strong> A small facial bone view requiring minimal exposure factors and involving very little radiosensitive tissue; among the lowest-dose examinations listed.</p><p style=\"margin-top:12px\"><strong>B. Skull — incorrect.</strong> Slightly higher dose than the zygoma view due to larger area and bone thickness, but still a relatively low-dose examination, as no highly radiosensitive organs lie directly in the beam.</p><p style=\"margin-top:12px\"><strong>C. Chest — incorrect.</strong> Despite imaging a large area, the lung's air content means much of the beam passes through with low attenuation, keeping the effective dose low.</p><p style=\"margin-top:12px\"><strong>D. Thoracic spine — incorrect.</strong> Requires higher exposure factors than the chest or skull due to greater bone density and soft tissue depth, but the dose remains lower than for the lumbar spine.</p><p style=\"margin-top:12px\"><strong>E. Lumbar spine — correct.</strong> This examination requires the highest exposure factors of those listed, owing to the greater depth of tissue to penetrate, and the beam passes close to the gonads, pelvic organs, and active bone marrow — all radiosensitive tissues — making this the highest-dose plain film examination among the options given.</p>"
+    },
+    {
+      "id": "q_let_ionising_001",
+      "type": "MTF",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 18,
+      "stem": "Linear energy transfer (LET) of ionizing radiation is likely to:",
+      "choices": [
+        "Be measured in kiloelectronvolts (keV) per micrometre (µm) of medium",
+        "Be high with X-rays",
+        "Be low with alpha particles",
+        "Cause effects by direct action when it is at a high level",
+        "Lead to the generation of destructive free radicals when it is at a high level"
+      ],
+      "correct": [
+        true,
+        false,
+        false,
+        true,
+        false
+      ],
+      "explanation": "<p><strong>A. True.</strong> LET is expressed as kiloelectronvolts (keV) of energy deposited per micrometre (µm) of medium traversed. It quantifies how densely a type of radiation deposits energy along its path — a higher LET means more energy deposited per unit distance.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> X-rays are a low-LET form of radiation. They interact sparsely with tissue, producing widely spaced ionisation events along their path. Gamma rays are similarly low-LET.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Alpha particles are a high-LET form of radiation. Their large mass and double positive charge cause dense, closely-spaced ionisation events over a very short path length — conferring high biological effectiveness despite limited tissue penetration.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> High-LET radiation acts predominantly by direct action: it directly ionises critical molecules such as DNA, triggering destructive chemical or physical reactions without requiring an intermediary.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> Free radical generation is the mechanism of low-LET radiation, not high-LET radiation. Low-LET radiation (X-rays, gamma rays) acts mainly by indirect action — ionising water molecules to produce reactive hydroxyl radicals (·OH) that then damage DNA. This indirect mechanism accounts for approximately two-thirds of DNA damage from low-LET radiation.</p>"
+    },
+    {
+      "id": "q_radiation_cell_vulnerability_001",
+      "type": "MTF",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 19,
+      "stem": "When exposed to ionizing radiation:",
+      "choices": [
+        "Nerve cells are more vulnerable than haemopoietic cells",
+        "Gut cells are less vulnerable than haemopoietic cells",
+        "Gastrointestinal symptoms are immediate when the dose is 0.5 Gy",
+        "Death occurs in 100% of cases within 2 weeks after exposure to 10–20 Gy",
+        "Death occurs due to central nervous system failure after exposure to at least 20 Gy"
+      ],
+      "correct": [
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "explanation": "<p><strong>A. False.</strong> The cells most vulnerable to radiation are those with the greatest rate of replication and least differentiation — the Law of Bergonié and Tribondeau. Haemopoietic precursors divide rapidly and are highly radiosensitive, whereas nerve cells are post-mitotic and among the least radiosensitive tissues in the body.</p><p style=\"margin-top:12px\"><strong>B. True.</strong> Gut epithelial cells do divide actively, but haemopoietic precursors divide even more rapidly and are more susceptible to radiation-induced apoptosis. The hierarchy from most to least radiosensitive: haemopoietic → reproductive → gastrointestinal → epidermis/eyes → other organs → support tissues → nerve.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Immediate gastrointestinal symptoms appear at doses above 1.5 Gy, not at 0.5 Gy. At 0.5 Gy, only blood count changes are expected. Nausea, vomiting, and fatigue are likely at 0.5–1.5 Gy but become immediate only once the dose exceeds 1.5 Gy.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> Whole-body exposure to 10–20 Gy is uniformly fatal within two weeks. The cause of death is gastrointestinal tract failure — ablation of the rapidly dividing intestinal epithelium leads to mucosal sloughing, fluid loss, bacterial translocation, and overwhelming sepsis.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Exposure to more than 20 Gy causes death due to central nervous system failure. Despite nerves being comparatively radioresistant, extreme doses cause overwhelming vascular injury, cerebral oedema, and neuronal death, typically within hours to a few days.</p><table style=\"margin-top:20px\"><thead><tr><th>Absorbed Dose (Gy)</th><th>Effect</th></tr></thead><tbody><tr><td>&lt; 0.05</td><td>No immediate effect</td></tr><tr><td>0.05–0.5</td><td>Change in blood count</td></tr><tr><td>0.5–1.5</td><td>Change in blood count; likely nausea, vomiting, fatigue, and loss of appetite</td></tr><tr><td>1.5–10</td><td>GI symptoms appear immediately; severe changes in blood; 1.5 Gy is the death threshold (most sensitive individuals); 3–5 Gy — 50% die within 60 days without intensive support; death due to bone marrow suppression, requiring transplant to recover</td></tr><tr><td>10–20</td><td>Death in 100% within 2 weeks; death due to GI failure</td></tr><tr><td>&gt; 20</td><td>Death due to CNS failure</td></tr></tbody></table><img src=\"images/radiosensitivity-pyramid.png\" alt=\"Radiosensitivity pyramid diagram — Bergonié and Tribondeau law showing tissue radiosensitivity from highest (haematopoietic) to lowest (nerve), correlated with rate of cell division\" style=\"max-width:100%;border-radius:10px;margin-top:24px;border:1px solid #EDE3D7;\">"
+    },
+    {
+      "id": "q_fluoroscopy_dose_reduction_001",
+      "type": "MTF",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 20,
+      "stem": "Radiation exposure during fluoroscopy is likely to be reduced by:",
+      "choices": [
+        "Beam collimation",
+        "Continuous fluoroscopy rather than pulsed fluoroscopy",
+        "Magnification",
+        "Use of a laser cross to guide imaging",
+        "Moving the body part for imaging closer to the source"
+      ],
+      "correct": [
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "explanation": "<p><strong>A. True.</strong> Beam collimation limits the divergence of X-rays, restricting the radiation field to only the area of interest. This improves image quality without increasing dose, and reduces scatter radiation to staff.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Continuous fluoroscopy increases the total radiation dose compared with pulsed fluoroscopy. Pulsed techniques use intermittent exposures at a reduced frame rate, substantially cutting the dose rate. Switching from continuous to pulsed fluoroscopy is a key strategy for dose reduction.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Magnification requires a higher dose of ionising radiation to maintain image quality, because the detector captures a smaller field area, necessitating increased X-ray output. Using the lowest appropriate magnification factor minimises dose.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> The laser cross (or cross-hair targeting system) allows the operator to align and target the image intensifier accurately before initiating any exposure. By ensuring correct positioning before the fluoroscopy run, unnecessary screening time is avoided.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Moving the body part closer to the X-ray source (and hence closer to the image intensifier) reduces beam divergence, improving image quality with less radiation. Greater source-to-skin distance and shorter object-to-detector distance both reduce dose to the patient.</p>"
+    },
+    {
+      "id": "q_radiation_cancer_risk_001",
+      "type": "MTF",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 21,
+      "stem": "The lifetime risk of cancer is likely to be:",
+      "choices": [
+        "One in a million after chest X-ray",
+        "Greater after skull X-ray than after chest X-ray",
+        "Lower after abdominal X-ray than skull X-ray",
+        "Increased in children who are exposed to ionizing radiation in utero",
+        "Lower after chest computed tomography than after chest X-ray"
+      ],
+      "correct": [
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "explanation": "<p><strong>A. True.</strong> A chest X-ray delivers approximately 0.02 mSv of effective radiation dose — equivalent to about 3 days of background radiation. This corresponds to a lifetime cancer risk of approximately 1 in 1,000,000, making it among the lowest-risk radiological investigations.</p><p style=\"margin-top:12px\"><strong>B. True.</strong> A skull X-ray delivers a higher effective dose than a chest X-ray (approximately 0.06–0.1 mSv versus 0.02 mSv), corresponding to a lifetime cancer risk of approximately 1 in 300,000 compared with 1 in 1,000,000 for a chest X-ray.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> The lifetime cancer risk from an abdominal X-ray is <em>greater</em> than from a skull X-ray — approximately 1 in 30,000 versus 1 in 300,000. This is because the abdomen contains highly radiosensitive organs (gonads, bowel, active marrow) within the primary beam.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> Exposure to ionising radiation in utero during organogenesis and the fetal stage (approximately 4–40 weeks) causes genetic mutations that increase the lifetime risk of cancer in the child. The developing fetus is particularly radiosensitive due to rapid cell division throughout organogenesis.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> Chest CT delivers a substantially higher effective dose than a chest X-ray — approximately 5–8 mSv versus 0.02 mSv — corresponding to a lifetime cancer risk of approximately 1 in 2,500 compared with 1 in 1,000,000. CT is the highest-dose of the common diagnostic imaging techniques.</p>"
+    },
+    {
+      "id": "q_irmer_justification_001",
+      "type": "SBA",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 22,
+      "question": "Under the Ionising Radiation (Medical Exposure) Regulations (IRMER), who holds legal responsibility for justifying a fluoro-guided medical exposure before it goes ahead?",
+      "choices": [
+        "Radiation Protection Supervisor",
+        "Referrer",
+        "Operator",
+        "Practitioner",
+        "Employer"
+      ],
+      "correct": 3,
+      "explanation": "<p><strong>A. Incorrect.</strong> The Radiation Protection Supervisor (RPS) is a role defined under the Ionising Radiation Regulations (IRR), not IRMER. The RPS oversees day-to-day compliance with staff and public radiation safety in designated areas — this is an occupational safety role, not a patient-exposure role.</p><p style=\"margin-top:12px\"><strong>B. Incorrect.</strong> The referrer requests the exposure and provides the clinical information that justifies the need for the investigation. However, the referrer does not hold the legal responsibility for authorising the individual exposure — that duty is assigned specifically to the practitioner.</p><p style=\"margin-top:12px\"><strong>C. Incorrect.</strong> The operator is whoever practically carries out any part of the exposure — for example, pressing the fluoroscopy pedal, positioning the patient, or administering contrast. Operators must be adequately trained but do not bear the legal responsibility for justification.</p><p style=\"margin-top:12px\"><strong>D. Correct.</strong> Under IRMER, the <strong>practitioner</strong> is the person legally accountable for justifying that a specific medical exposure is appropriate for the individual patient before it is carried out. The practitioner must be entitled to act in this role under their employer's written procedures.</p><p style=\"margin-top:12px\"><strong>E. Incorrect.</strong> The employer's duty under IRMER is to establish the systems, protocols, and training that enable compliance across the organisation — for example, drawing up written procedures and ensuring adequate equipment. The employer does not justify individual patient exposures.</p><p style=\"margin-top:20px\">IRMER (Ionising Radiation [Medical Exposure] Regulations) and the Ionising Radiation Regulations (IRR) are frequently confused because they both concern ionising radiation, but they protect different people and define different duties. IRR protects staff and the public from occupational and environmental radiation exposure: it covers designating controlled and supervised areas, appointing a Radiation Protection Adviser (RPA) and Radiation Protection Supervisor (RPS), and setting dose limits for workers. IRMER, by contrast, protects the patient undergoing a medical exposure and defines four key duty-holder roles: the <strong>referrer</strong> (supplies the clinical justification for requesting the exposure), the <strong>practitioner</strong> (legally responsible for justifying each individual exposure), the <strong>operator</strong> (practically carries out the exposure), and the <strong>employer</strong> (establishes the organisational framework of procedures and training).</p>"
+    },
+    {
+      "id": "q_emq_absorbed_dose_001",
+      "type": "EMQ",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 23,
+      "stem": "Whole-body absorbed radiation dose",
+      "lead": "For each of the following clinical scenarios, select the single most likely whole-body absorbed radiation dose from the list of options above. Each option may be used once, more than once, or not at all.",
+      "options": [
+        "<0.05 Gy",
+        "0.05–0.5 Gy",
+        "0.5–1.5 Gy",
+        "1.5–10 Gy",
+        "10–20 Gy",
+        "≥20 Gy",
+        "≥50 Gy",
+        "Dose is not the primary determinant of outcome"
+      ],
+      "questions": [
+        {
+          "question": "A radiographer's routine personal dosimetry badge detects an exposure during a monthly check. The radiographer reports no nausea, no blood count changes, and no symptoms at any point during the month.",
+          "correct": 0,
+          "explanation": "<strong>A. &lt;0.05 Gy.</strong> The complete absence of any clinical effect — including blood count changes — places this exposure firmly below 0.05 Gy. At this level, only dosimetry can detect the exposure. Radiographers working under regulated conditions with appropriate shielding and distance will typically accumulate doses far below the annual occupational dose limit of 20 mSv."
+        },
+        {
+          "question": "A worker accidentally exposed during a source-handling incident develops mild transient nausea and a modest fall in lymphocyte count over the following days. The worker makes a full recovery within a week without any specific treatment.",
+          "correct": 2,
+          "explanation": "<strong>C. 0.5–1.5 Gy.</strong> Mild nausea and a modest lymphopenia with spontaneous recovery without specific treatment is characteristic of this dose range. Blood count changes begin at around 0.05 Gy; nausea and fatigue become likely at 0.5 Gy. Full spontaneous recovery suggests the dose did not reach the 1.5 Gy threshold where severe haemopoietic failure requiring intervention would be expected."
+        },
+        {
+          "question": "A worker exposed during an industrial accident develops confusion, ataxia, and seizures within hours, followed by cardiovascular collapse and death within 24–48 hours.",
+          "correct": 5,
+          "explanation": "<strong>F. ≥20 Gy.</strong> Neurological symptoms (confusion, ataxia, seizures) appearing within hours, followed by death within 24–48 hours, is the hallmark of CNS syndrome — caused only by extreme whole-body doses above 20 Gy. At these doses, the comparatively radioresistant central nervous system sustains overwhelming vascular and neuronal injury. This presentation is rapid and invariably fatal; no treatment can meaningfully delay death."
+        },
+        {
+          "question": "A patient exposed during a radiological incident develops vomiting within hours, followed by pancytopenia requiring transfusion support and prophylactic antibiotics. Intensive supportive care, including consideration of stem cell rescue, is given and the patient survives.",
+          "correct": 3,
+          "explanation": "<strong>D. 1.5–10 Gy.</strong> Vomiting within hours indicates a dose above 1.5 Gy. Progressive pancytopenia requiring transfusion and antibiotic support, with consideration of stem cell transplantation, confirms significant haemopoietic syndrome. Survival with intensive support — including possible bone marrow rescue — is consistent with a dose in the 1.5–10 Gy range. At 3–5 Gy, 50% of individuals will die within 60 days without such support; doses towards the top of this range make transplant essential."
+        },
+        {
+          "question": "Following a major radiation incident, a patient develops profuse bloody diarrhoea with evidence of gastrointestinal mucosal sloughing and overwhelming sepsis. Despite maximal supportive treatment in intensive care, the patient dies within two weeks.",
+          "correct": 4,
+          "explanation": "<strong>E. 10–20 Gy.</strong> Bloody diarrhoea with GI mucosal sloughing, overwhelming sepsis, and death within two weeks despite maximal care is the signature presentation of GI syndrome. At 10–20 Gy, the intestinal epithelium is ablated faster than it can regenerate, causing mucosal barrier failure, bacterial translocation, fluid loss, and invariably fatal sepsis. Death in 100% of cases within two weeks is the expected outcome at this dose, regardless of treatment."
+        }
+      ],
+      "explanation": "<p>The severity and timing of acute radiation syndrome (ARS) depend critically on the whole-body absorbed dose and follow a predictable pattern governed by the radiosensitivity of different tissues. Per the Law of Bergonié and Tribondeau, rapidly dividing, poorly differentiated cells are most radiosensitive. At very low doses, only dosimetry detects the exposure. As dose rises, the haemopoietic system — the most radiosensitive of the major organ systems — is affected first, producing a prodromal illness that may resolve fully. At higher doses, haemopoietic syndrome becomes life-threatening, requiring transfusion or transplant. Higher still, the gastrointestinal epithelium fails faster than it can be replaced, producing GI syndrome with near-certain mortality within two weeks. At extreme doses exceeding 20 Gy, even the comparatively radioresistant CNS sustains fatal injury within hours to a few days.</p><table style=\"margin-top:20px\"><thead><tr><th>Absorbed Dose (Gy)</th><th>Effect</th></tr></thead><tbody><tr><td>&lt; 0.05</td><td>No immediate effect</td></tr><tr><td>0.05–0.5</td><td>Change in blood count</td></tr><tr><td>0.5–1.5</td><td>Change in blood count; likely nausea, vomiting, fatigue, and loss of appetite</td></tr><tr><td>1.5–10</td><td>GI symptoms appear immediately; severe changes in blood; 1.5 Gy is the death threshold (most sensitive individuals); 3–5 Gy — 50% die within 60 days without intensive support; death due to bone marrow suppression, requiring transplant to recover</td></tr><tr><td>10–20</td><td>Death in 100% within 2 weeks; death due to GI failure</td></tr><tr><td>&gt; 20</td><td>Death due to CNS failure</td></tr></tbody></table>"
     }
   ]
 }
