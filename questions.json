@@ -283,6 +283,57 @@
       ],
       "correct": [true, true, false, true, false],
       "explanation": "<p>Psychological factors are central to the biopsychosocial model of chronic pain. The FFPMRCA curriculum specifically includes fear-avoidance, catastrophising, psychological assessment tools, and conditioning models, which appear in both MTF and SBA format.</p><p style=\"margin-top:12px\"><strong>A. TRUE</strong> — The fear-avoidance model (Vlaeyen &amp; Linton) proposes that pain leads to catastrophic misinterpretation, fear of movement (kinesiophobia), avoidance behaviour, and disability in susceptible patients. This cycle is strongly associated with poor rehabilitation outcomes in chronic musculoskeletal pain and is a cornerstone of cognitive-behavioural pain management programmes.</p><p style=\"margin-top:12px\"><strong>B. TRUE</strong> — Pain catastrophising involves three components: magnification (exaggerating pain threat), rumination (persistent focus on pain), and helplessness (belief that nothing can be done). The Pain Catastrophising Scale (PCS) by Sullivan measures it quantitatively. High scores predict poorer treatment outcomes and greater disability.</p><p style=\"margin-top:12px\"><strong>C. FALSE</strong> — The HADS was developed by Zigmond and Snaith in 1983 for use in general medical and surgical outpatient settings, not specifically for pain clinics. It was designed to detect anxiety and depression while avoiding somatic items such as sleep disturbance and fatigue that could be confounded by physical illness. It is widely used in pain clinics but was not purpose-built for them.</p><p style=\"margin-top:12px\"><strong>D. TRUE</strong> — Operant conditioning (Fordyce model) proposes that pain behaviours — guarding, grimacing, help-seeking, and medication use — can be positively or negatively reinforced by environmental responses such as attention or avoidance of responsibility. This is the theoretical basis for operant-behavioural treatment in pain management programmes, which aim to reduce reinforcement of pain behaviour and increase well behaviour.</p><p style=\"margin-top:12px\"><strong>E. FALSE</strong> — The McGill Pain Questionnaire (MPQ), developed by Melzack and Torgerson, is a multidimensional tool assessing sensory (e.g. throbbing, stabbing), affective (e.g. exhausting, fearful), and evaluative dimensions of pain using word descriptor categories. The VAS and NRS measure intensity only; the MPQ is a far richer instrument.</p>"
+    },
+    {
+      "id": "q_radiation_units_001",
+      "type": "MTF",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-15",
+      "rotationIndex": 15,
+      "stem": "Regarding units and measurement of ionising radiation:",
+      "choices": [
+        "The gray (Gy) is the SI unit of absorbed dose, defined as one joule of energy absorbed per kilogram of tissue",
+        "The sievert (Sv) expresses absorbed dose to tissue without any adjustment for the type of radiation involved",
+        "The becquerel (Bq) is a measure of radioactivity, defined as one nuclear disintegration per second",
+        "Effective dose takes into account the differing radiosensitivity of the various organs and tissues exposed",
+        "The roentgen is the current SI unit used to quantify a patient's ionising radiation exposure in clinical practice"
+      ],
+      "correct": [true, false, true, true, false],
+      "explanation": "<p><strong>A. True.</strong> The Gray is defined exactly this way (J/kg) and measures absorbed dose only, with no biological weighting.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> The Sievert is used for equivalent and effective dose, which are derived from absorbed dose by applying weighting factors for radiation type and tissue sensitivity — it is not a raw, unadjusted measure.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> This is the standard definition of the Becquerel, replacing the older Curie.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> This is precisely what distinguishes effective dose from equivalent dose — it sums weighted equivalent doses across all exposed organs according to their relative radiosensitivity.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> The roentgen is an older, non-SI unit of exposure (ionisation in air). The SI unit of exposure is the coulomb per kilogram (C/kg); clinical dose reporting now uses Gray and Sievert rather than the roentgen.</p><p style=\"margin-top:20px\">When ionising radiation interacts with the body, several distinct quantities are used to describe it, and confusing them is a common source of error. Absorbed dose (Gray) simply measures energy deposited per unit mass, regardless of the biological effect that energy produces. To account for the fact that different types of radiation (alpha, beta, X-ray, neutron) cause different amounts of biological damage for the same absorbed dose, a radiation weighting factor is applied to give the equivalent dose, measured in Sieverts. X-rays have a weighting factor of 1, so 1 gray = 1 Sievert. A further tissue weighting factor (reflecting how radiosensitive a given organ is) gives the effective dose — also expressed in Sieverts. Activity, the rate at which a radioactive source decays, is a separate concept measured in Becquerels and is unrelated to the dose received by a person nearby.</p>"
+    },
+    {
+      "id": "q_radiation_dose_ct_001",
+      "type": "SBA",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-15",
+      "rotationIndex": 16,
+      "question": "A 68-year-old man under investigation for back pain has, over the preceding year, undergone a chest X-ray, an isotope bone scan, a CT scan of the head, and a fluoroscopically-guided lumbar transforaminal epidural injection. He is now referred for a CT of the abdomen and pelvis. Of the following, the investigation delivering the highest effective radiation dose to this patient is:",
+      "choices": [
+        "Chest X-ray",
+        "CT abdomen and pelvis",
+        "CT head",
+        "Fluoroscopically-guided lumbar transforaminal epidural injection",
+        "Isotope bone scan"
+      ],
+      "correct": 1,
+      "explanation": "<p><strong>A. Chest X-ray — incorrect.</strong> The lowest-dose investigation listed; a single view of a well-collimated, low-attenuation area.</p><p style=\"margin-top:12px\"><strong>B. CT abdomen and pelvis — correct.</strong> Large-volume CT of a region containing radiosensitive organs gives the highest effective dose among these options.</p><p style=\"margin-top:12px\"><strong>C. CT head — incorrect.</strong> Lower dose than CT abdomen/pelvis, as the volume scanned is smaller and contains less radiosensitive tissue.</p><p style=\"margin-top:12px\"><strong>D. Fluoroscopic lumbar epidural — incorrect.</strong> Dose is generally lower than CT, being dependent on screening time, and modern pulsed fluoroscopy and collimation keep this comparatively low.</p><p style=\"margin-top:12px\"><strong>E. Isotope bone scan — incorrect.</strong> Delivers a moderate whole-skeleton dose from the radiopharmaceutical, but this remains lower than a large-volume CT study.</p>"
+    },
+    {
+      "id": "q_radiation_dose_xray_001",
+      "type": "SBA",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-15",
+      "rotationIndex": 17,
+      "question": "A patient attending the pain clinic mentions that over the past year they have had several plain X-ray examinations performed for unrelated reasons: a zygomatic view, a skull series, a chest film, a thoracic spine series, and a lumbar spine series. Of the following, which examination is likely to have delivered the highest effective radiation dose?",
+      "choices": [
+        "Zygoma X-ray",
+        "Skull X-ray",
+        "Chest X-ray",
+        "Thoracic spine X-ray",
+        "Lumbar spine X-ray"
+      ],
+      "correct": 4,
+      "explanation": "<p><strong>A. Zygoma — incorrect.</strong> A small facial bone view requiring minimal exposure factors and involving very little radiosensitive tissue; among the lowest-dose examinations listed.</p><p style=\"margin-top:12px\"><strong>B. Skull — incorrect.</strong> Slightly higher dose than the zygoma view due to larger area and bone thickness, but still a relatively low-dose examination, as no highly radiosensitive organs lie directly in the beam.</p><p style=\"margin-top:12px\"><strong>C. Chest — incorrect.</strong> Despite imaging a large area, the lung's air content means much of the beam passes through with low attenuation, keeping the effective dose low.</p><p style=\"margin-top:12px\"><strong>D. Thoracic spine — incorrect.</strong> Requires higher exposure factors than the chest or skull due to greater bone density and soft tissue depth, but the dose remains lower than for the lumbar spine.</p><p style=\"margin-top:12px\"><strong>E. Lumbar spine — correct.</strong> This examination requires the highest exposure factors of those listed, owing to the greater depth of tissue to penetrate, and the beam passes close to the gonads, pelvic organs, and active bone marrow — all radiosensitive tissues — making this the highest-dose plain film examination among the options given.</p>"
     }
   ]
 }
