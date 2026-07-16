@@ -556,6 +556,52 @@
         }
       ],
       "explanation": "<p>The severity and timing of acute radiation syndrome (ARS) depend critically on the whole-body absorbed dose and follow a predictable pattern governed by the radiosensitivity of different tissues. Per the Law of Bergonié and Tribondeau, rapidly dividing, poorly differentiated cells are most radiosensitive. At very low doses, only dosimetry detects the exposure. As dose rises, the haemopoietic system — the most radiosensitive of the major organ systems — is affected first, producing a prodromal illness that may resolve fully. At higher doses, haemopoietic syndrome becomes life-threatening, requiring transfusion or transplant. Higher still, the gastrointestinal epithelium fails faster than it can be replaced, producing GI syndrome with near-certain mortality within two weeks. At extreme doses exceeding 20 Gy, even the comparatively radioresistant CNS sustains fatal injury within hours to a few days.</p><table style=\"margin-top:20px\"><thead><tr><th>Absorbed Dose (Gy)</th><th>Effect</th></tr></thead><tbody><tr><td>&lt; 0.05</td><td>No immediate effect</td></tr><tr><td>0.05–0.5</td><td>Change in blood count</td></tr><tr><td>0.5–1.5</td><td>Change in blood count; likely nausea, vomiting, fatigue, and loss of appetite</td></tr><tr><td>1.5–10</td><td>GI symptoms appear immediately; severe changes in blood; 1.5 Gy is the death threshold (most sensitive individuals); 3–5 Gy — 50% die within 60 days without intensive support; death due to bone marrow suppression, requiring transplant to recover</td></tr><tr><td>10–20</td><td>Death in 100% within 2 weeks; death due to GI failure</td></tr><tr><td>&gt; 20</td><td>Death due to CNS failure</td></tr></tbody></table>"
+    },
+    {
+      "id": "q_radiation_distance_001",
+      "type": "MTF",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 24,
+      "stem": "Of the following, which measure provides the greatest reduction in occupational radiation dose to the operator?",
+      "choices": [
+        "Wearing a thyroid shield",
+        "Wearing lead-lined gloves",
+        "Wearing lead-impregnated eye protection",
+        "Increasing distance from the radiation source",
+        "Wearing a standard lead apron"
+      ],
+      "correct": [
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "explanation": "<p><strong>A. False.</strong> Effective but protects only the thyroid, which is a relatively small radiosensitive target; it does nothing to reduce whole-body dose.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Useful specifically when the operator's hands must be near or in the beam (which should itself be avoided where possible), but they do not address whole-body exposure and are a targeted, situational measure rather than a global one.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Protects the lens of the eye from cataract risk but, like the other targeted PPE options, provides no reduction in whole-body dose.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> Governed by the inverse square law, increasing distance is the single most powerful and universally applicable method of reducing occupational dose, since it reduces exposure to the whole body, not just a shielded area.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> Reduces dose to the trunk from scatter radiation but does not protect the head, neck, or extremities, and is less impactful than simply increasing distance from the source.</p>"
+    },
+    {
+      "id": "q_fluoroscopy_measures_001",
+      "type": "MTF",
+      "topic": "Physics & Clinical Measurement",
+      "dateAdded": "2026-07-16",
+      "rotationIndex": 25,
+      "stem": "Regarding practical measures to reduce radiation exposure during fluoroscopically-guided procedures:",
+      "choices": [
+        "Beam collimation reduces the area of tissue irradiated and reduces scatter to the operator",
+        "Continuous fluoroscopy delivers a lower cumulative dose than pulsed fluoroscopy for an equivalent screening time",
+        "Positioning the image intensifier as close as possible to the patient reduces the dose required to produce an adequate image",
+        "Digital magnification imaging increases the dose delivered to the patient compared with standard field-of-view imaging",
+        "Standing on the same side as the X-ray tube, rather than the image intensifier, increases operator exposure to scatter radiation"
+      ],
+      "correct": [
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "explanation": "<p><strong>A. True.</strong> Collimating the beam to the smallest field necessary for the procedure reduces the volume of tissue exposed and reduces the amount of scattered radiation produced, which in turn reduces operator dose.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Pulsed fluoroscopy, not continuous fluoroscopy, reduces cumulative dose for an equivalent screening time, since the beam is only active for brief pulses rather than continuously — continuous fluoroscopy delivers a considerably higher dose.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> Positioning the image intensifier (receptor) as close as possible to the patient allows the same image quality to be achieved with a lower dose; conversely, increasing the air gap between patient and receptor requires higher exposure factors to compensate.</p><p style=\"margin-top:12px\"><strong>D. False.</strong> Digital magnification is performed post image acquisition and so has no effect on dose. If the stem referred to optical or geometric magnification (a genuine acquisition-time change), that would be true — but digital magnification is a post-processing mode.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Scatter radiation is greatest on the side of the X-ray tube (where the primary beam enters the patient), so an operator standing on the tube side receives more scatter than one standing on the image intensifier side — a good reason to position oneself, where possible, on the receptor side of the C-arm.</p>"
     }
   ]
 }
