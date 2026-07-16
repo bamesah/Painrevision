@@ -559,11 +559,10 @@
     },
     {
       "id": "q_radiation_distance_001",
-      "type": "MTF",
+      "type": "SBA",
       "topic": "Physics & Clinical Measurement",
       "dateAdded": "2026-07-16",
       "rotationIndex": 24,
-      "stem": "Of the following, which measure provides the greatest reduction in occupational radiation dose to the operator?",
       "choices": [
         "Wearing a thyroid shield",
         "Wearing lead-lined gloves",
@@ -571,14 +570,9 @@
         "Increasing distance from the radiation source",
         "Wearing a standard lead apron"
       ],
-      "correct": [
-        false,
-        false,
-        false,
-        true,
-        false
-      ],
-      "explanation": "<p><strong>A. False.</strong> Effective but protects only the thyroid, which is a relatively small radiosensitive target; it does nothing to reduce whole-body dose.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Useful specifically when the operator's hands must be near or in the beam (which should itself be avoided where possible), but they do not address whole-body exposure and are a targeted, situational measure rather than a global one.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Protects the lens of the eye from cataract risk but, like the other targeted PPE options, provides no reduction in whole-body dose.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> Governed by the inverse square law, increasing distance is the single most powerful and universally applicable method of reducing occupational dose, since it reduces exposure to the whole body, not just a shielded area.</p><p style=\"margin-top:12px\"><strong>E. False.</strong> Reduces dose to the trunk from scatter radiation but does not protect the head, neck, or extremities, and is less impactful than simply increasing distance from the source.</p>"
+      "correct": 3,
+      "explanation": "<p><strong>A. Incorrect.</strong> A thyroid shield is effective but protects only the thyroid, which is a relatively small radiosensitive target; it does nothing to reduce whole-body dose.</p><p style=\"margin-top:12px\"><strong>B. Incorrect.</strong> Lead-lined gloves are useful specifically when the operator's hands must be near or in the beam (which should itself be avoided where possible), but they do not address whole-body exposure and are a targeted, situational measure rather than a global one.</p><p style=\"margin-top:12px\"><strong>C. Incorrect.</strong> Lead-impregnated eyewear protects the lens of the eye from cataract risk but, like the other targeted PPE options, provides no reduction in whole-body dose.</p><p style=\"margin-top:12px\"><strong>D. Correct.</strong> Governed by the inverse square law, increasing distance from the radiation source is the single most powerful and universally applicable method of reducing occupational dose, since it reduces exposure to the whole body — not just a shielded area. Doubling the distance reduces dose to one quarter.</p><p style=\"margin-top:12px\"><strong>E. Incorrect.</strong> A standard lead apron reduces dose to the trunk from scatter radiation but does not protect the head, neck, or extremities, and is less impactful than simply increasing distance from the source.</p>",
+      "question": "Of the following, which measure provides the greatest reduction in occupational radiation dose to the operator?"
     },
     {
       "id": "q_fluoroscopy_measures_001",
