@@ -90,6 +90,12 @@ button{font-family:var(--san);cursor:pointer}
 .page-hero h1 .coral{color:var(--coral)}
 .page-hero-sub{font-size:15px;color:var(--stone);max-width:520px;line-height:1.5;font-weight:400}
 
+/* ===== WIP BANNER ===== */
+.wip-banner{display:flex;align-items:center;gap:12px;background:var(--amber-soft);border:1px solid rgba(245,165,36,.35);border-radius:14px;padding:13px 18px;margin-bottom:28px}
+.wip-icon{width:18px;height:18px;flex-shrink:0;stroke:var(--amber);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wip-text{font-size:14px;line-height:1.5;color:var(--ink-soft)}
+.wip-text strong{font-weight:700;color:var(--ink)}
+
 /* ===== MAIN LAYOUT ===== */
 .mcq-main{padding:40px 0 80px}
 .mcq-content{max-width:780px;margin:0 auto}
@@ -345,6 +351,12 @@ button{font-family:var(--san);cursor:pointer}
 <main class="mcq-main">
   <div class="wrap">
     <div class="mcq-content">
+
+      <!-- WIP BANNER -->
+      <div class="wip-banner reveal">
+        <svg class="wip-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <p class="wip-text"><strong>Work in progress:</strong> A full MCQ bank covering all aspects of pain medicine is currently being built. This page is a taster of what's to come.</p>
+      </div>
 
       <!-- TAB BAR -->
       <div class="tab-bar reveal">
