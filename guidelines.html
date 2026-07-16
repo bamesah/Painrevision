@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Key Guidelines — PainRevision</title>
+<meta name="description" content="Curated summaries of key NICE guidelines for the FFPMRCA exam — chronic pain, low back pain, and more."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);--correct-border:rgba(26,138,74,.32);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);--wrong-border:rgba(192,57,43,.32);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --r:18px;--maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --nav-h:65px;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:100;transition:background .3s,box-shadow .3s;background:rgba(251,245,238,0);border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(251,245,238,.88);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom-color:var(--border);box-shadow:var(--shadow-sm)}
+.nav-in{display:flex;align-items:center;gap:16px;padding:16px 32px;max-width:var(--maxw);margin:0 auto}
+.nav-logo{display:flex;align-items:center;gap:11px;font-family:var(--san);font-weight:800;font-size:18px;letter-spacing:-.03em;flex-shrink:0}
+.nav-logo svg{width:32px;height:32px;flex-shrink:0}
+.nav-logo .pain{color:var(--ink)}
+.nav-logo .rev{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-warm)}
+.nav-links a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;background:none;border:none}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:99px;transition:transform .3s,opacity .3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
+.nav-drawer-overlay{position:absolute;inset:0;background:rgba(36,27,22,.4);opacity:0;transition:opacity .3s}
+.nav-drawer-panel{position:absolute;top:65px;right:0;width:min(240px,72vw);background:rgba(251,245,238,.97);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);padding:8px 12px 16px;border-radius:0 0 0 16px;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:2px;box-shadow:-4px 12px 32px -8px rgba(36,27,22,.18)}
+.nav-drawer.open{pointer-events:all}
+.nav-drawer.open .nav-drawer-overlay{opacity:1}
+.nav-drawer.open .nav-drawer-panel{transform:none}
+.nav-drawer-panel a{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:block;transition:background .18s}
+.nav-drawer-panel a:hover{background:rgba(36,27,22,.06)}
+.nav-drawer-panel a.active{color:var(--coral)}
+.nav-dropdown{position:relative;display:inline-flex;align-items:center}
+.nav-dropdown-trigger{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s;cursor:pointer;display:flex;align-items:center;gap:4px;background:none;border:none;font-family:var(--san);line-height:1}
+.nav-dropdown-trigger:hover,.nav-dropdown.open .nav-dropdown-trigger{color:var(--ink);background:var(--surface-warm)}
+.nav-dropdown-trigger.has-active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-dropdown-chevron{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.nav-dropdown.open .nav-dropdown-chevron{transform:rotate(180deg)}
+.nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:210px;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s,transform .22s cubic-bezier(.2,.7,.2,1)}
+.nav-dropdown.open .nav-dropdown-menu{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-dropdown-menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:14px;font-weight:500;color:var(--stone);transition:background .15s,color .15s;white-space:nowrap}
+.nav-dropdown-menu a:hover{background:var(--surface-warm);color:var(--ink)}
+.nav-dropdown-menu a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.drop-icon{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.6}
+
+/* ===== EYEBROW ===== */
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);display:inline-block}
+
+/* ===== GUIDELINES SHELL ===== */
+.gl-shell{display:flex;height:calc(100vh - var(--nav-h));overflow:hidden;border-top:1px solid var(--border)}
+
+/* ===== SIDEBAR ===== */
+.gl-sidebar{width:290px;flex-shrink:0;background:var(--surface-warm);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.gl-sidebar-hd{padding:22px 20px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.gl-sidebar-hd .eyebrow{margin-bottom:5px}
+.gl-sidebar-hd h2{font-size:15px;font-weight:700;letter-spacing:-.025em;color:var(--ink);line-height:1.2}
+.gl-list{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:2px}
+.gl-list::-webkit-scrollbar{width:4px}
+.gl-list::-webkit-scrollbar-track{background:transparent}
+.gl-list::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px}
+
+.gl-item{width:100%;text-align:left;background:transparent;border:none;border-left:3px solid transparent;border-radius:0 12px 12px 0;padding:13px 14px 13px 12px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:background .15s,border-left-color .18s cubic-bezier(.2,.7,.2,1)}
+.gl-item:hover{background:rgba(240,98,60,.05);border-left-color:var(--coral-soft)}
+.gl-item:hover .gl-item-title{color:var(--ink)}
+.gl-item.active{background:rgba(240,98,60,.09);border-left-color:var(--coral)}
+.gl-item:focus-visible{outline:2px solid var(--coral);outline-offset:2px;border-radius:4px 12px 12px 4px}
+
+.gl-item-meta{display:flex;align-items:center;gap:6px}
+.gl-item-code{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--stone-light);transition:color .15s}
+.gl-item.active .gl-item-code{color:var(--coral)}
+.gl-item:hover .gl-item-code{color:var(--stone)}
+.gl-org-badge{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--border);color:var(--stone);padding:2px 6px;border-radius:5px;transition:background .15s,color .15s}
+.gl-item.active .gl-org-badge{background:var(--coral-soft);color:var(--coral-deep)}
+
+.gl-item-title{font-size:13.5px;font-weight:600;color:var(--stone);letter-spacing:-.01em;line-height:1.3;transition:color .15s}
+.gl-item.active .gl-item-title{color:var(--ink)}
+
+/* ===== MAIN PANE ===== */
+.gl-main{flex:1;overflow-y:auto;background:var(--cream)}
+.gl-main::-webkit-scrollbar{width:5px}
+.gl-main::-webkit-scrollbar-track{background:transparent}
+.gl-main::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px}
+
+.gl-content{max-width:740px;padding:36px 44px 80px}
+
+/* Content header */
+.gl-content-hd{padding-bottom:24px;margin-bottom:28px;border-bottom:1px solid var(--border)}
+.gl-content-hd .eyebrow{margin-bottom:8px}
+.gl-content-hd h1{font-size:clamp(22px,2.4vw,30px);font-weight:800;letter-spacing:-.04em;line-height:1.1;color:var(--ink);margin-bottom:16px}
+
+.gl-link-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;background:var(--surface);border:1.5px solid var(--border-strong);font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;transition:background .15s,border-color .18s,color .15s,transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s}
+.gl-link-btn:hover{background:var(--surface);border-color:var(--coral);color:var(--coral);transform:translateY(-1px);box-shadow:0 4px 16px -6px rgba(240,98,60,.32)}
+.gl-link-btn:active{transform:translateY(0);box-shadow:none}
+.gl-link-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* Sections */
+.gl-sections{display:flex;flex-direction:column;gap:16px}
+.gl-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+.gl-section-hd{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.gl-section-hd h3{font-size:13.5px;font-weight:700;letter-spacing:-.02em;color:var(--ink);flex:1}
+.gl-tag{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid;flex-shrink:0}
+.gl-tag-avoid{color:var(--wrong);background:var(--wrong-bg);border-color:var(--wrong-border)}
+.gl-tag-offer{color:var(--correct);background:var(--correct-bg);border-color:var(--correct-border)}
+.gl-tag-consider{color:#7A5200;background:rgba(245,165,36,.13);border-color:rgba(245,165,36,.38)}
+.gl-tag-key{color:var(--coral-deep);background:var(--coral-soft);border-color:rgba(240,98,60,.28)}
+.gl-tag-info{color:var(--stone);background:var(--surface-warm);border-color:var(--border-strong)}
+
+.gl-section-hd-icon{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.gl-section-avoid .gl-section-hd-icon{color:var(--wrong)}
+.gl-section-offer .gl-section-hd-icon{color:var(--correct)}
+.gl-section-consider .gl-section-hd-icon{color:var(--amber)}
+.gl-section-key .gl-section-hd-icon{color:var(--coral)}
+.gl-section-info .gl-section-hd-icon{color:var(--stone-light)}
+
+.gl-points{padding:4px 0}
+.gl-point{display:flex;align-items:flex-start;gap:12px;padding:11px 18px;border-bottom:1px solid rgba(237,227,215,.6);font-size:14px;line-height:1.65;color:var(--ink-soft)}
+.gl-point:last-child{border-bottom:none}
+.gl-bullet{width:6px;height:6px;border-radius:50%;margin-top:8px;flex-shrink:0}
+.gl-section-avoid .gl-bullet{background:var(--wrong)}
+.gl-section-offer .gl-bullet{background:var(--correct)}
+.gl-section-consider .gl-bullet{background:var(--amber)}
+.gl-section-key .gl-bullet{background:var(--coral)}
+.gl-section-info .gl-bullet{background:var(--stone-light)}
+.gl-tag-assess{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
+.gl-section-assess .gl-section-hd-icon{color:#1a4a8a}
+.gl-section-assess .gl-bullet{background:#1a4a8a}
+
+/* ===== STARTBACK RISK CARDS ===== */
+.startback-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 18px 18px}
+.sb-card{border-radius:12px;padding:14px 16px;border:1.5px solid}
+.sb-low{background:var(--correct-bg);border-color:var(--correct-border)}
+.sb-medium{background:rgba(245,165,36,.11);border-color:rgba(245,165,36,.38)}
+.sb-high{background:var(--wrong-bg);border-color:var(--wrong-border)}
+.sb-card-hd{display:flex;align-items:baseline;justify-content:space-between;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.sb-label{font-size:13px;font-weight:700;letter-spacing:-.015em}
+.sb-low .sb-label{color:var(--correct)}
+.sb-medium .sb-label{color:#7A5200}
+.sb-high .sb-label{color:var(--wrong)}
+.sb-score{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.04em;opacity:.75}
+.sb-low .sb-score{color:var(--correct)}
+.sb-medium .sb-score{color:#7A5200}
+.sb-high .sb-score{color:var(--wrong)}
+.sb-card p{font-size:13px;line-height:1.55;color:var(--ink-soft)}
+@media(max-width:640px){.startback-grid{grid-template-columns:1fr}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  :root{--nav-h:57px}
+  .gl-shell{flex-direction:column;height:auto;overflow:visible}
+  .gl-sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);flex-direction:column}
+  .gl-sidebar-hd{padding:16px 16px 12px}
+  .gl-list{flex-direction:row;overflow-x:auto;overflow-y:visible;padding:8px 12px;gap:6px;scrollbar-width:none}
+  .gl-list::-webkit-scrollbar{display:none}
+  .gl-item{flex-direction:row;align-items:center;gap:8px;border-radius:10px;border-left:none;border-bottom:2.5px solid transparent;flex-shrink:0;padding:9px 14px;white-space:nowrap}
+  .gl-item.active{border-bottom-color:var(--coral);background:rgba(240,98,60,.08)}
+  .gl-main{min-height:60vh;overflow:visible}
+  .gl-content{padding:24px 20px 60px;max-width:100%}
+  .nav-links,.nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  .nav-in{padding:12px 20px}
+}
+@media(max-width:480px){
+  .gl-content-hd h1{font-size:20px}
+  .gl-section-hd{padding:12px 14px}
+  .gl-point{padding:10px 14px;font-size:13.5px}
+  .gl-content{padding:20px 16px 60px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="#F5A524" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html" aria-label="PainRevision home">
+      <svg viewBox="0 0 100 100" width="32" height="32" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <div class="nav-links" role="menubar">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="courses.html" role="menuitem">Courses</a>
+      <div class="nav-dropdown" id="resources-dropdown">
+        <button class="nav-dropdown-trigger has-active" id="resources-trigger" aria-expanded="false" aria-haspopup="true">
+          Resources
+          <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="questions.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            MCQ Practice
+          </a>
+          <a href="videos.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Video Tutorials
+          </a>
+          <a href="guidelines.html" role="menuitem" class="active">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Key Guidelines
+          </a>
+        </div>
+      </div>
+      <a href="about.html" role="menuitem">About</a>
+      <a href="contact.html" role="menuitem">Contact</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-overlay" id="drawer-overlay"></div>
+  <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <a href="questions.html">MCQ Practice</a>
+    <a href="videos.html">Video Tutorials</a>
+    <a href="guidelines.html" class="active">Key Guidelines</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="gl-shell">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="gl-sidebar" aria-label="Guidelines list">
+    <div class="gl-sidebar-hd">
+      <span class="eyebrow">Resources</span>
+      <h2>Key Guidelines</h2>
+    </div>
+    <nav class="gl-list" id="gl-list" role="list" aria-label="Select a guideline"></nav>
+  </aside>
+
+  <!-- RIGHT PANE -->
+  <main class="gl-main" id="gl-main" aria-live="polite" aria-label="Guideline content">
+    <div class="gl-content" id="gl-content"></div>
+  </main>
+
+</div>
+
+<script>
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const GUIDELINES = [
+  {
+    id: 'ng193',
+    code: 'NG193',
+    org: 'NICE',
+    title: 'Chronic Primary Pain',
+    published: '2021',
+    url: 'https://www.nice.org.uk/guidance/ng193/chapter/Recommendations',
+    sections: [
+      {
+        type: 'info',
+        heading: 'Scope & Key Definition',
+        points: [
+          'Applies to <strong>chronic primary pain</strong> only — pain lasting more than 3 months where there is no clear underlying condition, or where the pain is disproportionate to any observable injury or disease.',
+          'Includes: fibromyalgia, CRPS, chronic primary headache, chronic primary visceral pain, and chronic widespread pain.',
+          '<strong>Does NOT apply</strong> to chronic secondary pain (e.g. cancer-related pain, osteoarthritis, neuropathic pain from a known cause).',
+          '"Chronic primary pain" is a condition in its own right, not a symptom of another disease — a key conceptual shift introduced in ICD-11.'
+        ]
+      },
+      {
+        type: 'assess',
+        heading: 'Assessment',
+        points: [
+          '<strong>Biopsychosocial history:</strong> characterise the pain and its impact on daily activities, work, sleep, and relationships. Identify functional status.',
+          '<strong>Psychological assessment:</strong> screen for depression (PHQ-9) and anxiety (GAD-7); explore unhelpful beliefs, catastrophising, fear-avoidance behaviour, and coping strategies using tools such as the PSEQ (Pain Self-Efficacy Questionnaire) or HADS.',
+          '<strong>Confirm the diagnosis:</strong> chronic primary pain requires exclusion of chronic secondary pain causes — request targeted investigations only where clinically indicated, not as a routine screen.',
+          '<strong>Red flags suggesting an alternative or secondary diagnosis:</strong> unexplained weight loss, fever or night sweats; history of malignancy; recent significant trauma; progressive neurological deficit; pain escalating despite all treatment. Investigate and re-diagnose accordingly.'
+        ]
+      },
+      {
+        type: 'avoid',
+        heading: 'Do NOT Offer',
+        points: [
+          '<strong>Paracetamol</strong> — no evidence of benefit over placebo for chronic primary pain.',
+          '<strong>NSAIDs</strong> — insufficient evidence for chronic primary pain.',
+          '<strong>Opioids</strong> — including strong opioids, weak opioids, and tramadol; harms outweigh benefits.',
+          '<strong>Gabapentinoids</strong> — gabapentin and pregabalin are not recommended.',
+          '<strong>Benzodiazepines</strong> — not recommended.',
+          '<strong>Ketamine</strong> — outside specialist pain services or clinical trials only.',
+          '<strong>Corticosteroid trigger point injections</strong> — not recommended.'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Consider: Antidepressants',
+        points: [
+          'Consider <strong>amitriptyline, duloxetine, fluoxetine, or citalopram</strong> as part of a holistic management approach.',
+          'These are <em>not licensed</em> for chronic primary pain — prescribe off-label with shared decision-making and documented discussion.',
+          'Evidence supports a small benefit in quality of life, sleep, and psychological wellbeing — set realistic expectations.',
+          'Offer as a <strong>time-limited trial</strong> with agreed outcome measures and a clear review date; taper and stop if no benefit after an adequate trial.'
+        ]
+      },
+      {
+        type: 'offer',
+        heading: 'Offer / Recommend',
+        points: [
+          '<strong>Supervised group exercise programme</strong> — tailored to individual ability and preference.',
+          '<strong>Psychological therapies:</strong> CBT, Acceptance and Commitment Therapy (ACT), or mindfulness-based stress reduction (MBSR).',
+          '<strong>Pain management programmes (PMPs)</strong> — especially for people with high disability or significant psychological distress.',
+          '<strong>Acupuncture</strong> — evidence of modest benefit; offer where available.',
+          'Supported <strong>self-management</strong> — written information, apps, peer support groups.'
+        ]
+      },
+      {
+        type: 'key',
+        heading: 'Key Exam Principles',
+        points: [
+          'The <strong>biopsychosocial model</strong> is central — biological, psychological, and social factors all contribute.',
+          '<strong>Shared decision-making</strong> is essential at every point in management.',
+          'Set <strong>realistic goals</strong> — pain relief alone is an insufficient outcome measure; focus on quality of life and function.',
+          '"Chronic primary pain" was introduced by <strong>ICD-11</strong> and forms the conceptual basis of NG193.',
+          'NG193 is notable for recommending <em>against</em> most pharmacological treatments while affirming non-pharmacological approaches.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'ng59',
+    code: 'NG59',
+    org: 'NICE',
+    title: 'Low Back Pain & Sciatica',
+    published: '2016',
+    url: 'https://www.nice.org.uk/guidance/ng59/chapter/Recommendations',
+    sections: [
+      {
+        type: 'assess',
+        heading: 'Assessment',
+        points: [
+          '<strong>STarT Back Screening Tool</strong> — the recommended risk stratification tool for non-specific LBP in primary care. A 9-item questionnaire (total score 0–9) with a separate psychosocial subscale (items 5–9).'
+        ],
+        riskCards: [
+          { level: 'low',    label: 'Low Risk',    score: 'Score ≤3',                desc: 'Self-management &amp; exercise. No specialist referral required.' },
+          { level: 'medium', label: 'Medium Risk',  score: 'Score 4–9',               desc: 'Structured physical treatment (e.g. primary care physiotherapy).' },
+          { level: 'high',   label: 'High Risk',    score: 'Psychosocial subscale ≥4', desc: 'Intensive combined physical &amp; psychological programme (e.g. Pain Management Programme).' }
+        ],
+        postPoints: [
+          'Consider alternate diagnosis and exclude red flag symptoms.'
+        ]
+      },
+      {
+        type: 'avoid',
+        heading: 'Do NOT Routinely Offer',
+        points: [
+          '<strong>Imaging</strong> (X-ray or MRI) for non-specific low back pain without red flags.',
+          '<strong>Bed rest</strong> — advise people to stay active and continue normal activities.',
+          '<strong>Paracetamol alone</strong> — insufficient evidence of benefit for LBP.',
+          '<strong>Opioids</strong> for chronic low back pain (>12 weeks).',
+          '<strong>Acupuncture, TENS, or ultrasound</strong> for non-specific LBP.'
+        ]
+      },
+      {
+        type: 'offer',
+        heading: 'First-line: Exercise & Self-management',
+        points: [
+          'Encourage staying physically active and continuing normal activities.',
+          'Offer a <strong>structured exercise programme</strong>: biomechanical, aerobic, mind-body (e.g. yoga), or combination — guided by patient preference.',
+          'Provide <strong>self-management advice</strong>: reassurance that most episodes resolve, educational materials, and guidance on staying active.',
+          'Consider group exercise for cost-effectiveness where appropriate.'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Medicines (Non-specific LBP)',
+        points: [
+          '<strong>NSAIDs</strong> (oral): first-line pharmacological option at the lowest effective dose for the shortest duration. Co-prescribe a PPI for those aged over 45 or at GI risk.',
+          '<strong>Weak opioids:</strong> short-term use only for acute flares when NSAIDs are contraindicated or ineffective.',
+          'Do <strong>NOT</strong> offer strong opioids routinely for non-specific LBP.',
+          'Do <strong>NOT</strong> offer antidepressants for LBP in isolation (unless a concurrent depressive disorder is present).'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Medicines (Sciatica)',
+        points: [
+          'Consider <strong>epidural corticosteroid injection</strong> for acute or severe sciatica — provides short-term benefit only; not recommended for chronic sciatica.',
+          'NSAIDs can assist with pain control alongside conservative measures.'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Psychological Therapies & Manual Therapy',
+        points: [
+          '<strong>CBT</strong> as part of a treatment package: for people with psychosocial yellow flags or not improving with physical treatments.',
+          'Identify and address <strong>yellow flags</strong>: fear-avoidance beliefs, catastrophising, low mood, passive coping.',
+          'Spinal manipulation, mobilisation, or soft tissue techniques — only as part of a <strong>treatment package with exercise</strong>; NOT as a standalone treatment.'
+        ]
+      },
+      {
+        type: 'key',
+        heading: 'Procedures & Surgery',
+        points: [
+          '<strong>Radiofrequency denervation (RFD):</strong> consider for chronic LBP with predominant axial/facet pain, confirmed by a positive diagnostic medial branch block.',
+          '<strong>Spinal fusion:</strong> only when all conservative treatments have failed; within a clinical trial where possible — limited evidence of benefit.',
+          '<strong>Disc replacement:</strong> not routinely recommended; only within a clinical trial.',
+          '<strong>Surgical decompression for sciatica:</strong> consider when conservative treatment has not resolved symptoms after 6–8 weeks and MRI confirms nerve root compression consistent with the clinical picture.'
+        ]
+      }
+    ]
+  }
+];
+
+// ─── Icons ────────────────────────────────────────────────────────────────────
+
+const ICONS = {
+  avoid:   `<svg class="gl-section-hd-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+  offer:   `<svg class="gl-section-hd-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
+  consider:`<svg class="gl-section-hd-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  key:     `<svg class="gl-section-hd-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  info:    `<svg class="gl-section-hd-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+  assess:  `<svg class="gl-section-hd-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`
+};
+
+const TAG_LABELS = { avoid:'Avoid', offer:'Offer', consider:'Consider', key:'Key', info:'Scope', assess:'Assessment' };
+
+// ─── Risk card renderer ───────────────────────────────────────────────────────
+
+function renderRiskCards(cards) {
+  const cls = { low: 'sb-low', medium: 'sb-medium', high: 'sb-high' };
+  return `<div class="startback-grid">${cards.map(c => `
+    <div class="sb-card ${cls[c.level]}">
+      <div class="sb-card-hd">
+        <span class="sb-label">${c.label}</span>
+        <span class="sb-score">${c.score}</span>
+      </div>
+      <p>${c.desc}</p>
+    </div>`).join('')}</div>`;
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+
+function renderList(activeId) {
+  const list = document.getElementById('gl-list');
+  list.innerHTML = GUIDELINES.map(g => `
+    <button
+      class="gl-item${g.id === activeId ? ' active' : ''}"
+      data-id="${g.id}"
+      role="listitem"
+      aria-current="${g.id === activeId}"
+      aria-label="${g.org} ${g.code} — ${g.title}"
+    >
+      <div class="gl-item-meta">
+        <span class="gl-item-code">${g.code}</span>
+        <span class="gl-org-badge">${g.org}</span>
+      </div>
+      <span class="gl-item-title">${g.title}</span>
+    </button>
+  `).join('');
+  list.querySelectorAll('.gl-item').forEach(btn =>
+    btn.addEventListener('click', () => loadGuideline(btn.dataset.id))
+  );
+}
+
+function renderContent(g) {
+  return `
+    <div class="gl-content-hd">
+      <span class="eyebrow">${g.org} ${g.code} &middot; ${g.published}</span>
+      <h1>${g.title}</h1>
+      <a href="${g.url}" target="_blank" rel="noopener noreferrer" class="gl-link-btn">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        View full guidance on NICE
+        <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a>
+    </div>
+    <div class="gl-sections">
+      ${g.sections.map(s => `
+        <div class="gl-section gl-section-${s.type}">
+          <div class="gl-section-hd">
+            ${ICONS[s.type] || ''}
+            <h3>${s.heading}</h3>
+            <span class="gl-tag gl-tag-${s.type}">${TAG_LABELS[s.type]}</span>
+          </div>
+          ${(s.points || []).length ? `<div class="gl-points">${(s.points || []).map(p => `
+              <div class="gl-point">
+                <span class="gl-bullet" aria-hidden="true"></span>
+                <span>${p}</span>
+              </div>`).join('')}
+          </div>` : ''}
+          ${s.riskCards ? renderRiskCards(s.riskCards) : ''}
+          ${(s.postPoints || []).length ? `<div class="gl-points">${s.postPoints.map(p => `
+              <div class="gl-point">
+                <span class="gl-bullet" aria-hidden="true"></span>
+                <span>${p}</span>
+              </div>`).join('')}
+          </div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function loadGuideline(id) {
+  const g = GUIDELINES.find(x => x.id === id);
+  if (!g) return;
+  renderList(id);
+  document.getElementById('gl-content').innerHTML = renderContent(g);
+  document.getElementById('gl-main').scrollTo({ top: 0, behavior: 'smooth' });
+  history.replaceState(null, '', `#${id}`);
+}
+
+// ─── Nav ──────────────────────────────────────────────────────────────────────
+
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 10), { passive: true });
+
+const resDropdown = document.getElementById('resources-dropdown');
+const resTrigger  = document.getElementById('resources-trigger');
+resTrigger.addEventListener('click', e => {
+  e.stopPropagation();
+  const open = resDropdown.classList.toggle('open');
+  resTrigger.setAttribute('aria-expanded', open);
+});
+document.addEventListener('click', () => {
+  resDropdown.classList.remove('open');
+  resTrigger.setAttribute('aria-expanded', 'false');
+});
+resDropdown.addEventListener('click', e => e.stopPropagation());
+
+const hamburger     = document.getElementById('hamburger');
+const navDrawer     = document.getElementById('nav-drawer');
+const drawerOverlay = document.getElementById('drawer-overlay');
+function closeDrawer() {
+  hamburger.classList.remove('open');
+  navDrawer.classList.remove('open');
+  navDrawer.setAttribute('aria-hidden', 'true');
+  hamburger.setAttribute('aria-expanded', 'false');
+}
+hamburger.addEventListener('click', () => {
+  const open = hamburger.classList.toggle('open');
+  navDrawer.classList.toggle('open', open);
+  navDrawer.setAttribute('aria-hidden', String(!open));
+  hamburger.setAttribute('aria-expanded', String(open));
+});
+drawerOverlay.addEventListener('click', closeDrawer);
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+(function init() {
+  const hashId  = location.hash.replace('#', '');
+  const startId = GUIDELINES.find(g => g.id === hashId)?.id || GUIDELINES[0].id;
+  renderList(startId);
+  document.getElementById('gl-content').innerHTML = renderContent(GUIDELINES.find(x => x.id === startId));
+})();
+</script>
+</body>
+</html>
