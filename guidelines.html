@@ -58,6 +58,16 @@ button{font-family:var(--san);cursor:pointer}
 .nav-drawer.open .nav-drawer-panel{transform:none}
 .nav-drawer-panel a{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:block;transition:background .18s}
 .nav-drawer-panel a:hover{background:rgba(36,27,22,.06)}
+.drawer-res-btn{width:100%;text-align:left;background:none;border:none;font-family:var(--san);font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .18s;-webkit-tap-highlight-color:transparent}
+.drawer-res-btn:hover{background:rgba(36,27,22,.06)}
+.drawer-res-btn.open{color:var(--coral)}
+.drawer-res-chevron{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1);flex-shrink:0}
+.drawer-res-btn.open .drawer-res-chevron{transform:rotate(180deg)}
+.drawer-res-sub{display:flex;flex-direction:column;gap:1px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.2,.7,.2,1);padding-left:12px}
+.drawer-res-sub.open{max-height:200px}
+.drawer-res-sub a{font-size:14px;font-weight:500;color:var(--stone);padding:7px 12px;border-radius:8px;display:block;transition:background .18s,color .18s}
+.drawer-res-sub a:hover{background:rgba(36,27,22,.06);color:var(--ink)}
+.drawer-res-sub a.active{color:var(--coral)}
 .nav-drawer-panel a.active{color:var(--coral)}
 .nav-dropdown{position:relative;display:inline-flex;align-items:center}
 .nav-dropdown-trigger{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s;cursor:pointer;display:flex;align-items:center;gap:4px;background:none;border:none;font-family:var(--san);line-height:1}
@@ -172,14 +182,19 @@ button{font-family:var(--san);cursor:pointer}
 .sb-card p{font-size:13px;line-height:1.55;color:var(--ink-soft)}
 @media(max-width:640px){.startback-grid{grid-template-columns:1fr}}
 
+/* ===== GUIDELINE SELECT (mobile) ===== */
+.gl-select-wrap{display:none;padding:10px 16px 12px}
+.gl-select{width:100%;padding:10px 36px 10px 14px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C7068' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 12px center;background-size:14px;appearance:none;-webkit-appearance:none;font-family:var(--san);font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;outline:none;transition:border-color .18s,box-shadow .18s}
+.gl-select:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(240,98,60,.12)}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
   :root{--nav-h:57px}
   .gl-shell{flex-direction:column;height:auto;overflow:visible}
   .gl-sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);flex-direction:column}
   .gl-sidebar-hd{padding:16px 16px 12px}
-  .gl-list{flex-direction:row;overflow-x:auto;overflow-y:visible;padding:8px 12px;gap:6px;scrollbar-width:none}
-  .gl-list::-webkit-scrollbar{display:none}
+  .gl-list{display:none}
+  .gl-select-wrap{display:block}
   .gl-item{flex-direction:row;align-items:center;gap:8px;border-radius:10px;border-left:none;border-bottom:2.5px solid transparent;flex-shrink:0;padding:9px 14px;white-space:nowrap}
   .gl-item.active{border-bottom-color:var(--coral);background:rgba(240,98,60,.08)}
   .gl-main{min-height:60vh;overflow:visible}
@@ -253,9 +268,15 @@ button{font-family:var(--san);cursor:pointer}
   <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
     <a href="index.html">Home</a>
     <a href="courses.html">Courses</a>
-    <a href="questions.html">MCQ Practice</a>
-    <a href="videos.html">Video Tutorials</a>
-    <a href="guidelines.html" class="active">Key Guidelines</a>
+    <button class="drawer-res-btn" id="drawer-res-btn" aria-expanded="false">
+      Resources
+      <svg class="drawer-res-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="drawer-res-sub" id="drawer-res-sub">
+      <a href="questions.html">MCQ Practice</a>
+      <a href="videos.html">Video Tutorials</a>
+      <a href="guidelines.html" class="active">Key Guidelines</a>
+    </div>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
   </div>
@@ -271,6 +292,9 @@ button{font-family:var(--san);cursor:pointer}
       <h2>Key Guidelines</h2>
     </div>
     <nav class="gl-list" id="gl-list" role="list" aria-label="Select a guideline"></nav>
+    <div class="gl-select-wrap">
+      <select id="gl-select" class="gl-select" aria-label="Select a guideline"></select>
+    </div>
   </aside>
 
   <!-- RIGHT PANE -->
@@ -539,6 +563,8 @@ function loadGuideline(id) {
   renderList(id);
   document.getElementById('gl-content').innerHTML = renderContent(g);
   document.getElementById('gl-main').scrollTo({ top: 0, behavior: 'smooth' });
+  const sel = document.getElementById('gl-select');
+  if (sel) sel.value = id;
   history.replaceState(null, '', `#${id}`);
 }
 
@@ -577,11 +603,38 @@ hamburger.addEventListener('click', () => {
 });
 drawerOverlay.addEventListener('click', closeDrawer);
 
+// ─── Drawer resources accordion ───────────────────────────────────────────────
+(function(){
+  var resBtn = document.getElementById('drawer-res-btn');
+  var resSub = document.getElementById('drawer-res-sub');
+  if(resBtn && resSub){
+    resBtn.addEventListener('click', function(){
+      var open = resBtn.classList.toggle('open');
+      resSub.classList.toggle('open', open);
+      resBtn.setAttribute('aria-expanded', String(open));
+    });
+    if(resSub.querySelector('a.active')){
+      resBtn.classList.add('open'); resSub.classList.add('open'); resBtn.setAttribute('aria-expanded','true');
+    }
+  }
+})();
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
 (function init() {
   const hashId  = location.hash.replace('#', '');
   const startId = GUIDELINES.find(g => g.id === hashId)?.id || GUIDELINES[0].id;
+  const sel = document.getElementById('gl-select');
+  if (sel) {
+    GUIDELINES.forEach(g => {
+      const opt = document.createElement('option');
+      opt.value = g.id;
+      opt.textContent = `${g.org} ${g.code} — ${g.title}`;
+      sel.appendChild(opt);
+    });
+    sel.value = startId;
+    sel.addEventListener('change', () => loadGuideline(sel.value));
+  }
   renderList(startId);
   document.getElementById('gl-content').innerHTML = renderContent(GUIDELINES.find(x => x.id === startId));
 })();

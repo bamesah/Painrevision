@@ -80,6 +80,16 @@ a{color:inherit;text-decoration:none}
 .nav-drawer.open .nav-drawer-panel{transform:none}
 .nav-drawer-panel a{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:block;transition:background .18s}
 .nav-drawer-panel a:hover{background:rgba(36,27,22,.06)}
+.drawer-res-btn{width:100%;text-align:left;background:none;border:none;font-family:var(--san);font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .18s;-webkit-tap-highlight-color:transparent}
+.drawer-res-btn:hover{background:rgba(36,27,22,.06)}
+.drawer-res-btn.open{color:var(--coral)}
+.drawer-res-chevron{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1);flex-shrink:0}
+.drawer-res-btn.open .drawer-res-chevron{transform:rotate(180deg)}
+.drawer-res-sub{display:flex;flex-direction:column;gap:1px;overflow:hidden;max-height:0;transition:max-height .3s cubic-bezier(.2,.7,.2,1);padding-left:12px}
+.drawer-res-sub.open{max-height:200px}
+.drawer-res-sub a{font-size:14px;font-weight:500;color:var(--stone);padding:7px 12px;border-radius:8px;display:block;transition:background .18s,color .18s}
+.drawer-res-sub a:hover{background:rgba(36,27,22,.06);color:var(--ink)}
+.drawer-res-sub a.active{color:var(--coral)}
 .nav-drawer-panel .drawer-cta{margin-top:12px;display:block;text-align:center}
 .nav-dropdown{position:relative;display:inline-flex;align-items:center}
 .nav-dropdown-trigger{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s;cursor:pointer;display:flex;align-items:center;gap:4px;background:none;border:none;font-family:var(--san);line-height:1}
@@ -249,9 +259,15 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
   <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
     <a href="index.html">Home</a>
     <a href="courses.html">Courses</a>
-    <a href="questions.html">MCQ Practice</a>
-    <a href="videos.html">Video Tutorials</a>
-    <a href="guidelines.html">Key Guidelines</a>
+    <button class="drawer-res-btn" id="drawer-res-btn" aria-expanded="false">
+      Resources
+      <svg class="drawer-res-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="drawer-res-sub" id="drawer-res-sub">
+      <a href="questions.html">MCQ Practice</a>
+      <a href="videos.html">Video Tutorials</a>
+      <a href="guidelines.html">Key Guidelines</a>
+    </div>
     <a href="about.html">About</a>
     <a href="contact.html">Contact us</a>
   </div>
@@ -395,6 +411,23 @@ footer{background:var(--ink);padding:52px 0;border-top:none;margin-top:0}
   });
   overlay.addEventListener('click', closeDrawer);
   drawerLinks.forEach(function(a){ a.addEventListener('click', closeDrawer); });
+
+  /* ---- drawer resources accordion ---- */
+  (function(){
+    var resBtn = document.getElementById('drawer-res-btn');
+    var resSub = document.getElementById('drawer-res-sub');
+    if(resBtn && resSub){
+      resBtn.addEventListener('click', function(){
+        var open = resBtn.classList.toggle('open');
+        resSub.classList.toggle('open', open);
+        resBtn.setAttribute('aria-expanded', String(open));
+      });
+      if(resSub.querySelector('a.active')){
+        resBtn.classList.add('open'); resSub.classList.add('open'); resBtn.setAttribute('aria-expanded','true');
+      }
+    }
+  })();
+
   var resDropdown = document.getElementById('resources-dropdown');
   var resTrigger = document.getElementById('resources-trigger');
   var resTimer;
