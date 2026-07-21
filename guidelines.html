@@ -709,9 +709,11 @@ function renderList(activeId) {
   const list = document.getElementById('gl-list');
   list.innerHTML = GUIDELINES.map((g, i) => {
     const prevOrg = i > 0 ? GUIDELINES[i - 1].org : null;
-    const sep = prevOrg && prevOrg !== g.org
-      ? `<div class="gl-list-sep" aria-hidden="true"></div><span class="gl-list-sep-label">${g.org} Guidance</span>`
-      : '';
+    const sep = i === 0
+      ? `<span class="gl-list-sep-label">${g.org} Guidance</span>`
+      : prevOrg !== g.org
+        ? `<div class="gl-list-sep" aria-hidden="true"></div><span class="gl-list-sep-label">${g.org} Guidance</span>`
+        : '';
     return sep + `<button
       class="gl-item${g.id === activeId ? ' active' : ''}"
       data-id="${g.id}"
