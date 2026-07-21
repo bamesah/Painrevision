@@ -104,6 +104,8 @@ button{font-family:var(--san);cursor:pointer}
 .gl-item.active{background:rgba(240,98,60,.09);border-left-color:var(--coral)}
 .gl-item:focus-visible{outline:2px solid var(--coral);outline-offset:2px;border-radius:4px 12px 12px 4px}
 
+.gl-list-sep{height:1px;background:var(--border);margin:8px 10px 6px;flex-shrink:0}
+.gl-list-sep-label{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);padding:6px 14px 2px;flex-shrink:0}
 .gl-item-meta{display:flex;align-items:center;gap:6px}
 .gl-item-code{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--stone-light);transition:color .15s}
 .gl-item.active .gl-item-code{color:var(--coral)}
@@ -612,6 +614,65 @@ const GUIDELINES = [
         ]
       }
     ]
+  },
+  {
+    id: 'fpm-pmp',
+    code: '',
+    org: 'FPM',
+    title: 'Pain Management Programmes',
+    published: '2021',
+    url: 'https://fpm.ac.uk/standards-guidelines/core-standards',
+    sections: [
+      {
+        type: 'info',
+        heading: 'Scope & Definition',
+        points: [
+          '<strong>Pain Management Programmes (PMPs)</strong> promote behaviour change and improve wellbeing in people with pain. They are traditionally delivered to groups and organised in programmes of care.',
+          'PMPs are indicated for individuals with <strong>persistent pain which adversely affects quality of life</strong> and where there is significant impact on physical, psychological, and social function.',
+          'High-level evidence supports the efficacy of both outpatient and residential PMPs — systematic reviews demonstrate significant reductions in distress and disability, enhanced coping, and improved physical functioning.',
+          'Evidence also shows <strong>decreased healthcare resource use</strong> and, where vocational training is included, improved return to work.',
+          '<strong>Not the same as low-intensity interventions</strong> — a short physiotherapy course or brief psychology input does not constitute a PMP. PMPs require proper interdisciplinary staffing, time and facilities.'
+        ]
+      },
+      {
+        type: 'offer',
+        heading: 'Standards (Must)',
+        points: [
+          'There must be <strong>timely access</strong> to all forms of pain rehabilitation.',
+          'Standard and intensive PMPs must be available in a <strong>group format</strong>, with individual delivery available when required.',
+          'A PMP must use <strong>evidence-based therapies</strong>.',
+          'PMPs must be properly resourced with time, personnel and facilities.',
+          'Suitability is based on the <strong>impact of pain</strong> — there must be <strong>no discrimination</strong> on the basis of age, language, literacy, litigation status, or judgement of motivation.',
+          'A PMP must be delivered by an <strong>interdisciplinary team</strong> where some competencies are shared and some are unique to particular professions.',
+          'Evaluation of outcomes must be standard practice, covering: function, psychological distress/wellbeing, healthcare use, quality of life, work/social status, participant satisfaction, and personal goal attainment.',
+          'There must be cooperation between primary, secondary and tertiary care to deliver effective, integrated services.'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Recommendations & Commissioning',
+        points: [
+          'PMPs should be considered the <strong>treatment of choice</strong> for people with persistent pain significantly impacting quality of life, physical, psychological, and social function.',
+          'A standard PMP should be a minimum of <strong>12 half-day sessions</strong> (e.g. 12 × 3 hours = 36 hours minimum).',
+          'Suitability for participation should be assessed ahead of enrolment; an <strong>opt-in model</strong> may improve engagement.',
+          'Some very disabled and distressed people may need <strong>intensive PMPs</strong> (15–20 full days) — longer, more intensive programmes give greater and more enduring benefit, but are not standard for all.',
+          'Pain rehabilitation interventions are classified into three groups: <strong>(1) early stratified care</strong>, <strong>(2) standard PMPs</strong>, <strong>(3) intensive PMPs</strong> — effective care requires commissioning at all three levels.',
+          'Individual rehabilitation psychology and/or physiotherapy may be required before, during, or after a PMP; PMP teams should have the flexibility to deliver these.'
+        ]
+      },
+      {
+        type: 'key',
+        heading: 'Programme Content & Staffing',
+        points: [
+          'PMPs adhere to <strong>cognitive behavioural principles</strong> and typically include: graded activation; cognitive therapy; graded exposure; acceptance, mindfulness and ACT; skills training (goal setting, pacing, sleep management, communication, relapse prevention); physical exercise; and education.',
+          'Education alone does not produce behaviour change — it must be supplemented with behavioural and psychological methods.',
+          '<strong>Core staff</strong>: doctors (ideally FFPMRCA or equivalent), HCPC-registered psychologist (BPS chartered), HCPC physiotherapist, HCPC occupational therapist, NMC-registered nurse, and ideally a GPhC pharmacist — all with specialist expertise in chronic pain.',
+          'The MDT is <strong>interdisciplinary</strong> (shared goals, shared model) — not merely multidisciplinary (parallel discipline-specific input).',
+          'PMPs reduce presentation to primary care and A&E, reduce onward specialist referrals, and reduce medication use — they are established as a <strong>core part of pain treatment</strong>.',
+          'Key exam distinction: PMPs target <strong>disability, distress, and function</strong> — not pain intensity reduction as the primary endpoint.'
+        ]
+      }
+    ]
   }
 ];
 
@@ -646,21 +707,25 @@ function renderRiskCards(cards) {
 
 function renderList(activeId) {
   const list = document.getElementById('gl-list');
-  list.innerHTML = GUIDELINES.map(g => `
-    <button
+  list.innerHTML = GUIDELINES.map((g, i) => {
+    const prevOrg = i > 0 ? GUIDELINES[i - 1].org : null;
+    const sep = prevOrg && prevOrg !== g.org
+      ? `<div class="gl-list-sep" aria-hidden="true"></div><span class="gl-list-sep-label">${g.org} Guidance</span>`
+      : '';
+    return sep + `<button
       class="gl-item${g.id === activeId ? ' active' : ''}"
       data-id="${g.id}"
       role="listitem"
       aria-current="${g.id === activeId}"
-      aria-label="${g.org} ${g.code} — ${g.title}"
+      aria-label="${g.org}${g.code ? ' ' + g.code : ''} — ${g.title}"
     >
       <div class="gl-item-meta">
-        <span class="gl-item-code">${g.code}</span>
+        ${g.code ? `<span class="gl-item-code">${g.code}</span>` : ''}
         <span class="gl-org-badge">${g.org}</span>
       </div>
       <span class="gl-item-title">${g.title}</span>
-    </button>
-  `).join('');
+    </button>`;
+  }).join('');
   list.querySelectorAll('.gl-item').forEach(btn =>
     btn.addEventListener('click', () => loadGuideline(btn.dataset.id))
   );
@@ -669,11 +734,11 @@ function renderList(activeId) {
 function renderContent(g) {
   return `
     <div class="gl-content-hd">
-      <span class="eyebrow">${g.org} ${g.code} &middot; ${g.published}</span>
+      <span class="eyebrow">${g.org}${g.code ? ' ' + g.code : ''} &middot; ${g.published}</span>
       <h1>${g.title}</h1>
       <a href="${g.url}" target="_blank" rel="noopener noreferrer" class="gl-link-btn">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        View full guidance on NICE
+        View full guidance
         <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
       </a>
     </div>
