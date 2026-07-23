@@ -33,7 +33,7 @@ http.createServer((req, res) => {
     return;
   }
 
-  let filePath = path.join(__dirname, url.pathname === '/' ? 'index.html' : url.pathname);
+  let filePath = path.join(__dirname, url.pathname === '/' ? 'index.html' : decodeURIComponent(url.pathname));
   const ext = path.extname(filePath).toLowerCase();
 
   if (!ext) filePath += '.html';

@@ -596,6 +596,171 @@
         true
       ],
       "explanation": "<p><strong>A. True.</strong> Collimating the beam to the smallest field necessary for the procedure reduces the volume of tissue exposed and reduces the amount of scattered radiation produced, which in turn reduces operator dose.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Pulsed fluoroscopy, not continuous fluoroscopy, reduces cumulative dose for an equivalent screening time, since the beam is only active for brief pulses rather than continuously — continuous fluoroscopy delivers a considerably higher dose.</p><p style=\"margin-top:12px\"><strong>C. True.</strong> Positioning the image intensifier (receptor) as close as possible to the patient allows the same image quality to be achieved with a lower dose; conversely, increasing the air gap between patient and receptor requires higher exposure factors to compensate.</p><p style=\"margin-top:12px\"><strong>D. False.</strong> Digital magnification is performed post image acquisition and so has no effect on dose. If the stem referred to optical or geometric magnification (a genuine acquisition-time change), that would be true — but digital magnification is a post-processing mode.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Scatter radiation is greatest on the side of the X-ray tube (where the primary beam enters the patient), so an operator standing on the tube side receives more scatter than one standing on the image intensifier side — a good reason to position oneself, where possible, on the receptor side of the C-arm.</p>"
+    },
+    {
+      "id": "q_peripheral_nerve_injury_001",
+      "type": "MTF",
+      "topic": "Anatomy",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 26,
+      "stem": "With regards to peripheral nerve injury:",
+      "choices": [
+        "Neurapraxia is characterised by disruption of the axon with preservation of the endoneurial scaffold.",
+        "Sunderland Grade III injury involves axonal and endoneurial disruption with preservation of the perineurium and epineurium.",
+        "Wallerian degeneration is typically well established within 1–2 weeks of a neurotmetic injury.",
+        "Neurapraxia is associated with Wallerian degeneration and recovery occurring over several months.",
+        "Sunderland Grade V injury is synonymous with neurotmesis, involving complete disruption of both axons and the scaffold."
+      ],
+      "correct": [false, true, true, false, true],
+      "explanation": "<p>A traumatic peripheral nerve injury can be graded by Seddon's classification (neurapraxia, axonotmesis, neurotmesis) or Sunderland's five-grade system, which predicts prognosis and the need for surgery.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> Neurapraxia is a myelin injury only; the axon and scaffold remain intact and Wallerian degeneration does not occur.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> Sunderland Grade III involves axonal and endoneurial disruption but the perineurium and epineurium remain preserved.</p><p style=\"margin-top:12px\"><strong>C – True:</strong> Wallerian degeneration begins within days and is well established by 1–2 weeks after axonal injury.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> Neurapraxia recovers rapidly (3–6 weeks) via remyelination, without Wallerian degeneration.</p><p style=\"margin-top:12px\"><strong>E – True:</strong> Grade V is complete neurotmesis — disruption of both axons and the entire scaffold.</p><img src=\"images/seddon_sunderland_classification.png\" alt=\"Seddon-Sunderland classification table comparing nerve injury grades\" style=\"max-width:100%;border-radius:10px;margin-top:20px;border:1px solid #EDE3D7\">"
+    },
+    {
+      "id": "q_peripheral_nerve_structure_001",
+      "type": "MTF",
+      "topic": "Anatomy",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 27,
+      "stem": "Regarding the cellular structure of a peripheral nerve:",
+      "choices": [
+        "The endoneurium is the outermost layer of the nerve and confers its tensile strength.",
+        "Groups of axons are organised into fascicles, each surrounded by the perineurium.",
+        "The basal lamina surrounding each axon is secreted by Schwann cells.",
+        "Schwann cells retain their repair phenotype indefinitely, regardless of any delay to reinnervation.",
+        "Peripheral nerves receive their blood supply from a single dominant vascular pedicle at each level."
+      ],
+      "correct": [false, true, true, false, false],
+      "explanation": "<p>Peripheral nerve structure is organised through a central nervous tissue (axon) which conducts electrical signal. This is wrapped around by myelin from glial cells which speeds signal transmission. On the outer layer of the glial cells is a layer called the basal lamina which is made of proteins. These are then surrounded by layers of connective tissue from inside to the outside as follows: endoneurium → fascicle → perineurium → epineurium.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> The epineurium is the outermost layer and provides tensile strength; the endoneurium surrounds individual axons.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> Fascicles (groups of axons) are each wrapped in the multilayered perineurium.</p><p style=\"margin-top:12px\"><strong>C – True:</strong> The basal lamina is an extracellular matrix secreted by Schwann cells, maintaining axon–Schwann cell alignment.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> If reinnervation is delayed beyond 6–12 weeks, Schwann cells progressively lose their repair phenotype, with some undergoing apoptosis.</p><p style=\"margin-top:12px\"><strong>E – False:</strong> Nerves are supplied by widely separated segmental pedicles feeding longitudinal vascular plexi, not a single pedicle.</p><img src=\"images/axon-image.png\" alt=\"Diagram of peripheral nerve cellular structure showing axon, Schwann cell, basal lamina, endoneurium, fascicle, perineurium, and epineurium\" style=\"max-width:100%;border-radius:10px;margin-top:20px;border:1px solid #EDE3D7\">"
+    },
+    {
+      "id": "q_pain_mechanisms_nerve_injury_001",
+      "type": "MTF",
+      "topic": "Physiology",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 28,
+      "stem": "Pain mechanisms following nerve injury:",
+      "choices": [
+        "Upregulation of voltage-gated sodium channels facilitates spontaneous action potential generation at the injury site.",
+        "Central sensitisation is mediated in part by activation of AMPA and NMDA receptors on second-order dorsal horn neurones.",
+        "Descending inhibitory noradrenergic tone from the locus coeruleus is typically enhanced following nerve injury.",
+        "Neuromas contain reduced densities of voltage-gated sodium and mechanosensitive ion channels compared with normal nerve.",
+        "Aberrant sympathetic sprouting can upregulate α1-adrenoceptor expression on nociceptors, producing sympathetically maintained pain."
+      ],
+      "correct": [true, true, false, false, true],
+      "explanation": "<p>Peripheral nerve injury triggers a cascade of peripheral and central changes underlying neuropathic pain.</p><p style=\"margin-top:12px\"><strong>A – True:</strong> Upregulated Na⁺ channels drive spontaneous ectopic firing at the site of injury.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> Glutamate and substance P release activates AMPA/NMDA receptors, driving wind-up and long-term potentiation.</p><p style=\"margin-top:12px\"><strong>C – False:</strong> Noradrenergic descending inhibition from the locus coeruleus diminishes after injury, reducing inhibitory control.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> Neuromas show increased densities of voltage-gated sodium and mechanosensitive channels, causing spontaneous and mechanically evoked firing.</p><p style=\"margin-top:12px\"><strong>E – True:</strong> Sympathetic sprouting can upregulate α1-adrenoceptors on nociceptors, producing sympathetically maintained pain (cold allodynia, colour change).</p>"
+    },
+    {
+      "id": "q_interventional_neuropathic_pain_001",
+      "type": "MTF",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 29,
+      "stem": "Interventional techniques for neuropathic pain:",
+      "choices": [
+        "Cryoneurolysis achieves permanent nerve destruction through disruption of the endoneurial scaffold.",
+        "Dorsal root ganglion stimulation is superior over spinal cord stimulation for focal neuropathic pain.",
+        "Peripheral nerve stimulation is best suited to diffuse pain involving multiple nerves.",
+        "Botulinum toxin type A exerts part of its analgesic effect through inhibition of SNAP-25-dependent neurotransmitter release.",
+        "Perineural hydrodissection using saline is reserved for cases where dextrose is contraindicated."
+      ],
+      "correct": [false, true, false, true, false],
+      "explanation": "<p>Neuromodulation and injectate-based techniques act via distinct, targeted mechanisms.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> Cryoneurolysis preserves the scaffold and produces a reversible conduction block, unlike radiofrequency ablation which disrupts it.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> The ACCURATE trial showed DRGS had a significantly higher responder rate than SCS for focal neuropathic pain.</p><p style=\"margin-top:12px\"><strong>C – False:</strong> PNS is best suited to single-nerve injury; SCS is preferred for diffuse or multi-nerve involvement.</p><p style=\"margin-top:12px\"><strong>D – True:</strong> BoNT-A's analgesic effect is mediated through SNAP-25 inhibition, sodium channel suppression, and TRPV1 modulation.</p><p style=\"margin-top:12px\"><strong>E – False:</strong> Both saline and dextrose 5% in water are non-neurotoxic; saline gives inert mechanical separation while D5W may add antinociceptive effects.</p>"
+    },
+    {
+      "id": "q_neuropathic_botox_001",
+      "type": "SBA",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 30,
+      "question": "A woman develops focal neuropathic pain over the anterolateral foot after fibular fracture fixation. Ultrasound-guided electrical stimulation of a superficial sensory nerve branch reproduces her exact pain pattern, and a targeted local anaesthetic injection gives complete but transient relief. Which of the following is the next therapeutic step?",
+      "choices": [
+        "Spinal cord stimulation",
+        "Perineural botulinum toxin type A injection proximal to the neuroma",
+        "Removal of the fibular metalwork",
+        "Oral gabapentin titration",
+        "Targeted muscle reinnervation"
+      ],
+      "correct": 1,
+      "explanation": "<p><strong>A – Incorrect:</strong> SCS may be indicated if Botox therapy is not helpful, as this is a more invasive option.</p><p style=\"margin-top:8px\"><strong>B – Correct:</strong> Perineural BoNT-A proximal to the neuroma is a minimally invasive option and would be appropriate to trial in this case.</p><p style=\"margin-top:8px\"><strong>C – Incorrect:</strong> Metalwork removal is considered when irritation/compression from hardware is the primary driver, not established here.</p><p style=\"margin-top:8px\"><strong>D – Incorrect:</strong> Pharmacotherapy optimisation should already have been attempted before interventional referral; it isn't the \"next step\" after positive diagnostic blocks.</p><p style=\"margin-top:8px\"><strong>E – Incorrect:</strong> TMR is a surgical option for non-functional nerves/terminal neuromas, not the first step after a positive diagnostic block.</p>"
+    },
+    {
+      "id": "q_diffuse_neuropathic_neuromod_001",
+      "type": "SBA",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 31,
+      "question": "A man has diffuse neuropathic pain affecting overlapping distributions of several nerves in his lower leg after a crush injury. Which neuromodulation modality is most appropriate?",
+      "choices": [
+        "Peripheral nerve stimulation",
+        "Dorsal root ganglion stimulation",
+        "Spinal cord stimulation",
+        "Pulsed radiofrequency",
+        "Transcutaneous electrical nerve stimulation"
+      ],
+      "correct": 2,
+      "explanation": "<p>Choice of neuromodulation depends on whether pain is focal/single-nerve or diffuse/multi-nerve.</p><p style=\"margin-top:8px\"><strong>A – Incorrect:</strong> PNS is best suited to single-nerve injury with focal pain, not diffuse multi-nerve involvement.</p><p style=\"margin-top:8px\"><strong>B – Incorrect:</strong> DRGS suits focal dermatomal pain or where peripheral targeting is not feasible, not diffuse disease.</p><p style=\"margin-top:8px\"><strong>C – Correct:</strong> SCS is indicated for diffuse or multi-nerve involvement, and is the most established modality with NICE support.</p><p style=\"margin-top:8px\"><strong>D – Incorrect:</strong> PRF is a needle-based technique targeting a specific peripheral nerve, not suited to diffuse multi-nerve pain.</p><p style=\"margin-top:8px\"><strong>E – Incorrect:</strong> TENS has limited evidence for long-term benefit and is a first-line, non-invasive option rather than a targeted solution for refractory diffuse pain.</p>"
+    },
+    {
+      "id": "q_hydrodissection_carpal_001",
+      "type": "SBA",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 32,
+      "question": "A woman has persistent neuropathic pain in her hand three years after carpal tunnel decompression. Ultrasound suggests tethering of the median nerve within postoperative scar tissue, and pharmacological therapy has failed. Which of the following is the most appropriate initial interventional option?",
+      "choices": [
+        "Spinal cord stimulation",
+        "Surgical neurolysis",
+        "Ultrasound-guided perineural hydrodissection",
+        "Targeted muscle reinnervation",
+        "Cryoneurolysis"
+      ],
+      "correct": 2,
+      "explanation": "<p>Hydrodissection is specifically indicated where scar, tethering, or fascial entrapment is suspected, and precedes more invasive options.</p><p style=\"margin-top:8px\"><strong>A – Incorrect:</strong> SCS is reserved for refractory diffuse pain after other options fail, not first-line for a suspected mechanical/tethering cause.</p><p style=\"margin-top:8px\"><strong>B – Incorrect:</strong> Surgical neurolysis is considered if less invasive measures fail or if structural pathology clearly requires surgical release.</p><p style=\"margin-top:8px\"><strong>C – Correct:</strong> US-guided hydrodissection produces ≥50% symptom relief in the majority of patients with persistent post-carpal-tunnel-surgery pain, often avoiding surgical revision.</p><p style=\"margin-top:8px\"><strong>D – Incorrect:</strong> TMR is for non-functional nerves/neuromas, not a nerve suspected to be simply tethered in scar.</p><p style=\"margin-top:8px\"><strong>E – Incorrect:</strong> Cryoneurolysis is typically applied to sensory or mixed nerves for refractory neuropathic pain, not as first-line management of suspected tethering.</p>"
+    },
+    {
+      "id": "q_emq_interventional_neuropathic_001",
+      "type": "EMQ",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-07-23",
+      "rotationIndex": 33,
+      "stem": "Interventional techniques for neuropathic pain",
+      "lead": "For each scenario below, choose the single most appropriate intervention from the list above. Each option may be used once, more than once, or not at all.",
+      "options": [
+        "Transcutaneous electrical nerve stimulation",
+        "Ultrasound-guided perineural local anaesthetic injection",
+        "Perineural botulinum toxin type A",
+        "Perineural hydrodissection",
+        "Pulsed radiofrequency",
+        "Cryoneurolysis",
+        "Peripheral nerve stimulation",
+        "Dorsal root ganglion stimulation"
+      ],
+      "questions": [
+        {
+          "question": "A patient with a suspected symptomatic neuroma has pain in a region of overlapping sensory innervation from two adjacent nerves; the treating clinician needs to confirm which nerve is responsible before planning any therapeutic intervention.",
+          "correct": 1,
+          "explanation": "<strong>B. Ultrasound-guided perineural local anaesthetic injection</strong> — Diagnostic US-guided local anaesthetic injection, ideally combined with nerve stimulator confirmation of symptom reproduction, establishes nerve–pain concordance before committing to therapy."
+        },
+        {
+          "question": "Injection of an agent that works through inhibition of SNAP-25-dependent neurotransmitter release.",
+          "correct": 2,
+          "explanation": "<strong>C. Perineural botulinum toxin type A</strong> — BoNT-A's analgesic mechanism involves SNAP-25 inhibition, sodium channel suppression, and TRPV1 modulation, and it responds particularly well in superficial allodynia."
+        },
+        {
+          "question": "An intervention with low evidence for long-term benefit in chronic neuropathic pain.",
+          "correct": 0,
+          "explanation": "<strong>A. Transcutaneous electrical nerve stimulation</strong> — TENS is inexpensive, safe, and non-invasive, making it a reasonable first-line trial, though evidence for long-term benefit in traumatic peripheral nerve injury is limited."
+        },
+        {
+          "question": "An intervention that uses the Joule–Thomson effect to produce analgesia.",
+          "correct": 5,
+          "explanation": "<strong>F. Cryoneurolysis</strong> — Cryoneurolysis uses the Joule–Thomson effect to cool tissue to approximately −70°C, inducing Wallerian-like degeneration while preserving the endoneurial scaffold — unlike radiofrequency ablation, this gives a reversible conduction block."
+        },
+        {
+          "question": "An intervention to target neuropathic pain in the distribution of a single peripheral nerve.",
+          "correct": 6,
+          "explanation": "<strong>G. Peripheral nerve stimulation</strong> — PNS is delivered via a percutaneous trial lead before permanent implantation and, per the COMFORT trial, is best suited to single-nerve injury with focal neuropathic pain."
+        }
+      ]
     }
   ]
 }
