@@ -185,11 +185,21 @@ button{font-family:var(--san);cursor:pointer}
 @media(max-width:640px){.startback-grid{grid-template-columns:1fr}}
 
 /* ===== GUIDELINE SELECT (mobile) ===== */
-.gl-select-wrap{display:none;padding:10px 16px 12px}
-.gl-select{width:100%;padding:10px 36px 10px 14px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C7068' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 12px center;background-size:14px;appearance:none;-webkit-appearance:none;font-family:var(--san);font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;outline:none;transition:border-color .18s,box-shadow .18s}
-.gl-select:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(240,98,60,.12)}
-.gl-select optgroup{color:var(--coral);font-style:normal;font-weight:700;background:var(--surface)}
-.gl-select option{color:var(--ink);font-weight:500;background:var(--surface)}
+.gl-select-wrap{display:none;padding:10px 16px 12px;position:relative;z-index:40}
+.gl-custom-select{position:relative;width:100%}
+.gl-custom-trigger{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;outline:none;transition:border-color .18s,box-shadow .18s;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.gl-custom-trigger:focus,.gl-custom-trigger.open{border-color:var(--coral);box-shadow:0 0 0 3px rgba(240,98,60,.12)}
+.gl-custom-trigger-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gl-custom-chevron{width:14px;height:14px;stroke:var(--stone);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.gl-custom-trigger.open .gl-custom-chevron{transform:rotate(180deg)}
+.gl-custom-menu{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface);border:1.5px solid var(--border-strong);border-radius:12px;box-shadow:0 8px 32px -8px rgba(36,27,22,.22);z-index:50;overflow-y:auto;max-height:58vh;display:none}
+.gl-custom-menu.open{display:block}
+.gl-custom-group-header{padding:9px 14px 7px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--coral);background:var(--cream);border-bottom:1px solid var(--border)}
+.gl-custom-group-header:not(:first-child){border-top:1px solid var(--border)}
+.gl-custom-option{padding:11px 14px;font-size:14px;font-weight:500;color:var(--stone);cursor:pointer;transition:background .12s,color .12s;border-bottom:1px solid var(--border)}
+.gl-custom-option:last-child{border-bottom:none}
+.gl-custom-option:hover{background:var(--coral-faint);color:var(--ink)}
+.gl-custom-option.active{color:var(--coral);font-weight:600;background:var(--coral-faint)}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
@@ -297,7 +307,13 @@ button{font-family:var(--san);cursor:pointer}
     </div>
     <nav class="gl-list" id="gl-list" role="list" aria-label="Select a guideline"></nav>
     <div class="gl-select-wrap">
-      <select id="gl-select" class="gl-select" aria-label="Select a guideline"></select>
+      <div class="gl-custom-select" id="gl-custom-select">
+        <button class="gl-custom-trigger" id="gl-custom-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="gl-custom-trigger-label" id="gl-custom-label">Select a guideline</span>
+          <svg class="gl-custom-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="gl-custom-menu" id="gl-custom-menu" role="listbox"></div>
+      </div>
     </div>
   </aside>
 
@@ -930,14 +946,15 @@ function renderContent(g) {
   `;
 }
 
+var syncCustomSelect;
+
 function loadGuideline(id) {
   const g = GUIDELINES.find(x => x.id === id);
   if (!g) return;
   renderList(id);
   document.getElementById('gl-content').innerHTML = renderContent(g);
   document.getElementById('gl-main').scrollTo({ top: 0, behavior: 'smooth' });
-  const sel = document.getElementById('gl-select');
-  if (sel) sel.value = id;
+  if (typeof syncCustomSelect === 'function') syncCustomSelect(id);
   history.replaceState(null, '', `#${id}`);
 }
 
@@ -997,24 +1014,54 @@ drawerOverlay.addEventListener('click', closeDrawer);
 (function init() {
   const hashId  = location.hash.replace('#', '');
   const startId = GUIDELINES.find(g => g.id === hashId)?.id || GUIDELINES[0].id;
-  const sel = document.getElementById('gl-select');
-  if (sel) {
-    const groups = {};
-    GUIDELINES.forEach(g => {
-      if (!groups[g.org]) {
-        const og = document.createElement('optgroup');
-        og.label = `${g.org} Guidance`;
-        sel.appendChild(og);
-        groups[g.org] = og;
-      }
-      const opt = document.createElement('option');
-      opt.value = g.id;
-      opt.textContent = `${g.title}${g.code ? ' — ' + g.code : ''}`;
-      groups[g.org].appendChild(opt);
+  const customTrigger = document.getElementById('gl-custom-trigger');
+  const customMenu    = document.getElementById('gl-custom-menu');
+  const customLabel   = document.getElementById('gl-custom-label');
+
+  syncCustomSelect = function(id) {
+    customMenu.querySelectorAll('.gl-custom-option').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.id === id);
     });
-    sel.value = startId;
-    sel.addEventListener('change', () => loadGuideline(sel.value));
+    const g = GUIDELINES.find(x => x.id === id);
+    if (g) customLabel.textContent = `${g.title}${g.code ? ' — ' + g.code : ''}`;
+    customMenu.classList.remove('open');
+    customTrigger.classList.remove('open');
+    customTrigger.setAttribute('aria-expanded', 'false');
   }
+
+  // Build menu
+  const seenOrgs = {};
+  GUIDELINES.forEach(g => {
+    if (!seenOrgs[g.org]) {
+      const hdr = document.createElement('div');
+      hdr.className = 'gl-custom-group-header';
+      hdr.textContent = `${g.org} Guidance`;
+      customMenu.appendChild(hdr);
+      seenOrgs[g.org] = true;
+    }
+    const opt = document.createElement('div');
+    opt.className = 'gl-custom-option';
+    opt.dataset.id = g.id;
+    opt.setAttribute('role', 'option');
+    opt.textContent = `${g.title}${g.code ? ' — ' + g.code : ''}`;
+    opt.addEventListener('click', () => loadGuideline(g.id));
+    customMenu.appendChild(opt);
+  });
+
+  syncCustomSelect(startId);
+
+  customTrigger.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = customMenu.classList.toggle('open');
+    customTrigger.classList.toggle('open', open);
+    customTrigger.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', () => {
+    customMenu.classList.remove('open');
+    customTrigger.classList.remove('open');
+    customTrigger.setAttribute('aria-expanded', 'false');
+  });
+  document.getElementById('gl-custom-select').addEventListener('click', e => e.stopPropagation());
   renderList(startId);
   document.getElementById('gl-content').innerHTML = renderContent(GUIDELINES.find(x => x.id === startId));
 })();
