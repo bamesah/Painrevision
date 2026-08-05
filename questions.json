@@ -611,7 +611,13 @@
         "Neurapraxia is associated with Wallerian degeneration and recovery occurring over several months.",
         "Sunderland Grade V injury is synonymous with neurotmesis, involving complete disruption of both axons and the scaffold."
       ],
-      "correct": [false, true, true, false, true],
+      "correct": [
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
       "explanation": "<p>A traumatic peripheral nerve injury can be graded by Seddon's classification (neurapraxia, axonotmesis, neurotmesis) or Sunderland's five-grade system, which predicts prognosis and the need for surgery.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> Neurapraxia is a myelin injury only; the axon and scaffold remain intact and Wallerian degeneration does not occur.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> Sunderland Grade III involves axonal and endoneurial disruption but the perineurium and epineurium remain preserved.</p><p style=\"margin-top:12px\"><strong>C – True:</strong> Wallerian degeneration begins within days and is well established by 1–2 weeks after axonal injury.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> Neurapraxia recovers rapidly (3–6 weeks) via remyelination, without Wallerian degeneration.</p><p style=\"margin-top:12px\"><strong>E – True:</strong> Grade V is complete neurotmesis — disruption of both axons and the entire scaffold.</p><img src=\"images/seddon_sunderland_classification.png\" alt=\"Seddon-Sunderland classification table comparing nerve injury grades\" style=\"max-width:100%;border-radius:10px;margin-top:20px;border:1px solid #EDE3D7\">"
     },
     {
@@ -628,7 +634,13 @@
         "Schwann cells retain their repair phenotype indefinitely, regardless of any delay to reinnervation.",
         "Peripheral nerves receive their blood supply from a single dominant vascular pedicle at each level."
       ],
-      "correct": [false, true, true, false, false],
+      "correct": [
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
       "explanation": "<p>Peripheral nerve structure is organised through a central nervous tissue (axon) which conducts electrical signal. This is wrapped around by myelin from glial cells which speeds signal transmission. On the outer layer of the glial cells is a layer called the basal lamina which is made of proteins. These are then surrounded by layers of connective tissue from inside to the outside as follows: endoneurium → fascicle → perineurium → epineurium.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> The epineurium is the outermost layer and provides tensile strength; the endoneurium surrounds individual axons.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> Fascicles (groups of axons) are each wrapped in the multilayered perineurium.</p><p style=\"margin-top:12px\"><strong>C – True:</strong> The basal lamina is an extracellular matrix secreted by Schwann cells, maintaining axon–Schwann cell alignment.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> If reinnervation is delayed beyond 6–12 weeks, Schwann cells progressively lose their repair phenotype, with some undergoing apoptosis.</p><p style=\"margin-top:12px\"><strong>E – False:</strong> Nerves are supplied by widely separated segmental pedicles feeding longitudinal vascular plexi, not a single pedicle.</p><img src=\"images/axon-image.png\" alt=\"Diagram of peripheral nerve cellular structure showing axon, Schwann cell, basal lamina, endoneurium, fascicle, perineurium, and epineurium\" style=\"max-width:100%;border-radius:10px;margin-top:20px;border:1px solid #EDE3D7\">"
     },
     {
@@ -645,7 +657,13 @@
         "Neuromas contain reduced densities of voltage-gated sodium and mechanosensitive ion channels compared with normal nerve.",
         "Aberrant sympathetic sprouting can upregulate α1-adrenoceptor expression on nociceptors, producing sympathetically maintained pain."
       ],
-      "correct": [true, true, false, false, true],
+      "correct": [
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
       "explanation": "<p>Peripheral nerve injury triggers a cascade of peripheral and central changes underlying neuropathic pain.</p><p style=\"margin-top:12px\"><strong>A – True:</strong> Upregulated Na⁺ channels drive spontaneous ectopic firing at the site of injury.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> Glutamate and substance P release activates AMPA/NMDA receptors, driving wind-up and long-term potentiation.</p><p style=\"margin-top:12px\"><strong>C – False:</strong> Noradrenergic descending inhibition from the locus coeruleus diminishes after injury, reducing inhibitory control.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> Neuromas show increased densities of voltage-gated sodium and mechanosensitive channels, causing spontaneous and mechanically evoked firing.</p><p style=\"margin-top:12px\"><strong>E – True:</strong> Sympathetic sprouting can upregulate α1-adrenoceptors on nociceptors, producing sympathetically maintained pain (cold allodynia, colour change).</p>"
     },
     {
@@ -662,7 +680,13 @@
         "Botulinum toxin type A exerts part of its analgesic effect through inhibition of SNAP-25-dependent neurotransmitter release.",
         "Perineural hydrodissection using saline is reserved for cases where dextrose is contraindicated."
       ],
-      "correct": [false, true, false, true, false],
+      "correct": [
+        false,
+        true,
+        false,
+        true,
+        false
+      ],
       "explanation": "<p>Neuromodulation and injectate-based techniques act via distinct, targeted mechanisms.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> Cryoneurolysis preserves the scaffold and produces a reversible conduction block, unlike radiofrequency ablation which disrupts it.</p><p style=\"margin-top:12px\"><strong>B – True:</strong> The ACCURATE trial showed DRGS had a significantly higher responder rate than SCS for focal neuropathic pain.</p><p style=\"margin-top:12px\"><strong>C – False:</strong> PNS is best suited to single-nerve injury; SCS is preferred for diffuse or multi-nerve involvement.</p><p style=\"margin-top:12px\"><strong>D – True:</strong> BoNT-A's analgesic effect is mediated through SNAP-25 inhibition, sodium channel suppression, and TRPV1 modulation.</p><p style=\"margin-top:12px\"><strong>E – False:</strong> Both saline and dextrose 5% in water are non-neurotoxic; saline gives inert mechanical separation while D5W may add antinociceptive effects.</p>"
     },
     {
@@ -761,6 +785,109 @@
           "explanation": "<strong>G. Peripheral nerve stimulation</strong> — PNS is delivered via a percutaneous trial lead before permanent implantation and, per the COMFORT trial, is best suited to single-nerve injury with focal neuropathic pain."
         }
       ]
+    },
+    {
+      "id": "q_nrb_consent_001",
+      "type": "MTF",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-08-05",
+      "rotationIndex": 34,
+      "stem": "Regarding Nerve Root Blocks:",
+      "choices": [
+        "Non-particulate steroids are licensed for use in neuraxial procedures.",
+        "Verbal consent alone is sufficient; a signed consent form is not required.",
+        "Non-particulate steroids should be preferred over particulate steroids.",
+        "The clinician providing treatment must always personally obtain consent, and this responsibility can never be delegated.",
+        "Consent discussion should include information about the option of taking no action."
+      ],
+      "correct": [
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "explanation": "<p>Consent for nerve root blocks must be adequately informed, cover the off-label use of corticosteroids and material risks, and be documented in writing before the procedure.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> All corticosteroid preparations — both particulate and non-particulate — are used off-label ('beyond licence') for neuraxial procedures, as none currently holds an MHRA marketing authorisation for epidural use; patients must be consented accordingly.</p><p style=\"margin-top:12px\"><strong>B – False:</strong> Written consent should be obtained for all nerve root blocks/epidural injections for pain of spinal origin, documented on a separate signed consent form kept in the patient's records.</p><p style=\"margin-top:12px\"><strong>C – True:</strong> Inadvertent intravascular injection of particulate steroid into a radicular artery can form precipitates that occlude the vessel, risking spinal cord or brainstem ischaemia — non-particulate steroids avoid this risk.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> The responsibility can be delegated to another suitably trained and competent clinician with sufficient knowledge of the treatment, provided GMC guidance is followed; the treating clinician should still review the patient's decision immediately before treatment.</p><p style=\"margin-top:12px\"><strong>E – True:</strong> Consent discussions must cover potential benefits and adverse outcomes, including the option of taking no action, alongside side-effects, complications, and material risks.</p>"
+    },
+    {
+      "id": "q_nrb_contrast_001",
+      "type": "MTF",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-08-05",
+      "rotationIndex": 35,
+      "stem": "Use of contrast in nerve root blocks:",
+      "choices": [
+        "Contrast medium used must be non-ionic and water-soluble.",
+        "Luer connectors are the recommended standard for neuraxial procedures.",
+        "Negative aspiration can safely rule out intravascular position of the needle.",
+        "Ultrasound is an acceptable alternative to fluoroscopy for performance of nerve root blocks.",
+        "Image guidance is recommended primarily to shorten procedure time."
+      ],
+      "correct": [
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "explanation": "<p>Accurate needle placement is central to safe and effective nerve root blocks, and the guideline places significant emphasis on fluoroscopic technique, connector safety, and image retention as governance requirements.</p><p style=\"margin-top:12px\"><strong>A – True:</strong> A non-ionic, water-soluble contrast medium licensed for spinal (including intrathecal) injection must be used to confirm needle placement and spread.</p><p style=\"margin-top:12px\"><strong>B – False:</strong> Non-Luer (NRFit) connectors are now mandated for neuraxial procedures, following a National Patient Safety Alert aimed at preventing wrong-route errors; standard Luer connectors are no longer appropriate.</p><p style=\"margin-top:12px\"><strong>C – False:</strong> Small vessels can occlude under the negative pressure of aspiration, giving a false-negative result — intravascular spread must instead be excluded by injecting contrast under live fluoroscopy.</p><p style=\"margin-top:12px\"><strong>D – False:</strong> Ultrasound can help position the needle, but FPM guidance recommends fluoroscopy to confirm final needle position, with contrast used to confirm spread and exclude intravascular injection.</p><p style=\"margin-top:12px\"><strong>E – False:</strong> Image guidance's stated purpose is to provide a higher degree of precision, minimise complications, and improve reliability of outcomes — not primarily to reduce procedure time.</p>"
+    },
+    {
+      "id": "q_nrb_monitoring_001",
+      "type": "MTF",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-08-05",
+      "rotationIndex": 36,
+      "stem": "Monitoring for nerve root blocks:",
+      "choices": [
+        "Monitoring (ECG, NIBP, SpO2) should be continued for the duration of the procedure only.",
+        "New limb weakness after the procedure should be managed with routine same-day discharge and outpatient follow-up.",
+        "Patients should be given a contact option to report complications such as headache, fever, prolonged numbness/weakness or urinary retention.",
+        "Emergency full spine MRI scanning is a necessary resource for services providing this procedure.",
+        "Inadvertent dural puncture may necessitate a more prolonged hospital admission."
+      ],
+      "correct": [
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "explanation": "<p>Because nerve root blocks carry a small but serious risk of neurological or infective complications, the guideline sets minimum standards for monitoring duration, discharge safety-netting, and urgent access to imaging and surgical opinion.</p><p style=\"margin-top:12px\"><strong>A – False:</strong> ECG, NIBP and SpO2 monitoring should commence before the procedure and continue for 30 minutes after block completion, not stop at the end of the procedure.</p><p style=\"margin-top:12px\"><strong>B – False:</strong> Significant limb weakness, sensory loss or headache on the day of the procedure may necessitate an unplanned overnight admission with review the next day before discharge, rather than routine same-day discharge.</p><p style=\"margin-top:12px\"><strong>C – True:</strong> After discharge, patients should be given a contact option to report acute complications including headache, fever, prolonged numbness/weakness or urinary retention.</p><p style=\"margin-top:12px\"><strong>D – True:</strong> Emergency full spine MRI scanning should be available, with arrangements in place for urgent neurosurgical or spinal surgical referral if needed.</p><p style=\"margin-top:12px\"><strong>E – True:</strong> If the procedure is complicated by inadvertent dural puncture, the patient may require a more prolonged admission and management per local guidance.</p>"
+    },
+    {
+      "id": "q_nrb_antiplatelet_001",
+      "type": "SBA",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-08-05",
+      "rotationIndex": 37,
+      "question": "A 68-year-old man on clopidogrel for a coronary stent placed four months ago is considered for a transforaminal lumbar nerve root block for radicular pain. He asks whether he must stop his clopidogrel beforehand. What is the most appropriate next step regarding his antiplatelet therapy?",
+      "choices": [
+        "Stop clopidogrel seven days before the procedure.",
+        "Continue clopidogrel unchanged and proceed with the block as planned.",
+        "Discuss interruption of clopidogrel with the cardiologist, weighing bleeding and thrombotic risk.",
+        "Substitute clopidogrel with aspirin for the peri-procedural period.",
+        "Permanently cancel the procedure while he remains on clopidogrel."
+      ],
+      "correct": 2,
+      "explanation": "<p><strong>A. Incorrect.</strong> Unilaterally stopping clopidogrel risks stent thrombosis, particularly this soon after stenting, and bypasses the need for individualised risk assessment.</p><p style=\"margin-top:8px\"><strong>B. Incorrect.</strong> Continuing unchanged does not account for the increased bleeding/haematoma risk of neuraxial-adjacent procedures in patients on antiplatelet therapy.</p><p style=\"margin-top:8px\"><strong>C. Correct.</strong> The guideline states that interruption of antiplatelet/anticoagulant therapy should be considered after evaluating bleeding and thrombotic risk, discussed with the physician or GP supervising that therapy, following current published guidelines.</p><p style=\"margin-top:8px\"><strong>D. Incorrect.</strong> Substituting aspirin is not a guideline-supported bridging strategy and does not resolve the underlying risk-benefit decision, which needs specialist input given the recent stenting.</p><p style=\"margin-top:8px\"><strong>E. Incorrect.</strong> Cancellation is not automatic — many patients on antiplatelets can still safely proceed after appropriate individualised risk assessment and discussion with the supervising physician.</p>"
+    },
+    {
+      "id": "q_caudal_epidural_risk_001",
+      "type": "SBA",
+      "topic": "Clinical Pain",
+      "dateAdded": "2026-08-05",
+      "rotationIndex": 38,
+      "question": "Which of the following represents an increased risk specific to the caudal route for epidural injections?",
+      "choices": [
+        "Contrast medium allergy",
+        "Skin contamination",
+        "Radiation exposure",
+        "Local anaesthetic toxicity",
+        "Vasovagal syncope"
+      ],
+      "correct": 1,
+      "explanation": "<p><strong>A. Incorrect.</strong> Contrast allergy risk is not route-specific — it applies equally to any procedure requiring contrast medium.</p><p style=\"margin-top:8px\"><strong>B. Correct.</strong> FPM guidance specifies that particular care is required with skin preparation for the caudal route, because of the increased risk of skin contamination in that area, given its proximity to the perineum/natal cleft.</p><p style=\"margin-top:8px\"><strong>C. Incorrect.</strong> Radiation exposure considerations apply across all fluoroscopically guided levels, not specifically to caudal skin preparation.</p><p style=\"margin-top:8px\"><strong>D. Incorrect.</strong> Local anaesthetic systemic toxicity relates to drug dose and inadvertent intravascular injection, and is not specific to the caudal route.</p><p style=\"margin-top:8px\"><strong>E. Incorrect.</strong> Vasovagal syncope is a recognised generic procedural complication, but is not the specific risk the guideline associates with caudal skin preparation.</p>"
     }
   ]
 }
