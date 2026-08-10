@@ -122,7 +122,7 @@ button{font-family:var(--san);cursor:pointer}
 .gl-main::-webkit-scrollbar-track{background:transparent}
 .gl-main::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px}
 
-.gl-content{max-width:740px;padding:36px 44px 80px}
+.gl-content{max-width:900px;margin:0 auto;padding:36px 44px 80px}
 
 /* Content header */
 .gl-content-hd{padding-bottom:24px;margin-bottom:28px;border-bottom:1px solid var(--border)}
@@ -183,6 +183,54 @@ button{font-family:var(--san);cursor:pointer}
 .sb-high .sb-score{color:var(--wrong)}
 .sb-card p{font-size:13px;line-height:1.55;color:var(--ink-soft)}
 @media(max-width:640px){.startback-grid{grid-template-columns:1fr}}
+
+/* ===== DATA TABLES ===== */
+.gl-tables{padding:6px 18px 16px;display:flex;flex-direction:column;gap:18px}
+.gl-table-block:first-child{margin-top:8px}
+.gl-table-caption{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px}
+.gl-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+.gl-table{width:100%;border-collapse:collapse;font-size:13px;min-width:420px}
+.gl-table th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--stone);background:var(--surface-warm);padding:9px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
+.gl-table td{padding:10px 14px;border-bottom:1px solid rgba(237,227,215,.6);color:var(--ink-soft);line-height:1.5;vertical-align:top}
+.gl-table tr:last-child td{border-bottom:none}
+.gl-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.gl-table-note{font-size:12.5px;color:var(--stone);line-height:1.5;margin-top:8px;padding-left:2px}
+.gl-cell-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.gl-cell-list li{position:relative;padding-left:13px;line-height:1.5}
+.gl-cell-list li::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--stone-light)}
+@media(max-width:480px){
+  .gl-tables{padding:4px 14px 14px}
+  .gl-table{font-size:12.5px}
+  .gl-table th,.gl-table td{padding:8px 10px}
+}
+
+/* Risk-variant tables (low/medium/high) */
+.gl-table-caption{display:flex;align-items:center;gap:7px}
+.gl-table-caption::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--coral-deep);flex-shrink:0}
+.gl-table-caption-low{color:var(--correct)}
+.gl-table-caption-low::before{background:var(--correct)}
+.gl-table-caption-medium{color:#7A5200}
+.gl-table-caption-medium::before{background:var(--amber)}
+.gl-table-caption-high{color:var(--wrong)}
+.gl-table-caption-high::before{background:var(--wrong)}
+.gl-table-wrap-low{border-color:var(--correct-border)}
+.gl-table-wrap-low th{background:var(--correct-bg)}
+.gl-table-wrap-medium{border-color:rgba(245,165,36,.38)}
+.gl-table-wrap-medium th{background:rgba(245,165,36,.11)}
+.gl-table-wrap-high{border-color:var(--wrong-border)}
+.gl-table-wrap-high th{background:var(--wrong-bg)}
+
+/* Risk-variant table rows */
+.gl-row-low{background:var(--correct-bg)}
+.gl-row-low td:first-child{color:var(--correct)}
+.gl-row-medium{background:rgba(245,165,36,.11)}
+.gl-row-medium td:first-child{color:#7A5200}
+.gl-row-high{background:var(--wrong-bg)}
+.gl-row-high td:first-child{color:var(--wrong)}
+.gl-row-low td:first-child::before,.gl-row-medium td:first-child::before,.gl-row-high td:first-child::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.gl-row-low td:first-child::before{background:var(--correct)}
+.gl-row-medium td:first-child::before{background:var(--amber)}
+.gl-row-high td:first-child::before{background:var(--wrong)}
 
 /* ===== GUIDELINE SELECT (mobile) ===== */
 .gl-select-wrap{display:none;padding:10px 16px 12px;position:relative;z-index:40}
@@ -915,6 +963,168 @@ const GUIDELINES = [
         ]
       }
     ]
+  },
+  {
+    id: 'fpm-anticoag',
+    code: '',
+    org: 'FPM',
+    title: 'Anticoagulation & Procedures',
+    published: '2026',
+    url: 'https://fpm.ac.uk/sites/fpm/files/documents/2026-04/Anticoagulation%20guidance%202026%20FINAL.pdf',
+    sections: [
+      {
+        type: 'info',
+        heading: 'Commonly Used Drugs',
+        tables: [
+          {
+            caption: 'Antiplatelets',
+            columns: ['Drug', 'Mechanism'],
+            rows: [
+              ['Aspirin', 'Irreversible COX-1 inhibitor'],
+              ['Clopidogrel, Prasugrel', 'Irreversible P2Y12 receptor antagonist'],
+              ['Ticagrelor, Cangrelor (IV)', 'Reversible P2Y12 receptor antagonist'],
+              ['Abciximab, Eptifibatide, Tirofiban <span style="font-weight:400;color:var(--stone)">(GPIIb/IIIa inhibitors)</span>', 'Block final common pathway of platelet aggregation'],
+              ['Dipyridamole', 'PDE inhibitor, adenosine uptake inhibitor'],
+              ['Cilostazol', 'PDE III inhibitor']
+            ]
+          },
+          {
+            caption: 'Anticoagulants',
+            columns: ['Drug', 'Class'],
+            rows: [
+              ['Warfarin', 'Vitamin K antagonist'],
+              ['Apixaban, Rivaroxaban, Edoxaban <span style="font-weight:400;color:var(--stone)">(DOACs)</span>', 'Direct Factor Xa inhibitor'],
+              ['Dabigatran <span style="font-weight:400;color:var(--stone)">(DOAC)</span>', 'Direct thrombin (Factor IIa) inhibitor'],
+              ['Unfractionated Heparin (UFH)', 'Indirect thrombin inhibitor via antithrombin'],
+              ['LMWH <span style="font-weight:400;color:var(--stone)">(e.g. Enoxaparin)</span>', 'Indirect Factor Xa inhibitor via antithrombin'],
+              ['Fondaparinux', 'Synthetic pentasaccharide, indirect Factor Xa inhibitor'],
+              ['Bivalirudin', 'Direct thrombin inhibitor']
+            ]
+          },
+          {
+            caption: 'Other Medications Affecting Haemostasis',
+            columns: ['Agent', 'Effect on Haemostasis'],
+            rows: [
+              ['SSRIs / SNRIs', 'Inhibit serotonin uptake by platelets, impairing aggregation; risk increased with concurrent NSAIDs or aspirin'],
+              ['Herbal agents &amp; supplements<div style="white-space:normal;font-weight:400;color:var(--stone);margin-top:3px">Examples: garlic, ginkgo biloba, ginseng, danshen, dong quai, fish oil, high-dose vitamin E</div>', 'Impair platelet aggregation — high-risk for bleeding']
+            ]
+          }
+        ]
+      },
+      {
+        type: 'assess',
+        heading: 'Risk Stratification',
+        points: [
+          '<strong>Evaluate procedure-specific risks</strong> — each intervention should be assessed individually, considering its inherent bleeding risk.',
+          '<strong>Avoid interventions during active thrombolytic therapy</strong> — the elevated and unpredictable bleeding risk means procedures should not proceed.',
+          '<strong>Reconcile all medications</strong> — review antiplatelets, anticoagulants, and other haemostasis-affecting agents (SSRIs/SNRIs, NSAIDs, herbal supplements).',
+          '<strong>Assess the antithrombotic therapy</strong> — distinguish primary vs secondary prevention; recent thromboembolic events or high-risk cardiac stents warrant heightened caution.',
+          '<strong>Apply a higher threshold for dual antiplatelet therapy</strong> — proceed with moderate/high-risk procedures only where the anticipated clinical benefit clearly outweighs the increased haemorrhagic or thrombotic risk.'
+        ],
+        tables: [
+          {
+            caption: 'Procedural Risk',
+            columns: ['Risk Category', 'Example Procedures'],
+            rows: [
+              ['High', '<ul class="gl-cell-list"><li>Spinal cord stimulation</li><li>Intrathecal drug delivery systems</li><li>Cervical transforaminal epidurals / nerve root blocks</li></ul>'],
+              ['Intermediate', '<ul class="gl-cell-list"><li>Interlaminar epidurals</li><li>Thoracic &amp; lumbar transforaminal epidurals / nerve root blocks</li><li>Cervical facet medial branch blocks &amp; RF denervation</li><li>Sympathetic blocks (stellate, thoracic, splanchnic, coeliac, lumbar, hypogastric)</li><li>Peripheral nerve stimulation trial &amp; implant (location-dependent)</li></ul>'],
+              ['Low', '<ul class="gl-cell-list"><li>Peripheral nerve blocks</li><li>Peripheral joint &amp; musculoskeletal injections</li><li>Trigger point injections (incl. piriformis)</li><li>Sacroiliac joint injection &amp; sacral lateral branch blocks</li><li>Thoracic &amp; lumbar facet medial branch blocks &amp; RF denervation</li><li>Peripheral nerve stimulation trial &amp; implant (location-dependent)</li><li>Pocket revision &amp; IPG placement</li></ul>']
+            ],
+            rowVariants: ['high', 'medium', 'low'],
+            note: 'In patients with elevated bleeding risk, reclassify intermediate-risk procedures as high risk and low-risk procedures as intermediate.'
+          },
+          {
+            caption: 'Thrombotic Risk',
+            columns: ['Clinical Indication', 'High Thrombotic Risk Factors'],
+            rows: [
+              ['Atrial fibrillation', 'Stroke/TIA within 3 months, or CHADS2 score ≥4.'],
+              ['Mechanical heart valve', 'Non-bileaflet aortic valve, or additional risk factors (AF, ventricular dysfunction, history of PE).'],
+              ['Venous thromboembolism', 'VTE within the last 3 months, or recurrent VTE despite anticoagulation.'],
+              ['Acute coronary syndrome', 'Recent MI or coronary stent (particularly &lt;6 weeks); ongoing dual antiplatelet therapy within 12 months of PCI.']
+            ]
+          },
+          {
+            caption: 'Patient-Related Risk Factors',
+            columns: ['Risk Factor', 'Detail'],
+            rows: [
+              ['Age', '&gt;75 years'],
+              ['Previous major bleeding', 'Includes known coagulopathy'],
+              ['Advanced liver disease', 'Including cirrhosis'],
+              ['Renal impairment', 'Especially eGFR &lt;30 mL/min'],
+              ['Concurrent haemostasis-modifying agents', 'e.g. SSRIs, NSAIDs, herbal products']
+            ],
+            note: 'Escalate procedural risk when one or more of these factors are present.'
+          }
+        ]
+      },
+      {
+        type: 'key',
+        heading: 'Duration of Cessation & Restart',
+        points: [
+          'Stop/restart timing is stratified by <strong>procedural bleeding risk</strong> — see the Risk Stratification section above for how a procedure is categorised as low, intermediate, or high risk.'
+        ],
+        tables: [
+          {
+            caption: 'Low Risk Procedure',
+            variant: 'low',
+            columns: ['Drug', 'Stop', 'Restart'],
+            rows: [
+              ['Aspirin', 'Continue', '24 hours'],
+              ['Clopidogrel / Prasugrel', 'Continue in most situations', '24 hours'],
+              ['Ticagrelor', 'Continue in most situations', '24 hours'],
+              ['Dipyridamole', 'Continue', '24 hours'],
+              ['Warfarin', 'Continue — ensure last dose taken ≥6 hours before the procedure. Individual assessment if bleeding risk is high or INR &gt;3.0.', '≥6 hours (ideally 24 hours)'],
+              ['DOACs <span style="font-weight:400;color:var(--stone)">(except dabigatran)</span>', 'Omit on day of procedure — allow ≥2 half-lives since last dose (usually 24 hours). Longer if CrCl &lt;15 (drug accumulates unpredictably).', '24 hours'],
+              ['Dabigatran', 'As other DOACs', '24 hours'],
+              ['IV Heparin', '6 hours pre-procedure', '2 hours (low-bleeding risk), 24 hours (high-bleeding risk)'],
+              ['LMWH (prophylactic)', '12 hours', '12–24 hours'],
+              ['LMWH (therapeutic)', '24 hours', '12–24 hours'],
+              ['Fondaparinux', '48 hours', '24 hours']
+            ]
+          },
+          {
+            caption: 'Intermediate Risk Procedure',
+            variant: 'medium',
+            columns: ['Drug', 'Stop', 'Restart'],
+            rows: [
+              ['Aspirin', 'Consider stopping if anatomically higher bleeding risk (e.g. cervical epidural, stellate ganglion block)', '24 hours'],
+              ['Clopidogrel / Prasugrel', '7 days', '24 hours'],
+              ['Ticagrelor', '5 days', '24 hours'],
+              ['Dipyridamole', 'Continue', '24 hours'],
+              ['Warfarin', '5 days (target INR ≤1.2). Consider LMWH bridging if high thrombotic risk.', '≥6 hours (ideally 24 hours)'],
+              ['DOACs <span style="font-weight:400;color:var(--stone)">(except dabigatran)</span>', '3 days (5 half-lives)', '24 hours'],
+              ['Dabigatran', '4 days (6 days if renal impairment)', '24 hours'],
+              ['IV Heparin', '6 hours pre-procedure', '2 hours (low-bleeding risk), 24 hours (high-bleeding risk)'],
+              ['LMWH (prophylactic)', '12 hours', '12–24 hours'],
+              ['LMWH (therapeutic)', '24 hours', '12–24 hours'],
+              ['Fondaparinux', '4 days', '24 hours']
+            ]
+          },
+          {
+            caption: 'High Risk Procedure',
+            variant: 'high',
+            columns: ['Drug', 'Stop', 'Restart'],
+            rows: [
+              ['Aspirin', '<div>Primary prevention: 6 days</div><div style="margin-top:2px">Secondary prevention: 4 days</div>', '24 hours'],
+              ['Clopidogrel / Prasugrel', '7 days', '24 hours'],
+              ['Ticagrelor', '5 days', '24 hours'],
+              ['Dipyridamole', '48 hours', '24 hours'],
+              ['Warfarin', '5 days (target INR ≤1.2). Consider LMWH bridging if high thrombotic risk.', '≥6 hours (ideally 24 hours)'],
+              ['DOACs <span style="font-weight:400;color:var(--stone)">(except dabigatran)</span>', '3 days (5 half-lives)', '24 hours'],
+              ['Dabigatran', '4 days (6 days if renal impairment)', '24 hours'],
+              ['IV Heparin', '6 hours pre-procedure', '2 hours (low-bleeding risk), 24 hours (high-bleeding risk)'],
+              ['LMWH (prophylactic)', '12 hours', '12–24 hours'],
+              ['LMWH (therapeutic)', '24 hours', '12–24 hours'],
+              ['Fondaparinux', '4 days', '24 hours']
+            ]
+          }
+        ],
+        postPoints: [
+          '<strong>Herbal medicines and SSRIs/SNRIs</strong> should not be routinely stopped — consider interruption on an individual basis only where additional bleeding risk factors are present.',
+          'This stratification reflects <strong>procedural bleeding risk only</strong>. Individual bleeding and thrombotic risk factors must still be considered before deciding on timing — consult haematology and the parent team if there is any concern.'
+        ]
+      }
+    ]
   }
 ];
 
@@ -932,6 +1142,24 @@ const ICONS = {
 const TAG_LABELS = { avoid:'Avoid', offer:'Offer', consider:'Consider', key:'Key', info:'Scope', assess:'Assessment' };
 
 // ─── Risk card renderer ───────────────────────────────────────────────────────
+
+function renderTable(t) {
+  const capCls = 'gl-table-caption' + (t.variant ? ` gl-table-caption-${t.variant}` : '');
+  const wrapCls = 'gl-table-wrap' + (t.variant ? ` gl-table-wrap-${t.variant}` : '');
+  return `<div class="gl-table-block">
+    ${t.caption ? `<div class="${capCls}">${t.caption}</div>` : ''}
+    <div class="${wrapCls}">
+      <table class="gl-table">
+        <thead><tr>${t.columns.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+        <tbody>${t.rows.map((r, i) => {
+          const rv = t.rowVariants && t.rowVariants[i];
+          return `<tr${rv ? ` class="gl-row-${rv}"` : ''}>${r.map(cell => `<td>${cell}</td>`).join('')}</tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>
+    ${t.note ? `<div class="gl-table-note">${t.note}</div>` : ''}
+  </div>`;
+}
 
 function renderRiskCards(cards) {
   const cls = { low: 'sb-low', medium: 'sb-medium', high: 'sb-high' };
@@ -1001,6 +1229,7 @@ function renderContent(g) {
               </div>`).join('')}
           </div>` : ''}
           ${s.riskCards ? renderRiskCards(s.riskCards) : ''}
+          ${(s.tables || []).length ? `<div class="gl-tables">${s.tables.map(renderTable).join('')}</div>` : ''}
           ${(s.postPoints || []).length ? `<div class="gl-points">${s.postPoints.map(p => `
               <div class="gl-point">
                 <span class="gl-bullet" aria-hidden="true"></span>
