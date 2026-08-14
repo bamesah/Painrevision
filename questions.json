@@ -459,7 +459,7 @@
         "Continuous fluoroscopy rather than pulsed fluoroscopy",
         "Magnification",
         "Use of a laser cross to guide imaging",
-        "Moving the body part for imaging closer to the source"
+        "Moving the body part for imaging closer to the image intensifier"
       ],
       "correct": [
         true,
@@ -468,7 +468,7 @@
         true,
         true
       ],
-      "explanation": "<p><strong>A. True.</strong> Beam collimation limits the divergence of X-rays, restricting the radiation field to only the area of interest. This improves image quality without increasing dose, and reduces scatter radiation to staff.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Continuous fluoroscopy increases the total radiation dose compared with pulsed fluoroscopy. Pulsed techniques use intermittent exposures at a reduced frame rate, substantially cutting the dose rate. Switching from continuous to pulsed fluoroscopy is a key strategy for dose reduction.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Magnification requires a higher dose of ionising radiation to maintain image quality, because the detector captures a smaller field area, necessitating increased X-ray output. Using the lowest appropriate magnification factor minimises dose.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> The laser cross (or cross-hair targeting system) allows the operator to align and target the image intensifier accurately before initiating any exposure. By ensuring correct positioning before the fluoroscopy run, unnecessary screening time is avoided.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Moving the body part closer to the X-ray source (and hence closer to the image intensifier) reduces beam divergence, improving image quality with less radiation. Greater source-to-skin distance and shorter object-to-detector distance both reduce dose to the patient.</p>"
+      "explanation": "<p><strong>A. True.</strong> Beam collimation limits the divergence of X-rays, restricting the radiation field to only the area of interest. This improves image quality without increasing dose, and reduces scatter radiation to staff.</p><p style=\"margin-top:12px\"><strong>B. False.</strong> Continuous fluoroscopy increases the total radiation dose compared with pulsed fluoroscopy. Pulsed techniques use intermittent exposures at a reduced frame rate, substantially cutting the dose rate. Switching from continuous to pulsed fluoroscopy is a key strategy for dose reduction.</p><p style=\"margin-top:12px\"><strong>C. False.</strong> Magnification requires a higher dose of ionising radiation to maintain image quality, because the detector captures a smaller field area, necessitating increased X-ray output. Using the lowest appropriate magnification factor minimises dose.</p><p style=\"margin-top:12px\"><strong>D. True.</strong> The laser cross (or cross-hair targeting system) allows the operator to align and target the image intensifier accurately before initiating any exposure. By ensuring correct positioning before the fluoroscopy run, unnecessary screening time is avoided.</p><p style=\"margin-top:12px\"><strong>E. True.</strong> Moving the body part closer to the image intensifier reduces beam divergence, improving image quality with less radiation. Greater source-to-skin distance and shorter object-to-image intensifier distance both reduce dose to the patient.</p>"
     },
     {
       "id": "q_radiation_cancer_risk_001",
