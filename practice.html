@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Practice — PainRevision</title>
+<meta name="description" content="Build a custom FFPMRCA practice set or sit a full mock exam."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);--correct-border:rgba(26,138,74,.32);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);--wrong-border:rgba(192,57,43,.32);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --r:18px;--maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-family:var(--san);font-size:14.5px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn-primary:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--stone);border-color:var(--border-strong)}
+.btn-ghost:hover{color:var(--ink);border-color:var(--stone)}
+.btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+
+/* ===== APP TOPBAR ===== */
+.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border)}
+.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px 32px;max-width:1120px;margin:0 auto}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
+.app-logo svg{width:28px;height:28px;flex-shrink:0}
+.app-logo .pain{color:var(--ink)}
+.app-logo .rev{color:var(--coral)}
+.app-nav{display:flex;align-items:center;gap:2px;margin-left:28px}
+.app-nav a{font-size:14px;font-weight:600;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.app-nav a:hover{color:var(--ink);background:var(--surface-warm)}
+.app-topbar-right{display:flex;align-items:center;gap:14px;margin-left:auto}
+.app-timer{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink);background:var(--surface-warm);border:1px solid var(--border);border-radius:999px;padding:6px 14px;display:none;align-items:center;gap:6px}
+.app-timer.low{color:var(--wrong);border-color:var(--wrong-border)}
+.app-timer svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+@media(max-width:700px){.app-nav{display:none}}
+
+/* ===== AUTH GATE ===== */
+#auth-gate{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.gate-card{max-width:360px;text-align:center}
+.gate-spinner{width:28px;height:28px;border-radius:999px;border:3px solid var(--border);border-top-color:var(--coral);margin:0 auto 16px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gate-text{font-size:14px;color:var(--stone)}
+
+.app-main{padding:44px 0 80px;display:none}
+
+/* ===== CONFIG SCREEN ===== */
+.config-card{max-width:640px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:40px}
+.config-card h1{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.config-card > p.sub{font-size:14.5px;color:var(--stone);margin-bottom:28px;line-height:1.6}
+.config-section{margin-bottom:26px}
+.config-label{font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:10px;display:block}
+.config-count-row{display:flex;align-items:center;gap:14px}
+.config-count-row input[type=range]{flex:1;accent-color:var(--coral)}
+.config-count-num{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--coral);min-width:34px;text-align:center}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:220px;overflow-y:auto;padding:4px 4px 4px 0}
+@media(max-width:540px){.cat-grid{grid-template-columns:1fr}}
+.cat-chip{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1.5px solid var(--border);border-radius:12px;font-size:13.5px;color:var(--ink-soft);cursor:pointer;transition:border-color .15s,background .15s}
+.cat-chip:hover{border-color:var(--stone-light)}
+.cat-chip.checked{border-color:var(--coral);background:var(--coral-faint);color:var(--ink)}
+.cat-chip input{accent-color:var(--coral)}
+.cat-chip .cnt{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--stone-light)}
+.source-row{display:flex;flex-direction:column;gap:8px}
+.source-opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:border-color .15s,background .15s}
+.source-opt:hover{border-color:var(--stone-light)}
+.source-opt.checked{border-color:var(--coral);background:var(--coral-faint)}
+.source-opt input{accent-color:var(--coral)}
+.source-opt-text{font-size:14px;color:var(--ink-soft)}
+.source-opt-text small{display:block;font-size:12px;color:var(--stone-light);margin-top:1px}
+.mock-summary{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:26px}
+.mock-stat{background:var(--surface-warm);border:1px solid var(--border);border-radius:14px;padding:14px 18px;flex:1;min-width:130px}
+.mock-stat .n{font-size:22px;font-weight:800;color:var(--coral);letter-spacing:-.02em}
+.mock-stat .l{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:2px}
+.config-error{display:none;background:rgba(192,57,43,.1);border:1px solid var(--wrong-border);color:var(--wrong);font-size:13.5px;padding:11px 15px;border-radius:10px;margin-bottom:20px}
+.config-error.show{display:block}
+
+/* ===== SESSION LAYOUT (question column + scoreboard sidebar) ===== */
+.session-layout{display:grid;grid-template-columns:1fr 240px;gap:28px;align-items:start;max-width:1100px;margin:0 auto}
+.session-main{min-width:0}
+@media(max-width:900px){.session-layout{grid-template-columns:1fr}}
+
+/* ===== SCOREBOARD ===== */
+.scoreboard{position:sticky;top:84px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:18px}
+.scoreboard-title{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);margin-bottom:12px;padding:0 4px}
+.scoreboard-list{display:flex;flex-direction:column;gap:5px;max-height:520px;overflow-y:auto}
+.score-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:10px;border:1.5px solid transparent;background:none;font-family:var(--san);cursor:pointer;transition:background .15s,border-color .15s;width:100%;text-align:left}
+.score-row:hover{background:var(--surface-warm)}
+.score-row.is-current{border-color:var(--coral);background:var(--coral-faint)}
+.score-num{font-size:13px;font-weight:600;color:var(--ink-soft)}
+.score-status{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:7px;font-family:var(--mono);font-size:11px;font-weight:700}
+.score-status.pending{color:var(--stone-light);background:var(--cream);border:1.5px solid var(--border)}
+.score-status svg{width:13px;height:13px;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.score-status.good{background:var(--correct-bg);color:var(--correct)}
+.score-status.good svg{stroke:var(--correct)}
+.score-status.bad{background:var(--wrong-bg);color:var(--wrong)}
+.score-status.bad svg{stroke:var(--wrong)}
+.score-status.mid{background:var(--amber-soft);color:#9a6a0a}
+.score-status.frac{min-width:34px;padding:0 4px}
+@media(max-width:900px){
+  .scoreboard{position:static;top:auto}
+  .scoreboard-list{max-height:none;flex-direction:row;flex-wrap:wrap}
+  .score-row{width:auto;flex:0 0 auto}
+}
+
+/* ===== QUESTION TRACKER (mock exam mode) ===== */
+.qtracker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-height:520px;overflow-y:auto;padding:2px}
+.qtracker-item{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--ink-soft);font-family:var(--mono);font-weight:700;font-size:13px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.qtracker-item:hover{border-color:var(--stone)}
+.qtracker-item.complete{background:var(--correct);border-color:var(--correct);color:#fff}
+.qtracker-item.partial{background:var(--amber);border-color:var(--amber);color:#fff}
+.qtracker-item.is-current{outline:2px solid var(--coral);outline-offset:2px}
+.tracker-legend{display:flex;flex-direction:column;gap:6px;margin:2px 4px 14px;font-size:12px;color:var(--stone)}
+.tracker-legend span{display:inline-flex;align-items:center;gap:7px}
+.tracker-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;border:1.5px solid var(--border-strong)}
+.tracker-legend i.complete{background:var(--correct);border-color:var(--correct)}
+.tracker-legend i.partial{background:var(--amber);border-color:var(--amber)}
+@media(max-width:900px){.qtracker-grid{max-height:none;grid-template-columns:repeat(8,1fr)}}
+
+/* ===== TIME WARNING MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(36,27,22,.5);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal-card{background:var(--surface);border-radius:22px;padding:34px 32px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow)}
+.modal-icon{width:52px;height:52px;border-radius:16px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.modal-icon svg{width:24px;height:24px;stroke:#9a6a0a;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.modal-card h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.modal-card p{font-size:14px;color:var(--stone);line-height:1.6;margin-bottom:22px}
+
+/* ===== SESSION HEADER ===== */
+.session-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.practice-dots{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.practice-dot{width:34px;height:34px;border-radius:999px;border:2px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--stone);cursor:pointer;transition:all .22s cubic-bezier(.2,.7,.2,1)}
+.practice-dot:hover{border-color:var(--coral);color:var(--coral)}
+.practice-dot.is-current{border-color:var(--coral);color:var(--coral);background:var(--coral-faint)}
+.practice-dot.is-answered{background:var(--coral);border-color:var(--coral);color:#fff}
+.finish-btn{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:8px 18px;cursor:pointer;transition:all .18s}
+.finish-btn:hover{border-color:var(--coral);color:var(--coral)}
+
+/* ===== QUESTION CARD (shared shapes rendered by question-engine.js) ===== */
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.q-card-top{height:4px;background:linear-gradient(90deg,var(--coral),var(--amber))}
+.q-card-body{padding:36px 40px}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.q-badge{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid}
+.q-badge-sba{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
+.q-badge-mtf{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
+.q-badge-emq{color:#1a7a5a;background:rgba(26,122,90,.08);border-color:rgba(26,122,90,.2)}
+.q-topic{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light);background:var(--cream);padding:4px 10px;border-radius:999px;border:1px solid var(--border)}
+.q-text{font-size:17px;font-weight:500;line-height:1.65;color:var(--ink);margin-bottom:28px;text-wrap:pretty}
+.q-stem{font-size:16px;font-weight:500;line-height:1.6;color:var(--ink);margin-bottom:24px;text-wrap:pretty}
+
+.sba-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.sba-option{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;transition:border-color .15s,background .15s}
+.sba-option:hover:not(.locked){border-color:var(--coral);background:var(--coral-faint)}
+.sba-option.selected{border-color:var(--coral);background:var(--coral-faint)}
+.sba-option.correct{border-color:var(--correct-border) !important;background:var(--correct-bg) !important;cursor:default}
+.sba-option.wrong{border-color:var(--wrong-border) !important;background:var(--wrong-bg) !important;cursor:default}
+.sba-option.locked:not(.correct):not(.wrong){opacity:.5;cursor:default}
+.sba-letter{width:28px;height:28px;border-radius:8px;background:var(--cream);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);flex-shrink:0;transition:background .15s,border-color .15s,color .15s}
+.sba-option.selected .sba-letter{background:var(--coral);border-color:var(--coral);color:#fff}
+.sba-option.correct .sba-letter{background:var(--correct);border-color:var(--correct);color:#fff}
+.sba-option.wrong .sba-letter{background:var(--wrong);border-color:var(--wrong);color:#fff}
+.sba-option-text{font-size:15px;line-height:1.55;color:var(--ink);flex:1;padding-top:2px}
+.sba-option-icon{width:18px;height:18px;flex-shrink:0;margin-top:4px}
+
+.mtf-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.mtf-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface)}
+.mtf-row.revealed-correct{border-color:var(--correct-border);background:var(--correct-bg)}
+.mtf-row.revealed-wrong{border-color:var(--wrong-border);background:var(--wrong-bg)}
+.mtf-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);width:22px;flex-shrink:0;padding-top:3px}
+.mtf-statement{flex:1;font-size:15px;line-height:1.55;color:var(--ink)}
+.mtf-toggles{display:flex;gap:6px;flex-shrink:0}
+.mtf-toggle{padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--cream);font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--stone);cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.mtf-toggle:hover:not([disabled]){border-color:var(--stone)}
+.mtf-toggle.selected-true,.mtf-toggle.selected-false{background:rgba(240,98,60,.1);border-color:rgba(240,98,60,.35);color:var(--coral)}
+.mtf-toggle[disabled]{cursor:default;opacity:.75}
+.mtf-toggle.correct-answer{background:var(--correct-bg)!important;border-color:var(--correct-border)!important;color:var(--correct)!important;opacity:1!important}
+
+.emq-lead{font-size:15px;color:var(--stone);line-height:1.6;margin-bottom:20px;font-style:italic}
+.emq-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px;background:var(--cream);border-radius:14px;padding:16px;border:1px solid var(--border)}
+.emq-options-label{grid-column:1/-1;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:4px}
+.emq-opt{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.5;color:var(--stone)}
+.emq-opt-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--coral);flex-shrink:0;min-width:18px}
+.emq-questions{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.emq-q-row{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px 18px}
+.emq-q-row.correct-ans{border-color:var(--correct-border);background:var(--correct-bg)}
+.emq-q-row.wrong-ans{border-color:var(--wrong-border);background:var(--wrong-bg)}
+.emq-q-num{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:6px}
+.emq-q-text{font-size:14.5px;line-height:1.6;color:var(--ink);margin-bottom:12px}
+.emq-select{width:100%;padding:9px 14px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--cream);font-family:var(--san);font-size:14px;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237C7068' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.emq-select:disabled{opacity:.65;cursor:default}
+.emq-answer-reveal{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:8px;display:inline-block;margin-top:8px}
+.emq-answer-correct{color:var(--correct);background:var(--correct-bg)}
+.emq-answer-wrong{color:var(--wrong);background:var(--wrong-bg)}
+
+.explanation{display:none;margin-top:24px;padding:20px 22px;background:var(--surface-warm);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:14px}
+.explanation.visible{display:block}
+.explanation-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.explanation-text{font-size:14.5px;line-height:1.7;color:var(--stone);text-wrap:pretty}
+.explanation-text table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+.explanation-text th,.explanation-text td{border:1px solid var(--border-strong);padding:7px 11px;text-align:left}
+.explanation-text th{background:var(--cream);font-weight:700;color:var(--ink)}
+.explanation-text strong{color:var(--ink);font-weight:700}
+
+.q-actions{display:flex;align-items:center;gap:12px;padding:24px 40px;border-top:1px solid var(--border);background:var(--surface-warm);flex-wrap:wrap}
+.practice-answered-note{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--correct-bg);border-radius:12px;border:1px solid var(--correct-border)}
+.practice-answered-note svg{width:16px;height:16px;stroke:var(--correct);fill:none;stroke-width:2.5}
+.practice-answered-note p{font-size:13.5px;font-weight:600;color:var(--correct)}
+.tomorrow-note{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--cream);border:1px solid var(--border);border-radius:14px}
+
+.practice-q-slide{display:none}
+.practice-q-slide.is-active{display:block;animation:practiceIn .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes practiceIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.session-nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding:16px 0}
+.session-nav-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:14px;font-weight:600;color:var(--stone);cursor:pointer;transition:all .2s}
+.session-nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+.session-nav-btn:not(:disabled):hover{border-color:var(--coral);color:var(--coral)}
+.session-nav-btn:disabled{opacity:.35;cursor:default}
+.session-progress-text{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light)}
+
+@keyframes wiggle{0%,100%{transform:translateX(0)}15%{transform:translateX(-6px)}35%{transform:translateX(6px)}50%{transform:translateX(-4px)}70%{transform:translateX(4px)}85%{transform:translateX(-2px)}}
+.wiggle{animation:wiggle .45s ease}
+
+/* ===== RESULTS SCREEN ===== */
+.results-card{max-width:640px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:44px 40px;text-align:center}
+.results-score{font-size:52px;font-weight:800;letter-spacing:-.04em;color:var(--coral);margin:14px 0 4px}
+.results-sub{font-size:14.5px;color:var(--stone);margin-bottom:30px}
+.results-breakdown{display:flex;flex-direction:column;gap:8px;text-align:left;margin-bottom:30px}
+.results-row{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--surface-warm);border:1px solid var(--border);border-radius:12px;font-size:13.5px}
+.results-row .cat{color:var(--ink-soft);font-weight:600}
+.results-row .acc{font-family:var(--mono);color:var(--stone)}
+.results-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  .app-topbar-in{padding:12px 20px}
+  .app-main{padding:28px 0 60px}
+  .config-card{padding:26px 22px}
+  .q-card-body{padding:24px 20px}
+  .q-actions{padding:18px 20px}
+  .emq-options-grid{grid-template-columns:1fr}
+  .results-card{padding:32px 22px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app-topbar">
+  <div class="app-topbar-in">
+    <a class="app-logo" href="dashboard.html" aria-label="PainRevision dashboard">
+      <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <nav class="app-nav" aria-label="App navigation">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="my-progress.html">My Progress</a>
+    </nav>
+    <div class="app-topbar-right">
+      <div class="app-timer" id="app-timer"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span id="timer-text">90:00</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="auth-gate">
+  <div class="gate-card">
+    <div class="gate-spinner" aria-hidden="true"></div>
+    <p class="gate-text">Checking your session…</p>
+  </div>
+</div>
+
+<main class="app-main" id="app-main">
+  <div class="wrap">
+
+    <!-- CONFIG SCREEN -->
+    <div id="config-screen">
+      <div class="config-card">
+        <span class="eyebrow" id="config-eyebrow" style="margin-bottom:8px">Practice Set</span>
+        <h1 id="config-title">Build a practice set</h1>
+        <p class="sub" id="config-sub">Choose how many questions, which categories, and where to draw them from.</p>
+
+        <div class="config-error" id="config-error"></div>
+
+        <!-- Mock exam summary (mode=mock) -->
+        <div id="mock-summary-block" style="display:none">
+          <div class="mock-summary">
+            <div class="mock-stat"><div class="n">50</div><div class="l">Questions</div></div>
+            <div class="mock-stat"><div class="n">90</div><div class="l">Minutes</div></div>
+            <div class="mock-stat"><div class="n">All</div><div class="l">Categories</div></div>
+          </div>
+        </div>
+
+        <!-- Custom practice controls (mode=custom) -->
+        <div id="custom-config-block" style="display:none">
+          <div class="config-section">
+            <label class="config-label">Number of questions</label>
+            <div class="config-count-row">
+              <input type="range" id="count-range" min="1" max="50" value="10"/>
+              <span class="config-count-num" id="count-num">10</span>
+            </div>
+          </div>
+          <div class="config-section">
+            <label class="config-label">Categories <span style="font-weight:400;color:var(--stone-light)">(none selected = all)</span></label>
+            <div class="cat-grid" id="cat-grid"></div>
+          </div>
+          <div class="config-section">
+            <label class="config-label">Question type <span style="font-weight:400;color:var(--stone-light)">(none selected = all)</span></label>
+            <div class="cat-grid" id="type-grid">
+              <label class="cat-chip" data-type="SBA"><input type="checkbox" value="SBA"/><span>SBA — Single Best Answer</span></label>
+              <label class="cat-chip" data-type="MTF"><input type="checkbox" value="MTF"/><span>MTF — Multiple True/False</span></label>
+              <label class="cat-chip" data-type="EMQ"><input type="checkbox" value="EMQ"/><span>EMQ — Extended Matching</span></label>
+            </div>
+          </div>
+          <div class="config-section">
+            <label class="config-label">Question source</label>
+            <div class="source-row" id="source-row">
+              <label class="source-opt checked"><input type="radio" name="source" value="all" checked/><span class="source-opt-text">All questions<small>Every question in the selected categories</small></span></label>
+              <label class="source-opt"><input type="radio" name="source" value="new"/><span class="source-opt-text">New only<small>Questions you haven't attempted yet</small></span></label>
+              <label class="source-opt"><input type="radio" name="source" value="answered"/><span class="source-opt-text">Previously answered<small>Anything you've attempted before</small></span></label>
+              <label class="source-opt"><input type="radio" name="source" value="wrong"/><span class="source-opt-text">Previously wrong only<small>Your last attempt on these was incorrect</small></span></label>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="start-btn" style="width:100%;justify-content:center">Start</button>
+      </div>
+    </div>
+
+    <!-- SESSION SCREEN -->
+    <div id="session-screen" style="display:none">
+      <div class="session-layout">
+        <div class="session-main">
+          <div class="session-header">
+            <div class="practice-dots" id="practice-dots"></div>
+            <button class="finish-btn" id="finish-btn">Finish</button>
+          </div>
+          <div id="session-q-wrapper"></div>
+          <div class="session-nav-row">
+            <button class="session-nav-btn" id="prev-btn" disabled>
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Previous
+            </button>
+            <span class="session-progress-text" id="session-progress">Question 1 of 10</span>
+            <button class="session-nav-btn" id="next-btn">Next <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+        </div>
+        <aside class="scoreboard">
+          <div class="scoreboard-title">Scoreboard</div>
+          <div class="tracker-legend" id="tracker-legend" style="display:none">
+            <span><i class="complete"></i> Fully answered</span>
+            <span><i class="partial"></i> Partially answered</span>
+            <span><i></i> Not attempted</span>
+          </div>
+          <div class="scoreboard-list" id="scoreboard-list"></div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="results-screen" style="display:none">
+      <div class="results-card">
+        <span class="eyebrow">Session complete</span>
+        <div class="results-score" id="results-score">0/0</div>
+        <p class="results-sub" id="results-sub">You scored 0%.</p>
+        <div class="mock-summary" id="results-type-summary" style="margin-bottom:30px"></div>
+        <div class="results-breakdown" id="results-breakdown"></div>
+        <div class="results-actions">
+          <a class="btn btn-primary" href="dashboard.html">Back to dashboard</a>
+          <button class="btn btn-ghost" id="retry-btn">Start another set</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- 10-MINUTES-REMAINING WARNING (mock exam only) -->
+<div class="modal-overlay" id="time-warning-modal" style="display:none">
+  <div class="modal-card">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <h3>10 minutes left</h3>
+    <p>The exam will auto-submit as soon as time runs out.</p>
+    <button class="btn btn-primary" id="time-warning-dismiss" style="width:100%;justify-content:center">Got it</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/question-engine.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const mode = params.get('mode') === 'mock' ? 'mock' : 'custom';
+
+let currentUser = null;
+let categories = [];       // [{id, name, count}]
+let answeredMap = {};       // question_id -> last is_correct
+let sessionQuestions = [];
+let sessionAnswered = [];
+let sessionCorrect = [];
+let sessionDetail = [];
+let sessionStatus = [];      // exam mode only: 'unanswered' | 'partial' | 'complete' per question
+let sessionControllers = []; // exam mode only: { getResult() } per question, for grading at Finish
+let currentIdx = 0;
+let attemptId = null;
+let timerInterval = null;
+let timeRemaining = 0;
+
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = 'login.html'; return; }
+  currentUser = session.user;
+
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('app-main').style.display = 'block';
+
+  if (mode === 'mock') {
+    document.getElementById('config-eyebrow').textContent = 'Mock Exam';
+    document.getElementById('config-title').textContent = 'Full mock exam';
+    document.getElementById('config-sub').textContent = 'A timed, full-length simulation drawn from the entire question bank.';
+    document.getElementById('mock-summary-block').style.display = 'block';
+    document.getElementById('start-btn').textContent = 'Start Mock Exam';
+    document.getElementById('practice-dots').style.display = 'none';
+    document.querySelector('.scoreboard-title').textContent = 'Question tracker';
+    document.getElementById('tracker-legend').style.display = 'flex';
+  } else {
+    document.getElementById('custom-config-block').style.display = 'block';
+    await loadCategoriesAndHistory();
+    wireConfigControls();
+  }
+
+  document.getElementById('start-btn').addEventListener('click', startSession);
+  document.getElementById('prev-btn').addEventListener('click', () => navigateSession(-1));
+  document.getElementById('next-btn').addEventListener('click', () => navigateSession(1));
+  document.getElementById('finish-btn').addEventListener('click', onFinishClick);
+  document.getElementById('retry-btn').addEventListener('click', () => location.href = 'practice.html?mode=' + mode);
+  document.getElementById('time-warning-dismiss').addEventListener('click', () => {
+    document.getElementById('time-warning-modal').style.display = 'none';
+  });
+}
+
+function onFinishClick() {
+  if (mode === 'mock') {
+    const allAnswered = sessionStatus.every(s => s === 'complete');
+    const msg = allAnswered
+      ? 'Are you sure you want to submit?'
+      : 'Not all answers have been attempted — are you sure you want to submit?';
+    if (!window.confirm(msg)) return;
+  }
+  finishSession();
+}
+
+/* ===== CONFIG: categories + answer history ===== */
+async function loadCategoriesAndHistory() {
+  const { data: cats } = await sb.from('categories').select('id,name').order('name');
+  const { data: links } = await sb.from('question_categories').select('category_id');
+  const counts = {};
+  (links || []).forEach(l => { counts[l.category_id] = (counts[l.category_id] || 0) + 1; });
+  categories = (cats || []).map(c => ({ id: c.id, name: c.name, count: counts[c.id] || 0 }));
+
+  const grid = document.getElementById('cat-grid');
+  grid.innerHTML = categories.map(c => `
+    <label class="cat-chip" data-cat="${c.id}">
+      <input type="checkbox" value="${c.id}"/>
+      <span>${escHtml(c.name)}</span>
+      <span class="cnt">${c.count}</span>
+    </label>`).join('');
+
+  const { data: answered } = await sb
+    .from('attempt_answers')
+    .select('question_id, is_correct, created_at, attempts!inner(user_id)')
+    .eq('attempts.user_id', currentUser.id)
+    .order('created_at', { ascending: true });
+  (answered || []).forEach(a => { answeredMap[a.question_id] = a.is_correct; });
+}
+
+function wireConfigControls() {
+  const range = document.getElementById('count-range');
+  const num = document.getElementById('count-num');
+  range.addEventListener('input', () => { num.textContent = range.value; });
+
+  document.getElementById('cat-grid').addEventListener('change', e => {
+    e.target.closest('.cat-chip').classList.toggle('checked', e.target.checked);
+  });
+  document.getElementById('type-grid').addEventListener('change', e => {
+    e.target.closest('.cat-chip').classList.toggle('checked', e.target.checked);
+  });
+  document.getElementById('source-row').addEventListener('change', e => {
+    document.querySelectorAll('.source-opt').forEach(o => o.classList.toggle('checked', o.querySelector('input').checked));
+  });
+}
+
+/* ===== START SESSION: build pool, create attempt row ===== */
+async function startSession() {
+  const startBtn = document.getElementById('start-btn');
+  startBtn.disabled = true;
+  startBtn.textContent = 'Loading…';
+  hideConfigError();
+
+  let query = sb.from('questions').select('id, type, data, question_categories(categories(name), category_id)').eq('status', 'published');
+
+  let selectedCatIds = [];
+  let selectedTypes = [];
+  let count = 50;
+  let sourceFilter = 'all';
+
+  if (mode === 'custom') {
+    count = parseInt(document.getElementById('count-range').value, 10);
+    selectedCatIds = [...document.querySelectorAll('#cat-grid input:checked')].map(i => i.value);
+    selectedTypes = [...document.querySelectorAll('#type-grid input:checked')].map(i => i.value);
+    sourceFilter = document.querySelector('#source-row input:checked').value;
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    showConfigError('Could not load questions: ' + error.message);
+    startBtn.disabled = false;
+    startBtn.textContent = mode === 'mock' ? 'Start Mock Exam' : 'Start';
+    return;
+  }
+
+  let pool = (data || []).map(row => {
+    const cats = (row.question_categories || []);
+    const topic = cats[0]?.categories?.name || '';
+    const catIds = cats.map(c => c.category_id);
+    return { id: row.id, type: row.type, topic, catIds, ...row.data };
+  });
+
+  if (selectedCatIds.length) {
+    pool = pool.filter(q => q.catIds.some(id => selectedCatIds.includes(id)));
+  }
+
+  if (selectedTypes.length) {
+    pool = pool.filter(q => selectedTypes.includes(q.type));
+  }
+
+  if (sourceFilter === 'new') pool = pool.filter(q => !(q.id in answeredMap));
+  else if (sourceFilter === 'answered') pool = pool.filter(q => q.id in answeredMap);
+  else if (sourceFilter === 'wrong') pool = pool.filter(q => answeredMap[q.id] === false);
+
+  if (!pool.length) {
+    showConfigError('No questions match those filters — try widening your selection.');
+    startBtn.disabled = false;
+    startBtn.textContent = mode === 'mock' ? 'Start Mock Exam' : 'Start';
+    return;
+  }
+
+  const shuffled = pool.sort(() => Math.random() - 0.5);
+  sessionQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
+  sessionAnswered = new Array(sessionQuestions.length).fill(false);
+  sessionCorrect = new Array(sessionQuestions.length).fill(null);
+  sessionDetail = new Array(sessionQuestions.length).fill(null);
+  sessionStatus = new Array(sessionQuestions.length).fill('unanswered');
+  sessionControllers = new Array(sessionQuestions.length).fill(null);
+  currentIdx = 0;
+
+  const { data: attempt, error: attemptErr } = await sb
+    .from('attempts')
+    .insert({
+      user_id: currentUser.id,
+      mode: mode === 'mock' ? 'mock' : 'practice'
+    })
+    .select()
+    .single();
+  if (attemptErr) console.error('Could not start attempt tracking:', attemptErr);
+  else attemptId = attempt.id;
+
+  document.getElementById('config-screen').style.display = 'none';
+  document.getElementById('session-screen').style.display = 'block';
+
+  if (mode === 'mock') startTimer(90 * 60);
+
+  renderSession();
+}
+
+function showConfigError(msg) {
+  const el = document.getElementById('config-error');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideConfigError() {
+  document.getElementById('config-error').classList.remove('show');
+}
+
+/* ===== TIMER ===== */
+function startTimer(seconds) {
+  timeRemaining = seconds;
+  let tenMinWarned = false;
+  const timerEl = document.getElementById('app-timer');
+  timerEl.style.display = 'flex';
+  updateTimerText();
+  timerInterval = setInterval(() => {
+    timeRemaining--;
+    updateTimerText();
+    if (timeRemaining <= 300) timerEl.classList.add('low');
+    if (!tenMinWarned && timeRemaining <= 600) {
+      tenMinWarned = true;
+      document.getElementById('time-warning-modal').style.display = 'flex';
+    }
+    if (timeRemaining <= 0) { clearInterval(timerInterval); finishSession(); }
+  }, 1000);
+}
+function updateTimerText() {
+  const m = Math.max(0, Math.floor(timeRemaining / 60));
+  const s = Math.max(0, timeRemaining % 60);
+  document.getElementById('timer-text').textContent = `${m}:${String(s).padStart(2, '0')}`;
+}
+
+/* ===== SESSION RENDER ===== */
+function renderSession() {
+  const wrapper = document.getElementById('session-q-wrapper');
+  wrapper.innerHTML = '';
+
+  sessionQuestions.forEach((q, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'practice-q-slide' + (i === 0 ? ' is-active' : '');
+    const idx = i;
+    const startTime = Date.now();
+
+    if (mode === 'mock') {
+      sessionControllers[idx] = renderQuestion(q, slide, 'exam', function(status) {
+        sessionStatus[idx] = status;
+        renderSidePanel();
+      });
+    } else {
+      renderQuestion(q, slide, 'practice', function(wasCorrect, detail) {
+        sessionAnswered[idx] = true;
+        sessionCorrect[idx] = wasCorrect;
+        sessionDetail[idx] = detail || null;
+        const elapsed = Math.round((Date.now() - startTime) / 1000);
+        recordAnswer(q.id, wasCorrect, elapsed, q.type === 'EMQ' ? detail?.results : null);
+        renderDots();
+        renderSidePanel();
+      });
+    }
+    wrapper.appendChild(slide);
+  });
+
+  renderDots();
+  renderSidePanel();
+  updateNav();
+}
+
+function renderSidePanel() {
+  if (mode === 'mock') renderTracker(); else renderScoreboard();
+}
+
+/* EMQ answers are recorded as one row per sub-question (each with its own
+   is_correct) rather than one row for the whole question, so accuracy stats
+   elsewhere can be computed per sub-question. Pass emqResults (an array of
+   per-sub-question booleans) to get that; omit it for SBA/MTF. */
+async function recordAnswer(questionId, isCorrect, timeSpentSecs, emqResults) {
+  if (!attemptId) return;
+  const rows = emqResults
+    ? emqResults.map((correct, i) => ({
+        attempt_id: attemptId,
+        question_id: questionId,
+        answer: { subIndex: i },
+        is_correct: correct,
+        time_spent_secs: timeSpentSecs
+      }))
+    : [{
+        attempt_id: attemptId,
+        question_id: questionId,
+        answer: {},
+        is_correct: isCorrect,
+        time_spent_secs: timeSpentSecs
+      }];
+  const { error } = await sb.from('attempt_answers').insert(rows);
+  if (error) console.error('Could not record answer:', error);
+}
+
+function navigateSession(delta) {
+  goToQuestion(currentIdx + delta);
+}
+
+function goToQuestion(i) {
+  if (i < 0 || i >= sessionQuestions.length) return;
+  document.querySelectorAll('.practice-q-slide').forEach(s => s.classList.remove('is-active'));
+  currentIdx = i;
+  document.querySelectorAll('.practice-q-slide')[i].classList.add('is-active');
+  renderDots();
+  renderSidePanel();
+  updateNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderDots() {
+  const container = document.getElementById('practice-dots');
+  container.innerHTML = '';
+  sessionQuestions.forEach((q, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'practice-dot';
+    if (sessionAnswered[i]) dot.classList.add('is-answered');
+    if (i === currentIdx) dot.classList.add('is-current');
+    dot.textContent = i + 1;
+    dot.addEventListener('click', () => goToQuestion(i));
+    container.appendChild(dot);
+  });
+}
+
+/* ===== SCOREBOARD =====
+   SBA/EMQ: a single tick or cross. MTF: a coloured fraction of correctly
+   answered statements (red at 0, amber in between, green at full marks). */
+function renderScoreboard() {
+  const list = document.getElementById('scoreboard-list');
+  if (!list) return;
+  list.className = 'scoreboard-list';
+  list.innerHTML = '';
+  sessionQuestions.forEach((q, i) => {
+    const row = document.createElement('button');
+    row.className = 'score-row' + (i === currentIdx ? ' is-current' : '');
+
+    let statusHtml;
+    if (!sessionAnswered[i]) {
+      statusHtml = '<span class="score-status pending">–</span>';
+    } else if (q.type === 'MTF' && sessionDetail[i]) {
+      const { correct, total } = sessionDetail[i];
+      const cls = correct === 0 ? 'bad' : correct === total ? 'good' : 'mid';
+      statusHtml = `<span class="score-status frac ${cls}">${correct}/${total}</span>`;
+    } else if (sessionCorrect[i]) {
+      statusHtml = '<span class="score-status good"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>';
+    } else {
+      statusHtml = '<span class="score-status bad"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>';
+    }
+
+    row.innerHTML = `<span class="score-num">Q${i + 1}</span>${statusHtml}`;
+    row.addEventListener('click', () => goToQuestion(i));
+    list.appendChild(row);
+  });
+}
+
+/* ===== QUESTION TRACKER (mock exam mode) =====
+   No correctness is shown during the exam — only completion state:
+   green once fully answered, amber if an MTF/EMQ is partially answered,
+   left at its default appearance if untouched. */
+function renderTracker() {
+  const list = document.getElementById('scoreboard-list');
+  if (!list) return;
+  list.className = 'qtracker-grid';
+  list.innerHTML = sessionQuestions.map((q, i) => {
+    const status = sessionStatus[i] || 'unanswered';
+    const cls = status === 'complete' ? 'complete' : status === 'partial' ? 'partial' : '';
+    return `<button class="qtracker-item ${cls}${i === currentIdx ? ' is-current' : ''}" data-idx="${i}">${i + 1}</button>`;
+  }).join('');
+  list.querySelectorAll('.qtracker-item').forEach(btn => {
+    btn.addEventListener('click', () => goToQuestion(parseInt(btn.dataset.idx, 10)));
+  });
+}
+
+function updateNav() {
+  const n = sessionQuestions.length;
+  document.getElementById('prev-btn').disabled = currentIdx === 0;
+  document.getElementById('next-btn').disabled = currentIdx === n - 1;
+  document.getElementById('session-progress').textContent = `Question ${currentIdx + 1} of ${n}`;
+}
+
+/* ===== FINISH + RESULTS ===== */
+async function finishSession() {
+  if (timerInterval) clearInterval(timerInterval);
+  document.getElementById('app-timer').style.display = 'none';
+
+  if (mode === 'mock') {
+    for (let i = 0; i < sessionQuestions.length; i++) {
+      const controller = sessionControllers[i];
+      const result = controller ? controller.getResult() : { isCorrect: false, correct: 0, total: 1, answered: false };
+      sessionAnswered[i] = result.answered;
+      sessionCorrect[i] = result.answered ? result.isCorrect : null;
+      sessionDetail[i] = { correct: result.correct, total: result.total };
+      if (result.answered) {
+        const emqResults = sessionQuestions[i].type === 'EMQ' ? result.results : null;
+        await recordAnswer(sessionQuestions[i].id, result.isCorrect, null, emqResults);
+      }
+    }
+  }
+
+  const total = sessionQuestions.length;
+  const correct = sessionCorrect.filter(c => c === true).length;
+  const attempted = sessionAnswered.filter(Boolean).length;
+  const scorePct = total ? Math.round((correct / total) * 100) : 0;
+
+  if (attemptId) {
+    await sb.from('attempts').update({ completed_at: new Date().toISOString(), score: scorePct }).eq('id', attemptId);
+  }
+
+  document.getElementById('session-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+  document.getElementById('results-score').textContent = `${correct}/${total}`;
+  document.getElementById('results-sub').textContent = `You scored ${scorePct}% — ${attempted} of ${total} questions answered.`;
+
+  // SBA and EMQ are graded per atomic question (each EMQ sub-question counts
+  // separately) — "fully correct" is a meaningful binary outcome for these.
+  // MTF is inherently partial-credit (some statements right, some wrong
+  // within one question), so it gets its own "partially correct" tally
+  // instead of being folded into the binary bucket.
+  let fullyCorrectCount = 0, fullyCorrectTotal = 0;
+  let mtfCorrectCount = 0, mtfTotal = 0;
+  sessionQuestions.forEach((q, i) => {
+    if (!sessionAnswered[i]) return;
+    if (q.type === 'MTF') {
+      const d = sessionDetail[i] || { correct: 0, total: (q.choices || []).length };
+      mtfCorrectCount += d.correct;
+      mtfTotal += d.total;
+    } else if (q.type === 'EMQ') {
+      const d = sessionDetail[i] || { correct: 0, total: (q.questions || []).length };
+      fullyCorrectCount += d.correct;
+      fullyCorrectTotal += d.total;
+    } else {
+      fullyCorrectTotal += 1;
+      if (sessionCorrect[i]) fullyCorrectCount += 1;
+    }
+  });
+
+  const typeSummary = document.getElementById('results-type-summary');
+  let typeSummaryHtml = '';
+  if (fullyCorrectTotal > 0) {
+    typeSummaryHtml += `<div class="mock-stat"><div class="n">${fullyCorrectCount}/${fullyCorrectTotal}</div><div class="l">Fully correct (SBA &amp; EMQ)</div></div>`;
+  }
+  if (mtfTotal > 0) {
+    typeSummaryHtml += `<div class="mock-stat"><div class="n">${mtfCorrectCount}/${mtfTotal}</div><div class="l">Partially correct (MTF)</div></div>`;
+  }
+  typeSummary.innerHTML = typeSummaryHtml;
+  typeSummary.style.display = typeSummaryHtml ? 'flex' : 'none';
+
+  const byTopic = {};
+  sessionQuestions.forEach((q, i) => {
+    if (!sessionAnswered[i]) return;
+    byTopic[q.topic] = byTopic[q.topic] || { correct: 0, total: 0 };
+    byTopic[q.topic].total++;
+    if (sessionCorrect[i]) byTopic[q.topic].correct++;
+  });
+  const breakdown = document.getElementById('results-breakdown');
+  breakdown.innerHTML = Object.entries(byTopic).map(([topic, s]) => `
+    <div class="results-row">
+      <span class="cat">${escHtml(topic || 'General')}</span>
+      <span class="acc">${s.correct}/${s.total}</span>
+    </div>`).join('') || '<p style="color:var(--stone);font-size:13.5px;text-align:center">No questions were answered.</p>';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+init();
+</script>
+</body>
+</html>

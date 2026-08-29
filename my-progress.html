@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Progress — PainRevision</title>
+<meta name="description" content="Your full FFPMRCA practice breakdown by category, with accuracy and coverage."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+
+.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border)}
+.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px 32px;max-width:var(--maxw);margin:0 auto}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
+.app-logo svg{width:28px;height:28px;flex-shrink:0}
+.app-logo .pain{color:var(--ink)}
+.app-logo .rev{color:var(--coral)}
+.app-nav{display:flex;align-items:center;gap:2px;margin-left:28px}
+.app-nav a{font-size:14px;font-weight:600;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.app-nav a:hover{color:var(--ink);background:var(--surface-warm)}
+.app-nav a.active{color:var(--ink);background:rgba(36,27,22,.06)}
+@media(max-width:700px){.app-nav{display:none}}
+
+#auth-gate{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.gate-card{max-width:360px;text-align:center}
+.gate-spinner{width:28px;height:28px;border-radius:999px;border:3px solid var(--border);border-top-color:var(--coral);margin:0 auto 16px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gate-text{font-size:14px;color:var(--stone)}
+
+.progress-main{padding:44px 0 80px;display:none}
+.page-title{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.page-sub{font-size:14.5px;color:var(--stone);margin-bottom:32px}
+
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px}
+@media(max-width:700px){.overview-grid{grid-template-columns:1fr}}
+.overview-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px 26px;box-shadow:var(--shadow-sm)}
+.overview-card .n{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.overview-card .n .unit{font-size:16px;color:var(--stone-light);font-weight:600}
+.overview-card .l{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:4px}
+
+.cat-table{background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow-sm);overflow:hidden}
+.cat-row{display:grid;grid-template-columns:1fr 110px 90px 140px;gap:16px;align-items:center;padding:16px 26px;border-bottom:1px solid var(--border)}
+.cat-row:last-child{border-bottom:none}
+.cat-row.head{background:var(--surface-warm);font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light)}
+.cat-name{font-size:14.5px;font-weight:600;color:var(--ink-soft)}
+.cat-solved{font-family:var(--mono);font-size:13px;color:var(--stone)}
+.cat-acc{font-family:var(--mono);font-size:13px;font-weight:700}
+.cat-acc.good{color:var(--correct)}
+.cat-acc.mid{color:var(--amber)}
+.cat-acc.low{color:var(--wrong)}
+.cat-acc.none{color:var(--stone-light);font-weight:400}
+.cat-bar-track{height:6px;border-radius:999px;background:var(--border);overflow:hidden}
+.cat-bar-fill{height:100%;background:var(--coral);border-radius:999px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+@media(max-width:640px){
+  .cat-row{grid-template-columns:1fr 70px 60px;font-size:12.5px}
+  .cat-row .bar-col{display:none}
+}
+.empty-note{padding:40px 26px;text-align:center;color:var(--stone);font-size:14px}
+
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  .app-topbar-in{padding:12px 20px}
+  .progress-main{padding:32px 0 60px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app-topbar">
+  <div class="app-topbar-in">
+    <a class="app-logo" href="dashboard.html" aria-label="PainRevision dashboard">
+      <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <nav class="app-nav" aria-label="App navigation">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="my-progress.html" class="active">My Progress</a>
+    </nav>
+  </div>
+</div>
+
+<div id="auth-gate">
+  <div class="gate-card">
+    <div class="gate-spinner" aria-hidden="true"></div>
+    <p class="gate-text">Checking your session…</p>
+  </div>
+</div>
+
+<main class="progress-main" id="progress-main">
+  <div class="wrap">
+    <span class="eyebrow" style="margin-bottom:8px">My Progress</span>
+    <h1 class="page-title">Your full breakdown</h1>
+    <p class="page-sub">How much of the bank you've covered, and where your accuracy is strongest and weakest.</p>
+
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="n" id="ov-solved">0 <span class="unit" id="ov-solved-unit">/ 0</span></div>
+        <div class="l">Questions solved</div>
+      </div>
+      <div class="overview-card">
+        <div class="n" id="ov-accuracy">—</div>
+        <div class="l">Overall accuracy</div>
+      </div>
+      <div class="overview-card">
+        <div class="n" id="ov-categories">0</div>
+        <div class="l">Categories attempted</div>
+      </div>
+    </div>
+
+    <div class="cat-table">
+      <div class="cat-row head">
+        <span>Category</span>
+        <span>Solved</span>
+        <span>Accuracy</span>
+        <span class="bar-col"></span>
+      </div>
+      <div id="cat-rows"></div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+}
+
+let currentUser = null;
+
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = 'login.html'; return; }
+  currentUser = session.user;
+
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('progress-main').style.display = 'block';
+
+  loadStats();
+}
+
+async function loadStats() {
+  // EMQ questions count as one question per sub-question (not one per card),
+  // so pull type+data to expand them rather than just counting rows.
+  const { data: qRows } = await sb
+    .from('questions')
+    .select('id, type, data, question_categories(category_id, categories(name))')
+    .eq('status', 'published');
+
+  const catTotals = {};
+  const questionTopic = {};
+  const subCount = {};
+  let totalQuestions = 0;
+  (qRows || []).forEach(q => {
+    const first = (q.question_categories || [])[0];
+    const name = first?.categories?.name || 'General';
+    const n = q.type === 'EMQ' ? (q.data?.questions?.length || 1) : 1;
+    questionTopic[q.id] = name;
+    subCount[q.id] = n;
+    catTotals[name] = (catTotals[name] || 0) + n;
+    totalQuestions += n;
+  });
+
+  const { data: answers } = await sb
+    .from('attempt_answers')
+    .select('question_id, is_correct, attempts!inner(user_id)')
+    .eq('attempts.user_id', currentUser.id);
+
+  const solvedSet = new Set();
+  let totalAttempts = 0, totalCorrect = 0;
+  const catStats = {};
+
+  (answers || []).forEach(a => {
+    solvedSet.add(a.question_id);
+    totalAttempts++;
+    if (a.is_correct) totalCorrect++;
+    const topic = questionTopic[a.question_id] || 'General';
+    catStats[topic] = catStats[topic] || { attempts: 0, correct: 0, solved: new Set() };
+    catStats[topic].attempts++;
+    if (a.is_correct) catStats[topic].correct++;
+    catStats[topic].solved.add(a.question_id);
+  });
+
+  function expandedCount(idSet) {
+    let n = 0;
+    idSet.forEach(id => { n += subCount[id] || 1; });
+    return n;
+  }
+
+  document.getElementById('ov-solved').innerHTML = `${expandedCount(solvedSet)} <span class="unit">/ ${totalQuestions}</span>`;
+  document.getElementById('ov-accuracy').textContent = totalAttempts ? Math.round((totalCorrect / totalAttempts) * 100) + '%' : '—';
+  document.getElementById('ov-categories').textContent = Object.keys(catStats).length;
+
+  const rowsEl = document.getElementById('cat-rows');
+  const names = Object.keys(catTotals).sort();
+  if (!names.length) {
+    rowsEl.innerHTML = '<div class="empty-note">No categories yet — questions will appear here once the bank has content.</div>';
+    return;
+  }
+
+  rowsEl.innerHTML = names.map(name => {
+    const s = catStats[name] || { attempts: 0, correct: 0, solved: new Set() };
+    const total = catTotals[name];
+    const solved = expandedCount(s.solved);
+    const hasAttempts = s.attempts > 0;
+    const accPct = hasAttempts ? Math.round((s.correct / s.attempts) * 100) : 0;
+    const accClass = !hasAttempts ? 'none' : accPct >= 70 ? 'good' : accPct >= 50 ? 'mid' : 'low';
+    const accText = hasAttempts ? accPct + '%' : '—';
+    return `
+      <div class="cat-row">
+        <span class="cat-name">${escHtml(name)}</span>
+        <span class="cat-solved">${solved}/${total}</span>
+        <span class="cat-acc ${accClass}">${accText}</span>
+        <span class="bar-col cat-bar-track"><span class="cat-bar-fill" style="width:${hasAttempts ? accPct : 0}%"></span></span>
+      </div>`;
+  }).join('');
+}
+
+init();
+</script>
+</body>
+</html>
