@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — PainRevision MCQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --r:12px;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden;min-height:100vh}
+::selection{background:var(--coral);color:#fff}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font-family:var(--san)}
+
+/* ===== TOPBAR ===== */
+.topbar{background:var(--ink);padding:0 32px;display:flex;align-items:center;gap:16px;height:56px;position:sticky;top:0;z-index:90}
+.topbar-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;color:#fff}
+.topbar-logo svg{width:28px;height:28px;--mark-stroke:#F0623C;--mark-dot:#F5A524}
+.topbar-logo .rev{color:var(--amber)}
+.topbar-badge{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:rgba(240,98,60,.25);color:var(--coral-soft);border:1px solid rgba(240,98,60,.3);padding:3px 10px;border-radius:999px}
+.topbar-actions{margin-left:auto;display:flex;gap:8px}
+.tb-btn{padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid;transition:background .18s,transform .18s;letter-spacing:-.01em}
+.tb-btn-save{background:var(--coral);color:#fff;border-color:var(--coral)}
+.tb-btn-save:hover{background:var(--coral-deep)}
+.tb-btn-export{background:transparent;color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.2)}
+.tb-btn-export:hover{background:rgba(255,255,255,.08);color:#fff}
+.tb-btn-site{background:transparent;color:rgba(255,255,255,.5);border-color:transparent;font-size:12px}
+.tb-btn-site:hover{color:#fff}
+
+/* ===== LAYOUT ===== */
+.admin-layout{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 56px)}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 16px;overflow-y:auto;position:sticky;top:56px;height:calc(100vh - 56px)}
+.main-panel{padding:28px 32px;overflow-y:auto}
+
+/* ===== STATS ===== */
+.stats-row{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.stat-chip{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:12px 16px;flex:1;min-width:80px;text-align:center}
+.stat-chip-num{font-size:24px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.stat-chip-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);margin-top:2px}
+
+/* ===== SIDEBAR ===== */
+.sidebar-section{margin-bottom:24px}
+.sidebar-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:10px;display:block;padding:0 4px}
+.add-btn-group{display:flex;flex-direction:column;gap:6px}
+.add-btn{display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--cream);font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s;width:100%;text-align:left}
+.add-btn:hover{border-color:var(--coral);background:var(--coral-faint);color:var(--coral-deep)}
+.add-btn-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.add-btn-icon svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.add-btn-sba .add-btn-icon{background:rgba(26,74,138,.1);color:#1a4a8a}
+.add-btn-mtf .add-btn-icon{background:rgba(90,26,138,.1);color:#5a1a8a}
+.add-btn-emq .add-btn-icon{background:rgba(26,122,90,.1);color:#1a7a5a}
+
+.q-list-wrap{display:flex;flex-direction:column;gap:4px}
+.q-list-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:10px;cursor:pointer;transition:background .15s;border:1px solid transparent}
+.q-list-item:hover{background:var(--cream)}
+.q-list-item.selected{background:var(--coral-faint);border-color:rgba(240,98,60,.2)}
+.q-list-badge{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:999px;border:1px solid;flex-shrink:0}
+.q-list-badge-sba{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
+.q-list-badge-mtf{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
+.q-list-badge-emq{color:#1a7a5a;background:rgba(26,122,90,.08);border-color:rgba(26,122,90,.2)}
+.q-list-text{font-size:12.5px;color:var(--stone);flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;line-height:1.4}
+.q-list-del{width:22px;height:22px;border-radius:6px;border:none;background:transparent;color:var(--stone-light);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s;opacity:0}
+.q-list-item:hover .q-list-del{opacity:1}
+.q-list-del:hover{background:rgba(192,57,43,.12);color:#c0392b}
+.q-list-del svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== MAIN PANEL ===== */
+.panel-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:12px;color:var(--stone)}
+.panel-empty-icon{width:60px;height:60px;border-radius:16px;background:var(--cream);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.panel-empty-icon svg{width:28px;height:28px;stroke:var(--stone-light);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.panel-empty h3{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.panel-empty p{font-size:14px;text-align:center;max-width:320px;line-height:1.55}
+
+/* ===== FORM ===== */
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);overflow:hidden;max-width:800px}
+.form-card-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.form-card-title{font-size:18px;font-weight:800;letter-spacing:-.03em}
+.form-card-type-badge{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1.5px solid}
+.form-body{padding:28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+label.field-label{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.field-sub{font-size:11.5px;color:var(--stone-light);font-family:var(--mono)}
+input.field,select.field,textarea.field{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--cream);font-size:14px;color:var(--ink);transition:border-color .15s;line-height:1.5}
+input.field:focus,select.field:focus,textarea.field:focus{outline:none;border-color:var(--coral)}
+textarea.field{resize:vertical;min-height:80px}
+select.field{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237C7068' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+
+/* ===== SBA form ===== */
+.sba-choices-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:4px}
+.sba-choice-row{display:flex;align-items:center;gap:10px}
+.sba-choice-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);width:20px;flex-shrink:0}
+.sba-correct-radio{width:18px;height:18px;accent-color:var(--coral);cursor:pointer;flex-shrink:0}
+
+/* ===== MTF form ===== */
+.mtf-stmt-rows{display:flex;flex-direction:column;gap:10px;margin-bottom:4px}
+.mtf-stmt-row{display:flex;align-items:center;gap:10px}
+.mtf-stmt-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);width:20px;flex-shrink:0}
+.mtf-tf-select{width:100px;flex-shrink:0}
+
+/* ===== EMQ form ===== */
+.emq-opts-wrap,.emq-qs-wrap{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.emq-opt-row{display:flex;align-items:center;gap:10px}
+.emq-opt-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--coral);width:20px;flex-shrink:0}
+.emq-q-block{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--cream)}
+.emq-q-block-header{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);margin-bottom:10px}
+.emq-q-fields{display:flex;flex-direction:column;gap:8px}
+
+/* ===== SECTION DIVIDER ===== */
+.section-divider{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin:24px 0 14px;display:flex;align-items:center;gap:10px}
+.section-divider::after{content:"";flex:1;height:1px;background:var(--border)}
+
+/* ===== PARSE BOX ===== */
+.parse-box{background:rgba(26,74,138,.04);border:1.5px dashed rgba(26,74,138,.25);border-radius:14px;padding:16px;margin-bottom:20px}
+.parse-box-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#1a4a8a;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.parse-box-label svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.parse-box textarea{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid rgba(26,74,138,.2);background:#fff;font-family:var(--mono);font-size:12.5px;color:var(--ink);resize:vertical;min-height:100px;line-height:1.55;transition:border-color .15s}
+.parse-box textarea:focus{outline:none;border-color:#1a4a8a}
+.parse-box-actions{display:flex;align-items:center;gap:8px;margin-top:8px}
+.parse-btn{padding:7px 16px;border-radius:8px;background:#1a4a8a;color:#fff;border:none;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;cursor:pointer;transition:background .15s}
+.parse-btn:hover{background:#163d73}
+.parse-hint{font-family:var(--mono);font-size:11px;color:var(--stone-light);letter-spacing:.02em}
+
+/* ===== HTML EXPLANATION TOOLBAR ===== */
+.exp-wrap{display:flex;flex-direction:column;gap:0}
+.html-toolbar{display:flex;align-items:center;gap:4px;padding:6px 8px;background:var(--cream);border:1.5px solid var(--border-strong);border-bottom:none;border-radius:10px 10px 0 0;flex-wrap:wrap}
+.html-toolbar-btn{padding:4px 9px;border-radius:6px;border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:600;color:var(--stone);cursor:pointer;transition:background .12s,color .12s;font-family:var(--san);line-height:1.4}
+.html-toolbar-btn:hover{background:var(--surface-warm);color:var(--ink)}
+.html-toolbar-sep{width:1px;height:16px;background:var(--border-strong);margin:0 2px;flex-shrink:0}
+.html-toolbar .preview-toggle{margin-left:auto;font-family:var(--mono);font-size:11px;padding:4px 10px}
+.exp-textarea{border-radius:0 0 10px 10px!important;border-top:none!important}
+.exp-preview{display:none;padding:14px 16px;border:1.5px solid var(--border-strong);border-top:none;border-radius:0 0 10px 10px;background:#fff;min-height:80px;font-size:14px;line-height:1.7;color:var(--stone)}
+.exp-preview.show{display:block}
+.exp-preview table{border-collapse:collapse;width:100%;margin:8px 0;font-size:13px}
+.exp-preview th,.exp-preview td{border:1px solid var(--border-strong);padding:6px 10px;text-align:left}
+.exp-preview th{background:var(--cream);font-weight:700;color:var(--ink)}
+
+/* ===== FORM ACTIONS ===== */
+.form-actions{display:flex;gap:10px;padding:20px 28px;border-top:1px solid var(--border);background:var(--surface-warm)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:background .18s,border-color .18s,transform .18s;letter-spacing:-.01em}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--stone);border-color:var(--border-strong)}
+.btn-secondary:hover{border-color:var(--stone);color:var(--ink)}
+
+/* ===== TOAST ===== */
+#toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;font-family:var(--mono);font-size:13px;letter-spacing:.04em;padding:12px 20px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
+#toast.show{opacity:1;transform:none}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .admin-layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .form-grid{grid-template-columns:1fr}
+}
+
+/* ===== AUTH GATE ===== */
+.auth-gate{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);padding:40px 20px}
+.auth-gate-card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:36px;max-width:380px;width:100%}
+.auth-gate-card h2{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.auth-gate-card p{font-size:13.5px;color:var(--stone);line-height:1.55;margin-bottom:20px}
+.auth-gate-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.auth-gate-error{display:none;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.32);color:#c0392b;font-size:13px;font-weight:500;padding:10px 14px;border-radius:10px;margin-bottom:14px;line-height:1.5}
+.auth-gate-error.show{display:block}
+.auth-gate-user{font-family:var(--mono);font-size:12px;color:var(--stone);background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:16px}
+#admin-layout{display:none}
+.topbar-user{font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.5);letter-spacing:.02em}
+
+/* ===== FILTERS ===== */
+.filter-row{display:flex;flex-direction:column;gap:8px;margin-bottom:2px}
+
+/* ===== VIEW MODE (read-only question detail) ===== */
+.view-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);overflow:hidden;max-width:800px}
+.view-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.view-title{font-size:18px;font-weight:800;letter-spacing:-.03em;margin-right:auto}
+.view-topic-badge{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--cream);color:var(--stone);border:1px solid var(--border)}
+.view-body{padding:28px}
+.view-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:8px;display:block}
+.view-text{font-size:15px;color:var(--ink);line-height:1.65;margin-bottom:22px;white-space:pre-wrap}
+.view-choice{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);margin-bottom:8px;font-size:14px}
+.view-choice.correct{border-color:rgba(26,138,74,.4);background:rgba(26,138,74,.07)}
+.view-choice-letter{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--stone);width:18px;flex-shrink:0}
+.view-choice.correct .view-choice-letter{color:#1a8a4a}
+.view-choice-check{margin-left:auto;color:#1a8a4a;flex-shrink:0;font-size:15px}
+.view-tf-badge{margin-left:auto;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:2px 9px;border-radius:999px;flex-shrink:0}
+.view-tf-badge.t{background:rgba(26,138,74,.12);color:#1a8a4a}
+.view-tf-badge.f{background:rgba(192,57,43,.1);color:#c0392b}
+.view-explanation{padding:16px 18px;border-radius:12px;background:var(--cream);border:1px solid var(--border);font-size:14px;line-height:1.7;color:var(--ink-soft)}
+.view-explanation table{border-collapse:collapse;width:100%;margin:8px 0;font-size:13px}
+.view-explanation th,.view-explanation td{border:1px solid var(--border-strong);padding:6px 10px;text-align:left}
+.view-emq-q{border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;background:var(--surface-warm)}
+.view-emq-q-header{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light);margin-bottom:8px}
+.view-actions{display:flex;gap:10px;padding:20px 28px;border-top:1px solid var(--border);background:var(--surface-warm);flex-wrap:wrap}
+.btn-danger{background:transparent;color:#c0392b;border-color:rgba(192,57,43,.3)}
+.btn-danger:hover{background:rgba(192,57,43,.08);border-color:#c0392b;color:#c0392b}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </svg>
+    <span>Pain<span class="rev">Revision</span></span>
+  </div>
+  <span class="topbar-badge">Admin</span>
+  <div class="topbar-actions">
+    <span class="topbar-user" id="topbar-user"></span>
+    <button class="tb-btn tb-btn-export" id="export-btn">Export JSON</button>
+    <button class="tb-btn tb-btn-site" id="logout-btn" style="display:none">Log out</button>
+    <a href="questions.html" class="tb-btn tb-btn-site">← Back to site</a>
+  </div>
+</div>
+
+<!-- AUTH GATE -->
+<div class="auth-gate" id="auth-gate" style="display:none">
+  <div class="auth-gate-card" id="auth-gate-card"></div>
+</div>
+
+<!-- LAYOUT -->
+<div class="admin-layout" id="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="stats-row" id="stats-row"></div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Add Question</span>
+      <div class="add-btn-group">
+        <button class="add-btn add-btn-sba" data-add="SBA">
+          <div class="add-btn-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
+          Single Best Answer
+        </button>
+        <button class="add-btn add-btn-mtf" data-add="MTF">
+          <div class="add-btn-icon"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          Multiple True/False
+        </button>
+        <button class="add-btn add-btn-emq" data-add="EMQ">
+          <div class="add-btn-icon"><svg viewBox="0 0 24 24"><path d="M9 11H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-4"/><polyline points="9 7 12 3 15 7"/><line x1="12" y1="3" x2="12" y2="14"/></svg></div>
+          Extended Matching
+        </button>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Filter</span>
+      <div class="filter-row">
+        <select class="field" id="filter-type">
+          <option value="">All types</option>
+          <option value="SBA">SBA</option>
+          <option value="MTF">MTF</option>
+          <option value="EMQ">EMQ</option>
+        </select>
+        <select class="field" id="filter-topic">
+          <option value="">All topics</option>
+        </select>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <span class="sidebar-label">Questions (<span id="q-count">0</span>)</span>
+      <div class="q-list-wrap" id="q-list"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN PANEL -->
+  <main class="main-panel" id="main-panel">
+    <div class="panel-empty" id="panel-empty">
+      <div class="panel-empty-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      </div>
+      <h3>No question selected</h3>
+      <p>Select an existing question from the sidebar, or click "Add Question" to create a new one.</p>
+    </div>
+    <div id="form-container" style="display:none"></div>
+  </main>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+const LETTERS = ['A','B','C','D','E','F','G','H'];
+
+/* ===== DATA ===== */
+let questions = [];
+let editingId = null;
+let viewMode = 'view'; // 'view' | 'edit-question' | 'edit-explanation' — only applies to existing questions
+let isDirty = false;
+let filterType = '';
+let filterTopic = '';
+
+function genId() {
+  return 'q' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+}
+
+/* ===== AUTH GATE ===== */
+async function initAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await checkAdminAndProceed(session.user);
+  else showLoginForm();
+
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) checkAdminAndProceed(session.user);
+    if (event === 'SIGNED_OUT') location.reload();
+  });
+}
+
+async function checkAdminAndProceed(user) {
+  const { data: profile, error } = await sb.from('profiles').select('role,username').eq('id', user.id).single();
+  if (error || !profile || profile.role !== 'admin') {
+    showNotAuthorized(user.email);
+    return;
+  }
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('admin-layout').style.display = 'grid';
+  document.getElementById('topbar-user').textContent = profile.username || user.email;
+  document.getElementById('logout-btn').style.display = '';
+  loadData();
+}
+
+function showLoginForm() {
+  document.getElementById('auth-gate-card').innerHTML = `
+    <h2>Admin sign in</h2>
+    <p>Sign in with your PainRevision admin account to manage questions.</p>
+    <div class="auth-gate-error" id="auth-gate-error"></div>
+    <form id="auth-gate-form">
+      <div class="auth-gate-group">
+        <label class="field-label" for="ag-email">Email</label>
+        <input class="field" type="email" id="ag-email" autocomplete="email" required/>
+      </div>
+      <div class="auth-gate-group">
+        <label class="field-label" for="ag-password">Password</label>
+        <input class="field" type="password" id="ag-password" autocomplete="current-password" required/>
+      </div>
+      <button class="btn btn-primary" type="submit" id="ag-submit" style="width:100%;justify-content:center;margin-top:6px">Log in</button>
+    </form>`;
+  document.getElementById('auth-gate').style.display = 'flex';
+  document.getElementById('admin-layout').style.display = 'none';
+
+  document.getElementById('auth-gate-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById('auth-gate-error');
+    errEl.classList.remove('show');
+    const email = document.getElementById('ag-email').value.trim();
+    const password = document.getElementById('ag-password').value;
+    const btn = document.getElementById('ag-submit');
+    btn.disabled = true; btn.textContent = 'Logging in…';
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    btn.disabled = false; btn.textContent = 'Log in';
+    if (error) {
+      errEl.textContent = error.message === 'Invalid login credentials' ? 'Incorrect email or password.' : error.message;
+      errEl.classList.add('show');
+    }
+  });
+}
+
+function showNotAuthorized(email) {
+  document.getElementById('auth-gate-card').innerHTML = `
+    <h2>Not authorized</h2>
+    <p>This account doesn't have admin access on PainRevision.</p>
+    <div class="auth-gate-user">Signed in as ${escHtml(email)}</div>
+    <button class="btn btn-secondary" id="ag-logout" style="width:100%;justify-content:center">Log out</button>`;
+  document.getElementById('auth-gate').style.display = 'flex';
+  document.getElementById('admin-layout').style.display = 'none';
+  document.getElementById('ag-logout').addEventListener('click', () => sb.auth.signOut());
+}
+
+document.getElementById('logout-btn').addEventListener('click', () => sb.auth.signOut());
+
+/* ===== LOAD FROM SUPABASE ===== */
+async function loadData() {
+  const { data, error } = await sb
+    .from('questions')
+    .select('id, type, data, status, question_categories(categories(name))')
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    toast('Could not load questions: ' + error.message);
+    questions = [];
+    renderSidebar();
+    return;
+  }
+
+  questions = (data || []).map(row => {
+    const topic = row.question_categories?.[0]?.categories?.name || '';
+    return { id: row.id, type: row.type, topic, ...row.data };
+  });
+  renderSidebar();
+}
+
+/* ===== CATEGORY LOOKUP ===== */
+async function getOrCreateCategoryId(name) {
+  if (!name) return null;
+  const { data, error } = await sb
+    .from('categories')
+    .upsert({ name }, { onConflict: 'name' })
+    .select('id')
+    .single();
+  if (error) throw error;
+  return data.id;
+}
+
+async function setQuestionCategory(questionId, topic) {
+  await sb.from('question_categories').delete().eq('question_id', questionId);
+  const catId = await getOrCreateCategoryId(topic);
+  if (catId) {
+    await sb.from('question_categories').insert({ question_id: questionId, category_id: catId });
+  }
+}
+
+/* ===== EXPORT (manual backup) ===== */
+function exportJSON() {
+  const blob = new Blob([JSON.stringify({ questions }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'questions-backup.json';
+  a.click();
+  toast('Downloaded a backup of the current questions');
+}
+
+document.getElementById('export-btn').addEventListener('click', exportJSON);
+
+/* ===== TOAST ===== */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+/* ===== SIDEBAR ===== */
+function getFilteredQuestions() {
+  return questions.filter(q =>
+    (!filterType || q.type === filterType) &&
+    (!filterTopic || q.topic === filterTopic)
+  );
+}
+
+function renderTopicFilterOptions() {
+  const sel = document.getElementById('filter-topic');
+  const topics = [...new Set(questions.map(q => q.topic).filter(Boolean))].sort();
+  const current = sel.value;
+  sel.innerHTML = '<option value="">All topics</option>' +
+    topics.map(t => `<option value="${escAttr(t)}">${escHtml(t)}</option>`).join('');
+  if (topics.includes(current)) sel.value = current;
+}
+
+async function deleteQuestion(q) {
+  if (!confirm(`Delete "${(q.question || q.stem || q.topic || 'this question')}"? This cannot be undone.`)) return;
+  const { error } = await sb.from('questions').delete().eq('id', q.id);
+  if (error) { toast('Delete failed: ' + error.message); return; }
+  questions = questions.filter(x => x.id !== q.id);
+  if (editingId === q.id) { editingId = null; showEmpty(); }
+  renderSidebar();
+  toast('Question deleted');
+}
+
+function renderSidebar() {
+  // stats (always totals, unaffected by filters)
+  const total = questions.length;
+  const sba = questions.filter(q => q.type === 'SBA').length;
+  const mtf = questions.filter(q => q.type === 'MTF').length;
+  const emq = questions.filter(q => q.type === 'EMQ').length;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-chip"><div class="stat-chip-num">${total}</div><div class="stat-chip-label">Total</div></div>
+    <div class="stat-chip"><div class="stat-chip-num">${sba}</div><div class="stat-chip-label">SBA</div></div>
+    <div class="stat-chip"><div class="stat-chip-num">${mtf}</div><div class="stat-chip-label">MTF</div></div>
+    <div class="stat-chip"><div class="stat-chip-num">${emq}</div><div class="stat-chip-label">EMQ</div></div>`;
+
+  renderTopicFilterOptions();
+
+  const filtered = getFilteredQuestions();
+  document.getElementById('q-count').textContent = filtered.length;
+
+  // list
+  const list = document.getElementById('q-list');
+  list.innerHTML = '';
+  if (!filtered.length) {
+    list.innerHTML = `<p style="font-size:13px;color:var(--stone-light);padding:4px 8px">${questions.length ? 'No questions match this filter' : 'No questions yet'}</p>`;
+    return;
+  }
+  filtered.forEach(q => {
+    const item = document.createElement('div');
+    item.className = 'q-list-item' + (q.id === editingId ? ' selected' : '');
+    const preview = q.type === 'EMQ' ? (q.lead || q.topic) : (q.question || q.stem || '');
+    item.innerHTML = `
+      <span class="q-list-badge q-list-badge-${q.type.toLowerCase()}">${q.type}</span>
+      <span class="q-list-text" title="${escAttr(preview)}">${escHtml(preview)}</span>
+      <button class="q-list-del" data-del aria-label="Delete question" title="Delete">
+        <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      </button>`;
+    item.addEventListener('click', e => {
+      if (e.target.closest('[data-del]')) return;
+      editQuestion(q.id);
+    });
+    item.querySelector('[data-del]').addEventListener('click', e => {
+      e.stopPropagation();
+      deleteQuestion(q);
+    });
+    list.appendChild(item);
+  });
+}
+
+document.getElementById('filter-type').addEventListener('change', e => { filterType = e.target.value; renderSidebar(); });
+document.getElementById('filter-topic').addEventListener('change', e => { filterTopic = e.target.value; renderSidebar(); });
+
+/* ===== ADD BUTTONS ===== */
+document.querySelectorAll('[data-add]').forEach(btn => {
+  btn.addEventListener('click', () => openNewForm(btn.dataset.add));
+});
+
+function showEmpty() {
+  document.getElementById('panel-empty').style.display = 'flex';
+  document.getElementById('form-container').style.display = 'none';
+}
+
+/* ===== OPEN FORM ===== */
+function openNewForm(type) {
+  editingId = null;
+  const q = createBlankQuestion(type);
+  renderForm(q);
+  renderSidebar();
+}
+
+function editQuestion(id) {
+  editingId = id;
+  viewMode = 'view';
+  isDirty = false;
+  renderSidebar();
+  renderDetail();
+}
+
+/* ===== DETAIL VIEW / EDIT-QUESTION / EDIT-EXPLANATION ===== */
+function renderDetail() {
+  const q = questions.find(x => x.id === editingId);
+  if (!q) { showEmpty(); return; }
+
+  document.getElementById('panel-empty').style.display = 'none';
+  const container = document.getElementById('form-container');
+  container.style.display = 'block';
+
+  if (viewMode === 'edit-question') container.innerHTML = editQuestionFormHtml(q);
+  else if (viewMode === 'edit-explanation') container.innerHTML = editExplanationFormHtml(q);
+  else container.innerHTML = viewHtml(q);
+
+  wireDetailHandlers(q);
+}
+
+function markDirty(container) {
+  container.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', () => { isDirty = true; });
+    el.addEventListener('change', () => { isDirty = true; });
+  });
+}
+
+function confirmCancelEdit() {
+  if (isDirty && !confirm('You have unsaved changes. Discard them and go back?')) return;
+  isDirty = false;
+  viewMode = 'view';
+  renderDetail();
+}
+
+const TYPE_COLOR = { SBA:'#1a4a8a', MTF:'#5a1a8a', EMQ:'#1a7a5a' };
+const TYPE_BG = { SBA:'rgba(26,74,138,.08)', MTF:'rgba(90,26,138,.08)', EMQ:'rgba(26,122,90,.08)' };
+const TYPE_BORDER = { SBA:'rgba(26,74,138,.2)', MTF:'rgba(90,26,138,.2)', EMQ:'rgba(26,122,90,.2)' };
+
+function typeBadge(type) {
+  return `<span class="form-card-type-badge" style="color:${TYPE_COLOR[type]};background:${TYPE_BG[type]};border-color:${TYPE_BORDER[type]}">${type}</span>`;
+}
+
+/* ---- read-only view ---- */
+function viewHtml(q) {
+  let body = '';
+  if (q.type === 'SBA') {
+    body += `<span class="view-label">Question</span><p class="view-text">${escHtml(q.question)}</p>
+      <span class="view-label">Choices</span>`;
+    q.choices.forEach((c, i) => {
+      const isCorrect = i === q.correct;
+      body += `<div class="view-choice${isCorrect ? ' correct' : ''}">
+        <span class="view-choice-letter">${LETTERS[i]}.</span>
+        <span>${escHtml(c)}</span>
+        ${isCorrect ? '<span class="view-choice-check">✓ Correct</span>' : ''}
+      </div>`;
+    });
+    body += `<span class="view-label" style="margin-top:20px">Explanation</span><div class="view-explanation">${q.explanation || '<em>No explanation yet</em>'}</div>`;
+  } else if (q.type === 'MTF') {
+    body += `<span class="view-label">Stem</span><p class="view-text">${escHtml(q.stem)}</p>
+      <span class="view-label">Statements</span>`;
+    q.choices.forEach((c, i) => {
+      body += `<div class="view-choice">
+        <span class="view-choice-letter">${LETTERS[i]}.</span>
+        <span>${escHtml(c)}</span>
+        <span class="view-tf-badge ${q.correct[i] ? 't' : 'f'}">${q.correct[i] ? 'TRUE' : 'FALSE'}</span>
+      </div>`;
+    });
+    body += `<span class="view-label" style="margin-top:20px">Explanation</span><div class="view-explanation">${q.explanation || '<em>No explanation yet</em>'}</div>`;
+  } else if (q.type === 'EMQ') {
+    body += `<span class="view-label">Lead-in</span><p class="view-text">${escHtml(q.lead)}</p>
+      <span class="view-label">Options</span>`;
+    q.options.forEach((opt, i) => {
+      body += `<div class="view-choice"><span class="view-choice-letter">${LETTERS[i]}.</span><span>${escHtml(opt)}</span></div>`;
+    });
+    body += `<span class="view-label" style="margin-top:20px">Questions</span>`;
+    q.questions.forEach((sq, i) => {
+      body += `<div class="view-emq-q">
+        <div class="view-emq-q-header">Question ${i + 1}</div>
+        <p class="view-text" style="margin-bottom:10px">${escHtml(sq.question)}</p>
+        <div class="view-choice correct" style="margin-bottom:10px">
+          <span class="view-choice-letter">${LETTERS[sq.correct]}.</span>
+          <span>${escHtml(q.options[sq.correct] || '')}</span>
+          <span class="view-choice-check">✓ Correct</span>
+        </div>
+        <div class="view-explanation">${sq.explanation || '<em>No explanation yet</em>'}</div>
+      </div>`;
+    });
+  }
+
+  return `<div class="view-card">
+    <div class="view-header">
+      <h2 class="view-title">Question</h2>
+      ${typeBadge(q.type)}
+      <span class="view-topic-badge">${escHtml(q.topic || 'No topic')}</span>
+    </div>
+    <div class="view-body">${body}</div>
+    <div class="view-actions">
+      <button class="btn btn-primary" id="btn-edit-question">Edit Question</button>
+      <button class="btn btn-secondary" id="btn-edit-explanation">Edit Explanation</button>
+      <button class="btn btn-danger" id="btn-delete-question" style="margin-left:auto">Delete Question</button>
+    </div>
+  </div>`;
+}
+
+/* ---- edit question (stem/choices/correct/topic — no explanation) ---- */
+function editQuestionFormHtml(q) {
+  let fields = `<div class="form-grid">
+    <div class="form-group full">
+      <label class="field-label" for="f-topic">Topic</label>
+      <input class="field" id="f-topic" type="text" value="${escAttr(q.topic)}" placeholder="e.g. Opioid Pharmacology"/>
+    </div>
+  </div>`;
+
+  if (q.type === 'SBA') {
+    fields += `<div class="form-group full">
+      <label class="field-label" for="f-question">Question</label>
+      <textarea class="field" id="f-question" rows="3">${escHtml(q.question)}</textarea>
+    </div>
+    <div class="section-divider">Answer Choices</div>
+    <div class="form-group full"><div class="sba-choices-wrap">`;
+    q.choices.forEach((c, i) => {
+      fields += `<div class="sba-choice-row">
+        <input type="radio" class="sba-correct-radio" name="sba-correct" value="${i}"${i===q.correct?' checked':''} aria-label="Mark as correct">
+        <span class="sba-choice-letter">${LETTERS[i]}.</span>
+        <input class="field" type="text" data-choice="${i}" value="${escAttr(c)}" style="flex:1"/>
+      </div>`;
+    });
+    fields += `</div></div>`;
+  } else if (q.type === 'MTF') {
+    fields += `<div class="form-group full">
+      <label class="field-label" for="f-stem">Stem</label>
+      <textarea class="field" id="f-stem" rows="3">${escHtml(q.stem)}</textarea>
+    </div>
+    <div class="section-divider">Statements (True/False)</div>
+    <div class="form-group full"><div class="mtf-stmt-rows">`;
+    q.choices.forEach((c, i) => {
+      fields += `<div class="mtf-stmt-row">
+        <span class="mtf-stmt-letter">${LETTERS[i]}.</span>
+        <input class="field" type="text" data-stmt="${i}" value="${escAttr(c)}" style="flex:1"/>
+        <select class="field mtf-tf-select" data-tf="${i}">
+          <option value="true"${q.correct[i]===true?' selected':''}>TRUE</option>
+          <option value="false"${q.correct[i]===false?' selected':''}>FALSE</option>
+        </select>
+      </div>`;
+    });
+    fields += `</div></div>`;
+  } else if (q.type === 'EMQ') {
+    fields += `<div class="form-group full">
+      <label class="field-label" for="f-lead">Lead-in statement</label>
+      <textarea class="field" id="f-lead" rows="2">${escHtml(q.lead)}</textarea>
+    </div>
+    <div class="section-divider">8 Options</div>
+    <div class="form-group full"><div class="emq-opts-wrap">`;
+    q.options.forEach((opt, i) => {
+      fields += `<div class="emq-opt-row">
+        <span class="emq-opt-letter">${LETTERS[i]}.</span>
+        <input class="field" type="text" data-emqopt="${i}" value="${escAttr(opt)}" style="flex:1"/>
+      </div>`;
+    });
+    fields += `</div></div>
+    <div class="section-divider">5 Questions</div>
+    <div class="form-group full"><div class="emq-qs-wrap">`;
+    q.questions.forEach((sq, i) => {
+      fields += `<div class="emq-q-block">
+        <div class="emq-q-block-header">Question ${i + 1}</div>
+        <div class="emq-q-fields">
+          <textarea class="field" data-emqq="${i}" rows="2">${escHtml(sq.question)}</textarea>
+          <select class="field" data-emqcorrect="${i}">
+            ${LETTERS.slice(0,8).map((l,oi) => `<option value="${oi}"${sq.correct===oi?' selected':''}>${l}. ${escHtml(q.options[oi]||'')}</option>`).join('')}
+          </select>
+        </div>
+      </div>`;
+    });
+    fields += `</div></div>`;
+  }
+
+  return `<div class="form-card">
+    <div class="form-card-header">
+      <h2 class="form-card-title">Edit Question</h2>
+      ${typeBadge(q.type)}
+    </div>
+    <div class="form-body">${fields}</div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="btn-save-question">Save Changes</button>
+      <button class="btn btn-secondary" id="btn-cancel-edit">Cancel</button>
+    </div>
+  </div>`;
+}
+
+/* ---- edit explanation only ---- */
+function editExplanationFormHtml(q) {
+  let fields = '';
+  if (q.type === 'EMQ') {
+    q.questions.forEach((sq, i) => {
+      fields += `<div class="form-group full" style="margin-bottom:20px">
+        <label class="field-label">Question ${i + 1} explanation <span class="field-sub">(HTML supported)</span></label>
+        <p style="font-size:12.5px;color:var(--stone-light);margin-bottom:6px">${escHtml(sq.question)}</p>
+        ${htmlExplanationField(`f-emqexp-${i}`, sq.explanation)}
+      </div>`;
+    });
+  } else {
+    fields += `<div class="form-group full">
+      <label class="field-label">Explanation <span class="field-sub">(HTML supported)</span></label>
+      ${htmlExplanationField('f-explanation', q.explanation)}
+    </div>`;
+  }
+
+  return `<div class="form-card">
+    <div class="form-card-header">
+      <h2 class="form-card-title">Edit Explanation</h2>
+      ${typeBadge(q.type)}
+    </div>
+    <div class="form-body">${fields}</div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="btn-save-explanation">Save Changes</button>
+      <button class="btn btn-secondary" id="btn-cancel-edit">Cancel</button>
+    </div>
+  </div>`;
+}
+
+/* ---- wire up whichever mode is showing ---- */
+function wireDetailHandlers(q) {
+  const container = document.getElementById('form-container');
+
+  if (viewMode === 'view') {
+    container.querySelector('#btn-edit-question').addEventListener('click', () => {
+      viewMode = 'edit-question'; isDirty = false; renderDetail();
+    });
+    container.querySelector('#btn-edit-explanation').addEventListener('click', () => {
+      viewMode = 'edit-explanation'; isDirty = false; renderDetail();
+    });
+    container.querySelector('#btn-delete-question').addEventListener('click', () => deleteQuestion(q));
+    return;
+  }
+
+  if (viewMode === 'edit-question') {
+    container.querySelector('#btn-save-question').addEventListener('click', () => saveQuestionEdit(q));
+  } else if (viewMode === 'edit-explanation') {
+    wireHtmlToolbars(container);
+    container.querySelector('#btn-save-explanation').addEventListener('click', () => saveExplanationEdit(q));
+  }
+  container.querySelector('#btn-cancel-edit').addEventListener('click', confirmCancelEdit);
+  markDirty(container);
+}
+
+/* ===== SAVE (existing question) ===== */
+async function persistQuestion(id, type, dataPayload, topic) {
+  const { error } = await sb.from('questions').upsert({ id, type, data: dataPayload, status: 'published' });
+  if (error) return { error };
+  try { await setQuestionCategory(id, topic); } catch (e) { toast('Saved, but category link failed: ' + e.message); }
+  return {};
+}
+
+async function saveQuestionEdit(q) {
+  if (!confirm('Save these changes?')) return;
+  const container = document.getElementById('form-container');
+  const btn = container.querySelector('#btn-save-question');
+
+  const topic = container.querySelector('#f-topic')?.value.trim() || '';
+  const updated = { ...q, topic };
+
+  if (q.type === 'SBA') {
+    updated.question = container.querySelector('#f-question')?.value.trim() || '';
+    updated.choices = Array.from({length:5}, (_,i) => container.querySelector(`[data-choice="${i}"]`)?.value.trim() || '');
+    const correctRadio = container.querySelector('input[name="sba-correct"]:checked');
+    updated.correct = correctRadio ? parseInt(correctRadio.value) : 0;
+  } else if (q.type === 'MTF') {
+    updated.stem = container.querySelector('#f-stem')?.value.trim() || '';
+    updated.choices = Array.from({length:5}, (_,i) => container.querySelector(`[data-stmt="${i}"]`)?.value.trim() || '');
+    updated.correct = Array.from({length:5}, (_,i) => container.querySelector(`[data-tf="${i}"]`)?.value === 'true');
+  } else if (q.type === 'EMQ') {
+    updated.lead = container.querySelector('#f-lead')?.value.trim() || '';
+    updated.options = Array.from({length:8}, (_,i) => container.querySelector(`[data-emqopt="${i}"]`)?.value.trim() || '');
+    updated.questions = q.questions.map((sq, i) => ({
+      ...sq,
+      question: container.querySelector(`[data-emqq="${i}"]`)?.value.trim() || '',
+      correct: parseInt(container.querySelector(`[data-emqcorrect="${i}"]`)?.value || '0')
+    }));
+  }
+
+  btn.disabled = true; btn.textContent = 'Saving…';
+  const { id, type, topic: t, ...dataPayload } = updated;
+  const { error } = await persistQuestion(id, type, dataPayload, t);
+  if (error) {
+    toast('Save failed: ' + error.message);
+    btn.disabled = false; btn.textContent = 'Save Changes';
+    return;
+  }
+
+  const idx = questions.findIndex(x => x.id === q.id);
+  if (idx >= 0) questions[idx] = updated;
+  isDirty = false;
+  viewMode = 'view';
+  toast('Changes saved');
+  renderSidebar();
+  renderDetail();
+}
+
+async function saveExplanationEdit(q) {
+  if (!confirm('Save these changes?')) return;
+  const container = document.getElementById('form-container');
+  const btn = container.querySelector('#btn-save-explanation');
+
+  const updated = { ...q };
+  if (q.type === 'EMQ') {
+    updated.questions = q.questions.map((sq, i) => ({
+      ...sq,
+      explanation: container.querySelector(`#f-emqexp-${i}`)?.value || ''
+    }));
+  } else {
+    updated.explanation = container.querySelector('#f-explanation')?.value || '';
+  }
+
+  btn.disabled = true; btn.textContent = 'Saving…';
+  const { id, type, topic, ...dataPayload } = updated;
+  const { error } = await persistQuestion(id, type, dataPayload, topic);
+  if (error) {
+    toast('Save failed: ' + error.message);
+    btn.disabled = false; btn.textContent = 'Save Changes';
+    return;
+  }
+
+  const idx = questions.findIndex(x => x.id === q.id);
+  if (idx >= 0) questions[idx] = updated;
+  isDirty = false;
+  viewMode = 'view';
+  toast('Explanation saved');
+  renderSidebar();
+  renderDetail();
+}
+
+function createBlankQuestion(type) {
+  const nextRotation = questions.reduce((max, q) => Math.max(max, q.rotationIndex ?? -1), -1) + 1;
+  const base = { id: genId(), type, topic: '', dateAdded: new Date().toISOString().slice(0,10), rotationIndex: nextRotation };
+  if (type === 'SBA') return { ...base, question: '', choices: ['','','','',''], correct: 0, explanation: '' };
+  if (type === 'MTF') return { ...base, stem: '', choices: ['','','','',''], correct: [true,false,false,false,false], explanation: '' };
+  if (type === 'EMQ') return { ...base, lead: '', options: ['','','','','','','',''],
+    questions: Array.from({length:5}, () => ({ question:'', correct:0, explanation:'' })) };
+}
+
+/* ===== RENDER FORM ===== */
+function renderForm(q) {
+  document.getElementById('panel-empty').style.display = 'none';
+  const container = document.getElementById('form-container');
+  container.style.display = 'block';
+
+  let formHtml = `<div class="form-card">
+    <div class="form-card-header">
+      <h2 class="form-card-title">New Question</h2>
+      ${typeBadge(q.type)}
+    </div>
+    <div class="form-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="field-label" for="f-topic">Topic</label>
+          <input class="field" id="f-topic" type="text" value="${escAttr(q.topic)}" placeholder="e.g. Opioid Pharmacology"/>
+        </div>
+      </div>`;
+
+  if (q.type === 'SBA') formHtml += renderSBAForm(q);
+  else if (q.type === 'MTF') formHtml += renderMTFForm(q);
+  else if (q.type === 'EMQ') formHtml += renderEMQForm(q);
+
+  formHtml += `</div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="form-save-btn">Add Question</button>
+      <button class="btn btn-secondary" id="form-cancel-btn">Cancel</button>
+    </div>
+  </div>`;
+
+  container.innerHTML = formHtml;
+
+  container.querySelector('#form-save-btn').addEventListener('click', () => saveForm(q));
+  container.querySelector('#form-cancel-btn').addEventListener('click', () => {
+    if (isDirty && !confirm('You have unsaved changes. Discard this new question?')) return;
+    isDirty = false;
+    editingId = null;
+    showEmpty();
+    renderSidebar();
+  });
+  wireParsebox(container, q.type);
+  wireHtmlToolbars(container);
+  isDirty = false;
+  markDirty(container);
+}
+
+function renderSBAForm(q) {
+  let h = parsebox('SBA') + `<div class="form-group full">
+    <label class="field-label" for="f-question">Question</label>
+    <textarea class="field" id="f-question" rows="3" placeholder="Enter the clinical question...">${escHtml(q.question)}</textarea>
+  </div>
+  <div class="section-divider">Answer Choices</div>
+  <div class="form-group full"><label class="field-label">Choices <span class="field-sub">(select the correct answer)</span></label>
+  <div class="sba-choices-wrap">`;
+  q.choices.forEach((c, i) => {
+    h += `<div class="sba-choice-row">
+      <input type="radio" class="sba-correct-radio" name="sba-correct" value="${i}"${i===q.correct?' checked':''} aria-label="Mark as correct">
+      <span class="sba-choice-letter">${LETTERS[i]}.</span>
+      <input class="field" type="text" data-choice="${i}" value="${escAttr(c)}" placeholder="Choice ${LETTERS[i]}…" style="flex:1"/>
+    </div>`;
+  });
+  h += `</div></div>
+  <div class="section-divider">Explanation</div>
+  <div class="form-group full">
+    <label class="field-label">Explanation <span class="field-sub">(HTML supported)</span></label>
+    ${htmlExplanationField('f-explanation', q.explanation)}
+  </div>`;
+  return h;
+}
+
+function renderMTFForm(q) {
+  let h = parsebox('MTF') + `<div class="form-group full">
+    <label class="field-label" for="f-stem">Stem <span class="field-sub">(the overarching statement)</span></label>
+    <textarea class="field" id="f-stem" rows="3" placeholder="Regarding X, the following statements are correct:">${escHtml(q.stem)}</textarea>
+  </div>
+  <div class="section-divider">Statements (True/False)</div>
+  <div class="form-group full"><label class="field-label">Statements <span class="field-sub">(mark each as True or False)</span></label>
+  <div class="mtf-stmt-rows">`;
+  q.choices.forEach((c, i) => {
+    h += `<div class="mtf-stmt-row">
+      <span class="mtf-stmt-letter">${LETTERS[i]}.</span>
+      <input class="field" type="text" data-stmt="${i}" value="${escAttr(c)}" placeholder="Statement ${LETTERS[i]}…" style="flex:1"/>
+      <select class="field mtf-tf-select" data-tf="${i}">
+        <option value="true"${q.correct[i]===true?' selected':''}>TRUE</option>
+        <option value="false"${q.correct[i]===false?' selected':''}>FALSE</option>
+      </select>
+    </div>`;
+  });
+  h += `</div></div>
+  <div class="section-divider">Explanation</div>
+  <div class="form-group full">
+    <label class="field-label">Explanation <span class="field-sub">(HTML supported — address all 5 statements)</span></label>
+    ${htmlExplanationField('f-explanation', q.explanation)}
+  </div>`;
+  return h;
+}
+
+function renderEMQForm(q) {
+  let h = parsebox('EMQ') + `<div class="form-group full">
+    <label class="field-label" for="f-lead">Lead-in statement</label>
+    <textarea class="field" id="f-lead" rows="2" placeholder="For each of the following presentations, select the most likely...">${escHtml(q.lead)}</textarea>
+  </div>
+  <div class="section-divider">8 Options</div>
+  <div class="form-group full"><label class="field-label">Options</label><div class="emq-opts-wrap">`;
+  q.options.forEach((opt, i) => {
+    h += `<div class="emq-opt-row">
+      <span class="emq-opt-letter">${LETTERS[i]}.</span>
+      <input class="field" type="text" data-emqopt="${i}" value="${escAttr(opt)}" placeholder="Option ${LETTERS[i]}…" style="flex:1"/>
+    </div>`;
+  });
+  h += `</div></div>
+  <div class="section-divider">5 Questions</div>
+  <div class="form-group full"><label class="field-label">Questions</label><div class="emq-qs-wrap">`;
+  q.questions.forEach((sq, i) => {
+    h += `<div class="emq-q-block">
+      <div class="emq-q-block-header">Question ${i + 1}</div>
+      <div class="emq-q-fields">
+        <textarea class="field" data-emqq="${i}" rows="2" placeholder="Clinical scenario...">${escHtml(sq.question)}</textarea>
+        <select class="field" data-emqcorrect="${i}">
+          ${LETTERS.slice(0,8).map((l,oi) => `<option value="${oi}"${sq.correct===oi?' selected':''}>${l}. ${escHtml(q.options[oi]||'')}</option>`).join('')}
+        </select>
+        <label class="field-label" style="font-size:11.5px;color:var(--stone-light);margin-top:4px">Explanation <span class="field-sub">(HTML supported)</span></label>
+        ${htmlExplanationField(`emqexp-${i}`, sq.explanation, `data-emqexp="${i}"`)}
+      </div>
+    </div>`;
+  });
+  h += `</div></div>`;
+  return h;
+}
+
+/* ===== SAVE FORM ===== */
+async function saveForm(q) {
+  const container = document.getElementById('form-container');
+  const updated = { ...q };
+
+  updated.topic = container.querySelector('#f-topic')?.value.trim() || '';
+
+  if (q.type === 'SBA') {
+    updated.question = container.querySelector('#f-question')?.value.trim() || '';
+    updated.choices = Array.from({length:5}, (_,i) => container.querySelector(`[data-choice="${i}"]`)?.value.trim() || '');
+    const correctRadio = container.querySelector('input[name="sba-correct"]:checked');
+    updated.correct = correctRadio ? parseInt(correctRadio.value) : 0;
+    updated.explanation = container.querySelector('#f-explanation')?.value || '';
+  } else if (q.type === 'MTF') {
+    updated.stem = container.querySelector('#f-stem')?.value.trim() || '';
+    updated.choices = Array.from({length:5}, (_,i) => container.querySelector(`[data-stmt="${i}"]`)?.value.trim() || '');
+    updated.correct = Array.from({length:5}, (_,i) => container.querySelector(`[data-tf="${i}"]`)?.value === 'true');
+    updated.explanation = container.querySelector('#f-explanation')?.value || '';
+  } else if (q.type === 'EMQ') {
+    updated.lead = container.querySelector('#f-lead')?.value.trim() || '';
+    updated.options = Array.from({length:8}, (_,i) => container.querySelector(`[data-emqopt="${i}"]`)?.value.trim() || '');
+    updated.questions = Array.from({length:5}, (_,i) => ({
+      question: container.querySelector(`[data-emqq="${i}"]`)?.value.trim() || '',
+      correct: parseInt(container.querySelector(`[data-emqcorrect="${i}"]`)?.value || '0'),
+      explanation: container.querySelector(`[data-emqexp="${i}"]`)?.value || ''
+    }));
+  }
+
+  const saveBtn = container.querySelector('#form-save-btn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Saving…';
+
+  const { id, type, topic, ...dataPayload } = updated;
+  const { error } = await sb.from('questions').upsert({ id, type, data: dataPayload, status: 'published' });
+
+  if (error) {
+    toast('Save failed: ' + error.message);
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Add Question';
+    return;
+  }
+
+  try {
+    await setQuestionCategory(id, topic);
+  } catch (e) {
+    toast('Saved, but category link failed: ' + e.message);
+  }
+
+  questions.push(updated);
+  editingId = updated.id;
+  viewMode = 'view';
+  toast('Question added');
+
+  renderSidebar();
+  renderDetail();
+}
+
+/* ===== HTML EXPLANATION FIELD ===== */
+function htmlExplanationField(id, value, extraAttr = '') {
+  return `<div class="exp-wrap">
+    <div class="html-toolbar" data-for="${id}">
+      <button class="html-toolbar-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+      <button class="html-toolbar-btn" data-cmd="italic" title="Italic"><i>I</i></button>
+      <button class="html-toolbar-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+      <div class="html-toolbar-sep"></div>
+      <button class="html-toolbar-btn" data-cmd="color-red" title="Red text" style="color:#c0392b">A</button>
+      <button class="html-toolbar-btn" data-cmd="color-green" title="Green text" style="color:#1a8a4a">A</button>
+      <button class="html-toolbar-btn" data-cmd="color-blue" title="Blue text" style="color:#1a4a8a">A</button>
+      <div class="html-toolbar-sep"></div>
+      <button class="html-toolbar-btn" data-cmd="table" title="Insert table">⊞ Table</button>
+      <button class="html-toolbar-btn" data-cmd="hr" title="Divider">― HR</button>
+      <button class="html-toolbar-btn preview-toggle" data-cmd="preview">Preview</button>
+    </div>
+    <textarea class="field exp-textarea" id="${id}" ${extraAttr} rows="5" placeholder="Explanation (HTML allowed — e.g. &lt;strong&gt;bold&lt;/strong&gt;, &lt;table&gt;...&lt;/table&gt;, &lt;span style=&quot;color:red&quot;&gt;text&lt;/span&gt;)">${escHtml(value)}</textarea>
+    <div class="exp-preview" id="prev-${id}"></div>
+  </div>`;
+}
+
+/* ===== WIRE HTML TOOLBARS ===== */
+function wireHtmlToolbars(container) {
+  container.querySelectorAll('.html-toolbar').forEach(toolbar => {
+    const targetId = toolbar.dataset.for;
+    const textarea = container.querySelector('#' + targetId);
+    const preview = container.querySelector('#prev-' + targetId);
+    if (!textarea) return;
+
+    toolbar.querySelectorAll('.html-toolbar-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cmd = btn.dataset.cmd;
+        if (cmd === 'preview') {
+          const showing = preview.classList.toggle('show');
+          if (showing) preview.innerHTML = textarea.value;
+          btn.textContent = showing ? 'Edit' : 'Preview';
+          textarea.style.display = showing ? 'none' : '';
+          return;
+        }
+        if (preview.classList.contains('show')) return;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const sel = textarea.value.slice(start, end) || 'text';
+        let insert = '';
+        if (cmd === 'bold') insert = `<strong>${sel}</strong>`;
+        else if (cmd === 'italic') insert = `<em>${sel}</em>`;
+        else if (cmd === 'underline') insert = `<u>${sel}</u>`;
+        else if (cmd === 'color-red') insert = `<span style="color:#c0392b">${sel}</span>`;
+        else if (cmd === 'color-green') insert = `<span style="color:#1a8a4a">${sel}</span>`;
+        else if (cmd === 'color-blue') insert = `<span style="color:#1a4a8a">${sel}</span>`;
+        else if (cmd === 'hr') insert = `\n<hr>\n`;
+        else if (cmd === 'table') insert = `\n<table>\n  <tr><th>Column 1</th><th>Column 2</th></tr>\n  <tr><td>Row 1</td><td>Data</td></tr>\n  <tr><td>Row 2</td><td>Data</td></tr>\n</table>\n`;
+        textarea.setRangeText(insert, start, end, 'end');
+        textarea.focus();
+      });
+    });
+  });
+}
+
+/* ===== PARSEBOX HTML ===== */
+function parsebox(type) {
+  const hints = {
+    SBA: `Topic: [topic]\n\n[Question text?]\n\nA. [choice]\nB. [choice]\nC. [choice]\nD. [choice]\nE. [choice]\n\nCorrect: C\n\nExplanation: [text or HTML]`,
+    MTF: `Topic: [topic]\nStem: [Regarding X, the following are correct:]\n\nA. [statement] | TRUE\nB. [statement] | FALSE\nC. [statement] | TRUE\nD. [statement] | FALSE\nE. [statement] | TRUE\n\nExplanation: [text or HTML]`,
+    EMQ: `Topic: [topic]\nLead: [For each presentation, select the most likely...]\n\nA. [option]\nB. [option]\n...\nH. [option]\n\nQ1. [scenario] | A | [explanation]\nQ2. [scenario] | C | [explanation]\nQ3. [scenario] | F | [explanation]\nQ4. [scenario] | B | [explanation]\nQ5. [scenario] | D | [explanation]`
+  };
+  return `<div class="parse-box">
+    <div class="parse-box-label">
+      <svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+      Paste &amp; Parse — fill all fields automatically
+    </div>
+    <textarea id="parse-input" placeholder="${hints[type].replace(/"/g,'&quot;')}"></textarea>
+    <div class="parse-box-actions">
+      <button class="parse-btn" id="parse-btn">Parse →</button>
+      <span class="parse-hint" id="parse-msg"></span>
+    </div>
+  </div>`;
+}
+
+/* ===== WIRE PARSEBOX ===== */
+function wireParsebox(container, type) {
+  const btn = container.querySelector('#parse-btn');
+  const input = container.querySelector('#parse-input');
+  const msg = container.querySelector('#parse-msg');
+  if (!btn || !input) return;
+
+  btn.addEventListener('click', () => {
+    const text = input.value.trim();
+    if (!text) return;
+    try {
+      parseAndFill(text, type, container);
+      msg.textContent = '✓ Fields filled — review and save';
+      msg.style.color = 'var(--correct)';
+      input.value = '';
+    } catch(e) {
+      msg.textContent = 'Could not parse — check the format';
+      msg.style.color = 'var(--wrong)';
+    }
+  });
+}
+
+function parseAndFill(text, type, container) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+
+  // Extract labelled fields
+  const get = (key) => {
+    const re = new RegExp(`^${key}:\\s*(.+)$`, 'i');
+    for (const l of lines) { const m = l.match(re); if (m) return m[1].trim(); }
+    return '';
+  };
+
+  const topic = get('topic');
+  if (topic) container.querySelector('#f-topic').value = topic;
+
+  if (type === 'SBA') {
+    // Question: lines before first A. option
+    const firstOpt = lines.findIndex(l => /^A\.\s+/i.test(l));
+    const questionLines = lines.slice(topic ? 1 : 0, firstOpt).filter(l => !/^topic:/i.test(l));
+    const question = questionLines.join(' ').trim();
+    if (question) container.querySelector('#f-question').value = question;
+
+    // Choices A–E
+    'ABCDE'.split('').forEach((letter, i) => {
+      const re = new RegExp(`^${letter}\\.\\s+(.+)$`);
+      const line = lines.find(l => re.test(l));
+      if (line) container.querySelector(`[data-choice="${i}"]`).value = line.match(re)[1].trim();
+    });
+
+    // Correct
+    const correctStr = get('correct').toUpperCase();
+    const correctIdx = 'ABCDE'.indexOf(correctStr[0]);
+    if (correctIdx >= 0) {
+      const radio = container.querySelector(`input[name="sba-correct"][value="${correctIdx}"]`);
+      if (radio) radio.checked = true;
+    }
+
+    // Explanation
+    const expMatch = text.match(/explanation:\s*([\s\S]+)$/i);
+    if (expMatch) container.querySelector('#f-explanation').value = expMatch[1].trim();
+
+  } else if (type === 'MTF') {
+    const stemVal = get('stem');
+    if (stemVal) container.querySelector('#f-stem').value = stemVal;
+
+    'ABCDE'.split('').forEach((letter, i) => {
+      const re = new RegExp(`^${letter}\\.\\s+(.+)$`);
+      const line = lines.find(l => re.test(l));
+      if (!line) return;
+      const content = line.match(re)[1];
+      const tfMatch = content.match(/\|\s*(true|false)\s*$/i);
+      const stmtText = tfMatch ? content.replace(/\|\s*(true|false)\s*$/i, '').trim() : content.trim();
+      container.querySelector(`[data-stmt="${i}"]`).value = stmtText;
+      if (tfMatch) {
+        const sel = container.querySelector(`[data-tf="${i}"]`);
+        if (sel) sel.value = tfMatch[1].toLowerCase();
+      }
+    });
+
+    const expMatch = text.match(/explanation:\s*([\s\S]+)$/i);
+    if (expMatch) container.querySelector('#f-explanation').value = expMatch[1].trim();
+
+  } else if (type === 'EMQ') {
+    const leadVal = get('lead');
+    if (leadVal) container.querySelector('#f-lead').value = leadVal;
+
+    // Options A–H
+    'ABCDEFGH'.split('').forEach((letter, i) => {
+      const re = new RegExp(`^${letter}\\.\\s+(.+)$`);
+      const line = lines.find(l => re.test(l) && !/^Q\d/i.test(l));
+      if (line) container.querySelector(`[data-emqopt="${i}"]`).value = line.match(re)[1].trim();
+    });
+
+    // Q1–Q5: format "Qn. question | AnswerLetter | explanation"
+    for (let i = 0; i < 5; i++) {
+      const re = new RegExp(`^Q${i+1}\\.\\s+(.+)$`, 'i');
+      const line = lines.find(l => re.test(l));
+      if (!line) continue;
+      const content = line.match(re)[1];
+      const parts = content.split('|').map(p => p.trim());
+      if (parts[0]) container.querySelector(`[data-emqq="${i}"]`).value = parts[0];
+      if (parts[1]) {
+        const ansIdx = 'ABCDEFGH'.indexOf(parts[1].toUpperCase()[0]);
+        if (ansIdx >= 0) container.querySelector(`[data-emqcorrect="${i}"]`).value = ansIdx;
+      }
+      if (parts[2]) container.querySelector(`[data-emqexp="${i}"]`).value = parts[2];
+    }
+  }
+}
+
+/* ===== UTILS ===== */
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');
+}
+
+initAuth();
+</script>
+</body>
+</html>
