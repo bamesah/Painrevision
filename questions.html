@@ -462,6 +462,8 @@ button{font-family:var(--san);cursor:pointer}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
 <script>
 const LETTERS = ['A','B','C','D','E','F','G','H'];
 let allQuestions = [];
@@ -469,9 +471,14 @@ let allQuestions = [];
 /* ===== LOAD ===== */
 async function loadQuestions() {
   try {
-    const r = await fetch('questions.json?_=' + Date.now());
-    const data = await r.json();
-    allQuestions = data.questions || [];
+    const { data, error } = await sb
+      .from('questions')
+      .select('id, type, data, question_categories(categories(name))');
+    if (error) throw error;
+    allQuestions = (data || []).map(row => {
+      const topic = row.question_categories?.[0]?.categories?.name || '';
+      return { id: row.id, type: row.type, topic, ...row.data };
+    });
   } catch(e) {
     allQuestions = [];
   }
