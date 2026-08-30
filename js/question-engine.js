@@ -19,23 +19,36 @@ function wiggleEl(el) {
 
 /* ===== RENDER QUESTION =====
    mode: 'dotd' | 'practice' | 'exam'
-   - 'dotd'/'practice': reveal-on-demand, onReveal(wasCorrect, detail) fires once.
+   - 'dotd'/'practice': a Reveal Answer button is shown; onReveal(wasCorrect,
+     detail) fires once the user reveals.
    - 'exam': no reveal button — answers are just recorded as the user picks
      them. onReveal(status) fires on every change with 'unanswered' |
-     'partial' | 'complete'. Returns { getResult() } so the caller can grade
-     the question later, once the whole session is submitted.
-   Returns a controller object in 'exam' mode, undefined otherwise. */
-function renderQuestion(q, container, mode, onReveal) {
+     'partial' | 'complete'. The question type and category are hidden
+     (so they can't be used to guess the answer or navigate by topic during
+     a timed exam) until the question is actually revealed. A Flag button
+     is also shown, and onFlagChange(flagged) fires whenever it's toggled.
+   Always returns a controller: { isRevealed(), getResult(), forceReveal(),
+   isFlagged() }. getResult() reads the current answer state without needing
+   a reveal. forceReveal() reveals-in-place right now (used to finalize a
+   question that was never individually revealed, e.g. a bulk "Submit Set")
+   and, unlike the reveal button, works even if the question was left blank
+   or incomplete. */
+function renderQuestion(q, container, mode, onReveal, onFlagChange) {
   mode = mode || 'dotd';
   container.innerHTML = '';
   const card = document.createElement('div');
   card.className = 'q-card';
 
   const typeClass = 'q-badge-' + q.type.toLowerCase();
+  const hideMeta = mode === 'exam';
   let html = `<div class="q-card-top"></div><div class="q-card-body">
     <div class="q-meta">
-      <span class="q-badge ${typeClass}">${q.type}</span>
-      <span class="q-topic q-badge">${escHtml(q.topic)}</span>
+      <span class="q-badge ${typeClass}${hideMeta ? ' q-meta-hidden' : ''}">${q.type}</span>
+      <span class="q-topic q-badge${hideMeta ? ' q-meta-hidden' : ''}">${escHtml(q.topic)}</span>
+      ${mode === 'exam' ? `<button class="flag-btn" type="button" aria-pressed="false">
+        <svg class="flag-icon" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        Flag
+      </button>` : ''}
     </div>`;
 
   if (q.type === 'SBA') html += renderSBA(q);
@@ -52,9 +65,24 @@ function renderQuestion(q, container, mode, onReveal) {
   card.innerHTML = html;
   container.appendChild(card);
 
-  if (q.type === 'SBA') return wireSBA(card, q, mode, onReveal);
-  else if (q.type === 'MTF') return wireMTF(card, q, mode, onReveal);
-  else if (q.type === 'EMQ') return wireEMQ(card, q, mode, onReveal);
+  let flagged = false;
+  if (mode === 'exam') {
+    const flagBtn = card.querySelector('.flag-btn');
+    flagBtn.addEventListener('click', () => {
+      flagged = !flagged;
+      flagBtn.classList.toggle('active', flagged);
+      flagBtn.setAttribute('aria-pressed', String(flagged));
+      if (onFlagChange) onFlagChange(flagged);
+    });
+  }
+
+  let controller;
+  if (q.type === 'SBA') controller = wireSBA(card, q, mode, onReveal);
+  else if (q.type === 'MTF') controller = wireMTF(card, q, mode, onReveal);
+  else if (q.type === 'EMQ') controller = wireEMQ(card, q, mode, onReveal);
+
+  if (controller) controller.isFlagged = () => flagged;
+  return controller;
 }
 
 /* ===== POST-REVEAL ACTION ROW ===== */
@@ -102,26 +130,9 @@ function wireSBA(card, q, mode, onReveal) {
     opt.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); opt.click(); } });
   });
 
-  if (mode === 'exam') {
-    return {
-      getResult: () => ({
-        answered: selected !== null,
-        isCorrect: selected === q.correct,
-        correct: selected === q.correct ? 1 : 0,
-        total: 1
-      })
-    };
-  }
-
-  card.querySelector('.reveal-btn').addEventListener('click', () => {
-    if (revealed) return;
-    if (selected === null) {
-      card.querySelectorAll('.sba-option').forEach(o => wiggleEl(o));
-      wiggleEl(card.querySelector('.reveal-btn'));
-      return;
-    }
+  function doReveal() {
     revealed = true;
-
+    card.querySelectorAll('.q-meta-hidden').forEach(el => el.classList.remove('q-meta-hidden'));
     card.querySelectorAll('.sba-option').forEach(o => {
       const i = parseInt(o.dataset.idx);
       o.classList.remove('selected');
@@ -146,9 +157,36 @@ function wireSBA(card, q, mode, onReveal) {
     expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
     card.querySelector('.q-card-body').appendChild(expDiv);
 
-    postRevealActions(card, mode);
-    if (onReveal) onReveal(selected === q.correct);
-  });
+    if (card.querySelector('.q-actions')) postRevealActions(card, mode);
+  }
+
+  if (mode !== 'exam') {
+    card.querySelector('.reveal-btn').addEventListener('click', () => {
+      if (revealed) return;
+      if (selected === null) {
+        card.querySelectorAll('.sba-option').forEach(o => wiggleEl(o));
+        wiggleEl(card.querySelector('.reveal-btn'));
+        return;
+      }
+      doReveal();
+      if (onReveal) onReveal(selected === q.correct);
+    });
+  }
+
+  return {
+    isRevealed: () => revealed,
+    getResult: () => ({
+      answered: selected !== null,
+      isCorrect: selected === q.correct,
+      correct: selected === q.correct ? 1 : 0,
+      total: 1
+    }),
+    forceReveal: (silent) => {
+      if (revealed) return;
+      doReveal();
+      if (!silent && onReveal) onReveal(selected === q.correct);
+    }
+  };
 }
 
 /* ===== MTF ===== */
@@ -182,6 +220,7 @@ function wireMTF(card, q, mode, onReveal) {
     const i = parseInt(row.dataset.idx);
     row.querySelectorAll('.mtf-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (revealed) return;
         const val = btn.dataset.val === 'true';
         selections[i] = val;
         row.querySelectorAll('.mtf-toggle').forEach(b => b.classList.remove('selected-true', 'selected-false'));
@@ -191,32 +230,9 @@ function wireMTF(card, q, mode, onReveal) {
     });
   });
 
-  if (mode === 'exam') {
-    return {
-      getResult: () => {
-        let correctCount = 0;
-        selections.forEach((s, i) => { if (s === q.correct[i]) correctCount++; });
-        const total = q.choices.length;
-        return {
-          answered: selections.some(s => s !== null),
-          isCorrect: correctCount === total,
-          correct: correctCount,
-          total
-        };
-      }
-    };
-  }
-
-  card.querySelector('.reveal-btn').addEventListener('click', () => {
-    if (revealed) return;
-    const unfilledRows = [...card.querySelectorAll('.mtf-row')].filter((_, i) => selections[i] === null);
-    if (unfilledRows.length) {
-      unfilledRows.forEach(row => wiggleEl(row));
-      wiggleEl(card.querySelector('.reveal-btn'));
-      return;
-    }
+  function doReveal() {
     revealed = true;
-
+    card.querySelectorAll('.q-meta-hidden').forEach(el => el.classList.remove('q-meta-hidden'));
     let correctCount = 0;
     card.querySelectorAll('.mtf-row').forEach(row => {
       const i = parseInt(row.dataset.idx);
@@ -231,16 +247,50 @@ function wireMTF(card, q, mode, onReveal) {
       });
     });
     const totalCount = q.choices.length;
-    const allCorrect = correctCount === totalCount;
 
     const expDiv = document.createElement('div');
     expDiv.className = 'explanation visible';
     expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
     card.querySelector('.q-card-body').appendChild(expDiv);
 
-    postRevealActions(card, mode);
-    if (onReveal) onReveal(allCorrect, { correct: correctCount, total: totalCount });
-  });
+    if (card.querySelector('.q-actions')) postRevealActions(card, mode);
+    return { correctCount, totalCount, fullyAnswered: selections.every(s => s !== null) };
+  }
+
+  if (mode !== 'exam') {
+    card.querySelector('.reveal-btn').addEventListener('click', () => {
+      if (revealed) return;
+      const unfilledRows = [...card.querySelectorAll('.mtf-row')].filter((_, i) => selections[i] === null);
+      if (unfilledRows.length) {
+        unfilledRows.forEach(row => wiggleEl(row));
+        wiggleEl(card.querySelector('.reveal-btn'));
+        return;
+      }
+      const { correctCount, totalCount, fullyAnswered } = doReveal();
+      if (onReveal) onReveal(correctCount === totalCount, { correct: correctCount, total: totalCount, fullyAnswered });
+    });
+  }
+
+  return {
+    isRevealed: () => revealed,
+    getResult: () => {
+      let correctCount = 0;
+      selections.forEach((s, i) => { if (s === q.correct[i]) correctCount++; });
+      const total = q.choices.length;
+      return {
+        answered: selections.some(s => s !== null),
+        fullyAnswered: selections.every(s => s !== null),
+        isCorrect: correctCount === total,
+        correct: correctCount,
+        total
+      };
+    },
+    forceReveal: (silent) => {
+      if (revealed) return;
+      const { correctCount, totalCount, fullyAnswered } = doReveal();
+      if (!silent && onReveal) onReveal(correctCount === totalCount, { correct: correctCount, total: totalCount, fullyAnswered });
+    }
+  };
 }
 
 /* ===== EMQ ===== */
@@ -282,47 +332,21 @@ function wireEMQ(card, q, mode, onReveal) {
     card.querySelectorAll('.emq-select').forEach(sel => {
       sel.addEventListener('change', () => { if (onReveal) onReveal(examStatus()); });
     });
-    return {
-      getResult: () => {
-        const selects = [...card.querySelectorAll('.emq-select')];
-        const total = q.questions.length;
-        const results = new Array(total).fill(false);
-        let correctCount = 0;
-        selects.forEach(sel => {
-          const qi = parseInt(sel.dataset.qidx, 10);
-          const isRight = sel.value !== '' && parseInt(sel.value, 10) === q.questions[qi].correct;
-          results[qi] = isRight;
-          if (isRight) correctCount++;
-        });
-        return {
-          answered: selects.some(sel => sel.value !== ''),
-          isCorrect: correctCount === total,
-          correct: correctCount,
-          total,
-          results
-        };
-      }
-    };
   }
 
-  card.querySelector('.reveal-btn').addEventListener('click', () => {
-    if (revealed) return;
-    const emptySelects = [...card.querySelectorAll('.emq-select')].filter(sel => sel.value === '');
-    if (emptySelects.length) {
-      emptySelects.forEach(sel => wiggleEl(sel.closest('.emq-q-row')));
-      wiggleEl(card.querySelector('.reveal-btn'));
-      return;
-    }
+  function doReveal() {
     revealed = true;
-
+    card.querySelectorAll('.q-meta-hidden').forEach(el => el.classList.remove('q-meta-hidden'));
     let correctCount = 0;
     const results = new Array(q.questions.length).fill(false);
+    const subAnswered = new Array(q.questions.length).fill(false);
     card.querySelectorAll('.emq-select').forEach(sel => {
       const qi = parseInt(sel.dataset.qidx);
       const sq = q.questions[qi];
       const userVal = parseInt(sel.value);
       const isRight = userVal === sq.correct;
       results[qi] = isRight;
+      subAnswered[qi] = sel.value !== '';
       if (isRight) correctCount++;
       const row = card.querySelector(`.emq-q-row[data-qidx="${qi}"]`);
       row.classList.add(isRight ? 'correct-ans' : 'wrong-ans');
@@ -338,8 +362,52 @@ function wireEMQ(card, q, mode, onReveal) {
       row.appendChild(exp);
     });
     const totalCount = q.questions.length;
+    if (card.querySelector('.q-actions')) postRevealActions(card, mode);
+    return { correctCount, totalCount, results, subAnswered };
+  }
 
-    postRevealActions(card, mode);
-    if (onReveal) onReveal(correctCount === totalCount, { correct: correctCount, total: totalCount, results });
-  });
+  if (mode !== 'exam') {
+    card.querySelector('.reveal-btn').addEventListener('click', () => {
+      if (revealed) return;
+      const emptySelects = [...card.querySelectorAll('.emq-select')].filter(sel => sel.value === '');
+      if (emptySelects.length) {
+        emptySelects.forEach(sel => wiggleEl(sel.closest('.emq-q-row')));
+        wiggleEl(card.querySelector('.reveal-btn'));
+        return;
+      }
+      const { correctCount, totalCount, results, subAnswered } = doReveal();
+      if (onReveal) onReveal(correctCount === totalCount, { correct: correctCount, total: totalCount, results, subAnswered });
+    });
+  }
+
+  return {
+    isRevealed: () => revealed,
+    getResult: () => {
+      const selects = [...card.querySelectorAll('.emq-select')];
+      const total = q.questions.length;
+      const results = new Array(total).fill(false);
+      const subAnswered = new Array(total).fill(false);
+      let correctCount = 0;
+      selects.forEach(sel => {
+        const qi = parseInt(sel.dataset.qidx, 10);
+        const isRight = sel.value !== '' && parseInt(sel.value, 10) === q.questions[qi].correct;
+        results[qi] = isRight;
+        subAnswered[qi] = sel.value !== '';
+        if (isRight) correctCount++;
+      });
+      return {
+        answered: selects.some(sel => sel.value !== ''),
+        subAnswered,
+        isCorrect: correctCount === total,
+        correct: correctCount,
+        total,
+        results
+      };
+    },
+    forceReveal: (silent) => {
+      if (revealed) return;
+      const { correctCount, totalCount, results, subAnswered } = doReveal();
+      if (!silent && onReveal) onReveal(correctCount === totalCount, { correct: correctCount, total: totalCount, results, subAnswered });
+    }
+  };
 }

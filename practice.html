@@ -20,6 +20,7 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:op
   --border:#EDE3D7;--border-strong:#E0D3C4;
   --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);--correct-border:rgba(26,138,74,.32);
   --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);--wrong-border:rgba(192,57,43,.32);
+  --flag:#3B6FD6;--flag-bg:rgba(59,111,214,.1);--flag-border:rgba(59,111,214,.32);
   --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
   --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
   --r:18px;--maxw:1120px;
@@ -127,17 +128,19 @@ button{font-family:var(--san);cursor:pointer}
 }
 
 /* ===== QUESTION TRACKER (mock exam mode) ===== */
-.qtracker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-height:520px;overflow-y:auto;padding:2px}
-.qtracker-item{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--ink-soft);font-family:var(--mono);font-weight:700;font-size:13px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.qtracker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-height:520px;overflow-y:auto;padding:8px}
+.qtracker-item{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--ink-soft);font-family:var(--mono);font-weight:700;font-size:13px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
 .qtracker-item:hover{border-color:var(--stone)}
 .qtracker-item.complete{background:var(--correct);border-color:var(--correct);color:#fff}
 .qtracker-item.partial{background:var(--amber);border-color:var(--amber);color:#fff}
 .qtracker-item.is-current{outline:2px solid var(--coral);outline-offset:2px}
+.qtracker-item.flagged::after{content:'';position:absolute;top:-4px;right:-4px;width:11px;height:11px;border-radius:50%;background:var(--flag);border:2px solid var(--surface)}
 .tracker-legend{display:flex;flex-direction:column;gap:6px;margin:2px 4px 14px;font-size:12px;color:var(--stone)}
 .tracker-legend span{display:inline-flex;align-items:center;gap:7px}
 .tracker-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;border:1.5px solid var(--border-strong)}
 .tracker-legend i.complete{background:var(--correct);border-color:var(--correct)}
 .tracker-legend i.partial{background:var(--amber);border-color:var(--amber)}
+.tracker-legend i.flagged{border-radius:50%;background:var(--flag);border-color:var(--flag)}
 @media(max-width:900px){.qtracker-grid{max-height:none;grid-template-columns:repeat(8,1fr)}}
 
 /* ===== TIME WARNING MODAL ===== */
@@ -155,8 +158,6 @@ button{font-family:var(--san);cursor:pointer}
 .practice-dot:hover{border-color:var(--coral);color:var(--coral)}
 .practice-dot.is-current{border-color:var(--coral);color:var(--coral);background:var(--coral-faint)}
 .practice-dot.is-answered{background:var(--coral);border-color:var(--coral);color:#fff}
-.finish-btn{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:8px 18px;cursor:pointer;transition:all .18s}
-.finish-btn:hover{border-color:var(--coral);color:var(--coral)}
 
 /* ===== QUESTION CARD (shared shapes rendered by question-engine.js) ===== */
 .q-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
@@ -168,6 +169,12 @@ button{font-family:var(--san);cursor:pointer}
 .q-badge-mtf{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
 .q-badge-emq{color:#1a7a5a;background:rgba(26,122,90,.08);border-color:rgba(26,122,90,.2)}
 .q-topic{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light);background:var(--cream);padding:4px 10px;border-radius:999px;border:1px solid var(--border)}
+.q-meta-hidden{display:none}
+.flag-btn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:12.5px;font-weight:600;color:var(--stone);cursor:pointer;transition:all .18s}
+.flag-btn:hover{border-color:var(--stone)}
+.flag-btn .flag-icon{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.flag-btn.active{background:var(--flag-bg);border-color:var(--flag-border);color:var(--flag)}
+.flag-btn.active .flag-icon{fill:currentColor}
 .q-text{font-size:17px;font-weight:500;line-height:1.65;color:var(--ink);margin-bottom:28px;text-wrap:pretty}
 .q-stem{font-size:16px;font-weight:500;line-height:1.6;color:var(--ink);margin-bottom:24px;text-wrap:pretty}
 
@@ -188,7 +195,7 @@ button{font-family:var(--san);cursor:pointer}
 .mtf-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
 .mtf-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface)}
 .mtf-row.revealed-correct{border-color:var(--correct-border);background:var(--correct-bg)}
-.mtf-row.revealed-wrong{border-color:var(--wrong-border);background:var(--wrong-bg)}
+.mtf-row.revealed-wrong{border-color:var(--border);background:var(--surface)}
 .mtf-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);width:22px;flex-shrink:0;padding-top:3px}
 .mtf-statement{flex:1;font-size:15px;line-height:1.55;color:var(--ink)}
 .mtf-toggles{display:flex;gap:6px;flex-shrink:0}
@@ -244,15 +251,15 @@ button{font-family:var(--san);cursor:pointer}
 @keyframes wiggle{0%,100%{transform:translateX(0)}15%{transform:translateX(-6px)}35%{transform:translateX(6px)}50%{transform:translateX(-4px)}70%{transform:translateX(4px)}85%{transform:translateX(-2px)}}
 .wiggle{animation:wiggle .45s ease}
 
-/* ===== RESULTS SCREEN ===== */
-.results-card{max-width:640px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:44px 40px;text-align:center}
-.results-score{font-size:52px;font-weight:800;letter-spacing:-.04em;color:var(--coral);margin:14px 0 4px}
-.results-sub{font-size:14.5px;color:var(--stone);margin-bottom:30px}
-.results-breakdown{display:flex;flex-direction:column;gap:8px;text-align:left;margin-bottom:30px}
-.results-row{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--surface-warm);border:1px solid var(--border);border-radius:12px;font-size:13.5px}
-.results-row .cat{color:var(--ink-soft);font-weight:600}
-.results-row .acc{font-family:var(--mono);color:var(--stone)}
-.results-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+/* ===== RESULTS SUMMARY (sits above the scoreboard once submitted) ===== */
+#results-summary{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.results-summary-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--stone);padding:5px 0}
+.results-summary-row .v{font-weight:700;color:var(--ink)}
+.results-summary-marks{text-align:center;background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:16px;padding:16px 10px;margin:12px 0 16px}
+.results-summary-marks-num{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--coral)}
+.results-summary-marks-label{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:2px}
+.results-panel-actions{display:flex;flex-direction:column;gap:8px}
+.results-panel-actions .btn{width:100%;justify-content:center}
 
 @media(max-width:760px){
   .wrap{padding:0 20px}
@@ -262,7 +269,6 @@ button{font-family:var(--san);cursor:pointer}
   .q-card-body{padding:24px 20px}
   .q-actions{padding:18px 20px}
   .emq-options-grid{grid-template-columns:1fr}
-  .results-card{padding:32px 22px}
 }
 </style>
 </head>
@@ -357,13 +363,15 @@ button{font-family:var(--san);cursor:pointer}
       </div>
     </div>
 
-    <!-- SESSION SCREEN -->
+    <!-- SESSION SCREEN — also the results/review view after submission,
+         with the sidebar swapped from a live scoreboard/tracker to a score
+         panel, and the question cards left revealed and still navigable. -->
     <div id="session-screen" style="display:none">
       <div class="session-layout">
         <div class="session-main">
           <div class="session-header">
             <div class="practice-dots" id="practice-dots"></div>
-            <button class="finish-btn" id="finish-btn">Finish</button>
+            <button class="btn btn-primary" id="finish-btn">Finish Exam</button>
           </div>
           <div id="session-q-wrapper"></div>
           <div class="session-nav-row">
@@ -374,30 +382,17 @@ button{font-family:var(--san);cursor:pointer}
             <button class="session-nav-btn" id="next-btn">Next <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
           </div>
         </div>
-        <aside class="scoreboard">
-          <div class="scoreboard-title">Scoreboard</div>
+        <aside class="scoreboard" id="side-panel">
+          <div id="results-summary" style="display:none"></div>
+          <div class="scoreboard-title" id="side-panel-title">Scoreboard</div>
           <div class="tracker-legend" id="tracker-legend" style="display:none">
             <span><i class="complete"></i> Fully answered</span>
             <span><i class="partial"></i> Partially answered</span>
             <span><i></i> Not attempted</span>
+            <span><i class="flagged"></i> Flagged for review</span>
           </div>
           <div class="scoreboard-list" id="scoreboard-list"></div>
         </aside>
-      </div>
-    </div>
-
-    <!-- RESULTS SCREEN -->
-    <div id="results-screen" style="display:none">
-      <div class="results-card">
-        <span class="eyebrow">Session complete</span>
-        <div class="results-score" id="results-score">0/0</div>
-        <p class="results-sub" id="results-sub">You scored 0%.</p>
-        <div class="mock-summary" id="results-type-summary" style="margin-bottom:30px"></div>
-        <div class="results-breakdown" id="results-breakdown"></div>
-        <div class="results-actions">
-          <a class="btn btn-primary" href="dashboard.html">Back to dashboard</a>
-          <button class="btn btn-ghost" id="retry-btn">Start another set</button>
-        </div>
       </div>
     </div>
 
@@ -431,7 +426,9 @@ let sessionAnswered = [];
 let sessionCorrect = [];
 let sessionDetail = [];
 let sessionStatus = [];      // exam mode only: 'unanswered' | 'partial' | 'complete' per question
-let sessionControllers = []; // exam mode only: { getResult() } per question, for grading at Finish
+let sessionFlagged = [];     // exam mode only: flagged-for-review per question
+let sessionControllers = []; // { isRevealed(), getResult(), forceReveal() } per question, both modes
+let sessionFinished = false; // true once submitted — keeps the results panel up while navigating
 let currentIdx = 0;
 let attemptId = null;
 let timerInterval = null;
@@ -456,6 +453,7 @@ async function init() {
     document.getElementById('tracker-legend').style.display = 'flex';
   } else {
     document.getElementById('custom-config-block').style.display = 'block';
+    document.getElementById('finish-btn').textContent = 'Submit Set';
     await loadCategoriesAndHistory();
     wireConfigControls();
   }
@@ -464,20 +462,20 @@ async function init() {
   document.getElementById('prev-btn').addEventListener('click', () => navigateSession(-1));
   document.getElementById('next-btn').addEventListener('click', () => navigateSession(1));
   document.getElementById('finish-btn').addEventListener('click', onFinishClick);
-  document.getElementById('retry-btn').addEventListener('click', () => location.href = 'practice.html?mode=' + mode);
   document.getElementById('time-warning-dismiss').addEventListener('click', () => {
     document.getElementById('time-warning-modal').style.display = 'none';
   });
 }
 
 function onFinishClick() {
-  if (mode === 'mock') {
-    const allAnswered = sessionStatus.every(s => s === 'complete');
-    const msg = allAnswered
-      ? 'Are you sure you want to submit?'
-      : 'Not all answers have been attempted — are you sure you want to submit?';
-    if (!window.confirm(msg)) return;
-  }
+  const allAnswered = sessionQuestions.every((q, i) => {
+    const controller = sessionControllers[i];
+    return controller ? controller.getResult().answered : sessionAnswered[i];
+  });
+  const msg = allAnswered
+    ? 'Are you sure you want to submit?'
+    : 'Not all answers have been attempted — are you sure you want to submit?';
+  if (!window.confirm(msg)) return;
   finishSession();
 }
 
@@ -582,7 +580,9 @@ async function startSession() {
   sessionCorrect = new Array(sessionQuestions.length).fill(null);
   sessionDetail = new Array(sessionQuestions.length).fill(null);
   sessionStatus = new Array(sessionQuestions.length).fill('unanswered');
+  sessionFlagged = new Array(sessionQuestions.length).fill(false);
   sessionControllers = new Array(sessionQuestions.length).fill(null);
+  sessionFinished = false;
   currentIdx = 0;
 
   const { data: attempt, error: attemptErr } = await sb
@@ -652,9 +652,12 @@ function renderSession() {
       sessionControllers[idx] = renderQuestion(q, slide, 'exam', function(status) {
         sessionStatus[idx] = status;
         renderSidePanel();
+      }, function(flagged) {
+        sessionFlagged[idx] = flagged;
+        renderSidePanel();
       });
     } else {
-      renderQuestion(q, slide, 'practice', function(wasCorrect, detail) {
+      sessionControllers[idx] = renderQuestion(q, slide, 'practice', function(wasCorrect, detail) {
         sessionAnswered[idx] = true;
         sessionCorrect[idx] = wasCorrect;
         sessionDetail[idx] = detail || null;
@@ -711,7 +714,7 @@ function goToQuestion(i) {
   currentIdx = i;
   document.querySelectorAll('.practice-q-slide')[i].classList.add('is-active');
   renderDots();
-  renderSidePanel();
+  if (!sessionFinished) renderSidePanel();
   updateNav();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -772,7 +775,8 @@ function renderTracker() {
   list.innerHTML = sessionQuestions.map((q, i) => {
     const status = sessionStatus[i] || 'unanswered';
     const cls = status === 'complete' ? 'complete' : status === 'partial' ? 'partial' : '';
-    return `<button class="qtracker-item ${cls}${i === currentIdx ? ' is-current' : ''}" data-idx="${i}">${i + 1}</button>`;
+    const flagCls = sessionFlagged[i] ? ' flagged' : '';
+    return `<button class="qtracker-item ${cls}${flagCls}${i === currentIdx ? ' is-current' : ''}" data-idx="${i}">${i + 1}</button>`;
   }).join('');
   list.querySelectorAll('.qtracker-item').forEach(btn => {
     btn.addEventListener('click', () => goToQuestion(parseInt(btn.dataset.idx, 10)));
@@ -790,85 +794,129 @@ function updateNav() {
 async function finishSession() {
   if (timerInterval) clearInterval(timerInterval);
   document.getElementById('app-timer').style.display = 'none';
+  sessionFinished = true;
 
   if (mode === 'mock') {
+    // Exam mode never visually reveals as you go — grade from live state,
+    // then reveal each card in place (silently, so it doesn't touch the
+    // now-irrelevant tracker) purely so the review screen has something to show.
     for (let i = 0; i < sessionQuestions.length; i++) {
       const controller = sessionControllers[i];
       const result = controller ? controller.getResult() : { isCorrect: false, correct: 0, total: 1, answered: false };
       sessionAnswered[i] = result.answered;
       sessionCorrect[i] = result.answered ? result.isCorrect : null;
-      sessionDetail[i] = { correct: result.correct, total: result.total };
+      sessionDetail[i] = { correct: result.correct, total: result.total, fullyAnswered: result.fullyAnswered, subAnswered: result.subAnswered };
       if (result.answered) {
         const emqResults = sessionQuestions[i].type === 'EMQ' ? result.results : null;
         await recordAnswer(sessionQuestions[i].id, result.isCorrect, null, emqResults);
       }
+      if (controller) controller.forceReveal(true);
     }
+  } else {
+    // Custom practice set: anything not individually revealed via its own
+    // Reveal Answer button gets finalized now (Submit Set / early Finish).
+    // Re-derive answered/correct from getResult() for every question rather
+    // than trusting the reveal callback's side effects — forceReveal() on a
+    // blank question still fires that callback, and "a reveal happened"
+    // is not the same thing as "the user answered it".
+    sessionQuestions.forEach((q, i) => {
+      const controller = sessionControllers[i];
+      if (!controller) return;
+      if (!controller.isRevealed()) controller.forceReveal();
+      const result = controller.getResult();
+      sessionAnswered[i] = result.answered;
+      sessionCorrect[i] = result.answered ? result.isCorrect : null;
+      sessionDetail[i] = { correct: result.correct, total: result.total, fullyAnswered: result.fullyAnswered, subAnswered: result.subAnswered };
+    });
   }
 
-  const total = sessionQuestions.length;
-  const correct = sessionCorrect.filter(c => c === true).length;
-  const attempted = sessionAnswered.filter(Boolean).length;
-  const scorePct = total ? Math.round((correct / total) * 100) : 0;
+  // ===== "X out of Y questions answered" =====
+  // Y counts each EMQ sub-question separately, but an MTF question counts as
+  // one whole unit (it must be fully filled in to count as answered at all —
+  // a half-finished MTF is worth nothing towards this tally, unlike EMQ where
+  // each sub-question is judged on its own).
+  let unitsAnswered = 0, unitsTotal = 0;
+  sessionQuestions.forEach((q, i) => {
+    const d = sessionDetail[i];
+    if (q.type === 'MTF') {
+      unitsTotal += 1;
+      if (d && d.fullyAnswered) unitsAnswered += 1;
+    } else if (q.type === 'EMQ') {
+      const subTotal = (q.questions || []).length;
+      unitsTotal += subTotal;
+      if (d && d.subAnswered) unitsAnswered += d.subAnswered.filter(Boolean).length;
+    } else {
+      unitsTotal += 1;
+      if (sessionAnswered[i]) unitsAnswered += 1;
+    }
+  });
+
+  // ===== Marks-weighted score =====
+  // Modelled on the standard exam (40 MTF, 25 SBA, 25 EMQ sub-questions =
+  // 400 marks): 1 mark per correct MTF statement, 4 marks per correct SBA,
+  // 4 marks per correct EMQ sub-question. Scaled down naturally by just
+  // applying those same per-item weights to however many questions are
+  // actually in this set.
+  const MARKS_SBA = 4, MARKS_EMQ_SUB = 4, MARKS_MTF_STATEMENT = 1;
+  let earnedMarks = 0, maxMarks = 0;
+  sessionQuestions.forEach((q, i) => {
+    const d = sessionDetail[i];
+    if (q.type === 'MTF') {
+      const statementCount = (q.choices || []).length;
+      maxMarks += statementCount * MARKS_MTF_STATEMENT;
+      if (d) earnedMarks += (d.correct || 0) * MARKS_MTF_STATEMENT;
+    } else if (q.type === 'EMQ') {
+      const subTotal = (q.questions || []).length;
+      maxMarks += subTotal * MARKS_EMQ_SUB;
+      if (d) earnedMarks += (d.correct || 0) * MARKS_EMQ_SUB;
+    } else {
+      maxMarks += MARKS_SBA;
+      if (sessionCorrect[i]) earnedMarks += MARKS_SBA;
+    }
+  });
+  const scorePct = maxMarks ? Math.round((earnedMarks / maxMarks) * 100) : 0;
 
   if (attemptId) {
     await sb.from('attempts').update({ completed_at: new Date().toISOString(), score: scorePct }).eq('id', attemptId);
   }
 
-  document.getElementById('session-screen').style.display = 'none';
-  document.getElementById('results-screen').style.display = 'block';
-  document.getElementById('results-score').textContent = `${correct}/${total}`;
-  document.getElementById('results-sub').textContent = `You scored ${scorePct}% — ${attempted} of ${total} questions answered.`;
+  showResultsPanel({ unitsAnswered, unitsTotal, scorePct, earnedMarks, maxMarks });
+}
 
-  // SBA and EMQ are graded per atomic question (each EMQ sub-question counts
-  // separately) — "fully correct" is a meaningful binary outcome for these.
-  // MTF is inherently partial-credit (some statements right, some wrong
-  // within one question), so it gets its own "partially correct" tally
-  // instead of being folded into the binary bucket.
-  let fullyCorrectCount = 0, fullyCorrectTotal = 0;
-  let mtfCorrectCount = 0, mtfTotal = 0;
-  sessionQuestions.forEach((q, i) => {
-    if (!sessionAnswered[i]) return;
-    if (q.type === 'MTF') {
-      const d = sessionDetail[i] || { correct: 0, total: (q.choices || []).length };
-      mtfCorrectCount += d.correct;
-      mtfTotal += d.total;
-    } else if (q.type === 'EMQ') {
-      const d = sessionDetail[i] || { correct: 0, total: (q.questions || []).length };
-      fullyCorrectCount += d.correct;
-      fullyCorrectTotal += d.total;
-    } else {
-      fullyCorrectTotal += 1;
-      if (sessionCorrect[i]) fullyCorrectCount += 1;
-    }
-  });
+/* ===== RESULTS SUMMARY =====
+   Submitting doesn't switch screens — the session view stays up (dots and
+   Previous/Next still work, exactly like navigating during the session,
+   since every card is already revealed by this point). The sidebar keeps
+   showing the normal live scoreboard (now fully populated with every
+   question's tick/cross/fraction), just with this summary pinned above it. */
+function showResultsPanel({ unitsAnswered, unitsTotal, scorePct, earnedMarks, maxMarks }) {
+  document.getElementById('side-panel-title').textContent = 'Scoreboard';
+  document.getElementById('tracker-legend').style.display = 'none';
+  document.getElementById('finish-btn').style.display = 'none';
+  document.getElementById('practice-dots').style.display = 'flex';
 
-  const typeSummary = document.getElementById('results-type-summary');
-  let typeSummaryHtml = '';
-  if (fullyCorrectTotal > 0) {
-    typeSummaryHtml += `<div class="mock-stat"><div class="n">${fullyCorrectCount}/${fullyCorrectTotal}</div><div class="l">Fully correct (SBA &amp; EMQ)</div></div>`;
-  }
-  if (mtfTotal > 0) {
-    typeSummaryHtml += `<div class="mock-stat"><div class="n">${mtfCorrectCount}/${mtfTotal}</div><div class="l">Partially correct (MTF)</div></div>`;
-  }
-  typeSummary.innerHTML = typeSummaryHtml;
-  typeSummary.style.display = typeSummaryHtml ? 'flex' : 'none';
+  const summary = document.getElementById('results-summary');
+  summary.style.display = 'block';
+  summary.innerHTML = `
+    <div class="results-summary-row"><span>Questions answered</span><span class="v">${unitsAnswered}/${unitsTotal}</span></div>
+    <div class="results-summary-row"><span>Score</span><span class="v">${scorePct}%</span></div>
+    <div class="results-summary-marks">
+      <div class="results-summary-marks-num">${earnedMarks}/${maxMarks}</div>
+      <div class="results-summary-marks-label">total marks</div>
+    </div>
+    <div class="results-panel-actions">
+      <button class="btn btn-primary" id="new-set-btn">Start another set</button>
+      <a class="btn btn-ghost" href="dashboard.html">Back to dashboard</a>
+    </div>`;
 
-  const byTopic = {};
-  sessionQuestions.forEach((q, i) => {
-    if (!sessionAnswered[i]) return;
-    byTopic[q.topic] = byTopic[q.topic] || { correct: 0, total: 0 };
-    byTopic[q.topic].total++;
-    if (sessionCorrect[i]) byTopic[q.topic].correct++;
-  });
-  const breakdown = document.getElementById('results-breakdown');
-  breakdown.innerHTML = Object.entries(byTopic).map(([topic, s]) => `
-    <div class="results-row">
-      <span class="cat">${escHtml(topic || 'General')}</span>
-      <span class="acc">${s.correct}/${s.total}</span>
-    </div>`).join('') || '<p style="color:var(--stone);font-size:13.5px;text-align:center">No questions were answered.</p>';
-
+  renderScoreboard();
+  renderDots();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+document.getElementById('results-summary').addEventListener('click', e => {
+  if (e.target.closest('#new-set-btn')) location.href = 'practice.html?mode=' + mode;
+});
 
 init();
 </script>
