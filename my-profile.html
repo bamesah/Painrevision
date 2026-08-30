@@ -54,9 +54,13 @@ button{font-family:var(--san);cursor:pointer}
 .user-menu-trigger:hover,.user-menu.open .user-menu-trigger{box-shadow:0 0 0 5px rgba(240,98,60,.22),0 8px 22px -6px rgba(240,98,60,.65);transform:translateY(-1px)}
 .user-menu.open .user-menu-trigger svg{transform:rotate(180deg)}
 .user-menu-dropdown{position:absolute;top:100%;right:0;padding-top:10px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
-.user-menu:hover .user-menu-dropdown,.user-menu.open .user-menu-dropdown{opacity:1;pointer-events:all}
+.user-menu.open .user-menu-dropdown{opacity:1;pointer-events:all}
 .user-menu-dropdown-inner{min-width:168px;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow);transform:translateY(-6px);transition:transform .22s cubic-bezier(.2,.7,.2,1)}
-.user-menu:hover .user-menu-dropdown-inner,.user-menu.open .user-menu-dropdown-inner{transform:translateY(0)}
+.user-menu.open .user-menu-dropdown-inner{transform:translateY(0)}
+@media (hover:hover) and (pointer:fine){
+  .user-menu:hover .user-menu-dropdown{opacity:1;pointer-events:all}
+  .user-menu:hover .user-menu-dropdown-inner{transform:translateY(0)}
+}
 .user-menu-dropdown a{display:block;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--ink-soft);transition:background .15s}
 .user-menu-dropdown a:hover{background:var(--surface-warm)}
 @media(max-width:700px){.app-nav{display:none}}
