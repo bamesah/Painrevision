@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Profile — PainRevision</title>
+<meta name="description" content="View your account details and update your email or password."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);--correct-border:rgba(26,138,74,.32);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);--wrong-border:rgba(192,57,43,.32);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+
+.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border)}
+.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px 32px;max-width:var(--maxw);margin:0 auto}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
+.app-logo svg{width:28px;height:28px;flex-shrink:0}
+.app-logo .pain{color:var(--ink)}
+.app-logo .rev{color:var(--coral)}
+.app-nav{display:flex;align-items:center;gap:2px;margin-left:28px}
+.app-nav a{font-size:14px;font-weight:600;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.app-nav a:hover{color:var(--ink);background:var(--surface-warm)}
+.app-nav a.active{color:var(--ink);background:rgba(36,27,22,.06)}
+.app-topbar-right{display:flex;align-items:center;gap:14px;margin-left:auto}
+.app-logout{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .18s}
+.app-logout:hover{border-color:var(--coral);color:var(--coral)}
+.app-logout:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.user-menu{position:relative}
+.user-menu-trigger{display:inline-flex;align-items:center;gap:6px;background:var(--coral);color:#fff;font-family:var(--san);font-size:13px;font-weight:700;padding:8px 16px;border-radius:999px;border:none;cursor:pointer;transition:box-shadow .25s ease,transform .2s ease}
+.user-menu-trigger svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.user-menu-trigger:hover,.user-menu.open .user-menu-trigger{box-shadow:0 0 0 5px rgba(240,98,60,.22),0 8px 22px -6px rgba(240,98,60,.65);transform:translateY(-1px)}
+.user-menu.open .user-menu-trigger svg{transform:rotate(180deg)}
+.user-menu-dropdown{position:absolute;top:100%;right:0;padding-top:10px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.user-menu:hover .user-menu-dropdown,.user-menu.open .user-menu-dropdown{opacity:1;pointer-events:all}
+.user-menu-dropdown-inner{min-width:168px;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow);transform:translateY(-6px);transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.user-menu:hover .user-menu-dropdown-inner,.user-menu.open .user-menu-dropdown-inner{transform:translateY(0)}
+.user-menu-dropdown a{display:block;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--ink-soft);transition:background .15s}
+.user-menu-dropdown a:hover{background:var(--surface-warm)}
+@media(max-width:700px){.app-nav{display:none}}
+
+#auth-gate{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.gate-card{max-width:360px;text-align:center}
+.gate-spinner{width:28px;height:28px;border-radius:999px;border:3px solid var(--border);border-top-color:var(--coral);margin:0 auto 16px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gate-text{font-size:14px;color:var(--stone)}
+
+.profile-main{padding:44px 0 80px;display:none}
+.page-title{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.page-sub{font-size:14.5px;color:var(--stone);margin-bottom:32px}
+
+.profile-layout{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;max-width:900px}
+@media(max-width:800px){.profile-layout{grid-template-columns:1fr}}
+.profile-grid{display:flex;flex-direction:column;gap:20px}
+.profile-sidebar{position:sticky;top:84px}
+.profile-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow-sm);padding:28px 30px}
+.profile-card h2{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.profile-card .card-sub{font-size:13px;color:var(--stone);margin-bottom:20px;line-height:1.5}
+
+.form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.form-group:last-of-type{margin-bottom:0}
+.form-label{font-size:13px;font-weight:600;color:var(--ink-soft);letter-spacing:-.01em}
+.form-input{width:100%;font-family:var(--san);font-size:14.5px;color:var(--ink);background:var(--surface-warm);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.form-input:hover{border-color:var(--border-strong)}
+.form-input:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(240,98,60,.12);background:var(--surface)}
+.form-input:disabled{color:var(--stone);cursor:not-allowed;opacity:.85}
+
+.field-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.field-row .form-group{flex:1;min-width:200px;margin-bottom:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:999px;font-family:var(--san);font-size:14px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+
+.field-msg{font-size:13px;padding:10px 14px;border-radius:10px;margin-top:14px;display:none;line-height:1.5}
+.field-msg.show{display:block}
+.field-msg.success{background:var(--correct-bg);border:1px solid var(--correct-border);color:var(--correct)}
+.field-msg.error{background:var(--wrong-bg);border:1px solid var(--wrong-border);color:var(--wrong)}
+
+.form-hint{font-size:12px;color:var(--stone-light)}
+
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  .app-topbar-in{padding:12px 20px}
+  .profile-main{padding:32px 0 60px}
+  .profile-card{padding:22px 20px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app-topbar">
+  <div class="app-topbar-in">
+    <a class="app-logo" href="dashboard.html" aria-label="PainRevision dashboard">
+      <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <nav class="app-nav" aria-label="App navigation">
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+    <div class="app-topbar-right">
+      <div class="user-menu" id="user-menu">
+        <button class="user-menu-trigger" id="user-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="user-menu-username">…</span>
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="user-menu-dropdown" role="menu">
+          <div class="user-menu-dropdown-inner">
+            <a href="my-profile.html" role="menuitem">My Profile</a>
+            <a href="my-progress.html" role="menuitem">My Progress</a>
+          </div>
+        </div>
+      </div>
+      <button class="app-logout" id="logout-btn">Log out</button>
+    </div>
+  </div>
+</div>
+
+<div id="auth-gate">
+  <div class="gate-card">
+    <div class="gate-spinner" aria-hidden="true"></div>
+    <p class="gate-text">Checking your session…</p>
+  </div>
+</div>
+
+<main class="profile-main" id="profile-main">
+  <div class="wrap">
+    <span class="eyebrow" style="margin-bottom:8px">My Profile</span>
+    <h1 class="page-title">Account details</h1>
+    <p class="page-sub">Your recorded details, plus options to update your email or password.</p>
+
+    <div class="profile-layout">
+    <div class="profile-grid">
+
+      <div class="profile-card">
+        <h2 style="margin-bottom:18px">Your details</h2>
+        <div class="field-row">
+          <div class="form-group">
+            <label class="form-label" for="pf-first-name">First name</label>
+            <input class="form-input" type="text" id="pf-first-name" disabled/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pf-last-name">Last name</label>
+            <input class="form-input" type="text" id="pf-last-name" disabled/>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:16px">
+          <label class="form-label" for="pf-username">Username</label>
+          <input class="form-input" type="text" id="pf-username" disabled/>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <h2>Email address</h2>
+        <p class="card-sub">Changing this sends a confirmation link to your new address — the change only takes effect once you click it.</p>
+        <div class="form-group">
+          <label class="form-label" for="pf-email">Email</label>
+          <input class="form-input" type="email" id="pf-email" autocomplete="email"/>
+        </div>
+        <button class="btn btn-primary" id="update-email-btn" style="margin-top:14px">Update email</button>
+        <div class="field-msg" id="email-msg"></div>
+      </div>
+
+      <div class="profile-card">
+        <h2>Change password</h2>
+        <p class="card-sub">Choose a new password for your account.</p>
+        <form id="password-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="pf-current-password">Current password</label>
+            <input class="form-input" type="password" id="pf-current-password" autocomplete="current-password" placeholder="••••••••"/>
+          </div>
+          <div class="form-group" style="margin-top:16px">
+            <label class="form-label" for="pf-new-password">New password</label>
+            <input class="form-input" type="password" id="pf-new-password" autocomplete="new-password" minlength="8" placeholder="••••••••"/>
+            <span class="form-hint">At least 8 characters</span>
+          </div>
+          <div class="form-group" style="margin-top:16px">
+            <label class="form-label" for="pf-confirm-password">Confirm new password</label>
+            <input class="form-input" type="password" id="pf-confirm-password" autocomplete="new-password" minlength="8" placeholder="••••••••"/>
+          </div>
+          <button class="btn btn-primary" type="submit" id="update-password-btn" style="margin-top:14px">Update password</button>
+        </form>
+        <div class="field-msg" id="password-msg"></div>
+      </div>
+
+    </div>
+
+    <div class="profile-sidebar">
+      <div class="profile-card">
+        <h2>FFPMRCA exam date</h2>
+        <p class="card-sub">Set your exam date to see a countdown on your dashboard.</p>
+        <div class="form-group">
+          <label class="form-label" for="pf-exam-date">Exam date</label>
+          <input class="form-input" type="date" id="pf-exam-date"/>
+        </div>
+        <button class="btn btn-primary" id="update-exam-date-btn" style="margin-top:14px;width:100%;justify-content:center">Save date</button>
+        <div class="field-msg" id="exam-date-msg"></div>
+      </div>
+    </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+let currentUser = null;
+
+function showMsg(el, text, isError) {
+  el.textContent = text;
+  el.classList.remove('success', 'error');
+  el.classList.add('show', isError ? 'error' : 'success');
+}
+
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.href = 'login.html'; return; }
+  currentUser = session.user;
+
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('profile-main').style.display = 'block';
+
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    window.location.href = 'login.html';
+  });
+
+  const { data: profile } = await sb.from('profiles').select('first_name,last_name,username,exam_date').eq('id', currentUser.id).single();
+  document.getElementById('pf-first-name').value = (profile && profile.first_name) || '—';
+  document.getElementById('pf-last-name').value = (profile && profile.last_name) || '—';
+  document.getElementById('pf-username').value = (profile && profile.username) || '—';
+  document.getElementById('pf-email').value = currentUser.email;
+  if (profile && profile.exam_date) document.getElementById('pf-exam-date').value = profile.exam_date;
+  document.getElementById('pf-exam-date').min = new Date().toISOString().slice(0, 10);
+  document.getElementById('user-menu-username').textContent = (profile && profile.username) || currentUser.email.split('@')[0];
+  wireUserMenu();
+
+  wireEmailUpdate();
+  wirePasswordUpdate();
+  wireExamDateUpdate();
+}
+
+function wireUserMenu() {
+  const menu = document.getElementById('user-menu');
+  const trigger = document.getElementById('user-menu-trigger');
+  trigger.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = menu.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', e => {
+    if (!menu.contains(e.target)) {
+      menu.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+function wireExamDateUpdate() {
+  const btn = document.getElementById('update-exam-date-btn');
+  const msg = document.getElementById('exam-date-msg');
+
+  btn.addEventListener('click', async () => {
+    const examDate = document.getElementById('pf-exam-date').value;
+    if (!examDate) { showMsg(msg, 'Please choose a date.', true); return; }
+    if (examDate < new Date().toISOString().slice(0, 10)) { showMsg(msg, 'Exam date can\'t be in the past.', true); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    const { error } = await sb.from('profiles').update({ exam_date: examDate }).eq('id', currentUser.id);
+
+    btn.disabled = false;
+    btn.textContent = 'Save date';
+
+    if (error) {
+      showMsg(msg, error.message || 'Could not save your exam date — please try again.', true);
+      return;
+    }
+    showMsg(msg, 'Exam date saved — check your dashboard for the countdown.', false);
+  });
+}
+
+function wireEmailUpdate() {
+  const btn = document.getElementById('update-email-btn');
+  const msg = document.getElementById('email-msg');
+
+  btn.addEventListener('click', async () => {
+    const newEmail = document.getElementById('pf-email').value.trim();
+    if (!newEmail) { showMsg(msg, 'Please enter an email address.', true); return; }
+    if (newEmail === currentUser.email) { showMsg(msg, 'That\'s already your current email.', true); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending confirmation…';
+
+    const { error } = await sb.auth.updateUser({ email: newEmail });
+
+    btn.disabled = false;
+    btn.textContent = 'Update email';
+
+    if (error) {
+      showMsg(msg, error.message || 'Could not update email — please try again.', true);
+      return;
+    }
+    showMsg(msg, `Confirmation email sent to ${newEmail}. Click the link there to complete the change.`, false);
+  });
+}
+
+function wirePasswordUpdate() {
+  const form = document.getElementById('password-form');
+  const btn = document.getElementById('update-password-btn');
+  const msg = document.getElementById('password-msg');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const currentPassword = document.getElementById('pf-current-password').value;
+    const password = document.getElementById('pf-new-password').value;
+    const confirm = document.getElementById('pf-confirm-password').value;
+
+    if (!currentPassword) { showMsg(msg, 'Please enter your current password.', true); return; }
+    if (password.length < 8) { showMsg(msg, 'New password must be at least 8 characters.', true); return; }
+    if (password !== confirm) { showMsg(msg, 'New passwords do not match.', true); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Verifying…';
+
+    // Supabase has no standalone "check this password" call — re-authenticating
+    // with it is the standard way to confirm it's actually correct.
+    const { error: verifyError } = await sb.auth.signInWithPassword({ email: currentUser.email, password: currentPassword });
+    if (verifyError) {
+      btn.disabled = false;
+      btn.textContent = 'Update password';
+      showMsg(msg, 'Current password is incorrect.', true);
+      return;
+    }
+
+    btn.textContent = 'Updating…';
+    const { error } = await sb.auth.updateUser({ password: password });
+
+    btn.disabled = false;
+    btn.textContent = 'Update password';
+
+    if (error) {
+      showMsg(msg, error.message || 'Could not update password — please try again.', true);
+      return;
+    }
+    form.reset();
+    showMsg(msg, 'Password updated.', false);
+  });
+}
+
+init();
+</script>
+</body>
+</html>

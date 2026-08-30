@@ -202,6 +202,14 @@ footer{background:var(--ink);padding:52px 0}
 
       <form id="signup-form" novalidate>
         <div class="form-group">
+          <label class="form-label" for="su-first-name">First name</label>
+          <input class="form-input" type="text" id="su-first-name" name="first-name" placeholder="Ann" autocomplete="given-name" required/>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="su-last-name">Last name</label>
+          <input class="form-input" type="text" id="su-last-name" name="last-name" placeholder="Algaesia" autocomplete="family-name" required/>
+        </div>
+        <div class="form-group">
           <label class="form-label" for="su-username">Username</label>
           <input class="form-input" type="text" id="su-username" name="username" placeholder="ann_algaesia" autocomplete="username" required/>
         </div>
@@ -255,6 +263,7 @@ footer{background:var(--ink);padding:52px 0}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/auth-nav.js"></script>
 <script>
 (function(){
   var nav = document.getElementById('main-nav');
@@ -292,12 +301,14 @@ footer{background:var(--ink);padding:52px 0}
     e.preventDefault();
     clearError();
 
+    var firstName = document.getElementById('su-first-name').value.trim();
+    var lastName = document.getElementById('su-last-name').value.trim();
     var username = document.getElementById('su-username').value.trim();
     var email = document.getElementById('su-email').value.trim();
     var password = document.getElementById('su-password').value;
     var password2 = document.getElementById('su-password2').value;
 
-    if(!username || !email || !password){
+    if(!firstName || !lastName || !username || !email || !password){
       showError('Please fill in all fields.');
       return;
     }
@@ -316,7 +327,7 @@ footer{background:var(--ink);padding:52px 0}
     var { data, error } = await sb.auth.signUp({
       email: email,
       password: password,
-      options: { data: { username: username } }
+      options: { data: { username: username, first_name: firstName, last_name: lastName } }
     });
 
     submitBtn.disabled = false;
