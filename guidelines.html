@@ -842,6 +842,101 @@ const GUIDELINES = [
     ]
   },
   {
+    id: 'ng219',
+    code: 'NG219',
+    org: 'NICE',
+    title: 'Gout',
+    published: '2022',
+    url: 'https://www.nice.org.uk/guidance/ng219/chapter/recommendations',
+    sections: [
+      {
+        type: 'info',
+        heading: 'Scope & Key Definition',
+        points: [
+          '<strong>Gout</strong> is caused by monosodium urate crystal deposition secondary to chronic hyperuricaemia. NG219 covers diagnosis, flare management, and long-term Urate lowering therapy (ULT) in adults.',
+          'Gout is a <strong>lifelong condition</strong> — ULT does not cure it, but eliminates urate crystals and prevents further flares when continued long-term.'
+        ]
+      },
+      {
+        type: 'assess',
+        heading: 'Symptoms, Signs & Diagnosis',
+        points: [
+          '<strong>Suspect gout:</strong> rapid onset (often overnight) of severe pain with redness and swelling in one or both <strong>first metatarsophalangeal (MTP) joints</strong>, or the presence of tophi.',
+          '<strong>Consider gout</strong> when the same rapid-onset pattern of severe pain, redness, or swelling occurs in joints other than the first MTP joint.',
+          'Consider <strong>chronic gouty arthritis</strong> in people presenting with chronic inflammatory joint pain, rather than discrete flares.',
+          '<strong>Exclude septic arthritis</strong> in any hot, red, swollen joint — also consider calcium pyrophosphate crystal deposition (pseudogout) and inflammatory arthritis as differentials. Refer immediately via the local pathway if septic arthritis is suspected.',
+          '<strong>Confirm the diagnosis</strong> with a serum urate level of <strong>360 micromol/litre (6 mg/dl) or more</strong>. If urate is below this threshold during a flare, repeat the test <strong>at least 2 weeks after the flare has settled</strong> — urate can transiently fall during an acute attack.',
+          'If the diagnosis remains uncertain or unconfirmed, consider <strong>joint aspiration and synovial fluid microscopy</strong>; if aspiration cannot be performed, consider <strong>imaging</strong> (X-ray, ultrasound, or dual-energy CT).'
+        ]
+      },
+      {
+        type: 'offer',
+        heading: 'Managing a Gout Flare',
+        points: [
+          '<strong>First-line (equal options):</strong> an NSAID, colchicine, or a short course of an oral corticosteroid — chosen according to comorbidities, co-prescriptions, and patient preference. (Oral corticosteroids are used <em>off-label</em> for this indication.)',
+          'Consider adding a <strong>proton pump inhibitor (PPI)</strong> for people taking an NSAID for a flare.',
+          'If NSAIDs and colchicine are contraindicated, not tolerated, or ineffective, consider an <strong>intra-articular or intramuscular corticosteroid injection</strong> (off-label).',
+          'Advise that <strong>ice packs</strong> applied to the joint, alongside prescribed medicine, may help relieve pain.',
+          'After the flare has settled, consider a <strong>follow-up appointment</strong> to recheck serum urate, provide self-management education, and assess lifestyle and comorbidities.'
+        ]
+      },
+      {
+        type: 'avoid',
+        heading: 'IL-1 Inhibitors — Specialist Only',
+        points: [
+          'Do <strong>NOT</strong> offer an <strong>interleukin-1 (IL-1) inhibitor</strong> (e.g. anakinra, canakinumab) to treat a gout flare, or to prevent flares while starting/titrating ULT, unless NSAIDs, colchicine, and corticosteroids are all contraindicated, not tolerated, or ineffective.',
+          '<strong>Refer to a rheumatology service before prescribing</strong> an IL-1 inhibitor.'
+        ]
+      },
+      {
+        type: 'offer',
+        heading: 'Urate-Lowering Therapy (ULT) — When to Offer',
+        points: [
+          '<strong>Offer ULT</strong> using a treat-to-target strategy to people with: multiple or troublesome flares; CKD stages 3 to 5; diuretic therapy; tophi; or chronic gouty arthritis.',
+          '<strong>Timing:</strong> start ULT at least <strong>2–4 weeks after a flare has settled</strong>. If flares are more frequent, ULT can be started <em>during</em> a flare instead of waiting.'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Treat-to-Target Strategy',
+        points: [
+          'Start with a <strong>low dose</strong> of ULT and use <strong>monthly serum urate levels</strong> to guide dose increases, as tolerated, until the target is reached.'
+        ],
+        tables: [
+          {
+            caption: 'Target Serum Urate Level',
+            columns: ['Patient Group', 'Target'],
+            rows: [
+              ['Standard target', 'Below 360 micromol/litre (6 mg/dl)'],
+              ['Tophi, chronic gouty arthritis, or ongoing frequent flares despite urate below 360 micromol/L', 'Below 300 micromol/litre (5 mg/dl)']
+            ]
+          }
+        ],
+        postPoints: [
+          'Once the target is reached and ULT continues, consider <strong>annual monitoring</strong> of serum urate.'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Choice of ULT & Flare Prophylaxis',
+        points: [
+          '<strong>First-line:</strong> allopurinol or febuxostat — choice guided by comorbidities and patient preference.',
+          '<strong>Allopurinol is first-line</strong> (in preference to febuxostat) for people with <strong>major cardiovascular disease</strong> (e.g. previous myocardial infarction, stroke, or unstable angina) — febuxostat carries a cardiovascular risk signal in this group.',
+          '<strong>Second-line:</strong> switch between allopurinol and febuxostat if the target is not reached, or first-line treatment is not tolerated.',
+          '<strong>Preventing flares while starting/titrating ULT:</strong> discuss the risks and benefits, then offer <strong>colchicine</strong> first-line. If contraindicated, not tolerated, or ineffective, consider a <strong>low-dose NSAID</strong> or <strong>low-dose oral corticosteroid</strong> (off-label). Consider a PPI alongside an NSAID or corticosteroid used for this purpose.'
+        ]
+      },
+      {
+        type: 'key',
+        heading: 'Referral & Key Exam Points',
+        points: [
+          '<strong>Diet:</strong> no specific diet has good evidence for preventing flares or lowering serum urate — advise a generally healthy, balanced diet only, not a restrictive "gout diet".',
+          'Two urate thresholds to keep separate: diagnosis is confirmed at <strong>≥360 micromol/L</strong>; the treatment target is usually <strong>&lt;360 micromol/L</strong>, tightened to <strong>&lt;300 micromol/L</strong> for tophi, chronic gouty arthritis, or flares persisting despite the standard target.'
+        ]
+      }
+    ]
+  },
+  {
     id: 'fpm-pmp',
     code: '',
     org: 'FPM',
