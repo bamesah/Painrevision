@@ -201,6 +201,22 @@ button{font-family:var(--san);cursor:pointer}
 .explanation-text em{font-style:italic}
 .explanation-text hr{border:none;border-top:1px solid var(--border);margin:12px 0}
 
+/* ===== GUIDELINE POPUP BUTTON (embedded in explanation HTML) ===== */
+.nice-guideline-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--coral);background:var(--coral-faint);color:var(--coral-deep);font-family:var(--san);font-size:13.5px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:background .18s,transform .18s,color .18s}
+.nice-guideline-btn:hover{background:var(--coral);color:#fff;transform:translateY(-1px)}
+.nice-guideline-btn svg{flex-shrink:0}
+
+/* ===== GUIDELINE MODAL ===== */
+.gl-modal-overlay{position:fixed;inset:0;background:rgba(36,27,22,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:24px}
+.gl-modal-overlay.open{display:flex}
+.gl-modal{width:min(920px,100%);height:min(760px,88vh);background:var(--surface);border-radius:20px;box-shadow:0 30px 80px -20px rgba(36,27,22,.5);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border)}
+.gl-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface-warm);flex-shrink:0}
+.gl-modal-title{font-weight:700;font-size:14.5px;color:var(--ink)}
+.gl-modal-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.gl-modal-icon-btn{width:32px;height:32px;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--stone);transition:background .15s,color .15s;text-decoration:none}
+.gl-modal-icon-btn:hover{background:var(--cream);color:var(--ink)}
+.gl-modal iframe{flex:1;border:none;width:100%;background:var(--cream)}
+
 /* ===== ACTION ROW ===== */
 .q-actions{display:flex;align-items:center;gap:12px;padding:24px 40px;border-top:1px solid var(--border);background:var(--surface-warm);flex-wrap:wrap}
 
@@ -336,6 +352,24 @@ button{font-family:var(--san);cursor:pointer}
     </button>
   </div>
 </nav>
+
+<div class="gl-modal-overlay" id="gl-modal-overlay">
+  <div class="gl-modal" role="dialog" aria-modal="true" aria-labelledby="gl-modal-title">
+    <div class="gl-modal-head">
+      <span class="gl-modal-title" id="gl-modal-title">Guideline</span>
+      <div class="gl-modal-actions">
+        <a class="gl-modal-icon-btn" id="gl-modal-open-new" href="guidelines.html" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open in new tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <button class="gl-modal-icon-btn" id="gl-modal-close" type="button" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <iframe id="gl-modal-iframe" src="about:blank" title="Guideline summary"></iframe>
+  </div>
+</div>
+
 <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
   <div class="nav-drawer-overlay" id="drawer-overlay"></div>
   <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
@@ -730,6 +764,33 @@ function updatePracticeNav() {
   document.getElementById('next-btn').disabled = idx === n - 1;
   document.getElementById('practice-progress').textContent = `Question ${idx + 1} of ${n}`;
 }
+
+/* ===== GUIDELINE POPUP (triggered from explanation content, e.g. NICE NG219 button) ===== */
+function openGuidelineModal(id, title) {
+  const overlay = document.getElementById('gl-modal-overlay');
+  const iframe = document.getElementById('gl-modal-iframe');
+  const titleEl = document.getElementById('gl-modal-title');
+  const openNew = document.getElementById('gl-modal-open-new');
+  const url = 'guidelines.html#' + id;
+  titleEl.textContent = title || 'Guideline';
+  iframe.src = url;
+  openNew.href = url;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGuidelineModal() {
+  const overlay = document.getElementById('gl-modal-overlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('gl-modal-iframe').src = 'about:blank';
+}
+(function initGuidelineModal() {
+  const overlay = document.getElementById('gl-modal-overlay');
+  if (!overlay) return;
+  document.getElementById('gl-modal-close').addEventListener('click', closeGuidelineModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeGuidelineModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeGuidelineModal(); });
+})();
 
 loadQuestions();
 </script>

@@ -361,6 +361,13 @@ function wireEMQ(card, q, mode, onReveal) {
       row.appendChild(reveal);
       row.appendChild(exp);
     });
+    if (q.reference) {
+      const refDiv = document.createElement('div');
+      refDiv.className = 'emq-reference explanation-text';
+      refDiv.style.marginTop = '20px';
+      refDiv.innerHTML = q.reference;
+      card.querySelector('.q-card-body').appendChild(refDiv);
+    }
     const totalCount = q.questions.length;
     if (card.querySelector('.q-actions')) postRevealActions(card, mode);
     return { correctCount, totalCount, results, subAnswered };
