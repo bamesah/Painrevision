@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" role="img" aria-labelledby="dnc-title">
+<title id="dnc-title">Classification of diabetic neuropathy — generalized symmetrical polyneuropathies and focal/multifocal neuropathies</title>
+
+<rect x="1" y="1" width="998" height="398" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <!-- Section A -->
+  <text x="40" y="38" font-size="17" font-weight="700" fill="#241B16"><tspan fill="#F0623C">A.</tspan>&#160;&#160;Generalized symmetrical polyneuropathies</text>
+
+  <text x="70" y="70" font-size="14.5" font-weight="600" fill="#241B16"><tspan fill="#D2491F">1.</tspan>&#160;&#160;Chronic sensorimotor polyneuropathy:</text>
+  <circle cx="105" cy="93" r="2.6" fill="#F0623C"/>
+  <text x="118" y="97" font-size="14" fill="#3A2D25">Sensory&#8212;thin fibres (C fibres)/thick fibres&#8212;A&#948; and A&#946; fibres</text>
+  <circle cx="105" cy="117" r="2.6" fill="#F0623C"/>
+  <text x="118" y="121" font-size="14" fill="#3A2D25">Mixed nerves</text>
+
+  <text x="70" y="150" font-size="14.5" font-weight="600" fill="#241B16"><tspan fill="#D2491F">2.</tspan>&#160;&#160;Acute sensory neuropathy (painful)</text>
+
+  <text x="70" y="182" font-size="14.5" font-weight="600" fill="#241B16"><tspan fill="#D2491F">3.</tspan>&#160;&#160;Autonomic neuropathy&#8212;gastrointestinal tract, cardiovascular system, and genitourinary system</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="204" x2="960" y2="204" stroke="#EDE3D7" stroke-width="1.5"/>
+
+  <!-- Section B -->
+  <text x="40" y="238" font-size="17" font-weight="700" fill="#241B16"><tspan fill="#F0623C">B.</tspan>&#160;&#160;Focal and multifocal</text>
+
+  <circle cx="75" cy="261" r="2.6" fill="#F0623C"/>
+  <text x="88" y="265" font-size="14" fill="#3A2D25">Mononeuropathies&#8212;cranial nerve and peripheral nerve</text>
+
+  <circle cx="75" cy="285" r="2.6" fill="#F0623C"/>
+  <text x="88" y="289" font-size="14" fill="#3A2D25">Multiple mononeuropathy&#8212;mononeuritis multiplex</text>
+
+  <circle cx="75" cy="309" r="2.6" fill="#F0623C"/>
+  <text x="88" y="313" font-size="14" fill="#3A2D25">Focal limb/trunk involvement&#8212;thoracic, lumbosacral, and cervical neuropathy</text>
+
+  <circle cx="75" cy="333" r="2.6" fill="#F0623C"/>
+  <text x="88" y="337" font-size="14" fill="#3A2D25">Compression neuropathy: for example, carpal tunnel syndrome</text>
+
+  <circle cx="75" cy="357" r="2.6" fill="#F0623C"/>
+  <text x="88" y="361" font-size="14" fill="#3A2D25">Inflammatory demyelinating neuropathy</text>
+
+</g>
+</svg>
