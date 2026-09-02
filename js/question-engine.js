@@ -17,6 +17,54 @@ function wiggleEl(el) {
   el.addEventListener('animationend', () => el.classList.remove('wiggle'), { once: true });
 }
 
+/* ===== LIGHTBOX (click-to-zoom on images/tables inside explanations) =====
+   Self-initialising: the overlay is created on first use, so any page that
+   includes this file gets the behaviour for free — no per-page setup call
+   needed. Host pages just need the .lightbox-* CSS (see questions.html). */
+function ensureLightbox() {
+  if (document.getElementById('lightbox')) return;
+  const lb = document.createElement('div');
+  lb.className = 'lightbox-overlay';
+  lb.id = 'lightbox';
+  lb.innerHTML = `
+    <div class="lightbox-box">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="lightbox-scroll">
+        <div class="lightbox-content" id="lightbox-content"></div>
+      </div>
+    </div>`;
+  document.body.appendChild(lb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+}
+
+function openLightbox(html) {
+  ensureLightbox();
+  document.getElementById('lightbox-content').innerHTML = html;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  if (lb) lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function initLightboxTargets(container) {
+  if (!container) return;
+  ensureLightbox();
+  container.querySelectorAll('img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(`<img src="${img.src}" alt="${escHtml(img.alt)}">`));
+  });
+  container.querySelectorAll('table').forEach(table => {
+    table.addEventListener('click', () => openLightbox(table.outerHTML));
+  });
+}
+
 /* ===== RENDER QUESTION =====
    mode: 'dotd' | 'practice' | 'exam'
    - 'dotd'/'practice': a Reveal Answer button is shown; onReveal(wasCorrect,
@@ -156,6 +204,7 @@ function wireSBA(card, q, mode, onReveal) {
     expDiv.className = 'explanation visible';
     expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
     card.querySelector('.q-card-body').appendChild(expDiv);
+    initLightboxTargets(expDiv);
 
     if (card.querySelector('.q-actions')) postRevealActions(card, mode);
   }
@@ -252,6 +301,7 @@ function wireMTF(card, q, mode, onReveal) {
     expDiv.className = 'explanation visible';
     expDiv.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${q.explanation || ''}</div>`;
     card.querySelector('.q-card-body').appendChild(expDiv);
+    initLightboxTargets(expDiv);
 
     if (card.querySelector('.q-actions')) postRevealActions(card, mode);
     return { correctCount, totalCount, fullyAnswered: selections.every(s => s !== null) };
@@ -340,6 +390,8 @@ function wireEMQ(card, q, mode, onReveal) {
     let correctCount = 0;
     const results = new Array(q.questions.length).fill(false);
     const subAnswered = new Array(q.questions.length).fill(false);
+    const questionsList = card.querySelector('.emq-questions');
+    questionsList.insertAdjacentHTML('beforebegin', '<div class="explanation-label" style="margin:20px 0 12px">Explanation</div>');
     card.querySelectorAll('.emq-select').forEach(sel => {
       const qi = parseInt(sel.dataset.qidx);
       const sq = q.questions[qi];
@@ -357,9 +409,10 @@ function wireEMQ(card, q, mode, onReveal) {
       const exp = document.createElement('div');
       exp.className = 'explanation visible';
       exp.style.marginTop = '12px';
-      exp.innerHTML = `<div class="explanation-label">Explanation</div><div class="explanation-text">${sq.explanation || ''}</div>`;
+      exp.innerHTML = `<div class="explanation-text">${sq.explanation || ''}</div>`;
       row.appendChild(reveal);
       row.appendChild(exp);
+      initLightboxTargets(exp);
     });
     if (q.reference) {
       const refDiv = document.createElement('div');
@@ -367,6 +420,7 @@ function wireEMQ(card, q, mode, onReveal) {
       refDiv.style.marginTop = '20px';
       refDiv.innerHTML = q.reference;
       card.querySelector('.q-card-body').appendChild(refDiv);
+      initLightboxTargets(refDiv);
     }
     const totalCount = q.questions.length;
     if (card.querySelector('.q-actions')) postRevealActions(card, mode);
