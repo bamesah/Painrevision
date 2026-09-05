@@ -182,6 +182,7 @@ button{font-family:var(--san);cursor:pointer}
 .q-card-top{height:4px;background:linear-gradient(90deg,var(--coral),var(--amber))}
 .q-card-body{padding:36px 40px}
 .q-meta{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.q-meta.actions-right .q-topic{margin-right:auto}
 .q-badge{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid}
 .q-badge-sba{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
 .q-badge-mtf{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
@@ -944,6 +945,12 @@ function renderSession() {
     }
     if (card && window.QuestionReport) {
       QuestionReport.attach(card, { userId: currentUser.id, questionId: q.id });
+    }
+    // Outside the timed exam, the Report / Bookmark / Notes buttons sit on the
+    // right of the meta row. (Mock keeps them left with Flag pinned right.)
+    if (card && mode !== 'mock') {
+      const metaEl = card.querySelector('.q-meta');
+      if (metaEl) metaEl.classList.add('actions-right');
     }
 
     wrapper.appendChild(slide);
