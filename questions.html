@@ -516,6 +516,7 @@ button{font-family:var(--san);cursor:pointer}
 <script src="js/supabase-client.js"></script>
 <script src="js/auth-nav.js"></script>
 <script src="js/question-engine.js"></script>
+<script src="js/question-report.js"></script>
 <script>
 let allQuestions = [];
 let currentUserId = null;
@@ -691,6 +692,9 @@ function initDOTD() {
   renderQuestion(q, wrap, 'dotd', function(wasCorrect, detail) {
     recordAnswer(q.id, wasCorrect, Math.round((Date.now() - startTime) / 1000), q.type === 'EMQ' ? detail?.results : null);
   });
+  if (window.QuestionReport) {
+    QuestionReport.attach(wrap.querySelector('.q-card'), { userId: currentUserId, questionId: q.id });
+  }
   triggerReveal();
 }
 
@@ -733,6 +737,9 @@ function generatePracticeSet() {
       renderPracticeDots();
       recordAnswer(q.id, wasCorrect, Math.round((Date.now() - startTime) / 1000), q.type === 'EMQ' ? detail?.results : null);
     });
+    if (window.QuestionReport) {
+      QuestionReport.attach(slide.querySelector('.q-card'), { userId: currentUserId, questionId: q.id });
+    }
     wrapper.appendChild(slide);
   });
 

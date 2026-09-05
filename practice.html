@@ -195,7 +195,7 @@ button{font-family:var(--san);cursor:pointer}
 .flag-btn.active .flag-icon{fill:currentColor}
 
 /* ===== BOOKMARK BUTTON (meta row, all modes) ===== */
-.bookmark-btn{margin-left:auto;position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--stone);cursor:pointer;transition:color .18s,border-color .18s,background .18s,transform .18s}
+.bookmark-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--stone);cursor:pointer;transition:color .18s,border-color .18s,background .18s,transform .18s}
 .bookmark-btn:hover{border-color:var(--stone);color:var(--ink-soft);transform:translateY(-1px)}
 .bookmark-btn:active{transform:translateY(0)}
 .bookmark-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
@@ -521,6 +521,7 @@ button{font-family:var(--san);cursor:pointer}
 <script src="js/supabase-client.js"></script>
 <script src="js/question-engine.js"></script>
 <script src="js/question-notes.js"></script>
+<script src="js/question-report.js"></script>
 <script>
 const params = new URLSearchParams(location.search);
 const rawMode = params.get('mode');
@@ -940,6 +941,9 @@ function renderSession() {
     const card = slide.querySelector('.q-card');
     if (card && window.QuestionNotes) {
       QuestionNotes.attach(card, { userId: currentUser.id, questionId: q.id, startOpen: mode === 'notes' });
+    }
+    if (card && window.QuestionReport) {
+      QuestionReport.attach(card, { userId: currentUser.id, questionId: q.id });
     }
 
     wrapper.appendChild(slide);

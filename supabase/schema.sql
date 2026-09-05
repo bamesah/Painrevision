@@ -168,7 +168,9 @@ create policy "attempt_answers_owner" on attempt_answers for all to authenticate
   using (exists (select 1 from attempts a where a.id = attempt_answers.attempt_id and (a.user_id = auth.uid() or is_admin())))
   with check (exists (select 1 from attempts a where a.id = attempt_answers.attempt_id and a.user_id = auth.uid()));
 
--- question_reports: any signed-in user can file one and see their own, admins see/update all
-create policy "question_reports_insert" on question_reports for insert to authenticated with check (user_id = auth.uid());
+-- question_reports: anyone can file one (anon leaves user_id null), a reporter
+-- sees their own, admins see/update all. See migration_013_question_reports.sql.
+create policy "question_reports_insert" on question_reports for insert to anon, authenticated with check (user_id is null or user_id = auth.uid());
 create policy "question_reports_select" on question_reports for select to authenticated using (user_id = auth.uid() or is_admin());
 create policy "question_reports_update" on question_reports for update to authenticated using (is_admin()) with check (is_admin());
+create policy "question_reports_delete" on question_reports for delete to authenticated using (is_admin());

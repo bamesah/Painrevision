@@ -116,9 +116,14 @@
     btn.className = 'qn-btn';
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-label', 'Notes for this question');
-    btn.dataset.tip = 'Private notes for this question';
+    btn.dataset.tip = 'Add your private notes to this question';
     btn.innerHTML = `<svg class="qn-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span class="qn-dot" hidden></span>`;
-    if (meta) meta.appendChild(btn);
+    if (meta) {
+      // Sit after bookmark but before the exam Flag button, which is pinned right.
+      const flag = meta.querySelector('.flag-btn');
+      if (flag) meta.insertBefore(btn, flag);
+      else meta.appendChild(btn);
+    }
     const dot = btn.querySelector('.qn-dot');
 
     /* --- editor panel at the end of the card body --- */

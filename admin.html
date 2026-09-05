@@ -224,6 +224,7 @@ select.field{appearance:none;-webkit-appearance:none;background-image:url("data:
     <span>Pain<span class="rev">Revision</span></span>
   </div>
   <span class="topbar-badge">Admin</span>
+  <a href="admin-reports.html" class="tb-btn tb-btn-site" style="margin-left:4px">Reports</a>
   <div class="topbar-actions">
     <span class="topbar-user" id="topbar-user"></span>
     <button class="tb-btn tb-btn-export" id="export-btn">Export JSON</button>
@@ -409,6 +410,17 @@ async function loadData() {
     return { id: row.id, type: row.type, topic, ...row.data };
   });
   renderSidebar();
+  openQuestionFromUrl();
+}
+
+/* Deep link from admin-reports.html: admin.html?q=<question_id> opens that
+   question straight away. Runs once. */
+function openQuestionFromUrl() {
+  const wanted = new URLSearchParams(location.search).get('q');
+  if (!wanted) return;
+  history.replaceState(null, '', location.pathname);
+  if (questions.some(x => x.id === wanted)) editQuestion(wanted);
+  else toast('Question ' + wanted + ' was not found — it may have been deleted.');
 }
 
 /* ===== CATEGORY LOOKUP ===== */

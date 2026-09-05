@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Question Reports — PainRevision MCQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --wrong:#C0392B;
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden;min-height:100vh}
+::selection{background:var(--coral);color:#fff}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font-family:var(--san)}
+
+/* ===== TOPBAR ===== */
+.topbar{background:var(--ink);padding:0 32px;display:flex;align-items:center;gap:16px;height:56px;position:sticky;top:0;z-index:90}
+.topbar-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;color:#fff}
+.topbar-logo svg{width:28px;height:28px;--mark-stroke:#F0623C;--mark-dot:#F5A524}
+.topbar-logo .rev{color:var(--amber)}
+.topbar-badge{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:rgba(240,98,60,.25);color:var(--coral-soft);border:1px solid rgba(240,98,60,.3);padding:3px 10px;border-radius:999px}
+.topbar-nav{display:flex;gap:2px;margin-left:12px}
+.topbar-nav a{font-size:13px;font-weight:600;color:rgba(255,255,255,.55);padding:7px 12px;border-radius:8px;transition:color .16s,background .16s}
+.topbar-nav a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.topbar-nav a.active{color:#fff;background:rgba(255,255,255,.12)}
+.topbar-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.topbar-user{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.6)}
+.tb-btn{padding:8px 14px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid transparent;background:transparent;color:rgba(255,255,255,.55);transition:color .16s,background .16s}
+.tb-btn:hover{color:#fff;background:rgba(255,255,255,.08)}
+
+/* ===== SHELL ===== */
+.wrap{max-width:860px;margin:0 auto;padding:32px 28px 80px}
+.page-head{margin-bottom:24px}
+.page-head h1{font-size:24px;font-weight:800;letter-spacing:-.03em}
+.page-head p{font-size:13.5px;color:var(--stone);margin-top:4px;max-width:56ch}
+
+/* ===== FILTER TABS ===== */
+.tabs{display:flex;gap:4px;border-bottom:1.5px solid var(--border);margin-bottom:22px;flex-wrap:wrap}
+.tab{position:relative;font-size:13.5px;font-weight:700;letter-spacing:-.01em;color:var(--stone);background:none;border:none;padding:10px 14px 12px;cursor:pointer;transition:color .15s}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--coral-deep)}
+.tab.active::after{content:'';position:absolute;left:0;right:0;bottom:-1.5px;height:2.5px;background:var(--coral);border-radius:2px}
+.tab .count{display:inline-block;margin-left:6px;font-family:var(--mono);font-size:10.5px;font-weight:600;background:var(--border);color:var(--stone);border-radius:999px;padding:1px 7px;vertical-align:1px}
+.tab.active .count{background:var(--coral-faint);color:var(--coral-deep)}
+.tab:focus-visible{outline:2px solid var(--coral);outline-offset:2px;border-radius:6px}
+
+/* ===== REPORT CARD ===== */
+.report{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.report-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+.rtype{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:6px}
+.rtype-sba{background:rgba(26,74,138,.1);color:#1a4a8a}
+.rtype-mtf{background:rgba(90,26,138,.1);color:#5a1a8a}
+.rtype-emq{background:rgba(26,122,90,.1);color:#1a7a5a}
+.rstatus{font-size:11px;font-weight:700;letter-spacing:-.01em;padding:3px 10px;border-radius:999px;border:1.5px solid}
+.rstatus-open{background:var(--amber-soft);border-color:rgba(245,165,36,.4);color:#8a5a00}
+.rstatus-reviewed{background:rgba(26,74,138,.09);border-color:rgba(26,74,138,.28);color:#1a4a8a}
+.rstatus-resolved{background:rgba(26,122,90,.1);border-color:rgba(26,122,90,.3);color:#146149}
+.rtime{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--stone-light)}
+
+.rq{font-size:14px;line-height:1.6;color:var(--ink-soft);background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:13px}
+.rq.clamp{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.rq-more{font-size:12px;font-weight:700;color:var(--coral-deep);background:none;border:none;cursor:pointer;padding:4px 0 0}
+.rq-more:hover{text-decoration:underline}
+
+.rreason{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;color:var(--coral-deep);background:var(--coral-faint);border:1.5px solid rgba(240,98,60,.28);border-radius:999px;padding:3px 11px;margin-bottom:10px}
+.rcomment{font-size:14.5px;line-height:1.62;color:var(--ink);white-space:pre-wrap;word-break:break-word}
+.rmeta{margin-top:12px;font-size:12px;color:var(--stone)}
+.rmeta strong{font-weight:700;color:var(--ink-soft)}
+
+.report-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px;padding-top:15px;border-top:1px dashed var(--border-strong)}
+.ra-btn{font-size:12.5px;font-weight:700;letter-spacing:-.01em;padding:8px 14px;border-radius:9px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--ink-soft);cursor:pointer;transition:border-color .15s,background .15s,color .15s,transform .15s}
+.ra-btn:hover{border-color:var(--stone);transform:translateY(-1px)}
+.ra-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.ra-btn[disabled]{opacity:.55;cursor:progress;transform:none}
+.ra-btn-primary{background:var(--coral);border-color:var(--coral);color:#fff}
+.ra-btn-primary:hover{background:var(--coral-deep)}
+.ra-btn-danger{background:transparent;border-color:rgba(192,57,43,.3);color:var(--wrong)}
+.ra-btn-danger:hover{background:rgba(192,57,43,.08);border-color:var(--wrong)}
+.ra-link{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--stone);display:inline-flex;align-items:center;gap:5px;padding:8px 4px;transition:color .15s}
+.ra-link:hover{color:var(--coral-deep)}
+.ra-link svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== STATES ===== */
+.state{text-align:center;padding:64px 20px;color:var(--stone)}
+.state svg{width:34px;height:34px;stroke:var(--stone-light);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px}
+.state h3{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:4px}
+.state p{font-size:13px}
+
+/* ===== AUTH GATE ===== */
+.auth-gate{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);padding:40px 20px}
+.auth-gate-card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:36px;max-width:380px;width:100%}
+.auth-gate-card h2{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.auth-gate-card p{font-size:13.5px;color:var(--stone);line-height:1.55;margin-bottom:20px}
+.auth-gate-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.auth-gate-error{display:none;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.32);color:#c0392b;font-size:13px;font-weight:500;padding:10px 14px;border-radius:10px;margin-bottom:14px;line-height:1.5}
+.auth-gate-error.show{display:block}
+.auth-gate-user{font-family:var(--mono);font-size:12px;color:var(--stone);background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:8px 12px;margin-bottom:16px}
+label.field-label{font-size:12.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+input.field{width:100%;padding:10px 13px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--cream);font-size:14px;color:var(--ink);transition:border-color .15s;line-height:1.5}
+input.field:focus{outline:none;border-color:var(--coral)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:background .18s,border-color .18s,transform .18s;letter-spacing:-.01em}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--stone);border-color:var(--border-strong)}
+.btn-secondary:hover{border-color:var(--stone);color:var(--ink)}
+
+/* ===== TOAST ===== */
+#toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--ink);color:#fff;font-family:var(--mono);font-size:13px;letter-spacing:.04em;padding:12px 20px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
+#toast.show{opacity:1;transform:none}
+
+@media (max-width:640px){
+  .wrap{padding:22px 16px 60px}
+  .topbar{padding:0 16px}
+  .topbar-badge{display:none}
+  .rtime{margin-left:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </svg>
+    <span>Pain<span class="rev">Revision</span></span>
+  </div>
+  <span class="topbar-badge">Admin</span>
+  <nav class="topbar-nav">
+    <a href="admin.html">Questions</a>
+    <a href="admin-reports.html" class="active">Reports</a>
+  </nav>
+  <div class="topbar-actions">
+    <span class="topbar-user" id="topbar-user"></span>
+    <button class="tb-btn" id="logout-btn" style="display:none">Log out</button>
+  </div>
+</div>
+
+<!-- AUTH GATE -->
+<div class="auth-gate" id="auth-gate" style="display:none">
+  <div class="auth-gate-card" id="auth-gate-card"></div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap" id="reports-layout" style="display:none">
+  <div class="page-head">
+    <h1>Question reports</h1>
+    <p>Problems candidates flagged while practising. Read the note, fix the question in the editor if needed, then mark the report reviewed or resolved.</p>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="report-list"></div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+const REASON_LABELS = {
+  wrong_answer: 'Wrong answer',
+  typo: 'Typo / formatting',
+  unclear: 'Unclear wording',
+  outdated: 'Outdated',
+  other: 'Something else'
+};
+const STATUSES = ['open', 'reviewed', 'resolved'];
+
+let reports = [];          // raw rows, newest first
+let questionMap = {};       // id -> { type, data }
+let userMap = {};           // id -> username
+let filter = 'open';
+
+/* ===== AUTH GATE (mirrors admin.html) ===== */
+async function initAuth() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) await checkAdminAndProceed(session.user);
+  else showLoginForm();
+
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) checkAdminAndProceed(session.user);
+    if (event === 'SIGNED_OUT') location.reload();
+  });
+}
+
+async function checkAdminAndProceed(user) {
+  const { data: profile, error } = await sb.from('profiles').select('role,username').eq('id', user.id).single();
+  if (error || !profile || profile.role !== 'admin') {
+    showNotAuthorized(user.email);
+    return;
+  }
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('reports-layout').style.display = 'block';
+  document.getElementById('topbar-user').textContent = profile.username || user.email;
+  document.getElementById('logout-btn').style.display = '';
+  loadReports();
+}
+
+function showLoginForm() {
+  document.getElementById('auth-gate-card').innerHTML = `
+    <h2>Admin sign in</h2>
+    <p>Sign in with your PainRevision admin account to review question reports.</p>
+    <div class="auth-gate-error" id="auth-gate-error"></div>
+    <form id="auth-gate-form">
+      <div class="auth-gate-group">
+        <label class="field-label" for="ag-email">Email</label>
+        <input class="field" type="email" id="ag-email" autocomplete="email" required/>
+      </div>
+      <div class="auth-gate-group">
+        <label class="field-label" for="ag-password">Password</label>
+        <input class="field" type="password" id="ag-password" autocomplete="current-password" required/>
+      </div>
+      <button class="btn btn-primary" type="submit" id="ag-submit" style="width:100%;margin-top:6px">Log in</button>
+    </form>`;
+  document.getElementById('auth-gate').style.display = 'flex';
+  document.getElementById('reports-layout').style.display = 'none';
+
+  document.getElementById('auth-gate-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById('auth-gate-error');
+    errEl.classList.remove('show');
+    const email = document.getElementById('ag-email').value.trim();
+    const password = document.getElementById('ag-password').value;
+    const btn = document.getElementById('ag-submit');
+    btn.disabled = true; btn.textContent = 'Logging in…';
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    btn.disabled = false; btn.textContent = 'Log in';
+    if (error) {
+      errEl.textContent = error.message === 'Invalid login credentials' ? 'Incorrect email or password.' : error.message;
+      errEl.classList.add('show');
+    }
+  });
+}
+
+function showNotAuthorized(email) {
+  document.getElementById('auth-gate-card').innerHTML = `
+    <h2>Not authorized</h2>
+    <p>This account doesn't have admin access on PainRevision.</p>
+    <div class="auth-gate-user">Signed in as ${escHtml(email)}</div>
+    <button class="btn btn-secondary" id="ag-logout" style="width:100%">Log out</button>`;
+  document.getElementById('auth-gate').style.display = 'flex';
+  document.getElementById('reports-layout').style.display = 'none';
+  document.getElementById('ag-logout').addEventListener('click', () => sb.auth.signOut());
+}
+
+document.getElementById('logout-btn').addEventListener('click', () => sb.auth.signOut());
+
+/* ===== LOAD ===== */
+async function loadReports() {
+  const list = document.getElementById('report-list');
+  list.innerHTML = `<div class="state"><p>Loading reports…</p></div>`;
+
+  const { data, error } = await sb
+    .from('question_reports')
+    .select('id, question_id, user_id, reason, comment, status, created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    list.innerHTML = `<div class="state">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <h3>Couldn't load reports</h3><p>${escHtml(error.message)}</p></div>`;
+    return;
+  }
+
+  reports = data || [];
+
+  const qIds = [...new Set(reports.map(r => r.question_id))];
+  const uIds = [...new Set(reports.map(r => r.user_id).filter(Boolean))];
+
+  questionMap = {};
+  userMap = {};
+
+  if (qIds.length) {
+    const { data: qs } = await sb.from('questions').select('id, type, data').in('id', qIds);
+    (qs || []).forEach(q => { questionMap[q.id] = { type: q.type, data: q.data }; });
+  }
+  if (uIds.length) {
+    const { data: us } = await sb.from('profiles').select('id, username').in('id', uIds);
+    (us || []).forEach(u => { userMap[u.id] = u.username; });
+  }
+
+  renderTabs();
+  renderList();
+}
+
+/* ===== RENDER ===== */
+function counts() {
+  const c = { all: reports.length, open: 0, reviewed: 0, resolved: 0 };
+  reports.forEach(r => { if (c[r.status] !== undefined) c[r.status]++; });
+  return c;
+}
+
+function renderTabs() {
+  const c = counts();
+  const tabs = [['open', 'Open'], ['reviewed', 'Reviewed'], ['resolved', 'Resolved'], ['all', 'All']];
+  document.getElementById('tabs').innerHTML = tabs.map(([key, label]) => `
+    <button class="tab${filter === key ? ' active' : ''}" data-filter="${key}">
+      ${label}<span class="count">${c[key]}</span>
+    </button>`).join('');
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => { filter = t.dataset.filter; renderTabs(); renderList(); });
+  });
+}
+
+function questionText(qid) {
+  const q = questionMap[qid];
+  if (!q || !q.data) return null;
+  const d = q.data;
+  return d.question || d.stem || d.lead || d.topic || null;
+}
+
+function relTime(iso) {
+  const then = new Date(iso), now = new Date();
+  const s = Math.round((now - then) / 1000);
+  if (s < 60) return 'just now';
+  const m = Math.round(s / 60);
+  if (m < 60) return m + ' min ago';
+  const h = Math.round(m / 60);
+  if (h < 24) return h + (h === 1 ? ' hr ago' : ' hrs ago');
+  const d = Math.round(h / 24);
+  if (d < 30) return d + (d === 1 ? ' day ago' : ' days ago');
+  return then.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function renderList() {
+  const list = document.getElementById('report-list');
+  const rows = filter === 'all' ? reports : reports.filter(r => r.status === filter);
+
+  if (!rows.length) {
+    list.innerHTML = `<div class="state">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <h3>Nothing here</h3>
+      <p>${filter === 'open' ? 'No open reports — you\'re all caught up.' : 'No ' + filter + ' reports.'}</p></div>`;
+    return;
+  }
+
+  list.innerHTML = rows.map(r => {
+    const q = questionMap[r.question_id];
+    const type = q ? q.type : '—';
+    const qText = questionText(r.question_id);
+    const reporter = r.user_id ? (userMap[r.user_id] ? escHtml(userMap[r.user_id]) : 'Registered user') : 'Anonymous';
+    const reasonLabel = r.reason ? (REASON_LABELS[r.reason] || r.reason) : null;
+
+    return `<div class="report" data-id="${r.id}">
+      <div class="report-top">
+        <span class="rtype rtype-${type.toLowerCase()}">${escHtml(type)}</span>
+        <span class="rstatus rstatus-${r.status}">${r.status[0].toUpperCase() + r.status.slice(1)}</span>
+        <span class="rtime">${relTime(r.created_at)}</span>
+      </div>
+      ${qText
+        ? `<div class="rq clamp" data-qtext>${escHtml(qText)}</div><button class="rq-more" data-more hidden>Show full question</button>`
+        : `<div class="rq" style="color:var(--stone-light)">Question <code>${escHtml(r.question_id)}</code> — not found (it may have been deleted).</div>`}
+      ${reasonLabel ? `<div class="rreason">${escHtml(reasonLabel)}</div>` : ''}
+      <div class="rcomment">${escHtml(r.comment || '')}</div>
+      <div class="rmeta">Reported by <strong>${reporter}</strong> · <code>${escHtml(r.question_id)}</code></div>
+      <div class="report-actions" data-actions></div>
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.report').forEach(card => {
+    const id = card.dataset.id;
+    const r = reports.find(x => x.id === id);
+
+    // expand/collapse long question text
+    const qEl = card.querySelector('[data-qtext]');
+    const moreBtn = card.querySelector('[data-more]');
+    if (qEl && moreBtn) {
+      requestAnimationFrame(() => {
+        if (qEl.scrollHeight - qEl.clientHeight > 4) moreBtn.hidden = false;
+      });
+      moreBtn.addEventListener('click', () => {
+        const clamped = qEl.classList.toggle('clamp');
+        moreBtn.textContent = clamped ? 'Show full question' : 'Show less';
+      });
+    }
+
+    // status actions
+    const actions = card.querySelector('[data-actions]');
+    const btns = [];
+    if (r.status !== 'reviewed') btns.push(`<button class="ra-btn" data-set="reviewed">Mark reviewed</button>`);
+    if (r.status !== 'resolved') btns.push(`<button class="ra-btn ra-btn-primary" data-set="resolved">Mark resolved</button>`);
+    if (r.status !== 'open') btns.push(`<button class="ra-btn" data-set="open">Reopen</button>`);
+    if (r.status === 'resolved') btns.push(`<button class="ra-btn ra-btn-danger" data-del>Delete</button>`);
+    actions.innerHTML = btns.join('') + `
+      <a class="ra-link" href="admin.html?q=${encodeURIComponent(r.question_id)}" target="_blank" rel="noopener">
+        Open in editor
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>`;
+    actions.querySelectorAll('[data-set]').forEach(b => {
+      b.addEventListener('click', () => setStatus(id, b.dataset.set, actions));
+    });
+    const delBtn = actions.querySelector('[data-del]');
+    if (delBtn) delBtn.addEventListener('click', () => deleteReport(id, actions));
+  });
+}
+
+async function setStatus(id, status, actionsEl) {
+  actionsEl.querySelectorAll('.ra-btn').forEach(b => b.disabled = true);
+  const { error } = await sb.from('question_reports').update({ status }).eq('id', id);
+  if (error) {
+    toast('Could not update: ' + error.message);
+    actionsEl.querySelectorAll('.ra-btn').forEach(b => b.disabled = false);
+    return;
+  }
+  const r = reports.find(x => x.id === id);
+  if (r) r.status = status;
+  toast('Marked ' + status);
+  renderTabs();
+  renderList();
+}
+
+async function deleteReport(id, actionsEl) {
+  if (!window.confirm('Delete this resolved report for good? This can\'t be undone.')) return;
+  actionsEl.querySelectorAll('.ra-btn').forEach(b => b.disabled = true);
+  const { error } = await sb.from('question_reports').delete().eq('id', id);
+  if (error) {
+    toast('Could not delete: ' + error.message);
+    actionsEl.querySelectorAll('.ra-btn').forEach(b => b.disabled = false);
+    return;
+  }
+  reports = reports.filter(x => x.id !== id);
+  toast('Report deleted');
+  renderTabs();
+  renderList();
+}
+
+/* ===== TOAST ===== */
+let toastTimer = null;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function escHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
+}
+
+initAuth();
+</script>
+</body>
+</html>

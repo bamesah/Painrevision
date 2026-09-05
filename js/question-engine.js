@@ -101,12 +101,12 @@ function renderQuestion(q, container, mode, onReveal, onFlagChange, bookmark) {
     <div class="q-meta">
       <span class="q-badge ${typeClass}${hideMeta ? ' q-meta-hidden' : ''}">${q.type}</span>
       <span class="q-topic q-badge${hideMeta ? ' q-meta-hidden' : ''}">${escHtml(q.topic)}</span>
-      ${mode === 'exam' ? `<button class="flag-btn" type="button" aria-pressed="false">
-        <svg class="flag-icon" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-        Flag
-      </button>` : ''}
       ${bookmark ? `<button class="bookmark-btn${bmOn ? ' active' : ''}" type="button" aria-pressed="${bmOn ? 'true' : 'false'}" aria-label="${bmOn ? 'Bookmarked — click to remove' : 'Bookmark this question'}" data-tip="${bmOn ? 'Bookmarked — click to remove' : 'Bookmark this question'}">
         <svg class="bookmark-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </button>` : ''}
+      ${mode === 'exam' ? `<button class="flag-btn" type="button" aria-pressed="false" style="margin-left:auto">
+        <svg class="flag-icon" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        Flag
       </button>` : ''}
     </div>`;
 
