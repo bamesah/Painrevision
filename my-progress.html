@@ -166,13 +166,15 @@ button{font-family:var(--san);cursor:pointer}
 </div>
 
 <main class="progress-main" id="progress-main">
-  <div class="wrap">
+  <div class="wrap app-shell">
+    <aside class="app-rail" id="app-rail" data-active="progress"></aside>
+    <div class="app-shell-content">
     <span class="eyebrow" style="margin-bottom:8px">My Progress</span>
     <h1 class="page-title">Your full breakdown</h1>
     <p class="page-sub">How much of the bank you've covered, and where your accuracy is strongest and weakest.</p>
 
     <div class="reset-section">
-      <button class="btn-danger" id="reset-progress-btn">Reset all progress</button>
+      <button class="btn-danger" id="reset-progress-btn">Reset progress</button>
     </div>
 
     <div class="overview-grid">
@@ -199,11 +201,14 @@ button{font-family:var(--san);cursor:pointer}
       </div>
       <div id="cat-rows"></div>
     </div>
+    </div><!-- /.app-shell-content -->
   </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/app-shell.js"></script>
+<script src="js/reset-progress.js"></script>
 <script>
 function escHtml(s) {
   if (!s) return '';
@@ -229,25 +234,8 @@ async function init() {
     window.location.href = 'login.html';
   });
 
-  document.getElementById('reset-progress-btn').addEventListener('click', async () => {
-    const msg = 'This will permanently delete all of your practice history and scores — every attempt, on every question. This cannot be undone. Reset your progress?';
-    if (!window.confirm(msg)) return;
-
-    const btn = document.getElementById('reset-progress-btn');
-    btn.disabled = true;
-    btn.textContent = 'Resetting…';
-
-    // attempt_answers cascades on delete, so removing a user's attempts clears both.
-    const { error } = await sb.from('attempts').delete().eq('user_id', currentUser.id);
-
-    btn.disabled = false;
-    btn.textContent = 'Reset all progress';
-
-    if (error) {
-      alert('Could not reset progress: ' + error.message);
-      return;
-    }
-    loadStats();
+  document.getElementById('reset-progress-btn').addEventListener('click', () => {
+    ResetProgress.open({ userId: currentUser.id, onComplete: () => { loadStats(); AppShell.refreshCounts(); } });
   });
 
   loadStats();

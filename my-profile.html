@@ -166,7 +166,9 @@ button{font-family:var(--san);cursor:pointer}
 </div>
 
 <main class="profile-main" id="profile-main">
-  <div class="wrap">
+  <div class="wrap app-shell">
+    <aside class="app-rail" id="app-rail" data-active="profile"></aside>
+    <div class="app-shell-content">
     <span class="eyebrow" style="margin-bottom:8px">My Profile</span>
     <h1 class="page-title">Account details</h1>
     <p class="page-sub">Your recorded details, plus options to update your email or password.</p>
@@ -240,11 +242,13 @@ button{font-family:var(--san);cursor:pointer}
       </div>
     </div>
     </div>
+    </div><!-- /.app-shell-content -->
   </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/app-shell.js"></script>
 <script>
 let currentUser = null;
 

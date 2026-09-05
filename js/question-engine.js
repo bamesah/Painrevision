@@ -75,13 +75,20 @@ function initLightboxTargets(container) {
      (so they can't be used to guess the answer or navigate by topic during
      a timed exam) until the question is actually revealed. A Flag button
      is also shown, and onFlagChange(flagged) fires whenever it's toggled.
+
+   bookmark (optional): { isBookmarked: boolean, onToggle: (questionId, next)
+   => boolean|Promise<boolean> }. When supplied, a bookmark icon is shown in
+   the meta row in every mode. Clicking it toggles state optimistically and
+   calls onToggle; if that resolves falsy the icon reverts. The icon stays
+   visible during a timed exam (it gives nothing about the answer away).
+
    Always returns a controller: { isRevealed(), getResult(), forceReveal(),
    isFlagged() }. getResult() reads the current answer state without needing
    a reveal. forceReveal() reveals-in-place right now (used to finalize a
    question that was never individually revealed, e.g. a bulk "Submit Set")
    and, unlike the reveal button, works even if the question was left blank
    or incomplete. */
-function renderQuestion(q, container, mode, onReveal, onFlagChange) {
+function renderQuestion(q, container, mode, onReveal, onFlagChange, bookmark) {
   mode = mode || 'dotd';
   container.innerHTML = '';
   const card = document.createElement('div');
@@ -89,6 +96,7 @@ function renderQuestion(q, container, mode, onReveal, onFlagChange) {
 
   const typeClass = 'q-badge-' + q.type.toLowerCase();
   const hideMeta = mode === 'exam';
+  const bmOn = bookmark && bookmark.isBookmarked;
   let html = `<div class="q-card-top"></div><div class="q-card-body">
     <div class="q-meta">
       <span class="q-badge ${typeClass}${hideMeta ? ' q-meta-hidden' : ''}">${q.type}</span>
@@ -96,6 +104,9 @@ function renderQuestion(q, container, mode, onReveal, onFlagChange) {
       ${mode === 'exam' ? `<button class="flag-btn" type="button" aria-pressed="false">
         <svg class="flag-icon" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
         Flag
+      </button>` : ''}
+      ${bookmark ? `<button class="bookmark-btn${bmOn ? ' active' : ''}" type="button" aria-pressed="${bmOn ? 'true' : 'false'}" aria-label="${bmOn ? 'Bookmarked — click to remove' : 'Bookmark this question'}" data-tip="${bmOn ? 'Bookmarked — click to remove' : 'Bookmark this question'}">
+        <svg class="bookmark-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
       </button>` : ''}
     </div>`;
 
@@ -121,6 +132,31 @@ function renderQuestion(q, container, mode, onReveal, onFlagChange) {
       flagBtn.classList.toggle('active', flagged);
       flagBtn.setAttribute('aria-pressed', String(flagged));
       if (onFlagChange) onFlagChange(flagged);
+    });
+  }
+
+  if (bookmark) {
+    const bmBtn = card.querySelector('.bookmark-btn');
+    let bmState = !!bookmark.isBookmarked;
+    let bmBusy = false;
+    const paint = on => {
+      bmBtn.classList.toggle('active', on);
+      bmBtn.setAttribute('aria-pressed', String(on));
+      const tip = on ? 'Bookmarked — click to remove' : 'Bookmark this question';
+      bmBtn.dataset.tip = tip;
+      bmBtn.setAttribute('aria-label', tip);
+    };
+    bmBtn.addEventListener('click', async () => {
+      if (bmBusy) return;
+      bmBusy = true;
+      const next = !bmState;
+      paint(next);                         // optimistic
+      let ok = true;
+      try { ok = await bookmark.onToggle(q.id, next); }
+      catch (e) { ok = false; }
+      if (ok === false) paint(bmState);    // revert on failure
+      else bmState = next;
+      bmBusy = false;
     });
   }
 

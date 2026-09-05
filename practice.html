@@ -193,6 +193,20 @@ button{font-family:var(--san);cursor:pointer}
 .flag-btn .flag-icon{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .flag-btn.active{background:var(--flag-bg);border-color:var(--flag-border);color:var(--flag)}
 .flag-btn.active .flag-icon{fill:currentColor}
+
+/* ===== BOOKMARK BUTTON (meta row, all modes) ===== */
+.bookmark-btn{margin-left:auto;position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--stone);cursor:pointer;transition:color .18s,border-color .18s,background .18s,transform .18s}
+.bookmark-btn:hover{border-color:var(--stone);color:var(--ink-soft);transform:translateY(-1px)}
+.bookmark-btn:active{transform:translateY(0)}
+.bookmark-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.bookmark-btn .bookmark-icon{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:fill .18s}
+.bookmark-btn.active{border-color:rgba(240,98,60,.4);background:var(--coral-faint);color:var(--coral)}
+.bookmark-btn.active .bookmark-icon{fill:currentColor}
+.bookmark-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);right:0;white-space:nowrap;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:-.01em;padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:6}
+.bookmark-btn::before{content:'';position:absolute;top:calc(100% + 4px);right:12px;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:6}
+.bookmark-btn:hover::after,.bookmark-btn:focus-visible::after{opacity:1;transform:translateY(0)}
+.bookmark-btn:hover::before,.bookmark-btn:focus-visible::before{opacity:1}
+@media (prefers-reduced-motion:reduce){.bookmark-btn,.bookmark-btn::after{transition:none}}
 .q-text{font-size:17px;font-weight:500;line-height:1.65;color:var(--ink);margin-bottom:28px;text-wrap:pretty}
 .q-stem{font-size:16px;font-weight:500;line-height:1.6;color:var(--ink);margin-bottom:24px;text-wrap:pretty}
 
@@ -506,13 +520,27 @@ button{font-family:var(--san);cursor:pointer}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/question-engine.js"></script>
+<script src="js/question-notes.js"></script>
 <script>
 const params = new URLSearchParams(location.search);
-const mode = params.get('mode') === 'mock' ? 'mock' : 'custom';
+const rawMode = params.get('mode');
+// 'mock'      — timed full exam
+// 'bookmarks' — a practice set of every question the user has bookmarked
+// 'notes'     — a review of every question the user has written a note on,
+//               shown already answered with the note open
+// 'custom'    — the configurable practice-set builder (default)
+const mode = rawMode === 'mock' ? 'mock'
+  : rawMode === 'bookmarks' ? 'bookmarks'
+  : rawMode === 'notes' ? 'notes'
+  : 'custom';
+const isReview = mode === 'bookmarks' || mode === 'notes'; // no config screen, self-starting
 
 let currentUser = null;
 let categories = [];       // [{id, name, count}]
 let answeredMap = {};       // question_id -> last is_correct
+let bookmarkedSet = new Set(); // question_ids the user has bookmarked (kept live as they toggle)
+let notedSet = new Set();       // question_ids the user has a non-empty note on (mode === 'notes')
+let notesHistory = {};          // question_id -> did the last attempt get it fully right (mode === 'notes')
 let sessionQuestions = [];
 let sessionAnswered = [];
 let sessionCorrect = [];
@@ -547,6 +575,18 @@ async function init() {
     document.getElementById('practice-dots').style.display = 'none';
     document.querySelector('.scoreboard-title').textContent = 'Question tracker';
     document.getElementById('tracker-legend').style.display = 'flex';
+  } else if (isReview) {
+    // No config screen — the dashboard starts these directly. The config card
+    // just acts as a lightweight loading state until the session renders.
+    const bookmarks = mode === 'bookmarks';
+    document.getElementById('config-eyebrow').textContent = bookmarks ? 'Bookmarked' : 'Notes';
+    document.getElementById('config-title').textContent = bookmarks ? 'Bookmarked questions' : 'Review my notes';
+    document.getElementById('config-sub').textContent = bookmarks
+      ? 'Loading every question you’ve saved…'
+      : 'Loading every question you’ve written a note on…';
+    document.getElementById('start-btn').style.display = 'none';
+    document.getElementById('finish-btn').textContent = bookmarks ? 'Submit Set' : 'Back to dashboard';
+    if (!bookmarks) document.getElementById('practice-dots').style.display = 'flex';
   } else {
     document.getElementById('custom-config-block').style.display = 'block';
     document.getElementById('finish-btn').textContent = 'Submit Set';
@@ -565,6 +605,8 @@ async function init() {
     await sb.auth.signOut();
     window.location.href = 'login.html';
   });
+
+  if (isReview) startSession();
 }
 
 function wireUserMenu() {
@@ -584,6 +626,7 @@ function wireUserMenu() {
 }
 
 function onFinishClick() {
+  if (mode === 'notes') { window.location.href = 'dashboard.html'; return; }
   const allAnswered = sessionQuestions.every((q, i) => {
     const controller = sessionControllers[i];
     return controller ? controller.getResult().answered : sessionAnswered[i];
@@ -656,8 +699,50 @@ async function startSession() {
     sourceFilter = document.querySelector('#source-row input:checked').value;
   }
 
+  // The user's bookmarks: needed as the bookmark icon's starting state on every
+  // question, and as the whole question pool when mode === 'bookmarks'.
+  const { data: bmRows, error: bmErr } = await sb
+    .from('bookmarks').select('question_id').eq('user_id', currentUser.id);
+  if (bmErr && mode === 'bookmarks') {
+    showEmptyReview('bookmarks', 'Could not load your bookmarks: ' + bmErr.message);
+    return;
+  }
+  bookmarkedSet = new Set((bmRows || []).map(b => b.question_id));
+
+  if (mode === 'bookmarks' && bookmarkedSet.size === 0) {
+    showEmptyReview('bookmarks');
+    return;
+  }
+
+  // The questions this user has written a note on — the whole pool for mode === 'notes'.
+  if (mode === 'notes') {
+    const { data: noteRows, error: noteErr } = await sb
+      .from('question_notes').select('question_id').eq('user_id', currentUser.id).neq('note', '');
+    if (noteErr) { showEmptyReview('notes', 'Could not load your notes: ' + noteErr.message); return; }
+    notedSet = new Set((noteRows || []).map(n => n.question_id));
+    if (notedSet.size === 0) { showEmptyReview('notes'); return; }
+
+    // Past results for those questions, so the review scoreboard can show how
+    // each one went last time (a question can be noted without ever being answered).
+    const { data: histRows } = await sb
+      .from('attempt_answers')
+      .select('question_id, is_correct, created_at, attempts!inner(user_id)')
+      .eq('attempts.user_id', currentUser.id)
+      .in('question_id', [...notedSet])
+      .order('created_at', { ascending: true });
+    notesHistory = {};
+    (histRows || []).forEach(r => {
+      // EMQ writes several rows per question — treat the question as "right" only
+      // if every recorded sub-answer was right.
+      notesHistory[r.question_id] = (r.question_id in notesHistory)
+        ? notesHistory[r.question_id] && !!r.is_correct
+        : !!r.is_correct;
+    });
+  }
+
   const { data, error } = await query;
   if (error) {
+    if (isReview) { showEmptyReview(mode, 'Could not load questions: ' + error.message); return; }
     showConfigError('Could not load questions: ' + error.message);
     startBtn.disabled = false;
     startBtn.textContent = mode === 'mock' ? 'Start Mock Exam' : 'Start';
@@ -683,6 +768,16 @@ async function startSession() {
   else if (sourceFilter === 'answered') pool = pool.filter(q => q.id in answeredMap);
   else if (sourceFilter === 'wrong') pool = pool.filter(q => answeredMap[q.id] === false);
 
+  if (mode === 'bookmarks') {
+    pool = pool.filter(q => bookmarkedSet.has(q.id));
+    if (!pool.length) { showEmptyReview('bookmarks'); return; }
+    count = pool.length; // every bookmarked question, no cap
+  } else if (mode === 'notes') {
+    pool = pool.filter(q => notedSet.has(q.id));
+    if (!pool.length) { showEmptyReview('notes'); return; }
+    count = pool.length; // every noted question, no cap
+  }
+
   if (!pool.length) {
     showConfigError('No questions match those filters — try widening your selection.');
     startBtn.disabled = false;
@@ -690,8 +785,9 @@ async function startSession() {
     return;
   }
 
-  const shuffled = pool.sort(() => Math.random() - 0.5);
-  sessionQuestions = shuffled.slice(0, Math.min(count, shuffled.length));
+  // Reviews of noted questions read better in a stable order; everything else shuffles.
+  const ordered = mode === 'notes' ? pool : pool.sort(() => Math.random() - 0.5);
+  sessionQuestions = ordered.slice(0, Math.min(count, ordered.length));
   sessionAnswered = new Array(sessionQuestions.length).fill(false);
   sessionCorrect = new Array(sessionQuestions.length).fill(null);
   sessionDetail = new Array(sessionQuestions.length).fill(null);
@@ -701,16 +797,19 @@ async function startSession() {
   sessionFinished = false;
   currentIdx = 0;
 
-  const { data: attempt, error: attemptErr } = await sb
-    .from('attempts')
-    .insert({
-      user_id: currentUser.id,
-      mode: mode === 'mock' ? 'mock' : 'practice'
-    })
-    .select()
-    .single();
-  if (attemptErr) console.error('Could not start attempt tracking:', attemptErr);
-  else attemptId = attempt.id;
+  // 'notes' is a review of past work, not a fresh attempt — nothing to record.
+  if (mode !== 'notes') {
+    const { data: attempt, error: attemptErr } = await sb
+      .from('attempts')
+      .insert({
+        user_id: currentUser.id,
+        mode: mode === 'mock' ? 'mock' : 'practice'
+      })
+      .select()
+      .single();
+    if (attemptErr) console.error('Could not start attempt tracking:', attemptErr);
+    else attemptId = attempt.id;
+  }
 
   document.getElementById('config-screen').style.display = 'none';
   document.getElementById('session-screen').style.display = 'block';
@@ -727,6 +826,45 @@ function showConfigError(msg) {
 }
 function hideConfigError() {
   document.getElementById('config-error').classList.remove('show');
+}
+
+/* ===== BOOKMARKS ===== */
+// Add or remove a bookmark for the current user. Returns true on success so
+// the question card's optimistic toggle sticks, false to make it revert.
+async function toggleBookmark(questionId, next) {
+  if (next) {
+    const { error } = await sb.from('bookmarks').insert({ user_id: currentUser.id, question_id: questionId });
+    if (error && error.code !== '23505') { console.error('Could not add bookmark:', error); return false; }
+    bookmarkedSet.add(questionId);
+  } else {
+    const { error } = await sb.from('bookmarks').delete()
+      .eq('user_id', currentUser.id).eq('question_id', questionId);
+    if (error) { console.error('Could not remove bookmark:', error); return false; }
+    bookmarkedSet.delete(questionId);
+  }
+  return true;
+}
+
+// Shown when a review mode ('bookmarks' | 'notes') has nothing to show, or the
+// lookup failed. Replaces the config card in place.
+function showEmptyReview(kind, errMsg) {
+  const icon = kind === 'notes'
+    ? '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>'
+    : '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>';
+  const emptyTitle = kind === 'notes' ? 'No notes yet' : 'No bookmarks yet';
+  const errTitle = kind === 'notes' ? 'Couldn’t open your notes' : 'Couldn’t open your bookmarks';
+  const emptyBody = kind === 'notes'
+    ? 'Open the Notes panel on any question during a practice set or mock exam and start writing — noted questions gather here for review.'
+    : 'During any practice set or mock exam, tap the bookmark icon on a question to save it here for focused review.';
+  document.getElementById('config-screen').innerHTML = `
+    <div class="config-card" style="text-align:center;max-width:460px">
+      <div style="width:52px;height:52px;border-radius:16px;background:var(--coral-faint);display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icon}</svg>
+      </div>
+      <h1>${errMsg ? errTitle : emptyTitle}</h1>
+      <p class="sub" style="margin:0 auto 24px;max-width:360px">${errMsg ? escHtml(errMsg) : emptyBody}</p>
+      <a class="btn btn-primary" href="dashboard.html" style="justify-content:center">Back to dashboard</a>
+    </div>`;
 }
 
 /* ===== TIMER ===== */
@@ -763,6 +901,10 @@ function renderSession() {
     slide.className = 'practice-q-slide' + (i === 0 ? ' is-active' : '');
     const idx = i;
     const startTime = Date.now();
+    const bookmarkOpts = {
+      isBookmarked: bookmarkedSet.has(q.id),
+      onToggle: (qid, next) => toggleBookmark(qid, next)
+    };
 
     if (mode === 'mock') {
       sessionControllers[idx] = renderQuestion(q, slide, 'exam', function(status) {
@@ -771,7 +913,7 @@ function renderSession() {
       }, function(flagged) {
         sessionFlagged[idx] = flagged;
         renderSidePanel();
-      });
+      }, bookmarkOpts);
     } else {
       sessionControllers[idx] = renderQuestion(q, slide, 'practice', function(wasCorrect, detail) {
         sessionAnswered[idx] = true;
@@ -781,8 +923,25 @@ function renderSession() {
         recordAnswer(q.id, wasCorrect, elapsed, q.type === 'EMQ' ? detail?.results : null);
         renderDots();
         renderSidePanel();
-      });
+      }, null, bookmarkOpts);
     }
+
+    // Every card gets a private notes panel. In 'notes' review it starts open,
+    // on a card that's already revealed and graded.
+    if (mode === 'notes') {
+      const c = sessionControllers[idx];
+      if (c) c.forceReveal(true);
+      if (q.id in notesHistory) {
+        sessionAnswered[idx] = true;
+        sessionCorrect[idx] = notesHistory[q.id];
+        sessionDetail[idx] = null; // tick / cross from history, no per-statement fraction
+      }
+    }
+    const card = slide.querySelector('.q-card');
+    if (card && window.QuestionNotes) {
+      QuestionNotes.attach(card, { userId: currentUser.id, questionId: q.id, startOpen: mode === 'notes' });
+    }
+
     wrapper.appendChild(slide);
   });
 

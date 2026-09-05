@@ -123,18 +123,26 @@ button{font-family:var(--san);cursor:pointer}
 .launch-icon.mock svg{stroke:var(--coral)}
 .launch-icon.custom{background:var(--amber-soft)}
 .launch-icon.custom svg{stroke:var(--coral-deep)}
+.launch-icon.bookmarks{background:var(--coral-faint)}
+.launch-icon.bookmarks svg{stroke:var(--coral-deep);fill:none}
+.launch-icon.placeholder{background:var(--cream);border:1px dashed var(--border-strong)}
+.launch-icon.placeholder svg{stroke:var(--stone-light)}
 .launch-card h3{font-size:19px;font-weight:800;letter-spacing:-.02em}
 .launch-card p{font-size:14px;color:var(--stone);line-height:1.6}
 .launch-card-cta{margin-top:auto;display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--coral)}
 .launch-card-cta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform .2s}
 .launch-card:hover .launch-card-cta svg{transform:translateX(3px)}
+/* Reserved slot — present but not yet a destination */
+.launch-card.is-placeholder{cursor:default;border-style:dashed;background:var(--surface-warm);box-shadow:none}
+.launch-card.is-placeholder:hover{transform:none;box-shadow:none;border-color:var(--border)}
+.launch-card.is-placeholder h3{color:var(--stone)}
+.launch-card.is-placeholder p{color:var(--stone-light)}
+.launch-card-cta.placeholder-cta{color:var(--stone-light);font-weight:600}
+.bookmarks-count-tag{display:block;width:fit-content;margin-top:10px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--coral-deep);background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:999px;padding:3px 9px}
+.bookmarks-count-tag.is-empty{color:var(--stone);background:var(--cream);border-color:var(--border)}
 
-/* ===== PROGRESS LINK BAR ===== */
-.progress-bar-link{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--surface-warm);border:1px solid var(--border);border-radius:18px;padding:18px 26px;flex-wrap:wrap}
-.progress-bar-link-text{font-size:14px;color:var(--stone)}
-.progress-bar-link-text strong{color:var(--ink);font-weight:700}
-.progress-bar-link a{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--coral)}
-.progress-bar-link a svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+/* The left nav rail + edge-to-edge shell live in js/app-shell.js (shared with
+   my-progress.html and my-profile.html). */
 
 @media(max-width:760px){
   .wrap{padding:0 20px}
@@ -204,7 +212,11 @@ button{font-family:var(--san);cursor:pointer}
 
 <!-- MAIN -->
 <main class="dash-main" id="dash-main">
-  <div class="wrap">
+  <div class="wrap app-shell">
+
+    <aside class="app-rail" id="app-rail" data-active="dashboard"></aside>
+
+    <div class="app-shell-content">
 
     <div class="dash-hero">
       <div class="dash-hero-text">
@@ -246,18 +258,33 @@ button{font-family:var(--san);cursor:pointer}
         <p>Choose how many questions, which categories, and whether to focus on new, answered, or previously wrong questions.</p>
         <span class="launch-card-cta">Build a set <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </a>
+      <a class="launch-card" href="practice.html?mode=bookmarks" id="bookmarks-card">
+        <div class="launch-icon bookmarks">
+          <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Bookmarked Questions</h3>
+        <p id="bookmarks-card-desc">Every question you’ve saved with the bookmark icon, gathered into one practice set.</p>
+        <span class="launch-card-cta">Start review <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+      </a>
+      <div class="launch-card is-placeholder">
+        <div class="launch-icon placeholder">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <h3>More soon</h3>
+        <p>Another way to practise is on the way — this space is reserved for it.</p>
+        <span class="launch-card-cta placeholder-cta">Coming soon</span>
+      </div>
     </div>
 
-    <div class="progress-bar-link">
-      <p class="progress-bar-link-text">See your full breakdown by category, including accuracy and where you're weakest.</p>
-      <a href="my-progress.html">View full progress <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-    </div>
+    </div><!-- /.app-shell-content -->
 
   </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/app-shell.js"></script>
+<script src="js/reset-progress.js"></script>
 <script>
 let currentUser = null;
 
@@ -279,6 +306,23 @@ async function init() {
   document.getElementById('dash-main').style.display = 'block';
 
   loadProgress();
+  loadBookmarkCount();
+}
+
+async function loadBookmarkCount() {
+  const { count, error } = await sb
+    .from('bookmarks')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', currentUser.id);
+  if (error) return; // leave the card's default description in place
+
+  const n = count || 0;
+  const desc = document.getElementById('bookmarks-card-desc');
+  if (n === 0) {
+    desc.innerHTML = 'Nothing saved yet — tap the bookmark icon on a question to start.<span class="bookmarks-count-tag is-empty">0 saved</span>';
+  } else {
+    desc.innerHTML = `Every question you’ve saved with the bookmark icon, gathered into one practice set.<span class="bookmarks-count-tag">${n} saved</span>`;
+  }
 }
 
 async function loadProgress() {
@@ -318,25 +362,11 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
   window.location.href = 'login.html';
 });
 
-document.getElementById('reset-progress-btn').addEventListener('click', async () => {
-  const msg = 'This will permanently delete all of your practice history and scores — every attempt, on every question. This cannot be undone. Reset your progress?';
-  if (!window.confirm(msg)) return;
-
-  const btn = document.getElementById('reset-progress-btn');
-  btn.disabled = true;
-  btn.textContent = 'Resetting…';
-
-  // attempt_answers cascades on delete, so removing a user's attempts clears both.
-  const { error } = await sb.from('attempts').delete().eq('user_id', currentUser.id);
-
-  btn.disabled = false;
-  btn.textContent = 'Reset progress';
-
-  if (error) {
-    alert('Could not reset progress: ' + error.message);
-    return;
-  }
-  loadProgress();
+document.getElementById('reset-progress-btn').addEventListener('click', () => {
+  ResetProgress.open({
+    userId: currentUser.id,
+    onComplete: () => { loadProgress(); loadBookmarkCount(); AppShell.refreshCounts(); }
+  });
 });
 
 function wireUserMenu() {
