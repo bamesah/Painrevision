@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 812" role="img" aria-labelledby="sbt-title">
+<title id="sbt-title">STarT Back Screening Tool — nine-item questionnaire: items 1–4 are the physical subscale and items 5–9 the psychosocial subscale; each "agree" (and "very much"/"extremely" for item 9) scores 1, total 0–9</title>
+
+<rect x="1" y="1" width="998" height="810" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <!-- header -->
+  <rect x="1" y="1" width="998" height="70" rx="16" fill="#F0623C"/>
+  <rect x="1" y="40" width="998" height="31" fill="#F0623C"/>
+  <text x="34" y="34" font-size="19" font-weight="800" fill="#fff">STarT Back Screening Tool</text>
+  <text x="34" y="57" font-size="13" fill="#FFE6DC">Thinking about the last 2 weeks, how much do you agree with each statement?</text>
+
+  <!-- column headers -->
+  <text x="706" y="96" text-anchor="middle" font-size="12" font-weight="700" fill="#7C7068">Disagree</text>
+  <text x="706" y="110" text-anchor="middle" font-size="10.5" fill="#A79A8C">0</text>
+  <text x="820" y="96" text-anchor="middle" font-size="12" font-weight="700" fill="#7C7068">Agree</text>
+  <text x="820" y="110" text-anchor="middle" font-size="10.5" fill="#A79A8C">1</text>
+
+  <g font-size="14.5" fill="#3A2D25">
+
+    <!-- item 1 -->
+    <line x1="34" y1="122" x2="966" y2="122" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="150" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="155" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">1</text>
+    <text x="76" y="147">My back pain has spread down my leg(s) at some time in</text>
+    <text x="76" y="167">the last 2 weeks</text>
+    <rect x="666" y="138" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="138" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- item 2 -->
+    <line x1="34" y1="186" x2="966" y2="186" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="214" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="219" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">2</text>
+    <text x="76" y="211">I have had pain in the shoulder or neck at some time in</text>
+    <text x="76" y="231">the last 2 weeks</text>
+    <rect x="666" y="202" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="202" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- item 3 -->
+    <line x1="34" y1="250" x2="966" y2="250" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="274" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="279" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">3</text>
+    <text x="76" y="279">I have only walked short distances because of my back pain</text>
+    <rect x="666" y="261" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="261" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- item 4 -->
+    <line x1="34" y1="306" x2="966" y2="306" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="330" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="335" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">4</text>
+    <text x="76" y="335">I have dressed more slowly than usual because of my back pain</text>
+    <rect x="666" y="317" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="317" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- psychosocial subscale divider -->
+    <line x1="34" y1="362" x2="966" y2="362" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="34" y="383" font-family="'IBM Plex Mono',ui-monospace,monospace" font-size="10.5" font-weight="600" letter-spacing="1.4" fill="#D2491F">PSYCHOSOCIAL SUBSCALE — ITEMS 5–9</text>
+
+    <!-- item 5 -->
+    <circle cx="48" cy="418" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="423" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">5</text>
+    <text x="76" y="415">It's not really safe for a person with a condition like mine</text>
+    <text x="76" y="435">to be physically active</text>
+    <rect x="666" y="406" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="406" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- item 6 -->
+    <line x1="34" y1="454" x2="966" y2="454" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="482" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="487" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">6</text>
+    <text x="76" y="479">Worrying thoughts have been going through my mind a lot</text>
+    <text x="76" y="499">of the time</text>
+    <rect x="666" y="470" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="470" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- item 7 -->
+    <line x1="34" y1="518" x2="966" y2="518" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="546" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="551" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">7</text>
+    <text x="76" y="543">I feel that my back pain is terrible and it's never going</text>
+    <text x="76" y="563">to get any better</text>
+    <rect x="666" y="534" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="534" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- item 8 -->
+    <line x1="34" y1="582" x2="966" y2="582" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="606" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="611" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">8</text>
+    <text x="76" y="611">In general, I have not enjoyed all the things I used to enjoy</text>
+    <rect x="666" y="593" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+    <rect x="780" y="593" width="80" height="26" rx="7" fill="#FFFFFF" stroke="#E0D3C4"/>
+
+    <!-- item 9 -->
+    <line x1="34" y1="638" x2="966" y2="638" stroke="#EDE3D7" stroke-width="1"/>
+    <circle cx="48" cy="668" r="12" fill="#FBEFE4" stroke="#E0D3C4"/><text x="48" y="673" text-anchor="middle" font-size="12" font-weight="700" fill="#D2491F">9</text>
+    <text x="76" y="665" font-weight="600" fill="#241B16">Overall, how bothersome has your back pain been in the last</text>
+    <text x="76" y="685" font-weight="600" fill="#241B16">2 weeks?</text>
+    <text x="76" y="712" font-size="13" fill="#3A2D25">Not at all&#8195;·&#8195;Slightly&#8195;·&#8195;Moderately&#8194;<tspan fill="#A79A8C">= 0</tspan>&#8195;&#8195;|&#8195;&#8195;Very much&#8195;·&#8195;Extremely&#8194;<tspan fill="#A79A8C">= 1</tspan></text>
+  </g>
+
+  <!-- footer -->
+  <rect x="1" y="748" width="998" height="63" rx="16" fill="#FBEFE4"/>
+  <rect x="1" y="748" width="998" height="20" fill="#FBEFE4"/>
+  <line x1="1" y1="748" x2="999" y2="748" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="34" y="775" font-size="13" font-weight="700" fill="#241B16">Total score 0–9 &#160;·&#160; Low risk &#8804;3 &#160;·&#160; Medium/High risk &#8805;4</text>
+  <text x="34" y="795" font-size="12.5" fill="#7C7068">High risk = total &#8805;4 <tspan font-weight="700">and</tspan> psychosocial subscale (items 5–9) &#8805;4</text>
+</g>
+</svg>
