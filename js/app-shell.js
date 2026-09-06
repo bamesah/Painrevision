@@ -9,8 +9,8 @@
 
    and loading this file after js/supabase-client.js. The rail markup, styling
    (including the edge-to-edge topbar/content width) and the Bookmarked / Notes
-   counts are all owned here. data-active is one of: dashboard | progress
-   (anything else — e.g. the profile page — leaves no item highlighted).
+   counts are all owned here. data-active is one of: dashboard | progress |
+   knowledge (anything else — e.g. the profile page — leaves no item highlighted).
 
    AppShell.refreshCounts() re-pulls the badge counts (call it after something
    that changes them, e.g. a progress reset). */
@@ -23,7 +23,9 @@
     { key: 'bookmarks', label: 'Bookmarked', href: 'practice.html?mode=bookmarks',
       icon: '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>', count: 'bm' },
     { key: 'notes', label: 'Review my Notes', href: 'practice.html?mode=notes',
-      icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>', count: 'notes' }
+      icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>', count: 'notes' },
+    { key: 'knowledge', label: 'Knowledge Summary', href: 'knowledge-summary.html',
+      icon: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>' }
   ];
 
   function injectStyles() {

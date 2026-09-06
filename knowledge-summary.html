@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Knowledge Summary — PainRevision</title>
+<meta name="description" content="Read the FFPMRCA knowledge summaries from the question bank, one topic at a time."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+
+.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border)}
+.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px 32px;max-width:var(--maxw);margin:0 auto}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
+.app-logo svg{width:28px;height:28px;flex-shrink:0}
+.app-logo .pain{color:var(--ink)}
+.app-logo .rev{color:var(--coral)}
+.app-nav{display:flex;align-items:center;gap:2px;margin-left:28px}
+.app-nav a{font-size:14px;font-weight:600;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.app-nav a:hover{color:var(--ink);background:var(--surface-warm)}
+.app-nav a.active{color:var(--ink);background:rgba(36,27,22,.06)}
+.app-topbar-right{display:flex;align-items:center;gap:14px;margin-left:auto}
+.app-logout{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .18s}
+.app-logout:hover{border-color:var(--coral);color:var(--coral)}
+.app-logout:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.user-menu{position:relative}
+.user-menu-trigger{display:inline-flex;align-items:center;gap:6px;background:var(--coral);color:#fff;font-family:var(--san);font-size:13px;font-weight:700;padding:8px 16px;border-radius:999px;border:none;cursor:pointer;transition:box-shadow .25s ease,transform .2s ease}
+.user-menu-trigger svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.user-menu-trigger:hover,.user-menu.open .user-menu-trigger{box-shadow:0 0 0 5px rgba(240,98,60,.22),0 8px 22px -6px rgba(240,98,60,.65);transform:translateY(-1px)}
+.user-menu.open .user-menu-trigger svg{transform:rotate(180deg)}
+.user-menu-dropdown{position:absolute;top:100%;right:0;padding-top:10px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.user-menu.open .user-menu-dropdown{opacity:1;pointer-events:all}
+.user-menu-dropdown-inner{min-width:168px;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow);transform:translateY(-6px);transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.user-menu.open .user-menu-dropdown-inner{transform:translateY(0)}
+@media (hover:hover) and (pointer:fine){
+  .user-menu:hover .user-menu-dropdown{opacity:1;pointer-events:all}
+  .user-menu:hover .user-menu-dropdown-inner{transform:translateY(0)}
+}
+.user-menu-dropdown a{display:block;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--ink-soft);transition:background .15s}
+.user-menu-dropdown a:hover{background:var(--surface-warm)}
+@media(max-width:700px){.app-nav{display:none}}
+
+#auth-gate{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.gate-card{max-width:360px;text-align:center}
+.gate-spinner{width:28px;height:28px;border-radius:999px;border:3px solid var(--border);border-top-color:var(--coral);margin:0 auto 16px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gate-text{font-size:14px;color:var(--stone)}
+
+.ks-main{padding:44px 0 80px;display:none}
+.page-title{font-size:28px;font-weight:800;letter-spacing:-.03em;margin:6px 0}
+.page-sub{font-size:14.5px;color:var(--stone);margin-bottom:26px}
+.page-sub b{color:var(--ink-soft);font-weight:600}
+
+/* ===== CONTROLS (topic filter + sort) ===== */
+.ks-controls{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.ks-field{display:flex;flex-direction:column;gap:6px}
+.ks-field-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);padding-left:2px}
+.ks-seg{display:inline-flex;background:var(--surface);border:1.5px solid var(--border-strong);border-radius:11px;padding:3px;gap:3px}
+.ks-seg button{border:none;background:none;font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);padding:7px 14px;border-radius:8px;transition:background .15s,color .15s}
+.ks-seg button:hover:not(.active){color:var(--ink)}
+.ks-seg button.active{background:var(--coral);color:#fff}
+.ks-seg button:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.ks-mini{position:relative}
+.ks-mini-btn{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border-radius:11px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:13.5px;font-weight:600;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.ks-mini-btn:hover{border-color:var(--stone-light)}
+.ks-mini-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.ks-mini.open .ks-mini-btn{border-color:var(--coral);box-shadow:0 0 0 3px var(--coral-faint)}
+.ks-mini-btn .chev{width:14px;height:14px;stroke:var(--stone);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.ks-mini.open .ks-mini-btn .chev{transform:rotate(180deg)}
+.ks-mini-panel{position:absolute;z-index:60;top:calc(100% + 8px);left:0;min-width:230px;background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:6px;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .16s,transform .18s cubic-bezier(.2,.7,.2,1);max-height:min(52vh,380px);overflow-y:auto}
+.ks-mini.open .ks-mini-panel{opacity:1;pointer-events:all;transform:translateY(0)}
+.ks-mini-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;padding:9px 12px;border:none;background:none;border-radius:9px;font-family:var(--san);font-size:13.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:background .13s}
+.ks-mini-opt:hover{background:var(--surface-warm)}
+.ks-mini-opt[aria-selected="true"]{background:rgba(36,27,22,.06);color:var(--ink)}
+.ks-mini-opt .c{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--stone-light);flex-shrink:0}
+
+/* ===== PICKER ROW ===== */
+.ks-picker{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.ks-picker-wrap{position:relative;flex:1;min-width:240px;max-width:440px}
+.ks-picker-btn{width:100%;display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:14px;border:1.5px solid var(--border-strong);background:var(--surface);box-shadow:var(--shadow-sm);font-family:var(--san);font-size:14.5px;font-weight:600;color:var(--ink);text-align:left;transition:border-color .15s,box-shadow .15s}
+.ks-picker-btn:hover{border-color:var(--stone-light)}
+.ks-picker-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.ks-picker-wrap.open .ks-picker-btn{border-color:var(--coral);box-shadow:0 0 0 3px var(--coral-faint)}
+.ks-picker-btn .lbl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ks-picker-btn .chev{width:15px;height:15px;stroke:var(--stone);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.ks-picker-wrap.open .ks-picker-btn .chev{transform:rotate(180deg)}
+.ks-picker-panel{position:absolute;z-index:60;top:calc(100% + 8px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:8px;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .16s,transform .18s cubic-bezier(.2,.7,.2,1)}
+.ks-picker-wrap.open .ks-picker-panel{opacity:1;pointer-events:all;transform:translateY(0)}
+.ks-picker-search{position:relative;margin-bottom:6px}
+.ks-picker-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.ks-picker-search input{width:100%;padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid var(--border);background:var(--cream);font-family:var(--san);font-size:13.5px;color:var(--ink)}
+.ks-picker-search input:focus{outline:none;border-color:var(--coral);background:var(--surface)}
+.ks-picker-list{max-height:min(52vh,420px);overflow-y:auto;display:flex;flex-direction:column;gap:1px}
+.ks-picker-list::-webkit-scrollbar{width:6px}
+.ks-picker-list::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px}
+.ks-opt{display:flex;align-items:baseline;gap:10px;width:100%;text-align:left;padding:9px 12px;border:none;background:none;border-radius:10px;font-family:var(--san);cursor:pointer;transition:background .13s}
+.ks-opt:hover{background:var(--surface-warm)}
+.ks-opt[aria-selected="true"]{background:rgba(36,27,22,.06)}
+.ks-opt-label{flex:1;min-width:0;font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.ks-opt[aria-selected="true"] .ks-opt-label{color:var(--ink)}
+.ks-opt-cat{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--stone-light);flex-shrink:0}
+.ks-opt-empty{padding:16px 12px;font-size:13px;color:var(--stone);text-align:center}
+.ks-list-head{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);padding:11px 12px 5px}
+.ks-list-head:first-child{padding-top:4px}
+
+.ks-stepper{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.ks-step-btn{width:38px;height:38px;border-radius:11px;border:1.5px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);transition:border-color .15s,color .15s,background .15s}
+.ks-step-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ks-step-btn:hover:not(:disabled){border-color:var(--coral);color:var(--coral)}
+.ks-step-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.ks-step-btn:disabled{opacity:.4;cursor:default}
+.ks-step-pos{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.04em;color:var(--stone);min-width:58px;text-align:center}
+
+/* ===== SINGLE VIEW ===== */
+.ks-view-cat{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:12px;display:block}
+.ks-boxes{display:flex;flex-direction:column;gap:22px}
+.ks-item-foot{display:flex;align-items:center;gap:7px;margin-top:9px;padding-left:2px}
+.ks-item-foot svg{width:12px;height:12px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ks-item-foot span{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;color:var(--stone-light)}
+
+.ks-box{font-size:14.5px;line-height:1.65;color:var(--stone)}
+.ks-box p{margin:8px 0}
+.ks-box p:first-child{margin-top:0}
+.ks-box strong{color:var(--ink);font-weight:700}
+.ks-box em{font-style:italic}
+.ks-box ul,.ks-box ol{margin:8px 0 8px 20px}
+.ks-box li{margin:4px 0}
+.ks-box hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+.ks-box img{max-width:100%;height:auto;border-radius:10px;margin-top:10px;border:1px solid var(--border)}
+.ks-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ks-box table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+.ks-box th,.ks-box td{border:1px solid var(--border-strong);padding:7px 11px;text-align:left;vertical-align:top}
+.ks-box th{background:var(--cream);font-weight:700;color:var(--ink)}
+.ks-box td{color:var(--ink-soft)}
+
+.ks-empty{padding:56px 24px;text-align:center;border:1px dashed var(--border-strong);border-radius:18px;background:var(--surface-warm)}
+.ks-empty p{font-size:14.5px;color:var(--stone);line-height:1.6}
+
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  .app-topbar-in{padding:12px 20px;gap:4px}
+  .app-topbar-right{gap:6px}
+  .user-menu-trigger{padding:6px 10px;font-size:11.5px;gap:3px}
+  .user-menu-trigger span{display:inline-block;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
+  .user-menu-trigger svg{width:9px;height:9px;flex-shrink:0}
+  .app-logout{padding:6px 10px;font-size:11.5px;white-space:nowrap;flex-shrink:0}
+  .ks-main{padding:32px 0 60px}
+  .ks-picker-wrap{max-width:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app-topbar">
+  <div class="app-topbar-in">
+    <a class="app-logo" href="dashboard.html" aria-label="PainRevision dashboard">
+      <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <nav class="app-nav" aria-label="App navigation">
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+    <div class="app-topbar-right">
+      <div class="user-menu" id="user-menu">
+        <button class="user-menu-trigger" id="user-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="user-menu-username">…</span>
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="user-menu-dropdown" role="menu">
+          <div class="user-menu-dropdown-inner">
+            <a href="my-profile.html" role="menuitem">My Profile</a>
+            <a href="my-progress.html" role="menuitem">My Progress</a>
+          </div>
+        </div>
+      </div>
+      <button class="app-logout" id="logout-btn">Log out</button>
+    </div>
+  </div>
+</div>
+
+<div id="auth-gate">
+  <div class="gate-card">
+    <div class="gate-spinner" aria-hidden="true"></div>
+    <p class="gate-text">Checking your session…</p>
+  </div>
+</div>
+
+<main class="ks-main" id="ks-main">
+  <div class="wrap app-shell">
+    <aside class="app-rail" id="app-rail" data-active="knowledge"></aside>
+    <div class="app-shell-content">
+      <span class="eyebrow">Knowledge Summary</span>
+      <h1 class="page-title">Knowledge summaries</h1>
+      <p class="page-sub" id="ks-sub">The knowledge boxes from across the question bank, one at a time.</p>
+
+      <div class="ks-controls">
+        <div class="ks-field">
+          <span class="ks-field-label" id="ks-topic-label">Topic</span>
+          <div class="ks-mini" id="ks-topic-wrap">
+            <button class="ks-mini-btn" id="ks-topic-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="ks-topic-label ks-topic-btn">
+              <span id="ks-topic-current">All topics</span>
+              <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="ks-mini-panel" id="ks-topic-panel" role="listbox" aria-label="Filter by topic"></div>
+          </div>
+        </div>
+        <div class="ks-field">
+          <span class="ks-field-label" id="ks-sort-label">Sort</span>
+          <div class="ks-seg" id="ks-sort" role="group" aria-labelledby="ks-sort-label">
+            <button type="button" data-sort="alpha" class="active" aria-pressed="true">A–Z</button>
+            <button type="button" data-sort="topic" aria-pressed="false">By topic</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ks-picker">
+        <div class="ks-picker-wrap" id="ks-picker-wrap">
+          <button class="ks-picker-btn" id="ks-picker-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="lbl" id="ks-picker-label">Loading…</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="ks-picker-panel" id="ks-picker-panel" role="listbox" aria-label="Choose a summary">
+            <div class="ks-picker-search">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="search" id="ks-picker-search" placeholder="Search summaries…" autocomplete="off" aria-label="Search summaries"/>
+            </div>
+            <div class="ks-picker-list" id="ks-picker-list"></div>
+          </div>
+        </div>
+        <div class="ks-stepper">
+          <button class="ks-step-btn" id="ks-prev" type="button" aria-label="Previous summary"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <span class="ks-step-pos" id="ks-step-pos">—</span>
+          <button class="ks-step-btn" id="ks-next" type="button" aria-label="Next summary"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+
+      <div id="ks-view" aria-live="polite"></div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/app-shell.js"></script>
+<script>
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#x27;' }[c]));
+}
+function slugify(s){
+  return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+/* Pull the knowledge box out of an explanation, if it has one: the bordered
+   card (border-radius:14px;overflow:hidden) with a coral header + "Knowledge" pill. */
+function extractKnowledgeBox(html){
+  if(!html || html.indexOf('border-radius:14px') === -1) return null;
+  let doc;
+  try { doc = new DOMParser().parseFromString(html, 'text/html'); }
+  catch(_) { return null; }
+  const candidates = doc.querySelectorAll('div[style*="border-radius:14px"]');
+  for(const box of candidates){
+    const style = (box.getAttribute('style') || '').replace(/\s+/g, '');
+    if(style.indexOf('overflow:hidden') === -1) continue;
+    if(!box.querySelector('div[style*="var(--coral)"]')) continue;
+    const titleEl = box.querySelector('span[style*="14.5px"]');
+    let title = titleEl ? titleEl.textContent.trim() : '';
+    title = title.replace(/\s+Knowledge Summary$/i, '').trim() || 'Knowledge summary';
+    return { title, html: box.outerHTML };
+  }
+  return null;
+}
+function normalise(html){ return html.replace(/>\s+</g, '><').replace(/\s+/g, ' ').trim(); }
+
+const STORE = { sort: 'ks:sort', topic: 'ks:topic' };
+function lsGet(k){ try { return localStorage.getItem(k); } catch(_){ return null; } }
+function lsSet(k, v){ try { localStorage.setItem(k, v); } catch(_){} }
+
+let allEntries = [];   // full list: [{ label, category, boxes:[{html,count}] }]
+let view = [];         // filtered + sorted subset currently browsable
+let current = 0;
+let sortMode = 'alpha';   // 'alpha' | 'topic'
+let topicFilter = '';     // '' = all topics, else a category name
+
+async function loadSummaries(){
+  const { data, error } = await sb
+    .from('questions')
+    .select('id, data, question_categories(categories(name))')
+    .eq('status', 'published');
+
+  if(error){
+    document.getElementById('ks-view').innerHTML = '<div class="ks-empty"><p>Could not load the summaries just now. Refresh the page to try again.</p></div>';
+    document.getElementById('ks-picker-label').textContent = 'Unavailable';
+    return;
+  }
+
+  const map = new Map();   // label -> { category, boxes: Map(normHtml -> {html,count}) }
+  (data || []).forEach(row => {
+    const box = extractKnowledgeBox(row.data && row.data.explanation);
+    if(!box) return;
+    const category = (row.question_categories && row.question_categories[0] && row.question_categories[0].categories && row.question_categories[0].categories.name) || '';
+    if(!map.has(box.title)) map.set(box.title, { category, boxes: new Map() });
+    const rec = map.get(box.title);
+    if(!rec.category && category) rec.category = category;
+    const key = normalise(box.html);
+    if(rec.boxes.has(key)) rec.boxes.get(key).count++;
+    else rec.boxes.set(key, { html: box.html, count: 1 });
+  });
+
+  allEntries = [...map.entries()]
+    .map(([label, rec]) => ({ label, category: rec.category, boxes: [...rec.boxes.values()] }));
+
+  const sub = document.getElementById('ks-sub');
+  if(!allEntries.length){
+    sub.textContent = 'No knowledge summaries have been added to the question bank yet.';
+    document.getElementById('ks-view').innerHTML = '<div class="ks-empty"><p>Check back once questions with a knowledge box have been published.</p></div>';
+    document.getElementById('ks-picker-label').textContent = 'None yet';
+    ['ks-picker-btn','ks-prev','ks-next','ks-topic-btn'].forEach(id => { document.getElementById(id).disabled = true; });
+    document.querySelectorAll('#ks-sort button').forEach(b => { b.disabled = true; });
+    return;
+  }
+  sub.innerHTML = 'The knowledge boxes from across the question bank, one at a time — <b>' +
+    allEntries.length + '</b> ' + (allEntries.length === 1 ? 'summary' : 'summaries') + ' to browse.';
+
+  // restore saved preferences
+  const savedSort = lsGet(STORE.sort);
+  if(savedSort === 'alpha' || savedSort === 'topic') sortMode = savedSort;
+  const savedTopic = lsGet(STORE.topic);
+  const validTopics = new Set(allEntries.map(e => e.category || 'Uncategorised'));
+  if(savedTopic && validTopics.has(savedTopic)) topicFilter = savedTopic;
+
+  // a shared #link wins over a saved topic filter that would hide its target
+  const hashLabel = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+  const startEntry = allEntries.find(e => slugify(e.label) === hashLabel);
+  if(startEntry && topicFilter && (startEntry.category || 'Uncategorised') !== topicFilter) topicFilter = '';
+
+  syncSortButtons();
+  document.getElementById('ks-topic-current').textContent = topicFilter || 'All topics';
+
+  wirePicker();
+  wireStepper();
+  wireControls();
+
+  applyView(startEntry ? startEntry.label : null);
+}
+
+function categoryList(){
+  const counts = new Map();
+  allEntries.forEach(e => {
+    const c = e.category || 'Uncategorised';
+    counts.set(c, (counts.get(c) || 0) + 1);
+  });
+  return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+}
+
+/* Rebuild `view` from the current sort + topic filter, keep the shown summary
+   if it survives, then rebuild the picker list and re-render. */
+function applyView(keepLabel){
+  const filtered = topicFilter
+    ? allEntries.filter(e => (e.category || 'Uncategorised') === topicFilter)
+    : allEntries.slice();
+  filtered.sort(sortMode === 'topic'
+    ? (a, b) => (a.category || '~').localeCompare(b.category || '~') || a.label.localeCompare(b.label)
+    : (a, b) => a.label.localeCompare(b.label));
+  view = filtered;
+
+  const idx = keepLabel ? view.findIndex(e => e.label === keepLabel) : -1;
+  current = idx >= 0 ? idx : 0;
+
+  buildList();
+
+  if(!view.length){
+    document.getElementById('ks-view').innerHTML = '<div class="ks-empty"><p>No summaries in this topic.</p></div>';
+    document.getElementById('ks-step-pos').textContent = '0 / 0';
+    document.getElementById('ks-prev').disabled = true;
+    document.getElementById('ks-next').disabled = true;
+    document.getElementById('ks-picker-label').textContent = '—';
+    return;
+  }
+  show(current, false);
+}
+
+function syncSortButtons(){
+  document.querySelectorAll('#ks-sort button').forEach(b => {
+    const on = b.dataset.sort === sortMode;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+}
+
+function buildTopicPanel(){
+  const panel = document.getElementById('ks-topic-panel');
+  const opts = [['', 'All topics', allEntries.length]]
+    .concat(categoryList().map(([c, n]) => [c, c, n]));
+  panel.innerHTML = opts.map(([val, label, n]) =>
+    '<button class="ks-mini-opt" type="button" role="option" data-val="' + esc(val) + '" aria-selected="' + (val === topicFilter) + '">' +
+      '<span>' + esc(label) + '</span><span class="c">' + n + '</span></button>'
+  ).join('');
+  panel.querySelectorAll('.ks-mini-opt').forEach(b => {
+    b.addEventListener('click', () => {
+      topicFilter = b.dataset.val;
+      lsSet(STORE.topic, topicFilter);
+      panel.querySelectorAll('.ks-mini-opt').forEach(x => x.setAttribute('aria-selected', String(x.dataset.val === topicFilter)));
+      document.getElementById('ks-topic-current').textContent = topicFilter || 'All topics';
+      const wrap = document.getElementById('ks-topic-wrap');
+      wrap.classList.remove('open');
+      document.getElementById('ks-topic-btn').setAttribute('aria-expanded', 'false');
+      applyView(view[current] && view[current].label);
+    });
+  });
+}
+
+function wireControls(){
+  document.querySelectorAll('#ks-sort button').forEach(b => {
+    b.addEventListener('click', () => {
+      if(b.dataset.sort === sortMode) return;
+      sortMode = b.dataset.sort;
+      lsSet(STORE.sort, sortMode);
+      syncSortButtons();
+      applyView(view[current] && view[current].label);
+    });
+  });
+
+  const wrap = document.getElementById('ks-topic-wrap');
+  const tbtn = document.getElementById('ks-topic-btn');
+  buildTopicPanel();
+  tbtn.addEventListener('click', () => {
+    const open = wrap.classList.toggle('open');
+    tbtn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', e => {
+    if(!wrap.contains(e.target)){ wrap.classList.remove('open'); tbtn.setAttribute('aria-expanded', 'false'); }
+  });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){ wrap.classList.remove('open'); tbtn.setAttribute('aria-expanded', 'false'); }
+  });
+}
+
+function buildList(term){
+  const list = document.getElementById('ks-picker-list');
+  const q = (term || '').trim().toLowerCase();
+  const rows = view
+    .map((e, i) => ({ e, i }))
+    .filter(({ e }) => !q || e.label.toLowerCase().indexOf(q) !== -1 || (e.category || '').toLowerCase().indexOf(q) !== -1);
+
+  if(!rows.length){
+    list.innerHTML = '<div class="ks-opt-empty">No summaries match that search.</div>';
+    return;
+  }
+  const grouped = sortMode === 'topic' && !q;
+  let html = '', lastCat = null;
+  rows.forEach(({ e, i }) => {
+    if(grouped){
+      const c = e.category || 'Uncategorised';
+      if(c !== lastCat){ html += '<div class="ks-list-head">' + esc(c) + '</div>'; lastCat = c; }
+    }
+    html += '<button class="ks-opt" type="button" role="option" data-i="' + i + '" aria-selected="' + (i === current) + '">' +
+      '<span class="ks-opt-label">' + esc(e.label) + '</span>' +
+      (!grouped && e.category ? '<span class="ks-opt-cat">' + esc(e.category) + '</span>' : '') +
+    '</button>';
+  });
+  list.innerHTML = html;
+  list.querySelectorAll('.ks-opt').forEach(btn => {
+    btn.addEventListener('click', () => { closePicker(); show(+btn.dataset.i, true); });
+  });
+}
+
+function wirePicker(){
+  const wrap = document.getElementById('ks-picker-wrap');
+  const btn = document.getElementById('ks-picker-btn');
+  const search = document.getElementById('ks-picker-search');
+
+  btn.addEventListener('click', () => {
+    const open = wrap.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+    if(open){ search.value = ''; buildList(); setTimeout(() => search.focus(), 20); }
+  });
+  search.addEventListener('input', () => buildList(search.value));
+  search.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){
+      const first = document.querySelector('#ks-picker-list .ks-opt');
+      if(first){ closePicker(); show(+first.dataset.i, true); }
+    } else if(e.key === 'Escape'){ closePicker(); }
+  });
+  document.addEventListener('click', e => { if(!wrap.contains(e.target)) closePicker(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closePicker(); });
+}
+function closePicker(){
+  const wrap = document.getElementById('ks-picker-wrap');
+  if(!wrap.classList.contains('open')) return;
+  wrap.classList.remove('open');
+  document.getElementById('ks-picker-btn').setAttribute('aria-expanded', 'false');
+}
+
+function wireStepper(){
+  document.getElementById('ks-prev').addEventListener('click', () => show(current - 1, true));
+  document.getElementById('ks-next').addEventListener('click', () => show(current + 1, true));
+}
+
+function show(i, userAction){
+  if(!view.length) return;
+  current = (i + view.length) % view.length;
+  const entry = view[current];
+
+  document.getElementById('ks-picker-label').textContent = entry.label;
+  document.getElementById('ks-step-pos').textContent = (current + 1) + ' / ' + view.length;
+  document.getElementById('ks-prev').disabled = view.length < 2;
+  document.getElementById('ks-next').disabled = view.length < 2;
+
+  document.querySelectorAll('#ks-picker-list .ks-opt').forEach(o => {
+    o.setAttribute('aria-selected', String(+o.dataset.i === current));
+  });
+
+  const boxes = entry.boxes.map(b => {
+    const foot = b.count > 1
+      ? '<div class="ks-item-foot"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Shared across ' + b.count + ' questions</span></div>'
+      : '';
+    return '<div><div class="ks-box">' + b.html + '</div>' + foot + '</div>';
+  }).join('');
+
+  document.getElementById('ks-view').innerHTML =
+    (entry.category ? '<span class="ks-view-cat">' + esc(entry.category) + '</span>' : '') +
+    '<div class="ks-boxes">' + boxes + '</div>';
+
+  document.querySelectorAll('#ks-view .ks-box table').forEach(tbl => {
+    const w = document.createElement('div');
+    w.className = 'ks-tablewrap';
+    tbl.replaceWith(w);
+    w.appendChild(tbl);
+  });
+
+  if(history.replaceState) history.replaceState(null, '', '#' + slugify(entry.label));
+  else location.hash = slugify(entry.label);
+
+  if(userAction){
+    document.querySelector('.app-shell-content').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+}
+
+/* ===== USER MENU + AUTH ===== */
+function wireUserMenu(){
+  const menu = document.getElementById('user-menu');
+  const trigger = document.getElementById('user-menu-trigger');
+  trigger.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = menu.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', e => {
+    if(!menu.contains(e.target)){ menu.classList.remove('open'); trigger.setAttribute('aria-expanded', 'false'); }
+  });
+}
+
+async function init(){
+  const { data: { session } } = await sb.auth.getSession();
+  if(!session){ window.location.href = 'login.html'; return; }
+
+  const { data: profile } = await sb.from('profiles').select('username').eq('id', session.user.id).single();
+  document.getElementById('user-menu-username').textContent = (profile && profile.username) || session.user.email.split('@')[0];
+  wireUserMenu();
+
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    window.location.href = 'login.html';
+  });
+
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('ks-main').style.display = 'block';
+
+  loadSummaries();
+}
+
+init();
+</script>
+</body>
+</html>
