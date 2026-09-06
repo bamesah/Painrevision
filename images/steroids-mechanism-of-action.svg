@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img" aria-labelledby="smoa-title">
+<title id="smoa-title">Steroids mechanism of action — corticosteroids inhibit phospholipase A2 (phospholipid to arachidonic acid), while NSAIDs inhibit cyclooxygenase (arachidonic acid to prostaglandins)</title>
+
+<rect x="1" y="1" width="998" height="558" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<defs>
+  <marker id="smoa-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#3A2D25"/>
+  </marker>
+  <marker id="smoa-arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#D2491F"/>
+  </marker>
+</defs>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <!-- Phospholipid -->
+  <rect x="400" y="28" width="200" height="52" rx="10" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="60" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Phospholipid</text>
+
+  <!-- arrow phospholipid -> arachidonic acid -->
+  <line x1="500" y1="80" x2="500" y2="126" stroke="#3A2D25" stroke-width="2" marker-end="url(#smoa-arrow)"/>
+
+  <!-- corticosteroid block label -->
+  <line x1="628" y1="103" x2="512" y2="103" stroke="#D2491F" stroke-width="2" marker-end="url(#smoa-arrow-red)"/>
+  <text x="638" y="99" font-size="14.5" font-weight="700" fill="#D2491F">Corticosteroids inhibit this step</text>
+  <text x="638" y="118" font-size="12.5" fill="#8A5A3C">(inhibition of phospholipase A&#8322;)</text>
+
+  <!-- Arachidonic acid -->
+  <rect x="380" y="130" width="240" height="52" rx="10" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="162" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Arachidonic acid</text>
+
+  <!-- branch lines -->
+  <path d="M500 182 C 420 210, 300 220, 250 250" fill="none" stroke="#3A2D25" stroke-width="2" marker-end="url(#smoa-arrow)"/>
+  <path d="M500 182 C 580 210, 700 220, 750 250" fill="none" stroke="#3A2D25" stroke-width="2" marker-end="url(#smoa-arrow)"/>
+
+  <!-- left pathway node -->
+  <ellipse cx="250" cy="298" rx="160" ry="42" fill="#EAF2E4" stroke="#C9D9BC" stroke-width="1.5"/>
+  <text x="250" y="293" text-anchor="middle" font-size="15" font-weight="700" fill="#241B16">Other pathways</text>
+  <text x="250" y="313" text-anchor="middle" font-size="13" fill="#3A2D25">(e.g. lipoxygenase)</text>
+
+  <!-- right pathway node -->
+  <ellipse cx="750" cy="298" rx="160" ry="42" fill="#EAF2E4" stroke="#C9D9BC" stroke-width="1.5"/>
+  <text x="750" y="303" text-anchor="middle" font-size="15" font-weight="700" fill="#241B16">Cyclo-oxygenase (COX)</text>
+
+  <!-- left arrow down -->
+  <line x1="250" y1="340" x2="250" y2="404" stroke="#3A2D25" stroke-width="2" marker-end="url(#smoa-arrow)"/>
+
+  <!-- right arrow down + NSAID label -->
+  <line x1="750" y1="340" x2="750" y2="418" stroke="#3A2D25" stroke-width="2" marker-end="url(#smoa-arrow)"/>
+  <line x1="580" y1="378" x2="738" y2="378" stroke="#D2491F" stroke-width="2" marker-end="url(#smoa-arrow-red)"/>
+  <text x="570" y="374" text-anchor="end" font-size="14.5" font-weight="700" fill="#D2491F">NSAIDs inhibit this step</text>
+
+  <!-- left outcome box -->
+  <rect x="70" y="408" width="360" height="70" rx="10" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="250" y="437" text-anchor="middle" font-size="14.5" font-weight="700" fill="#241B16">Other inflammatory mediators</text>
+  <text x="250" y="458" text-anchor="middle" font-size="13" fill="#3A2D25">(leukotrienes, cytokines, other proteins)</text>
+
+  <!-- right outcome box -->
+  <rect x="600" y="422" width="300" height="56" rx="10" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="750" y="456" text-anchor="middle" font-size="15" font-weight="700" fill="#241B16">Prostaglandins</text>
+
+  <!-- footnote -->
+  <line x1="40" y1="508" x2="960" y2="508" stroke="#EDE3D7" stroke-width="1.5"/>
+  <text x="500" y="534" text-anchor="middle" font-size="12.5" fill="#7C7068">Corticosteroids act higher in the cascade than NSAIDs, so they suppress both prostaglandin and leukotriene production.</text>
+
+</g>
+</svg>
