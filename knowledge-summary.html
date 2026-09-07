@@ -157,8 +157,8 @@ button{font-family:var(--san);cursor:pointer}
 .ks-box th,.ks-box td{border:1px solid var(--border-strong);padding:7px 11px;text-align:left;vertical-align:top}
 .ks-box th{background:var(--cream);font-weight:700;color:var(--ink)}
 .ks-box td{color:var(--ink-soft)}
-.ks-box img{cursor:zoom-in}
-.ks-box img:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+.ks-box img,.ks-tablewrap>table{cursor:zoom-in}
+.ks-box img:focus-visible,.ks-tablewrap>table:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
 
 /* ===== GUIDELINE BUTTON + MODAL (buttons embedded in knowledge boxes) ===== */
 .nice-guideline-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--coral);background:var(--coral-faint);color:var(--coral-deep);font-family:var(--san);font-size:13.5px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:background .18s,transform .18s,color .18s}
@@ -187,6 +187,10 @@ button{font-family:var(--san);cursor:pointer}
 .lightbox-close:hover{background:var(--cream);color:var(--ink)}
 .lightbox-close:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
 .lightbox-content img{max-width:100%;display:block;border-radius:10px}
+.lightbox-content table{border-collapse:collapse;width:100%;font-size:14px}
+.lightbox-content th,.lightbox-content td{border:1px solid var(--border-strong);padding:10px 14px;text-align:left;line-height:1.5;vertical-align:top}
+.lightbox-content th{background:var(--cream);font-weight:700;color:var(--ink)}
+.lightbox-content td{color:var(--ink-soft)}
 
 /* ===== RELEVANT READING (from questions that carry this knowledge box) ===== */
 .ks-reading{margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
@@ -694,21 +698,26 @@ function closeLightbox(){
 function wireLightboxTargets(container){
   if(!container) return;
   ensureLightbox();
-  container.querySelectorAll('.ks-box img').forEach(img => {
-    if(img.dataset.lbBound) return;
-    img.dataset.lbBound = '1';
-    img.setAttribute('role', 'button');
-    img.setAttribute('tabindex', '0');
-    if(!img.getAttribute('aria-label')) img.setAttribute('aria-label', 'Enlarge image');
-    const open = e => { if(e) e.preventDefault(); openLightbox('<img src="' + esc(img.getAttribute('src') || '') + '" alt="' + esc(img.alt || '') + '">'); };
-    img.addEventListener('click', open);
-    img.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } });
-    // iOS Safari doesn't fire click on a bare img — a guarded touch handler does.
+  const bind = (el, getHtml) => {
+    if(el.dataset.lbBound) return;
+    el.dataset.lbBound = '1';
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    if(!el.getAttribute('aria-label')) el.setAttribute('aria-label', el.tagName === 'IMG' ? 'Enlarge image' : 'Enlarge table');
+    const open = e => { if(e) e.preventDefault(); openLightbox(getHtml()); };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } });
+    // iOS Safari doesn't fire click on a bare img/table — a guarded touch handler
+    // does (the move guard lets a scroll-swipe through without zooming).
     let moved = false;
-    img.addEventListener('touchstart', () => { moved = false; }, { passive: true });
-    img.addEventListener('touchmove', () => { moved = true; }, { passive: true });
-    img.addEventListener('touchend', e => { if(!moved) open(e); });
-  });
+    el.addEventListener('touchstart', () => { moved = false; }, { passive: true });
+    el.addEventListener('touchmove', () => { moved = true; }, { passive: true });
+    el.addEventListener('touchend', e => { if(!moved) open(e); });
+  };
+  container.querySelectorAll('.ks-box img').forEach(img =>
+    bind(img, () => '<img src="' + esc(img.getAttribute('src') || '') + '" alt="' + esc(img.alt || '') + '">'));
+  container.querySelectorAll('.ks-box table').forEach(tbl =>
+    bind(tbl, () => tbl.outerHTML));
 }
 
 /* ===== GUIDELINE POPUP (triggered from a button inside a knowledge box) ===== */
