@@ -117,13 +117,31 @@ button{font-family:var(--san);cursor:pointer}
 .config-error{display:none;background:rgba(192,57,43,.1);border:1px solid var(--wrong-border);color:var(--wrong);font-size:13.5px;padding:11px 15px;border-radius:10px;margin-bottom:20px}
 .config-error.show{display:block}
 
-/* ===== SESSION LAYOUT (question column + scoreboard sidebar) ===== */
+/* ===== SESSION LAYOUT (question column + side column) ===== */
 .session-layout{display:grid;grid-template-columns:1fr 240px;gap:28px;align-items:start;max-width:1100px;margin:0 auto}
 .session-main{min-width:0}
+.session-side{position:sticky;top:84px;display:flex;flex-direction:column;gap:14px;min-width:0}
 @media(max-width:900px){.session-layout{grid-template-columns:1fr}}
 
+/* ===== RELEVANT READING (appears above the scoreboard once an answer is revealed) ===== */
+.relevant-read{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:16px 16px 14px;overflow:hidden}
+.relevant-read::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--coral),var(--amber))}
+.rr-eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--coral-deep);margin-bottom:10px;padding:0 4px}
+.rr-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.rr-link{display:flex;align-items:flex-start;gap:9px;padding:9px 10px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-warm);text-decoration:none;transition:border-color .15s,background .15s,transform .15s}
+.rr-link:hover{border-color:var(--coral);background:var(--coral-faint);transform:translateY(-1px)}
+.rr-link:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.rr-link:active{transform:translateY(0)}
+.rr-ico{flex-shrink:0;width:15px;height:15px;margin-top:1px;stroke:var(--coral-deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rr-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.rr-title{font-family:var(--san);font-size:12.5px;font-weight:600;line-height:1.35;color:var(--ink)}
+.rr-src{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--stone-light)}
+.rr-arrow{flex-shrink:0;width:12px;height:12px;margin-top:2px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s}
+.rr-link:hover .rr-arrow{stroke:var(--coral)}
+@media(prefers-reduced-motion:reduce){.rr-link{transition:none}}
+
 /* ===== SCOREBOARD ===== */
-.scoreboard{position:sticky;top:84px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:18px}
+.scoreboard{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:18px}
 .scoreboard-title{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);margin-bottom:12px;padding:0 4px}
 .scoreboard-list{display:flex;flex-direction:column;gap:5px;max-height:520px;overflow-y:auto}
 .score-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:10px;border:1.5px solid transparent;background:none;font-family:var(--san);cursor:pointer;transition:background .15s,border-color .15s;width:100%;text-align:left}
@@ -140,7 +158,7 @@ button{font-family:var(--san);cursor:pointer}
 .score-status.mid{background:var(--amber-soft);color:#9a6a0a}
 .score-status.frac{min-width:34px;padding:0 4px}
 @media(max-width:900px){
-  .scoreboard{position:static;top:auto;order:-1}
+  .session-side{position:static;top:auto;order:-1}
   .scoreboard-list{max-height:none;flex-direction:row;flex-wrap:wrap}
   .score-row{width:auto;flex:0 0 auto}
 }
@@ -489,17 +507,20 @@ button{font-family:var(--san);cursor:pointer}
             <button class="session-nav-btn" id="next-btn"><span class="nav-btn-label">Next</span> <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
           </div>
         </div>
-        <aside class="scoreboard" id="side-panel">
-          <div id="results-summary" style="display:none"></div>
-          <div class="scoreboard-title" id="side-panel-title">Scoreboard</div>
-          <div class="tracker-legend" id="tracker-legend" style="display:none">
-            <span><i class="complete"></i> Fully answered</span>
-            <span><i class="partial"></i> Partially answered</span>
-            <span><i></i> Not attempted</span>
-            <span><i class="flagged"></i> Flagged for review</span>
-          </div>
-          <div class="scoreboard-list" id="scoreboard-list"></div>
-        </aside>
+        <div class="session-side">
+          <div class="relevant-read" id="relevant-read" hidden></div>
+          <aside class="scoreboard" id="side-panel">
+            <div id="results-summary" style="display:none"></div>
+            <div class="scoreboard-title" id="side-panel-title">Scoreboard</div>
+            <div class="tracker-legend" id="tracker-legend" style="display:none">
+              <span><i class="complete"></i> Fully answered</span>
+              <span><i class="partial"></i> Partially answered</span>
+              <span><i></i> Not attempted</span>
+              <span><i class="flagged"></i> Flagged for review</span>
+            </div>
+            <div class="scoreboard-list" id="scoreboard-list"></div>
+          </aside>
+        </div>
       </div>
     </div>
 
@@ -963,6 +984,36 @@ function renderSession() {
 
 function renderSidePanel() {
   if (mode === 'mock') renderTracker(); else renderScoreboard();
+  renderRelevantRead();
+}
+
+/* ===== RELEVANT READING =====
+   A small panel of external further-reading links for the current question.
+   Shown only once that question's answer is revealed (so it can't be used to
+   shortcut an unrevealed question, and stays hidden during a timed exam until
+   submission). Re-evaluated on every reveal and on navigation. */
+function renderRelevantRead() {
+  const box = document.getElementById('relevant-read');
+  if (!box) return;
+  const q = sessionQuestions[currentIdx];
+  const controller = sessionControllers[currentIdx];
+  const revealed = !!(controller && controller.isRevealed());
+  const items = q && Array.isArray(q.relevantReading) ? q.relevantReading : [];
+  if (!revealed || !items.length) {
+    box.hidden = true;
+    box.innerHTML = '';
+    return;
+  }
+  const rows = items.map(it => {
+    const href = String(it.url || '').replace(/["'<>\s]/g, '');
+    return `<li><a class="rr-link" href="${href}" target="_blank" rel="noopener noreferrer">
+        <svg class="rr-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span class="rr-body"><span class="rr-title">${escHtml(it.label)}</span>${it.source ? `<span class="rr-src">${escHtml(it.source)}</span>` : ''}</span>
+        <svg class="rr-arrow" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a></li>`;
+  }).join('');
+  box.innerHTML = `<div class="rr-eyebrow">Relevant reading</div><ul class="rr-list">${rows}</ul>`;
+  box.hidden = false;
 }
 
 /* EMQ answers are recorded as one row per sub-question (each with its own
@@ -1001,6 +1052,7 @@ function goToQuestion(i) {
   document.querySelectorAll('.practice-q-slide')[i].classList.add('is-active');
   renderDots();
   if (!sessionFinished) renderSidePanel();
+  renderRelevantRead();
   updateNav();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1196,6 +1248,7 @@ function showResultsPanel({ unitsAnswered, unitsTotal, scorePct, earnedMarks, ma
     </div>`;
 
   renderScoreboard();
+  renderRelevantRead();
   renderDots();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }

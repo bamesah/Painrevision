@@ -206,6 +206,23 @@ button{font-family:var(--san);cursor:pointer}
 .nice-guideline-btn:hover{background:var(--coral);color:#fff;transform:translateY(-1px)}
 .nice-guideline-btn svg{flex-shrink:0}
 
+/* ===== RELEVANT READING (appended below the explanation on reveal) ===== */
+.relevant-read{position:relative;margin-top:18px;background:var(--surface-warm);border:1px solid var(--border-strong);border-radius:14px;padding:16px 18px 14px;overflow:hidden}
+.relevant-read::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--coral),var(--amber))}
+.rr-eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--coral-deep);margin-bottom:10px}
+.rr-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.rr-link{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);text-decoration:none;transition:border-color .15s,background .15s,transform .15s}
+.rr-link:hover{border-color:var(--coral);background:var(--coral-faint);transform:translateY(-1px)}
+.rr-link:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.rr-link:active{transform:translateY(0)}
+.rr-ico{flex-shrink:0;width:16px;height:16px;margin-top:1px;stroke:var(--coral-deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rr-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.rr-title{font-family:var(--san);font-size:13.5px;font-weight:600;line-height:1.4;color:var(--ink)}
+.rr-src{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--stone-light)}
+.rr-arrow{flex-shrink:0;width:13px;height:13px;margin-top:2px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s}
+.rr-link:hover .rr-arrow{stroke:var(--coral)}
+@media(prefers-reduced-motion:reduce){.rr-link{transition:none}}
+
 /* ===== GUIDELINE MODAL ===== */
 .gl-modal-overlay{position:fixed;inset:0;background:rgba(36,27,22,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:24px}
 .gl-modal-overlay.open{display:flex}
@@ -670,6 +687,29 @@ function initTabs() {
   });
 }
 
+/* ===== RELEVANT READING =====
+   Appends a small panel of external further-reading links to the bottom of a
+   question's explanation once its answer is revealed. Driven by the optional
+   `relevantReading` array on the question ({ label, source, url }). */
+function appendRelevantRead(container, q) {
+  const items = q && Array.isArray(q.relevantReading) ? q.relevantReading : [];
+  if (!items.length) return;
+  const body = container.querySelector('.q-card-body');
+  if (!body || body.querySelector('.relevant-read')) return;
+  const rows = items.map(it => {
+    const href = String(it.url || '').replace(/["'<>\s]/g, '');
+    return `<li><a class="rr-link" href="${href}" target="_blank" rel="noopener noreferrer">
+        <svg class="rr-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span class="rr-body"><span class="rr-title">${escHtml(it.label)}</span>${it.source ? `<span class="rr-src">${escHtml(it.source)}</span>` : ''}</span>
+        <svg class="rr-arrow" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+      </a></li>`;
+  }).join('');
+  const box = document.createElement('div');
+  box.className = 'relevant-read';
+  box.innerHTML = `<div class="rr-eyebrow">Relevant reading</div><ul class="rr-list">${rows}</ul>`;
+  body.appendChild(box);
+}
+
 /* ===== QUESTION OF THE DAY ===== */
 function initDOTD() {
   const label = document.getElementById('dotd-date-label');
@@ -691,6 +731,7 @@ function initDOTD() {
   const startTime = Date.now();
   renderQuestion(q, wrap, 'dotd', function(wasCorrect, detail) {
     recordAnswer(q.id, wasCorrect, Math.round((Date.now() - startTime) / 1000), q.type === 'EMQ' ? detail?.results : null);
+    appendRelevantRead(wrap, q);
   });
   if (window.QuestionReport) {
     QuestionReport.attach(wrap.querySelector('.q-card'), { userId: currentUserId, questionId: q.id });
@@ -736,6 +777,7 @@ function generatePracticeSet() {
       practiceAnswered[idx] = true;
       renderPracticeDots();
       recordAnswer(q.id, wasCorrect, Math.round((Date.now() - startTime) / 1000), q.type === 'EMQ' ? detail?.results : null);
+      appendRelevantRead(slide, q);
     });
     if (window.QuestionReport) {
       QuestionReport.attach(slide.querySelector('.q-card'), { userId: currentUserId, questionId: q.id });
