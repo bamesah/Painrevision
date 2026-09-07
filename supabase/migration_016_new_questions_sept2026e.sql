@@ -1,9 +1,9 @@
 -- migration_016_new_questions_sept2026e.sql
 -- Batch 5 of new questions from "Questions to add.pdf": spinal cord stimulation
--- mechanism of action (Physiology), dorsal root ganglion (DRG) stimulation
--- (Clinical Pain), and two clinical-statistics MTFs (Physics & Clinical
--- Measurement) covering coefficient of variation / SD / SEM and diagnostic
--- test performance / choice of statistical test.
+-- mechanism of action, dorsal root ganglion (DRG) stimulation, and two
+-- clinical-statistics MTFs covering coefficient of variation / SD / SEM and
+-- diagnostic test performance / choice of statistical test. All four are
+-- categorised under Physics & Clinical Measurement.
 --
 -- The SCS and DRG questions each carry a knowledge box; SCS also has an orange
 -- button linking to NICE TA159 and both carry a "relevantReading" list
@@ -22,12 +22,15 @@ insert into questions (id, type, data, status) values ('q_mtf_statistics_cv_sem_
 insert into questions (id, type, data, status) values ('q_mtf_statistics_diagnostic_tests_001', 'MTF', '{"dateAdded":"2026-09-07","rotationIndex":97,"stem":"Regarding diagnostic tests and statistical methods:","choices":["Low specificity is associated with a high false positive rate","The Mann–Whitney U test is a parametric test","The Chi-squared test is used for parametric data","Sensitivity is the proportion of true positives correctly identified by a test","Positive predictive value depends on the prevalence of the condition in the population tested"],"correct":[true,false,false,true,true],"explanation":"<p>These statements cover diagnostic test performance and the choice of statistical test.</p>\n<p style=\"margin-top:12px\"><strong>A. TRUE</strong> &mdash; Specificity is the ability of a test to correctly identify those without the condition (true negatives). Low specificity means many unaffected people are misclassified as positive &mdash; a high false positive rate.</p>\n<p style=\"margin-top:12px\"><strong>B. FALSE</strong> &mdash; The Mann&ndash;Whitney U test is non-parametric, comparing two independent groups when data are ordinal or not normally distributed. Its parametric equivalent is the unpaired t-test.</p>\n<p style=\"margin-top:12px\"><strong>C. FALSE</strong> &mdash; The Chi-squared test is a non-parametric test for association between categorical (nominal) variables. Normally distributed continuous data are analysed with the t-test or ANOVA.</p>\n<p style=\"margin-top:12px\"><strong>D. TRUE</strong> &mdash; Sensitivity is the proportion of people with the condition who test positive (true positive rate). A highly sensitive test has few false negatives and is useful for ruling out disease when negative (SnNout).</p>\n<p style=\"margin-top:12px\"><strong>E. TRUE</strong> &mdash; Positive predictive value &mdash; the probability that a positive result is a true positive &mdash; falls as prevalence falls: even a highly sensitive and specific test has a low PPV in a low-prevalence population, because false positives outnumber true positives when the condition is rare.</p>"}'::jsonb, 'published')
   on conflict (id) do nothing;
 
--- link each new question to its (single) category
+-- link each new question to its (single) category. All four sit under
+-- Physics & Clinical Measurement: the two statistics MTFs, plus the SCS and
+-- DRG stimulation MTFs (device stimulation parameters — frequency, pulse
+-- width, amplitude).
 insert into question_categories (question_id, category_id)
-  select 'q_mtf_scs_mechanism_001', id from categories where name = 'Physiology'
+  select 'q_mtf_scs_mechanism_001', id from categories where name = 'Physics & Clinical Measurement'
   on conflict do nothing;
 insert into question_categories (question_id, category_id)
-  select 'q_mtf_drg_stimulation_001', id from categories where name = 'Clinical Pain'
+  select 'q_mtf_drg_stimulation_001', id from categories where name = 'Physics & Clinical Measurement'
   on conflict do nothing;
 insert into question_categories (question_id, category_id)
   select 'q_mtf_statistics_cv_sem_001', id from categories where name = 'Physics & Clinical Measurement'
@@ -35,3 +38,5 @@ insert into question_categories (question_id, category_id)
 insert into question_categories (question_id, category_id)
   select 'q_mtf_statistics_diagnostic_tests_001', id from categories where name = 'Physics & Clinical Measurement'
   on conflict do nothing;
+-- NOTE: SCS/DRG were first seeded as Physiology / Clinical Pain; if you ran an
+-- earlier copy of this file, migration_017_recategorise_scs_drg.sql fixes it.

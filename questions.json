@@ -2204,7 +2204,7 @@
     {
       "id": "q_mtf_scs_mechanism_001",
       "type": "MTF",
-      "topic": "Physiology",
+      "topic": "Physics & Clinical Measurement",
       "dateAdded": "2026-09-07",
       "rotationIndex": 94,
       "stem": "Spinal cord stimulation (SCS) — regarding its mechanism of action:",
@@ -2244,7 +2244,7 @@
     {
       "id": "q_mtf_drg_stimulation_001",
       "type": "MTF",
-      "topic": "Clinical Pain",
+      "topic": "Physics & Clinical Measurement",
       "dateAdded": "2026-09-07",
       "rotationIndex": 95,
       "stem": "Regarding dorsal root ganglion (DRG) stimulation:",

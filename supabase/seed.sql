@@ -494,10 +494,10 @@ insert into question_categories (question_id, category_id)
   select 'q_mtf_start_back_tool_001', id from categories where name = 'Psychology'
   on conflict do nothing;
 insert into question_categories (question_id, category_id)
-  select 'q_mtf_scs_mechanism_001', id from categories where name = 'Physiology'
+  select 'q_mtf_scs_mechanism_001', id from categories where name = 'Physics & Clinical Measurement'
   on conflict do nothing;
 insert into question_categories (question_id, category_id)
-  select 'q_mtf_drg_stimulation_001', id from categories where name = 'Clinical Pain'
+  select 'q_mtf_drg_stimulation_001', id from categories where name = 'Physics & Clinical Measurement'
   on conflict do nothing;
 insert into question_categories (question_id, category_id)
   select 'q_mtf_statistics_cv_sem_001', id from categories where name = 'Physics & Clinical Measurement'
