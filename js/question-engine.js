@@ -57,12 +57,30 @@ function closeLightbox() {
 function initLightboxTargets(container) {
   if (!container) return;
   ensureLightbox();
-  container.querySelectorAll('img').forEach(img => {
-    img.addEventListener('click', () => openLightbox(`<img src="${img.src}" alt="${escHtml(img.alt)}">`));
-  });
-  container.querySelectorAll('table').forEach(table => {
-    table.addEventListener('click', () => openLightbox(table.outerHTML));
-  });
+  const bind = (el, getHtml) => {
+    if (el.dataset.lbBound) return;
+    el.dataset.lbBound = '1';
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    if (!el.getAttribute('aria-label')) {
+      el.setAttribute('aria-label', el.tagName === 'IMG' ? 'Enlarge image' : 'Enlarge table');
+    }
+    const open = e => { if (e) e.preventDefault(); openLightbox(getHtml()); };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+    // iOS Safari doesn't fire click on bare img/table elements — a touch handler
+    // (with a move guard so a scroll-swipe doesn't count) makes the tap register.
+    let moved = false;
+    el.addEventListener('touchstart', () => { moved = false; }, { passive: true });
+    el.addEventListener('touchmove', () => { moved = true; }, { passive: true });
+    el.addEventListener('touchend', e => { if (!moved) open(e); });
+  };
+  container.querySelectorAll('img').forEach(img =>
+    bind(img, () => `<img src="${img.src}" alt="${escHtml(img.alt)}">`));
+  container.querySelectorAll('table').forEach(table =>
+    bind(table, () => table.outerHTML));
 }
 
 /* ===== RENDER QUESTION =====

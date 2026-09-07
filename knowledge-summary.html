@@ -157,6 +157,52 @@ button{font-family:var(--san);cursor:pointer}
 .ks-box th,.ks-box td{border:1px solid var(--border-strong);padding:7px 11px;text-align:left;vertical-align:top}
 .ks-box th{background:var(--cream);font-weight:700;color:var(--ink)}
 .ks-box td{color:var(--ink-soft)}
+.ks-box img{cursor:zoom-in}
+.ks-box img:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+
+/* ===== GUIDELINE BUTTON + MODAL (buttons embedded in knowledge boxes) ===== */
+.nice-guideline-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--coral);background:var(--coral-faint);color:var(--coral-deep);font-family:var(--san);font-size:13.5px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:background .18s,transform .18s,color .18s}
+.nice-guideline-btn:hover{background:var(--coral);color:#fff;transform:translateY(-1px)}
+.nice-guideline-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.nice-guideline-btn:active{transform:translateY(0)}
+.nice-guideline-btn svg{flex-shrink:0}
+.gl-modal-overlay{position:fixed;inset:0;background:rgba(36,27,22,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:24px}
+.gl-modal-overlay.open{display:flex}
+.gl-modal{width:min(920px,100%);height:min(760px,88vh);background:var(--surface);border-radius:20px;box-shadow:0 30px 80px -20px rgba(36,27,22,.5);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border)}
+.gl-modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface-warm);flex-shrink:0}
+.gl-modal-title{font-weight:700;font-size:14.5px;color:var(--ink)}
+.gl-modal-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.gl-modal-icon-btn{width:32px;height:32px;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--stone);transition:background .15s,color .15s;text-decoration:none}
+.gl-modal-icon-btn:hover{background:var(--cream);color:var(--ink)}
+.gl-modal-icon-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.gl-modal iframe{flex:1;border:none;width:100%;background:var(--cream)}
+
+/* ===== LIGHTBOX (tap an image in a knowledge box to enlarge) ===== */
+.lightbox-overlay{position:fixed;inset:0;z-index:320;background:rgba(36,27,22,.72);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
+.lightbox-overlay.open{opacity:1;pointer-events:all}
+.lightbox-box{position:relative;max-width:min(92vw,960px);width:100%}
+.lightbox-scroll{max-height:88vh;overflow-y:auto;background:var(--surface);border-radius:20px;box-shadow:0 4px 80px -16px rgba(36,27,22,.55);padding:28px;transform:scale(.93);transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.lightbox-overlay.open .lightbox-scroll{transform:scale(1)}
+.lightbox-close{position:absolute;top:-14px;right:-14px;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--stone);transition:background .15s,color .15s;box-shadow:var(--shadow-sm)}
+.lightbox-close:hover{background:var(--cream);color:var(--ink)}
+.lightbox-close:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.lightbox-content img{max-width:100%;display:block;border-radius:10px}
+
+/* ===== RELEVANT READING (from questions that carry this knowledge box) ===== */
+.ks-reading{margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.ks-reading-eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--coral-deep);margin-bottom:12px}
+.ks-reading-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.rr-link{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-warm);transition:border-color .15s,background .15s,transform .15s}
+.rr-link:hover{border-color:var(--coral);background:var(--coral-faint);transform:translateY(-1px)}
+.rr-link:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.rr-link:active{transform:translateY(0)}
+.rr-ico{flex-shrink:0;width:15px;height:15px;margin-top:2px;stroke:var(--coral-deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rr-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.rr-title{font-size:13px;font-weight:600;line-height:1.35;color:var(--ink)}
+.rr-src{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--stone-light)}
+.rr-arrow{flex-shrink:0;width:12px;height:12px;margin-top:3px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s}
+.rr-link:hover .rr-arrow{stroke:var(--coral)}
+@media(prefers-reduced-motion:reduce){.rr-link,.nice-guideline-btn{transition:none}}
 
 .ks-empty{padding:56px 24px;text-align:center;border:1px dashed var(--border-strong);border-radius:18px;background:var(--surface-warm)}
 .ks-empty p{font-size:14.5px;color:var(--stone);line-height:1.6}
@@ -187,6 +233,23 @@ button{font-family:var(--san);cursor:pointer}
     </symbol>
   </defs>
 </svg>
+
+<div class="gl-modal-overlay" id="gl-modal-overlay">
+  <div class="gl-modal" role="dialog" aria-modal="true" aria-labelledby="gl-modal-title">
+    <div class="gl-modal-head">
+      <span class="gl-modal-title" id="gl-modal-title">Guideline</span>
+      <div class="gl-modal-actions">
+        <a class="gl-modal-icon-btn" id="gl-modal-open-new" href="guidelines.html" target="_blank" rel="noopener" title="Open in new tab" aria-label="Open in new tab">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <button class="gl-modal-icon-btn" id="gl-modal-close" type="button" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <iframe id="gl-modal-iframe" src="about:blank" title="Guideline summary"></iframe>
+  </div>
+</div>
 
 <div class="app-topbar">
   <div class="app-topbar-in">
@@ -330,21 +393,30 @@ async function loadSummaries(){
     return;
   }
 
-  const map = new Map();   // label -> { category, boxes: Map(normHtml -> {html,count}) }
+  const map = new Map();   // label -> { category, boxes: Map(normHtml -> {html,count}), reading: Map(url -> {label,source,url}) }
   (data || []).forEach(row => {
     const box = extractKnowledgeBox(row.data && row.data.explanation);
     if(!box) return;
     const category = (row.question_categories && row.question_categories[0] && row.question_categories[0].categories && row.question_categories[0].categories.name) || '';
-    if(!map.has(box.title)) map.set(box.title, { category, boxes: new Map() });
+    if(!map.has(box.title)) map.set(box.title, { category, boxes: new Map(), reading: new Map() });
     const rec = map.get(box.title);
     if(!rec.category && category) rec.category = category;
     const key = normalise(box.html);
     if(rec.boxes.has(key)) rec.boxes.get(key).count++;
     else rec.boxes.set(key, { html: box.html, count: 1 });
+
+    // Carry the question's "relevant reading" links onto the knowledge box, so a
+    // summary shows the same further-reading a question with that box shows.
+    const reading = (row.data && Array.isArray(row.data.relevantReading)) ? row.data.relevantReading : [];
+    reading.forEach(it => {
+      const url = String((it && it.url) || '').trim();
+      if(!url || rec.reading.has(url)) return;
+      rec.reading.set(url, { label: (it.label || url), source: (it.source || ''), url });
+    });
   });
 
   allEntries = [...map.entries()]
-    .map(([label, rec]) => ({ label, category: rec.category, boxes: [...rec.boxes.values()] }));
+    .map(([label, rec]) => ({ label, category: rec.category, boxes: [...rec.boxes.values()], reading: [...rec.reading.values()] }));
 
   const sub = document.getElementById('ks-sub');
   if(!allEntries.length){
@@ -554,9 +626,24 @@ function show(i, userAction){
     return '<div><div class="ks-box">' + b.html + '</div>' + foot + '</div>';
   }).join('');
 
+  const reading = entry.reading || [];
+  const readingHtml = reading.length
+    ? '<div class="ks-reading"><div class="ks-reading-eyebrow">Relevant reading</div><ul class="ks-reading-list">' +
+        reading.map(it => {
+          const href = esc(String(it.url).replace(/["'<>\s]/g, ''));
+          return '<li><a class="rr-link" href="' + href + '" target="_blank" rel="noopener noreferrer">' +
+            '<svg class="rr-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>' +
+            '<span class="rr-body"><span class="rr-title">' + esc(it.label) + '</span>' +
+              (it.source ? '<span class="rr-src">' + esc(it.source) + '</span>' : '') + '</span>' +
+            '<svg class="rr-arrow" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>' +
+          '</a></li>';
+        }).join('') +
+      '</ul></div>'
+    : '';
+
   document.getElementById('ks-view').innerHTML =
     (entry.category ? '<span class="ks-view-cat">' + esc(entry.category) + '</span>' : '') +
-    '<div class="ks-boxes">' + boxes + '</div>';
+    '<div class="ks-boxes">' + boxes + '</div>' + readingHtml;
 
   document.querySelectorAll('#ks-view .ks-box table').forEach(tbl => {
     const w = document.createElement('div');
@@ -565,6 +652,8 @@ function show(i, userAction){
     w.appendChild(tbl);
   });
 
+  wireLightboxTargets(document.getElementById('ks-view'));
+
   if(history.replaceState) history.replaceState(null, '', '#' + slugify(entry.label));
   else location.hash = slugify(entry.label);
 
@@ -572,6 +661,82 @@ function show(i, userAction){
     document.querySelector('.app-shell-content').scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 }
+
+/* ===== LIGHTBOX (tap an image in a knowledge box to enlarge) ===== */
+function ensureLightbox(){
+  if(document.getElementById('ks-lightbox')) return;
+  const lb = document.createElement('div');
+  lb.className = 'lightbox-overlay';
+  lb.id = 'ks-lightbox';
+  lb.innerHTML =
+    '<div class="lightbox-box">' +
+      '<button class="lightbox-close" id="ks-lightbox-close" type="button" aria-label="Close">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+      '</button>' +
+      '<div class="lightbox-scroll"><div class="lightbox-content" id="ks-lightbox-content"></div></div>' +
+    '</div>';
+  document.body.appendChild(lb);
+  lb.addEventListener('click', e => { if(e.target === lb) closeLightbox(); });
+  document.getElementById('ks-lightbox-close').addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+}
+function openLightbox(html){
+  ensureLightbox();
+  document.getElementById('ks-lightbox-content').innerHTML = html;
+  document.getElementById('ks-lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  const lb = document.getElementById('ks-lightbox');
+  if(lb) lb.classList.remove('open');
+  if(!document.querySelector('.gl-modal-overlay.open')) document.body.style.overflow = '';
+}
+function wireLightboxTargets(container){
+  if(!container) return;
+  ensureLightbox();
+  container.querySelectorAll('.ks-box img').forEach(img => {
+    if(img.dataset.lbBound) return;
+    img.dataset.lbBound = '1';
+    img.setAttribute('role', 'button');
+    img.setAttribute('tabindex', '0');
+    if(!img.getAttribute('aria-label')) img.setAttribute('aria-label', 'Enlarge image');
+    const open = e => { if(e) e.preventDefault(); openLightbox('<img src="' + esc(img.getAttribute('src') || '') + '" alt="' + esc(img.alt || '') + '">'); };
+    img.addEventListener('click', open);
+    img.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); open(); } });
+    // iOS Safari doesn't fire click on a bare img — a guarded touch handler does.
+    let moved = false;
+    img.addEventListener('touchstart', () => { moved = false; }, { passive: true });
+    img.addEventListener('touchmove', () => { moved = true; }, { passive: true });
+    img.addEventListener('touchend', e => { if(!moved) open(e); });
+  });
+}
+
+/* ===== GUIDELINE POPUP (triggered from a button inside a knowledge box) ===== */
+function openGuidelineModal(id, title){
+  const overlay = document.getElementById('gl-modal-overlay');
+  const iframe = document.getElementById('gl-modal-iframe');
+  const titleEl = document.getElementById('gl-modal-title');
+  const openNew = document.getElementById('gl-modal-open-new');
+  const url = 'guidelines.html#' + id;
+  titleEl.textContent = title || 'Guideline';
+  iframe.src = url;
+  openNew.href = url;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeGuidelineModal(){
+  const overlay = document.getElementById('gl-modal-overlay');
+  overlay.classList.remove('open');
+  if(!document.querySelector('.lightbox-overlay.open')) document.body.style.overflow = '';
+  document.getElementById('gl-modal-iframe').src = 'about:blank';
+}
+(function initGuidelineModal(){
+  const overlay = document.getElementById('gl-modal-overlay');
+  if(!overlay) return;
+  document.getElementById('gl-modal-close').addEventListener('click', closeGuidelineModal);
+  overlay.addEventListener('click', e => { if(e.target === overlay) closeGuidelineModal(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && overlay.classList.contains('open')) closeGuidelineModal(); });
+})();
 
 /* ===== USER MENU + AUTH ===== */
 function wireUserMenu(){
