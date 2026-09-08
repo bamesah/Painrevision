@@ -39,8 +39,15 @@
     .qn-btn[aria-expanded="true"]{border-color:rgba(240,98,60,.4);background:var(--coral-faint);color:var(--coral)}
     .qn-dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--coral);border:2px solid var(--surface)}
     .qn-dot[hidden]{display:none}
-    .qn-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);right:0;width:max-content;max-width:200px;white-space:normal;text-align:left;line-height:1.35;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:-.01em;padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:6}
-    .qn-btn::before{content:'';position:absolute;top:calc(100% + 4px);right:12px;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:6}
+    /* Tip opens toward the card interior so .q-card's overflow can't clip it:
+       rightward on mobile (actions sit on their own line at the left),
+       leftward on desktop (actions align right in the meta row). */
+    .qn-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:0;right:auto;width:max-content;max-width:min(200px,calc(100vw - 84px));white-space:normal;text-align:left;line-height:1.35;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:-.01em;padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:6}
+    .qn-btn::before{content:'';position:absolute;top:calc(100% + 4px);left:12px;right:auto;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:6}
+    @media(min-width:901px){
+      .qn-btn::after{left:auto;right:0}
+      .qn-btn::before{left:auto;right:12px}
+    }
     .qn-btn:hover::after,.qn-btn:focus-visible::after{opacity:1;transform:translateY(0)}
     .qn-btn:hover::before,.qn-btn:focus-visible::before{opacity:1}
 
@@ -116,7 +123,7 @@
     btn.className = 'qn-btn';
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-label', 'Notes for this question');
-    btn.dataset.tip = 'Add your private notes to this question';
+    btn.dataset.tip = 'Add a private note';
     btn.innerHTML = `<svg class="qn-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span class="qn-dot" hidden></span>`;
     if (meta) {
       // Sit after bookmark but before the exam Flag button, which is pinned right.

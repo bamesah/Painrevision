@@ -45,7 +45,7 @@ button{font-family:var(--san);cursor:pointer}
 .btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
 
 /* ===== APP TOPBAR ===== */
-.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border)}
+.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border);transform:translateZ(0)}
 .app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px 32px;max-width:1120px;margin:0 auto}
 .app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
 .app-logo svg{width:28px;height:28px;flex-shrink:0}
@@ -55,7 +55,7 @@ button{font-family:var(--san);cursor:pointer}
 .app-nav a{font-size:14px;font-weight:600;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
 .app-nav a:hover{color:var(--ink);background:var(--surface-warm)}
 .app-topbar-right{display:flex;align-items:center;gap:14px;margin-left:auto}
-.app-timer{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink);background:var(--surface-warm);border:1px solid var(--border);border-radius:999px;padding:6px 14px;display:none;align-items:center;gap:6px}
+.app-timer{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink);background:var(--surface-warm);border:1px solid var(--border);border-radius:999px;padding:6px 14px;display:none;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap}
 .app-timer.low{color:var(--wrong);border-color:var(--wrong-border)}
 .app-timer svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
 .app-logout{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .18s}
@@ -96,6 +96,8 @@ button{font-family:var(--san);cursor:pointer}
 .config-count-row{display:flex;align-items:center;gap:14px}
 .config-count-row input[type=range]{flex:1;accent-color:var(--coral)}
 .config-count-num{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--coral);min-width:34px;text-align:center}
+.config-avail{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--stone-light);margin-top:9px}
+.config-avail.none{color:var(--wrong)}
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:220px;overflow-y:auto;padding:4px 4px 4px 0}
 @media(max-width:540px){.cat-grid{grid-template-columns:1fr}}
 .cat-chip{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1.5px solid var(--border);border-radius:12px;font-size:13.5px;color:var(--ink-soft);cursor:pointer;transition:border-color .15s,background .15s}
@@ -142,7 +144,9 @@ button{font-family:var(--san);cursor:pointer}
 
 /* ===== SCOREBOARD ===== */
 .scoreboard{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:18px}
-.scoreboard-title{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);margin-bottom:12px;padding:0 4px}
+.scoreboard-head{display:block;width:100%;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;text-align:left;cursor:default}
+.scoreboard-title{display:block;font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);margin-bottom:12px;padding:0 4px}
+.scoreboard-head-meta,.scoreboard-head-caret{display:none}
 .scoreboard-list{display:flex;flex-direction:column;gap:5px;max-height:520px;overflow-y:auto}
 .score-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:10px;border:1.5px solid transparent;background:none;font-family:var(--san);cursor:pointer;transition:background .15s,border-color .15s;width:100%;text-align:left}
 .score-row:hover{background:var(--surface-warm)}
@@ -157,11 +161,6 @@ button{font-family:var(--san);cursor:pointer}
 .score-status.bad svg{stroke:var(--wrong)}
 .score-status.mid{background:var(--amber-soft);color:#9a6a0a}
 .score-status.frac{min-width:34px;padding:0 4px}
-@media(max-width:900px){
-  .session-side{position:static;top:auto;order:-1}
-  .scoreboard-list{max-height:none;flex-direction:row;flex-wrap:wrap}
-  .score-row{width:auto;flex:0 0 auto}
-}
 
 /* ===== QUESTION TRACKER (mock exam mode) ===== */
 .qtracker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-height:520px;overflow-y:auto;padding:8px}
@@ -177,7 +176,47 @@ button{font-family:var(--san);cursor:pointer}
 .tracker-legend i.complete{background:var(--correct);border-color:var(--correct)}
 .tracker-legend i.partial{background:var(--amber);border-color:var(--amber)}
 .tracker-legend i.flagged{border-radius:50%;background:var(--flag);border-color:var(--flag)}
-@media(max-width:900px){.qtracker-grid{max-height:none;grid-template-columns:repeat(8,1fr)}}
+
+/* Mobile: the side panel sits above the question, so the full list/grid is
+   collapsed to one swipeable strip of compact chips centred on the current
+   question; its header opens the full scoreboard as an overlay sheet. */
+@media(max-width:900px){
+  .session-side{position:static;top:auto;order:-1}
+  .scoreboard{padding:14px}
+  .scoreboard-head{display:flex;align-items:center;gap:8px;cursor:pointer;padding:2px 2px 0}
+  .scoreboard-head .scoreboard-title{margin-bottom:0}
+  .scoreboard-head-meta{display:block;margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--coral-deep)}
+  .scoreboard-head-caret{display:block;width:15px;height:15px;stroke:var(--stone);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  #side-panel > .tracker-legend{display:none!important}
+  #side-panel .scoreboard-list,#side-panel .qtracker-grid{
+    margin-top:10px;max-height:none;display:flex;flex-flow:row nowrap;gap:6px;
+    grid-template-columns:none;padding:2px 2px 6px;
+    overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  #side-panel .scoreboard-list::-webkit-scrollbar,#side-panel .qtracker-grid::-webkit-scrollbar{display:none}
+  #side-panel .scoreboard-list .score-row{width:auto;flex:0 0 auto;gap:7px;padding:6px 9px;border-color:var(--border)}
+  #side-panel .qtracker-grid .qtracker-item{flex:0 0 auto;width:34px;height:34px;aspect-ratio:auto;font-size:12px}
+  #side-panel .qtracker-grid .qtracker-item.is-current{outline-offset:-2px}
+}
+
+/* ===== SCOREBOARD / TRACKER SHEET (mobile overlay) ===== */
+.score-sheet-overlay{position:fixed;inset:0;z-index:210;display:flex;align-items:flex-end;justify-content:center;background:rgba(36,27,22,.5);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.score-sheet-overlay[hidden]{display:none}
+.score-sheet{width:100%;max-width:520px;max-height:78vh;background:var(--surface);border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -12px 44px -14px rgba(36,27,22,.45);animation:sheetUp .26s cubic-bezier(.2,.7,.2,1)}
+@keyframes sheetUp{from{transform:translateY(101%)}to{transform:none}}
+@media(prefers-reduced-motion:reduce){.score-sheet{animation:none}}
+.score-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.score-sheet-head span{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light)}
+.score-sheet-close{width:32px;height:32px;flex-shrink:0;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);cursor:pointer;transition:background .15s,color .15s}
+.score-sheet-close:hover{background:var(--cream);color:var(--ink)}
+.score-sheet-close svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+#score-sheet-legend{margin:14px 18px 0;flex-shrink:0}
+#score-sheet-legend[hidden]{display:none}
+.score-sheet-list{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 18px 26px}
+.score-sheet-list.scoreboard-list{display:flex;flex-direction:column;gap:6px;max-height:none}
+.score-sheet-list.scoreboard-list .score-row{width:100%;flex:none}
+.score-sheet-list.qtracker-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;max-height:none;padding-top:18px}
+.score-sheet-list.qtracker-grid .qtracker-item{width:auto;height:auto;aspect-ratio:1;font-size:13px}
 
 /* ===== TIME WARNING MODAL ===== */
 .modal-overlay{position:fixed;inset:0;background:rgba(36,27,22,.5);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
@@ -200,7 +239,7 @@ button{font-family:var(--san);cursor:pointer}
 .q-card-top{height:4px;background:linear-gradient(90deg,var(--coral),var(--amber))}
 .q-card-body{padding:36px 40px}
 .q-meta{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.q-meta.actions-right .q-topic{margin-right:auto}
+.q-meta-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
 .q-badge{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid}
 .q-badge-sba{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
 .q-badge-mtf{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
@@ -221,8 +260,15 @@ button{font-family:var(--san);cursor:pointer}
 .bookmark-btn .bookmark-icon{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:fill .18s}
 .bookmark-btn.active{border-color:rgba(240,98,60,.4);background:var(--coral-faint);color:var(--coral)}
 .bookmark-btn.active .bookmark-icon{fill:currentColor}
-.bookmark-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);right:0;white-space:nowrap;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:-.01em;padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:6}
-.bookmark-btn::before{content:'';position:absolute;top:calc(100% + 4px);right:12px;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:6}
+/* Tip opens toward the card's interior so it can't be clipped by .q-card's
+   overflow: rightward on mobile (actions sit on their own line at the left),
+   leftward on desktop (actions align to the right of the meta row). */
+.bookmark-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:0;right:auto;width:max-content;max-width:min(220px,calc(100vw - 84px));white-space:normal;line-height:1.35;text-align:left;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:-.01em;padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:6}
+.bookmark-btn::before{content:'';position:absolute;top:calc(100% + 4px);left:12px;right:auto;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:6}
+@media(min-width:901px){
+  .bookmark-btn::after{left:auto;right:0}
+  .bookmark-btn::before{left:auto;right:12px}
+}
 .bookmark-btn:hover::after,.bookmark-btn:focus-visible::after{opacity:1;transform:translateY(0)}
 .bookmark-btn:hover::before,.bookmark-btn:focus-visible::before{opacity:1}
 @media (prefers-reduced-motion:reduce){.bookmark-btn,.bookmark-btn::after{transition:none}}
@@ -348,9 +394,12 @@ button{font-family:var(--san);cursor:pointer}
 @media(max-width:760px){
   .wrap{padding:0 20px}
   .app-topbar-in{padding:12px 20px;gap:4px}
-  .app-topbar-right{gap:6px}
-  .user-menu-trigger{padding:6px 10px;font-size:11.5px;gap:3px}
-  .user-menu-trigger span{display:inline-block;max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
+  /* Icon-only logo here — the wordmark's width is what pushes the timer chip
+     off-screen once the mock timer appears in this row. */
+  .app-logo span{display:none}
+  .app-topbar-right{gap:6px;min-width:0}
+  .user-menu-trigger{padding:6px 10px;font-size:11.5px;gap:3px;flex-shrink:1;min-width:0}
+  .user-menu-trigger span{display:inline-block;max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
   .user-menu-trigger svg{width:9px;height:9px;flex-shrink:0}
   .app-logout{padding:6px 10px;font-size:11.5px;white-space:nowrap;flex-shrink:0}
   .app-timer{padding:5px 10px;font-size:12px;gap:4px}
@@ -359,10 +408,14 @@ button{font-family:var(--san);cursor:pointer}
   .q-card-body{padding:24px 20px}
   .q-actions{padding:18px 20px}
   .emq-options-grid{grid-template-columns:1fr}
-  .mtf-row{flex-wrap:wrap;align-items:center;row-gap:10px}
-  .mtf-letter{order:1;padding-top:0}
-  .mtf-toggles{order:2;margin-left:auto}
-  .mtf-statement{order:3;flex:0 0 100%;width:100%}
+  /* Meta row stacks: type + category on line 1, action buttons on line 2. */
+  .q-meta-actions{margin-left:0;flex-basis:100%}
+  /* MTF: statement stays beside the letter; TRUE/FALSE drop to their own line. */
+  .mtf-row{flex-wrap:wrap;align-items:flex-start;row-gap:10px}
+  .mtf-letter{order:1;padding-top:1px}
+  .mtf-statement{order:2;flex:1;min-width:0}
+  .mtf-toggles{order:3;flex-basis:100%;width:100%;padding-left:34px}
+  .mtf-toggle{padding:5px 12px;font-size:10.5px;letter-spacing:.04em}
   .session-nav-btn{padding:9px 14px;font-size:13px;gap:4px}
   .nav-btn-label{display:none}
   .session-progress-text{font-size:11px}
@@ -444,12 +497,19 @@ button{font-family:var(--san);cursor:pointer}
 
         <div class="config-error" id="config-error"></div>
 
-        <!-- Mock exam summary (mode=mock) -->
+        <!-- Mock exam chooser (mode=mock) -->
         <div id="mock-summary-block" style="display:none">
+          <div class="config-section">
+            <label class="config-label">Exam length</label>
+            <div class="source-row" id="mock-size-row">
+              <label class="source-opt checked"><input type="radio" name="mocksize" value="full" checked/><span class="source-opt-text">Full mock — 3 hours<small>40 MTF · 25 SBA · 5 EMQ (25 sub-questions)</small></span></label>
+              <label class="source-opt"><input type="radio" name="mocksize" value="half"/><span class="source-opt-text">Half mock — 90 minutes<small>20 MTF · 12 SBA · 3 EMQ (15 sub-questions)</small></span></label>
+            </div>
+          </div>
           <div class="mock-summary">
-            <div class="mock-stat"><div class="n">50</div><div class="l">Questions</div></div>
-            <div class="mock-stat"><div class="n">90</div><div class="l">Minutes</div></div>
-            <div class="mock-stat"><div class="n">All</div><div class="l">Categories</div></div>
+            <div class="mock-stat"><div class="n" id="mock-stat-q">70</div><div class="l">Questions</div></div>
+            <div class="mock-stat"><div class="n" id="mock-stat-min">180</div><div class="l">Minutes</div></div>
+            <div class="mock-stat"><div class="n" id="mock-stat-marks">400</div><div class="l">Marks</div></div>
           </div>
         </div>
 
@@ -461,6 +521,7 @@ button{font-family:var(--san);cursor:pointer}
               <input type="range" id="count-range" min="1" max="50" value="10"/>
               <span class="config-count-num" id="count-num">10</span>
             </div>
+            <p class="config-avail" id="count-avail"></p>
           </div>
           <div class="config-section">
             <label class="config-label">Categories <span style="font-weight:400;color:var(--stone-light)">(none selected = all)</span></label>
@@ -481,6 +542,12 @@ button{font-family:var(--san);cursor:pointer}
               <label class="source-opt"><input type="radio" name="source" value="new"/><span class="source-opt-text">New only<small>Questions you haven't attempted yet</small></span></label>
               <label class="source-opt"><input type="radio" name="source" value="answered"/><span class="source-opt-text">Previously answered<small>Anything you've attempted before</small></span></label>
               <label class="source-opt"><input type="radio" name="source" value="wrong"/><span class="source-opt-text">Previously wrong only<small>Your last attempt on these was incorrect</small></span></label>
+            </div>
+          </div>
+          <div class="config-section">
+            <label class="config-label">Bookmarks</label>
+            <div class="source-row">
+              <label class="source-opt" id="bookmarked-only-opt"><input type="checkbox" id="bookmarked-only"/><span class="source-opt-text">Bookmarked questions only<small>Draw only from questions you've saved</small></span></label>
             </div>
           </div>
         </div>
@@ -512,7 +579,11 @@ button{font-family:var(--san);cursor:pointer}
           <div class="relevant-read" id="relevant-read" hidden></div>
           <aside class="scoreboard" id="side-panel">
             <div id="results-summary" style="display:none"></div>
-            <div class="scoreboard-title" id="side-panel-title">Scoreboard</div>
+            <button class="scoreboard-head" id="scoreboard-head" type="button" aria-haspopup="dialog">
+              <span class="scoreboard-title" id="side-panel-title">Scoreboard</span>
+              <span class="scoreboard-head-meta" id="scoreboard-head-meta"></span>
+              <svg class="scoreboard-head-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
             <div class="tracker-legend" id="tracker-legend" style="display:none">
               <span><i class="complete"></i> Fully answered</span>
               <span><i class="partial"></i> Partially answered</span>
@@ -527,6 +598,25 @@ button{font-family:var(--san);cursor:pointer}
 
   </div>
 </main>
+
+<!-- FULL SCOREBOARD / TRACKER (mobile — opened from the compact strip's header) -->
+<div class="score-sheet-overlay" id="score-sheet-overlay" hidden>
+  <div class="score-sheet" role="dialog" aria-modal="true" aria-labelledby="score-sheet-title">
+    <div class="score-sheet-head">
+      <span id="score-sheet-title">Scoreboard</span>
+      <button class="score-sheet-close" id="score-sheet-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="tracker-legend" id="score-sheet-legend" hidden>
+      <span><i class="complete"></i> Fully answered</span>
+      <span><i class="partial"></i> Partially answered</span>
+      <span><i></i> Not attempted</span>
+      <span><i class="flagged"></i> Flagged for review</span>
+    </div>
+    <div class="score-sheet-list" id="score-sheet-list"></div>
+  </div>
+</div>
 
 <!-- 10-MINUTES-REMAINING WARNING (mock exam only) -->
 <div class="modal-overlay" id="time-warning-modal" style="display:none">
@@ -559,8 +649,22 @@ const mode = rawMode === 'mock' ? 'mock'
   : 'custom';
 const isReview = mode === 'bookmarks' || mode === 'notes'; // no config screen, self-starting
 
+// Mock exam compositions, modelled on the real FFPMRCA paper. Marks follow the
+// same per-item weights used when grading (1 per MTF statement, 4 per SBA,
+// 4 per EMQ sub-question): full = 40·5 + 25·4 + 25·4 = 400; half is halved,
+// with EMQs rounded to whole stems (they can't be split): 20·5 + 12·4 + 15·4 = 208.
+const MOCK_SPECS = {
+  full: { minutes: 180, comp: { MTF: 40, SBA: 25, EMQ: 5 }, emqSubs: 5, questions: 70, marks: 400 },
+  half: { minutes: 90,  comp: { MTF: 20, SBA: 12, EMQ: 3 }, emqSubs: 5, questions: 35, marks: 208 }
+};
+function mockSize() {
+  const el = document.querySelector('#mock-size-row input:checked');
+  return el && el.value === 'half' ? 'half' : 'full';
+}
+
 let currentUser = null;
 let categories = [];       // [{id, name, count}]
+let questionMeta = [];     // custom mode: [{id, type, catIds}] for every published question — powers the live "available" count
 let answeredMap = {};       // question_id -> last is_correct
 let bookmarkedSet = new Set(); // question_ids the user has bookmarked (kept live as they toggle)
 let notedSet = new Set();       // question_ids the user has a non-empty note on (mode === 'notes')
@@ -592,13 +696,15 @@ async function init() {
 
   if (mode === 'mock') {
     document.getElementById('config-eyebrow').textContent = 'Mock Exam';
-    document.getElementById('config-title').textContent = 'Full mock exam';
-    document.getElementById('config-sub').textContent = 'A timed, full-length simulation drawn from the entire question bank.';
+    document.getElementById('config-title').textContent = 'Sit a mock exam';
+    document.getElementById('config-sub').textContent = 'A timed simulation built to the real exam’s mix of question types. Pick a full three-hour paper or a 90-minute half.';
     document.getElementById('mock-summary-block').style.display = 'block';
     document.getElementById('start-btn').textContent = 'Start Mock Exam';
     document.getElementById('practice-dots').style.display = 'none';
     document.querySelector('.scoreboard-title').textContent = 'Question tracker';
     document.getElementById('tracker-legend').style.display = 'flex';
+    document.getElementById('mock-size-row').addEventListener('change', syncMockSummary);
+    syncMockSummary();
   } else if (isReview) {
     // No config screen — the dashboard starts these directly. The config card
     // just acts as a lightweight loading state until the session renders.
@@ -628,6 +734,15 @@ async function init() {
   document.getElementById('logout-btn').addEventListener('click', async () => {
     await sb.auth.signOut();
     window.location.href = 'login.html';
+  });
+
+  document.getElementById('scoreboard-head').addEventListener('click', openScoreSheet);
+  document.getElementById('score-sheet-close').addEventListener('click', closeScoreSheet);
+  document.getElementById('score-sheet-overlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeScoreSheet();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !document.getElementById('score-sheet-overlay').hidden) closeScoreSheet();
   });
 
   if (isReview) startSession();
@@ -684,6 +799,102 @@ async function loadCategoriesAndHistory() {
     .eq('attempts.user_id', currentUser.id)
     .order('created_at', { ascending: true });
   (answered || []).forEach(a => { answeredMap[a.question_id] = a.is_correct; });
+
+  // Lightweight per-question metadata + the user's bookmarks, so the config
+  // screen can show how many questions match the current filters (and cap the
+  // slider there) before anything is fetched in full.
+  const { data: qMeta } = await sb
+    .from('questions')
+    .select('id, type, question_categories(category_id)')
+    .eq('status', 'published');
+  questionMeta = (qMeta || []).map(r => ({
+    id: r.id,
+    type: r.type,
+    catIds: (r.question_categories || []).map(c => c.category_id)
+  }));
+
+  const { data: bmRows } = await sb
+    .from('bookmarks').select('question_id').eq('user_id', currentUser.id);
+  bookmarkedSet = new Set((bmRows || []).map(b => b.question_id));
+}
+
+/* ===== CUSTOM-MODE FILTERS =====
+   Read once here and reused for both the live "available" count on the config
+   screen and the real pool build in startSession, so the two never drift. */
+function readCustomFilters() {
+  return {
+    count: parseInt(document.getElementById('count-range').value, 10),
+    selectedCatIds: [...document.querySelectorAll('#cat-grid input:checked')].map(i => i.value),
+    selectedTypes: [...document.querySelectorAll('#type-grid input:checked')].map(i => i.value),
+    sourceFilter: document.querySelector('#source-row input:checked').value,
+    bookmarkedOnly: document.getElementById('bookmarked-only').checked
+  };
+}
+
+function applyCustomFilters(pool, f) {
+  if (f.selectedCatIds.length) pool = pool.filter(q => q.catIds.some(id => f.selectedCatIds.includes(id)));
+  if (f.selectedTypes.length) pool = pool.filter(q => f.selectedTypes.includes(q.type));
+  if (f.sourceFilter === 'new') pool = pool.filter(q => !(q.id in answeredMap));
+  else if (f.sourceFilter === 'answered') pool = pool.filter(q => q.id in answeredMap);
+  else if (f.sourceFilter === 'wrong') pool = pool.filter(q => answeredMap[q.id] === false);
+  if (f.bookmarkedOnly) pool = pool.filter(q => bookmarkedSet.has(q.id));
+  return pool;
+}
+
+// Recompute how many questions match the current filters, cap the slider at
+// that number (or the whole published bank when nothing is filtered), and keep
+// the picked count from exceeding what's available.
+function updateCountMax() {
+  const range = document.getElementById('count-range');
+  if (!range) return;
+  // Metadata never loaded (query failed / empty bank) — leave the static slider
+  // range alone rather than locking the builder to zero.
+  if (!questionMeta.length) { document.getElementById('count-avail').textContent = ''; return; }
+  const avail = applyCustomFilters(questionMeta, readCustomFilters()).length;
+  const max = Math.max(1, avail);
+  range.max = max;
+  range.disabled = avail === 0;
+  if (parseInt(range.value, 10) > max) range.value = max;
+  document.getElementById('count-num').textContent = range.value;
+  const hint = document.getElementById('count-avail');
+  hint.textContent = avail === 0
+    ? 'No questions match these filters'
+    : `${avail} question${avail === 1 ? '' : 's'} available`;
+  hint.classList.toggle('none', avail === 0);
+}
+
+/* Mock chooser: reflect the picked length in the option styling and the
+   Questions / Minutes / Marks stats above the Start button. */
+function syncMockSummary() {
+  const spec = MOCK_SPECS[mockSize()];
+  document.querySelectorAll('#mock-size-row .source-opt').forEach(o =>
+    o.classList.toggle('checked', o.querySelector('input').checked));
+  document.getElementById('mock-stat-q').textContent = spec.questions;
+  document.getElementById('mock-stat-min').textContent = spec.minutes;
+  document.getElementById('mock-stat-marks').textContent = spec.marks;
+}
+
+/* Build a mock-exam question list to the standard composition — grouped
+   MTF → SBA → EMQ, shuffled within each type. EMQs are drawn from stems with
+   the expected sub-question count first. If the published bank is short on a
+   type, this takes as many as exist rather than blocking the exam. */
+function buildMockPool(pool, size) {
+  const spec = MOCK_SPECS[size];
+  const shuffle = a => a.sort(() => Math.random() - 0.5);
+  const out = [];
+  ['MTF', 'SBA', 'EMQ'].forEach(type => {
+    let bucket = pool.filter(q => q.type === type);
+    if (type === 'EMQ') {
+      bucket = [
+        ...shuffle(bucket.filter(q => (q.questions || []).length === spec.emqSubs)),
+        ...shuffle(bucket.filter(q => (q.questions || []).length !== spec.emqSubs))
+      ];
+    } else {
+      bucket = shuffle(bucket);
+    }
+    out.push(...bucket.slice(0, spec.comp[type]));
+  });
+  return out;
 }
 
 function wireConfigControls() {
@@ -693,13 +904,23 @@ function wireConfigControls() {
 
   document.getElementById('cat-grid').addEventListener('change', e => {
     e.target.closest('.cat-chip').classList.toggle('checked', e.target.checked);
+    updateCountMax();
   });
   document.getElementById('type-grid').addEventListener('change', e => {
     e.target.closest('.cat-chip').classList.toggle('checked', e.target.checked);
+    updateCountMax();
   });
-  document.getElementById('source-row').addEventListener('change', e => {
-    document.querySelectorAll('.source-opt').forEach(o => o.classList.toggle('checked', o.querySelector('input').checked));
+  document.getElementById('source-row').addEventListener('change', () => {
+    document.querySelectorAll('#source-row .source-opt').forEach(o => o.classList.toggle('checked', o.querySelector('input').checked));
+    updateCountMax();
   });
+  const bmOnlyOpt = document.getElementById('bookmarked-only-opt');
+  bmOnlyOpt.addEventListener('change', () => {
+    bmOnlyOpt.classList.toggle('checked', document.getElementById('bookmarked-only').checked);
+    updateCountMax();
+  });
+
+  updateCountMax();
 }
 
 /* ===== START SESSION: build pool, create attempt row ===== */
@@ -711,16 +932,13 @@ async function startSession() {
 
   let query = sb.from('questions').select('id, type, data, question_categories(categories(name), category_id)').eq('status', 'published');
 
-  let selectedCatIds = [];
-  let selectedTypes = [];
   let count = 50;
-  let sourceFilter = 'all';
+  let customFilters = { selectedCatIds: [], selectedTypes: [], sourceFilter: 'all', bookmarkedOnly: false };
+  const mockSizeChoice = mode === 'mock' ? mockSize() : null;
 
   if (mode === 'custom') {
-    count = parseInt(document.getElementById('count-range').value, 10);
-    selectedCatIds = [...document.querySelectorAll('#cat-grid input:checked')].map(i => i.value);
-    selectedTypes = [...document.querySelectorAll('#type-grid input:checked')].map(i => i.value);
-    sourceFilter = document.querySelector('#source-row input:checked').value;
+    customFilters = readCustomFilters();
+    count = customFilters.count;
   }
 
   // The user's bookmarks: needed as the bookmark icon's starting state on every
@@ -780,17 +998,8 @@ async function startSession() {
     return { id: row.id, type: row.type, topic, catIds, ...row.data };
   });
 
-  if (selectedCatIds.length) {
-    pool = pool.filter(q => q.catIds.some(id => selectedCatIds.includes(id)));
-  }
-
-  if (selectedTypes.length) {
-    pool = pool.filter(q => selectedTypes.includes(q.type));
-  }
-
-  if (sourceFilter === 'new') pool = pool.filter(q => !(q.id in answeredMap));
-  else if (sourceFilter === 'answered') pool = pool.filter(q => q.id in answeredMap);
-  else if (sourceFilter === 'wrong') pool = pool.filter(q => answeredMap[q.id] === false);
+  // Category / type / source / bookmarked-only — a no-op for every mode but 'custom'.
+  pool = applyCustomFilters(pool, customFilters);
 
   if (mode === 'bookmarks') {
     pool = pool.filter(q => bookmarkedSet.has(q.id));
@@ -809,9 +1018,21 @@ async function startSession() {
     return;
   }
 
-  // Reviews of noted questions read better in a stable order; everything else shuffles.
-  const ordered = mode === 'notes' ? pool : pool.sort(() => Math.random() - 0.5);
-  sessionQuestions = ordered.slice(0, Math.min(count, ordered.length));
+  let ordered;
+  if (mode === 'mock') {
+    // Standard exam composition, capped per type at whatever the bank holds.
+    ordered = buildMockPool(pool, mockSizeChoice);
+    if (!ordered.length) {
+      showConfigError('The question bank doesn’t have enough published questions for a mock exam yet.');
+      startBtn.disabled = false;
+      startBtn.textContent = 'Start Mock Exam';
+      return;
+    }
+  } else {
+    // Reviews of noted questions read better in a stable order; everything else shuffles.
+    ordered = mode === 'notes' ? pool : pool.sort(() => Math.random() - 0.5);
+  }
+  sessionQuestions = mode === 'mock' ? ordered : ordered.slice(0, Math.min(count, ordered.length));
   sessionAnswered = new Array(sessionQuestions.length).fill(false);
   sessionCorrect = new Array(sessionQuestions.length).fill(null);
   sessionDetail = new Array(sessionQuestions.length).fill(null);
@@ -838,7 +1059,7 @@ async function startSession() {
   document.getElementById('config-screen').style.display = 'none';
   document.getElementById('session-screen').style.display = 'block';
 
-  if (mode === 'mock') startTimer(90 * 60);
+  if (mode === 'mock') startTimer(MOCK_SPECS[mockSizeChoice].minutes * 60);
 
   renderSession();
 }
@@ -968,11 +1189,18 @@ function renderSession() {
     if (card && window.QuestionReport) {
       QuestionReport.attach(card, { userId: currentUser.id, questionId: q.id });
     }
-    // Outside the timed exam, the Report / Bookmark / Notes buttons sit on the
-    // right of the meta row. (Mock keeps them left with Flag pinned right.)
-    if (card && mode !== 'mock') {
+    // Group the meta-row action buttons (Report / Bookmark / Notes / Flag) so
+    // they align as one block on the right on desktop and drop to their own
+    // line under the type + category on mobile.
+    if (card) {
       const metaEl = card.querySelector('.q-meta');
-      if (metaEl) metaEl.classList.add('actions-right');
+      if (metaEl && !metaEl.querySelector('.q-meta-actions')) {
+        const actions = document.createElement('div');
+        actions.className = 'q-meta-actions';
+        metaEl.querySelectorAll(':scope > .qr-btn, :scope > .bookmark-btn, :scope > .qn-btn, :scope > .flag-btn')
+          .forEach(b => actions.appendChild(b));
+        metaEl.appendChild(actions);
+      }
     }
 
     wrapper.appendChild(slide);
@@ -1055,7 +1283,20 @@ function goToQuestion(i) {
   if (!sessionFinished) renderSidePanel();
   renderRelevantRead();
   updateNav();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  scrollToActiveQuestion();
+}
+
+// Bring the active question's card up under the sticky topbar. Scrolling to the
+// very top of the page instead lands the candidate above the scoreboard/tracker
+// on mobile, so they have to scroll down to reach the question box.
+function scrollToActiveQuestion() {
+  const active = document.querySelector('.practice-q-slide.is-active');
+  const target = (active && active.querySelector('.q-card')) || active;
+  if (!target) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  const bar = document.querySelector('.app-topbar');
+  const offset = (bar ? bar.offsetHeight : 0) + 12;
+  const y = window.scrollY + target.getBoundingClientRect().top - offset;
+  window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
 }
 
 function renderDots() {
@@ -1075,15 +1316,8 @@ function renderDots() {
 /* ===== SCOREBOARD =====
    SBA/EMQ: a single tick or cross. MTF: a coloured fraction of correctly
    answered statements (red at 0, amber in between, green at full marks). */
-function renderScoreboard() {
-  const list = document.getElementById('scoreboard-list');
-  if (!list) return;
-  list.className = 'scoreboard-list';
-  list.innerHTML = '';
-  sessionQuestions.forEach((q, i) => {
-    const row = document.createElement('button');
-    row.className = 'score-row' + (i === currentIdx ? ' is-current' : '');
-
+function scoreboardItemsHTML() {
+  return sessionQuestions.map((q, i) => {
     let statusHtml;
     if (!sessionAnswered[i]) {
       statusHtml = '<span class="score-status pending">–</span>';
@@ -1096,30 +1330,74 @@ function renderScoreboard() {
     } else {
       statusHtml = '<span class="score-status bad"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>';
     }
-
-    row.innerHTML = `<span class="score-num">Q${i + 1}</span>${statusHtml}`;
-    row.addEventListener('click', () => goToQuestion(i));
-    list.appendChild(row);
-  });
+    return `<button class="score-row${i === currentIdx ? ' is-current' : ''}" data-idx="${i}"><span class="score-num">Q${i + 1}</span>${statusHtml}</button>`;
+  }).join('');
 }
 
-/* ===== QUESTION TRACKER (mock exam mode) =====
-   No correctness is shown during the exam — only completion state:
-   green once fully answered, amber if an MTF/EMQ is partially answered,
-   left at its default appearance if untouched. */
-function renderTracker() {
-  const list = document.getElementById('scoreboard-list');
-  if (!list) return;
-  list.className = 'qtracker-grid';
-  list.innerHTML = sessionQuestions.map((q, i) => {
+/* Mock tracker: completion only, no correctness — green once fully answered,
+   amber when an MTF/EMQ is partially filled in, plain otherwise. */
+function trackerItemsHTML() {
+  return sessionQuestions.map((q, i) => {
     const status = sessionStatus[i] || 'unanswered';
     const cls = status === 'complete' ? 'complete' : status === 'partial' ? 'partial' : '';
     const flagCls = sessionFlagged[i] ? ' flagged' : '';
     return `<button class="qtracker-item ${cls}${flagCls}${i === currentIdx ? ' is-current' : ''}" data-idx="${i}">${i + 1}</button>`;
   }).join('');
-  list.querySelectorAll('.qtracker-item').forEach(btn => {
-    btn.addEventListener('click', () => goToQuestion(parseInt(btn.dataset.idx, 10)));
+}
+
+/* Paints both the compact inline strip (#scoreboard-list) and the expanded
+   overlay sheet (#score-sheet-list) from the same markup; CSS gives each its
+   own layout. */
+function paintScorePanels(kind /* 'board' | 'tracker' */) {
+  const html = kind === 'tracker' ? trackerItemsHTML() : scoreboardItemsHTML();
+  const itemSel = kind === 'tracker' ? '.qtracker-item' : '.score-row';
+  const layoutClass = kind === 'tracker' ? 'qtracker-grid' : 'scoreboard-list';
+  [['scoreboard-list', ''], ['score-sheet-list', 'score-sheet-list ']].forEach(([id, base]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.className = base + layoutClass;
+    el.innerHTML = html;
+    el.querySelectorAll(itemSel).forEach(btn => {
+      btn.addEventListener('click', () => {
+        closeScoreSheet(); // unlock scroll before goToQuestion scrolls to the card
+        goToQuestion(parseInt(btn.dataset.idx, 10));
+      });
+    });
   });
+  const meta = document.getElementById('scoreboard-head-meta');
+  if (meta) meta.textContent = sessionQuestions.length ? `Q${currentIdx + 1} / ${sessionQuestions.length}` : '';
+  centerCurrentChip();
+}
+
+function renderScoreboard() { paintScorePanels('board'); }
+function renderTracker() { paintScorePanels('tracker'); }
+
+// Keep the active chip in view within the horizontal mobile strip.
+function centerCurrentChip() {
+  const list = document.getElementById('scoreboard-list');
+  if (!list || list.scrollWidth <= list.clientWidth + 4) return; // only the mobile strip scrolls sideways
+  const cur = list.querySelector('.is-current');
+  if (!cur) return;
+  list.scrollTo({ left: Math.max(0, cur.offsetLeft - (list.clientWidth - cur.offsetWidth) / 2), behavior: 'smooth' });
+}
+
+function openScoreSheet() {
+  if (window.matchMedia('(min-width:901px)').matches) return; // desktop keeps the full side panel
+  const ov = document.getElementById('score-sheet-overlay');
+  if (!ov) return;
+  document.getElementById('score-sheet-title').textContent = document.querySelector('.scoreboard-title').textContent;
+  document.getElementById('score-sheet-legend').hidden = !(mode === 'mock' && !sessionFinished);
+  ov.hidden = false;
+  document.body.style.overflow = 'hidden';
+  requestAnimationFrame(() => {
+    const cur = document.querySelector('#score-sheet-list .is-current');
+    if (cur) cur.scrollIntoView({ block: 'center' });
+  });
+}
+function closeScoreSheet() {
+  const ov = document.getElementById('score-sheet-overlay');
+  if (ov) ov.hidden = true;
+  document.body.style.overflow = '';
 }
 
 function updateNav() {
@@ -1151,6 +1429,9 @@ async function finishSession() {
       }
       if (controller) controller.forceReveal(true);
     }
+    // Flagging is only meaningful while sitting the exam — drop the buttons now
+    // the answers and explanations are on screen.
+    document.querySelectorAll('#session-q-wrapper .flag-btn').forEach(b => b.remove());
   } else {
     // Custom practice set: anything not individually revealed via its own
     // Reveal Answer button gets finalized now (Submit Set / early Finish).

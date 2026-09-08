@@ -330,6 +330,7 @@ button{font-family:var(--san);cursor:pointer}
   .mtf-row{flex-wrap:wrap;gap:8px 12px}
   .mtf-statement{min-width:0;word-break:break-word}
   .mtf-toggles{flex:0 0 100%;justify-content:flex-end;padding-left:34px}
+  .mtf-toggle{padding:5px 12px;font-size:10.5px;letter-spacing:.04em}
   .tab-btn span.tab-label{display:none}
   .practice-start-card{padding:36px 24px}
   .practice-dot{width:36px;height:36px;font-size:12px}
@@ -798,7 +799,19 @@ function navigatePractice(delta) {
   document.querySelectorAll('.practice-q-slide')[newIdx].classList.add('is-active');
   renderPracticeDots();
   updatePracticeNav();
-  window.scrollTo({ top: document.getElementById('practice-active').offsetTop - 80, behavior: 'smooth' });
+  scrollToActivePracticeQuestion();
+}
+
+// Bring the active question's card up under the sticky nav, rather than landing
+// above the dots row so the candidate has to scroll down to the question.
+function scrollToActivePracticeQuestion() {
+  const active = document.querySelector('.practice-q-slide.is-active');
+  const target = (active && active.querySelector('.q-card')) || document.getElementById('practice-active');
+  if (!target) return;
+  const bar = document.getElementById('main-nav');
+  const offset = (bar ? bar.offsetHeight : 0) + 12;
+  const y = window.scrollY + target.getBoundingClientRect().top - offset;
+  window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
 }
 
 function renderPracticeDots() {
@@ -818,6 +831,7 @@ function renderPracticeDots() {
       document.querySelectorAll('.practice-q-slide')[i].classList.add('is-active');
       renderPracticeDots();
       updatePracticeNav();
+      scrollToActivePracticeQuestion();
     });
     container.appendChild(dot);
   });
