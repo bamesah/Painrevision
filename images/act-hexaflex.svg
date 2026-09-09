@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img" aria-labelledby="hexaflex-title">
+<title id="hexaflex-title">The ACT hexaflex — six core processes of psychological flexibility: acceptance, cognitive defusion, present-moment awareness, values, committed action, and self-as-context</title>
+
+<rect x="1" y="1" width="998" height="618" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="500" y="42" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Acceptance and Commitment Therapy &#8212; the &#8220;hexaflex&#8221;</text>
+  <text x="500" y="64" text-anchor="middle" font-size="13" fill="#7C7068">Six interrelated processes; strengthening any of them builds overall psychological flexibility</text>
+
+  <!-- hexagon outline connecting the six vertices (centre 500,340) -->
+  <polygon points="500,150 690,250 690,430 500,530 310,430 310,250"
+           fill="none" stroke="#E7C9BC" stroke-width="2"/>
+
+  <!-- centre -->
+  <ellipse cx="500" cy="340" rx="104" ry="66" fill="#F0623C"/>
+  <text x="500" y="333" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">Psychological</text>
+  <text x="500" y="354" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">flexibility</text>
+
+  <!-- vertex boxes -->
+  <!-- top: Present-moment awareness -->
+  <rect x="386" y="120" width="228" height="60" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#241B16">Present-moment awareness</text>
+  <text x="500" y="164" text-anchor="middle" font-size="12" fill="#3A2D25">contact with the here and now</text>
+
+  <!-- top-right: Acceptance -->
+  <rect x="576" y="216" width="214" height="60" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="683" y="241" text-anchor="middle" font-size="14" font-weight="700" fill="#241B16">Acceptance</text>
+  <text x="683" y="260" text-anchor="middle" font-size="12" fill="#3A2D25">openness to pain and distress</text>
+
+  <!-- bottom-right: Values -->
+  <rect x="586" y="400" width="204" height="60" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="688" y="425" text-anchor="middle" font-size="14" font-weight="700" fill="#241B16">Values</text>
+  <text x="688" y="444" text-anchor="middle" font-size="12" fill="#3A2D25">what matters most</text>
+
+  <!-- bottom: Committed action -->
+  <rect x="392" y="500" width="216" height="60" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="525" text-anchor="middle" font-size="14" font-weight="700" fill="#241B16">Committed action</text>
+  <text x="500" y="544" text-anchor="middle" font-size="12" fill="#3A2D25">values-guided behaviour change</text>
+
+  <!-- bottom-left: Self-as-context -->
+  <rect x="210" y="400" width="204" height="60" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="312" y="425" text-anchor="middle" font-size="14" font-weight="700" fill="#241B16">Self-as-context</text>
+  <text x="312" y="444" text-anchor="middle" font-size="12" fill="#3A2D25">a stable sense of self, apart from pain</text>
+
+  <!-- top-left: Cognitive defusion -->
+  <rect x="210" y="216" width="214" height="60" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="317" y="241" text-anchor="middle" font-size="14" font-weight="700" fill="#241B16">Cognitive defusion</text>
+  <text x="317" y="260" text-anchor="middle" font-size="12" fill="#3A2D25">stepping back from thoughts</text>
+
+</g>
+</svg>

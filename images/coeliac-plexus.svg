@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-labelledby="coeliac-title">
+<title id="coeliac-title">The coeliac plexus and splanchnic nerves — the greater (T5-T9), lesser (T10-T11) and least (T12) splanchnic nerves carry preganglionic sympathetic fibres that pierce the diaphragmatic crura; the greater and lesser synapse in the coeliac ganglia and the least in the aorticorenal ganglion, and the postganglionic fibres supply the foregut and midgut viscera</title>
+
+<rect x="1" y="1" width="998" height="698" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<defs>
+  <marker id="cp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#3A2D25"/>
+  </marker>
+</defs>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="40" y="40" font-size="17" font-weight="700" fill="#241B16">Splanchnic nerves and the coeliac plexus</text>
+
+  <!-- ================= vertebral column / sympathetic chain ================= -->
+  <text x="66" y="76" font-size="12" font-weight="700" fill="#7C7068" letter-spacing="1">THORACIC SPINE</text>
+  <line x1="150" y1="90" x2="150" y2="452" stroke="#C9B7A6" stroke-width="3"/>
+  <text x="196" y="440" text-anchor="middle" font-size="11" fill="#7C7068">Sympathetic chain</text>
+
+  <!-- vertebral bodies T5-T12 with chain ganglia -->
+  <g font-size="13" font-weight="700" fill="#241B16" text-anchor="middle">
+    <rect x="62" y="90"  width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="111">T5</text>
+    <rect x="62" y="130" width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="151">T6</text>
+    <rect x="62" y="170" width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="191">T7</text>
+    <rect x="62" y="210" width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="231">T8</text>
+    <rect x="62" y="250" width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="271">T9</text>
+    <rect x="62" y="290" width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="311">T10</text>
+    <rect x="62" y="330" width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="351">T11</text>
+    <rect x="62" y="370" width="66" height="32" rx="7" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/><text x="95" y="391">T12</text>
+  </g>
+  <g fill="#F0623C">
+    <circle cx="150" cy="106" r="5.5"/><circle cx="150" cy="146" r="5.5"/><circle cx="150" cy="186" r="5.5"/><circle cx="150" cy="226" r="5.5"/>
+    <circle cx="150" cy="266" r="5.5"/><circle cx="150" cy="306" r="5.5"/><circle cx="150" cy="346" r="5.5"/><circle cx="150" cy="386" r="5.5"/>
+  </g>
+
+  <!-- ================= diaphragm ================= -->
+  <path d="M40 476 Q 260 454 430 476 T 780 476" fill="none" stroke="#B98C6A" stroke-width="2.5" stroke-dasharray="2 6"/>
+  <text x="44" y="498" font-size="12" font-weight="700" fill="#B98C6A">Diaphragm (crura)</text>
+
+  <!-- ================= splanchnic nerves ================= -->
+  <!-- greater: rootlets T5-T9 merging to a convergence point, then one trunk to the plexus -->
+  <g fill="none" stroke="#F0623C" stroke-width="2">
+    <path d="M150 106 C 300 150, 380 250, 452 300"/>
+    <path d="M150 146 C 300 185, 380 262, 452 300"/>
+    <path d="M150 186 C 300 218, 380 272, 452 300"/>
+    <path d="M150 226 C 300 250, 380 282, 452 300"/>
+    <path d="M150 266 C 300 282, 380 292, 452 300"/>
+  </g>
+  <path d="M452 300 C 500 330, 520 400, 545 500 C 552 528, 560 540, 566 548" fill="none" stroke="#F0623C" stroke-width="4"/>
+  <text x="250" y="150" font-size="13" font-weight="700" fill="#D2491F">Greater splanchnic n.</text>
+  <text x="250" y="168" font-size="11.5" fill="#8A5A3C">T5&#8211;T9 &#183; preganglionic</text>
+
+  <!-- lesser: T10-T11 -->
+  <path d="M150 306 C 320 320, 400 336, 500 392" fill="none" stroke="#E8883F" stroke-width="2"/>
+  <path d="M150 346 C 320 356, 400 360, 500 392" fill="none" stroke="#E8883F" stroke-width="2"/>
+  <path d="M500 392 C 545 420, 565 470, 585 548" fill="none" stroke="#E8883F" stroke-width="3.5"/>
+  <text x="262" y="332" font-size="13" font-weight="700" fill="#B4671F">Lesser splanchnic n.</text>
+  <text x="262" y="350" font-size="11.5" fill="#8A5A3C">T10&#8211;T11</text>
+
+  <!-- least: T12 -> aorticorenal ganglion (separate node) -->
+  <path d="M150 386 C 340 402, 470 430, 560 500 C 600 540, 628 570, 648 592" fill="none" stroke="#F5A524" stroke-width="3"/>
+  <text x="262" y="410" font-size="13" font-weight="700" fill="#B4671F">Least splanchnic n.</text>
+  <text x="262" y="428" font-size="11.5" fill="#8A5A3C">T12</text>
+
+  <!-- ================= aorta ================= -->
+  <rect x="548" y="486" width="44" height="188" rx="10" fill="#F7E4DA" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="570" y="666" text-anchor="middle" font-size="11" fill="#7C7068">Abdominal aorta</text>
+
+  <!-- coeliac trunk + SMA stubs -->
+  <line x1="592" y1="512" x2="636" y2="512" stroke="#C9B7A6" stroke-width="6"/>
+  <text x="600" y="504" font-size="11" fill="#7C7068">Coeliac trunk</text>
+  <line x1="592" y1="566" x2="628" y2="566" stroke="#C9B7A6" stroke-width="5"/>
+  <text x="600" y="584" font-size="10.5" fill="#A99E95">SMA</text>
+
+  <!-- coeliac ganglia cluster (greater + lesser terminate here) -->
+  <g fill="#F0623C">
+    <circle cx="560" cy="524" r="14"/><circle cx="592" cy="544" r="16"/><circle cx="566" cy="560" r="12"/>
+  </g>
+  <path d="M560 524 L592 544 L566 560" stroke="#D2491F" stroke-width="2" fill="none"/>
+  <text x="330" y="560" font-size="13" font-weight="700" fill="#D2491F">Coeliac ganglia / plexus</text>
+  <text x="330" y="578" font-size="11.5" fill="#8A5A3C">greater &amp; lesser splanchnic synapse here</text>
+
+  <!-- aorticorenal ganglion (least splanchnic terminates here) -->
+  <circle cx="650" cy="596" r="12" fill="#F5A524"/>
+  <text x="470" y="618" font-size="12.5" font-weight="700" fill="#B4671F">Aorticorenal ganglion</text>
+  <text x="470" y="635" font-size="11" fill="#8A5A3C">least splanchnic synapses here &#8594; renal plexus</text>
+
+  <!-- ================= target organs ================= -->
+  <g stroke="#3A2D25" stroke-width="1.6" fill="none" marker-end="url(#cp-arrow)">
+    <path d="M606 528 C 690 496, 730 452, 764 410"/>
+    <path d="M610 540 C 700 522, 740 500, 772 474"/>
+    <path d="M662 592 C 720 560, 748 546, 772 536"/>
+    <path d="M610 556 C 700 600, 742 600, 772 600"/>
+    <path d="M600 566 C 680 656, 740 660, 772 662"/>
+  </g>
+
+  <g text-anchor="middle">
+    <rect x="776" y="378" width="188" height="50" rx="10" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="870" y="399" font-size="12.5" font-weight="700" fill="#241B16">Stomach</text>
+    <text x="870" y="416" font-size="11" fill="#3A2D25">foregut</text>
+
+    <rect x="776" y="440" width="188" height="50" rx="10" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="870" y="461" font-size="12.5" font-weight="700" fill="#241B16">Liver, gallbladder,</text>
+    <text x="870" y="478" font-size="12.5" font-weight="700" fill="#241B16">pancreas, spleen</text>
+
+    <rect x="776" y="502" width="188" height="50" rx="10" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="870" y="523" font-size="12.5" font-weight="700" fill="#241B16">Kidneys &amp; adrenals</text>
+    <text x="870" y="540" font-size="11" fill="#3A2D25">via aorticorenal / renal plexus</text>
+
+    <rect x="776" y="564" width="188" height="50" rx="10" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="870" y="585" font-size="12.5" font-weight="700" fill="#241B16">Small bowel &amp;</text>
+    <text x="870" y="602" font-size="12.5" font-weight="700" fill="#241B16">proximal colon</text>
+
+    <rect x="776" y="638" width="188" height="42" rx="10" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="870" y="664" font-size="11" fill="#3A2D25">midgut &#8212; to splenic flexure</text>
+  </g>
+
+  <!-- footnote -->
+  <line x1="40" y1="682" x2="740" y2="682" stroke="#EDE3D7" stroke-width="1.5"/>
+  <text x="40" y="696" font-size="11" fill="#7C7068">All three splanchnic nerves carry preganglionic sympathetic fibres and pierce the crura; they do not synapse in the sympathetic chain.</text>
+
+</g>
+</svg>
