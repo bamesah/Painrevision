@@ -94,7 +94,15 @@ button{font-family:var(--san);cursor:pointer}
 .cat-acc.low{color:var(--wrong)}
 .cat-acc.none{color:var(--stone-light);font-weight:400}
 .cat-bar-track{height:6px;border-radius:999px;background:var(--border);overflow:hidden}
-.cat-bar-fill{height:100%;background:var(--coral);border-radius:999px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.cat-bar-fill{display:block;height:100%;background:var(--coral);border-radius:999px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+
+/* "Accuracy" column header — hover/focus for a plain-language definition */
+.acc-hint{position:relative;display:inline-block;cursor:help;border-bottom:1px dotted var(--stone-light)}
+.acc-hint::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);right:0;width:max-content;max-width:min(280px,60vw);white-space:normal;text-transform:none;letter-spacing:normal;font-family:var(--san);font-size:12px;font-weight:500;line-height:1.5;text-align:left;color:var(--cream);background:var(--ink);padding:9px 12px;border-radius:10px;box-shadow:var(--shadow-sm);opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;z-index:5}
+.acc-hint::before{content:'';position:absolute;top:calc(100% + 3px);right:14px;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:5}
+.acc-hint:hover::after,.acc-hint:focus-visible::after{opacity:1;transform:translateY(0)}
+.acc-hint:hover::before,.acc-hint:focus-visible::before{opacity:1}
+@media(prefers-reduced-motion:reduce){.acc-hint::after,.acc-hint::before{transition:none}}
 @media(max-width:640px){
   .cat-row{grid-template-columns:1fr 70px 60px;font-size:12.5px}
   .cat-row .bar-col{display:none}
@@ -196,7 +204,7 @@ button{font-family:var(--san);cursor:pointer}
       <div class="cat-row head">
         <span>Category</span>
         <span>Solved</span>
-        <span>Accuracy</span>
+        <span><span class="acc-hint" tabindex="0" data-tip="Share of your submitted answers that were correct, across every attempt (re-attempts included). An SBA or MTF question counts as one answer — MTF only counts as correct when every statement is right; each EMQ sub-question counts on its own.">Accuracy</span></span>
         <span class="bar-col"></span>
       </div>
       <div id="cat-rows"></div>
