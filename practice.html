@@ -33,7 +33,7 @@ img,svg{display:block}
 a{color:inherit;text-decoration:none}
 button{font-family:var(--san);cursor:pointer}
 
-.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+.wrap{max-width:1440px;margin:0 auto;padding:0 clamp(20px,3.5vw,48px)}
 .eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-family:var(--san);font-size:14.5px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap}
 .btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
@@ -46,7 +46,7 @@ button{font-family:var(--san);cursor:pointer}
 
 /* ===== APP TOPBAR ===== */
 .app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border);transform:translateZ(0)}
-.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px 32px;max-width:1120px;margin:0 auto}
+.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px clamp(20px,3.5vw,48px);max-width:1440px;margin:0 auto}
 .app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
 .app-logo svg{width:28px;height:28px;flex-shrink:0}
 .app-logo .pain{color:var(--ink)}
@@ -119,9 +119,19 @@ button{font-family:var(--san);cursor:pointer}
 .config-error{display:none;background:rgba(192,57,43,.1);border:1px solid var(--wrong-border);color:var(--wrong);font-size:13.5px;padding:11px 15px;border-radius:10px;margin-bottom:20px}
 .config-error.show{display:block}
 
-/* ===== SESSION LAYOUT — one reading column: scoreboard strip on top, then the question ===== */
-.session-layout{display:flex;flex-direction:column;gap:18px;max-width:860px;margin:0 auto}
+/* ===== SESSION LAYOUT — scoreboard strip on top, then the question; after a
+   practice set is submitted a results box appears in the right gutter, which
+   narrows the question column (it never shifts sideways). ===== */
+.session-layout{display:flex;flex-direction:column;gap:18px}
 .session-main{min-width:0}
+.session-body{display:flex;gap:24px;align-items:flex-start;justify-content:center}
+.session-q-col{flex:1;min-width:0;max-width:1240px}
+.results-panel{flex:0 0 240px;position:sticky;top:72px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:18px}
+.results-panel[hidden]{display:none}
+@media(max-width:760px){
+  .session-body{flex-direction:column;gap:16px}
+  .results-panel{flex:none;width:100%;position:static;order:-1}
+}
 
 /* ===== RELEVANT READING (further-reading links, shown under the question once revealed) ===== */
 .relevant-read{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:16px 16px 14px;overflow:hidden;margin-top:18px}
@@ -140,36 +150,34 @@ button{font-family:var(--san);cursor:pointer}
 .rr-link:hover .rr-arrow{stroke:var(--coral)}
 @media(prefers-reduced-motion:reduce){.rr-link{transition:none}}
 
-/* ===== SCOREBOARD / TRACKER — a compact strip above the question that scrolls
-   sideways (one row on mobile, two on wider screens). ‹ › scroll it, ▾ opens
-   the full grid as an overlay. #scoreboard-list is re-rendered either as the
-   scoreboard (Q + tick/cross/fraction) or, mid mock exam, a completion tracker. */
+/* ===== SCOREBOARD / TRACKER — a compact panel above the question. Question
+   chips read left-to-right and wrap onto more rows as needed (capped, then it
+   scrolls); ▾ opens the full grid as an overlay. #scoreboard-list is re-rendered
+   either as the scoreboard (Q + tick/cross/fraction) or, mid mock exam, a
+   completion tracker. */
 .scoreboard{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:14px 16px}
 .scoreboard-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .scoreboard-title{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);white-space:nowrap}
 .scoreboard-head-meta{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--coral-deep);white-space:nowrap}
 .scoreboard-head-meta:empty{display:none}
 .scoreboard-head-ctrls{margin-left:auto;display:flex;align-items:center;gap:4px;flex-shrink:0}
-.sb-arrow,.sb-expand{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);cursor:pointer;transition:border-color .15s,color .15s,background .15s}
-.sb-arrow:hover,.sb-expand:hover{border-color:var(--stone);color:var(--ink)}
-.sb-arrow:focus-visible,.sb-expand:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
-.sb-arrow:disabled{opacity:.3;cursor:default}
-.sb-arrow svg,.sb-expand svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.sb-btn{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.sb-btn:hover{border-color:var(--stone);color:var(--ink)}
+.sb-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.sb-btn:disabled{opacity:.28;cursor:default}
+.sb-btn[hidden]{display:none}
+.sb-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
 #side-panel .scoreboard-list,#side-panel .qtracker-grid{
-  --sb-rows:1;
-  display:grid;grid-auto-flow:column;
-  grid-template-rows:repeat(var(--sb-rows),auto);
-  grid-auto-columns:max-content;
-  gap:6px;padding:2px 2px 8px;max-height:none;
-  overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
+  position:relative;
+  display:flex;flex-flow:row wrap;align-content:flex-start;gap:6px;
+  padding:2px;max-height:146px;overflow-y:auto;overscroll-behavior-y:contain;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;
 }
 #side-panel .scoreboard-list::-webkit-scrollbar,#side-panel .qtracker-grid::-webkit-scrollbar{display:none}
-@media(min-width:761px){#side-panel .scoreboard-list,#side-panel .qtracker-grid{--sb-rows:2}}
 
 /* practice scoreboard chip: "Q5  ✓" */
-.score-row{display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:var(--san);cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap}
+.score-row{flex:none;display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:var(--san);cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap}
 .score-row:hover{background:var(--surface-warm)}
 .score-row.is-current{border-color:var(--coral);background:var(--coral-faint)}
 .score-num{font-size:12.5px;font-weight:600;color:var(--ink-soft)}
@@ -184,21 +192,20 @@ button{font-family:var(--san);cursor:pointer}
 .score-status.frac{min-width:32px;padding:0 4px}
 
 /* mock completion-tracker chip: a numbered square */
-.qtracker-item{position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--ink-soft);font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.qtracker-item{flex:none;position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--ink-soft);font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
 .qtracker-item:hover{border-color:var(--stone)}
 .qtracker-item.complete{background:var(--correct);border-color:var(--correct);color:#fff}
 .qtracker-item.partial{background:var(--amber);border-color:var(--amber);color:#fff}
 .qtracker-item.is-current{outline:2px solid var(--coral);outline-offset:-2px}
 .qtracker-item.flagged::after{content:'';position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--flag);border:2px solid var(--surface)}
 
-.tracker-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--stone)}
+.tracker-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--stone);margin-bottom:10px}
+.tracker-legend[hidden]{display:none}
 .tracker-legend span{display:inline-flex;align-items:center;gap:7px}
 .tracker-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;border:1.5px solid var(--border-strong)}
 .tracker-legend i.complete{background:var(--correct);border-color:var(--correct)}
 .tracker-legend i.partial{background:var(--amber);border-color:var(--amber)}
 .tracker-legend i.flagged{border-radius:50%;background:var(--flag);border-color:var(--flag)}
-/* the inline legend is clutter in the compact bar — it lives in the overlay sheet */
-#side-panel > .tracker-legend{display:none!important}
 
 /* ===== SCOREBOARD / TRACKER SHEET (the ▾ overlay — full grid / list) ===== */
 .score-sheet-overlay{position:fixed;inset:0;z-index:210;display:flex;align-items:flex-end;justify-content:center;background:rgba(36,27,22,.5);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
@@ -233,7 +240,7 @@ button{font-family:var(--san);cursor:pointer}
 .modal-card p{font-size:14px;color:var(--stone);line-height:1.6;margin-bottom:22px}
 
 /* ===== SESSION HEADER (just the Finish / Submit button) ===== */
-.session-header{display:flex;align-items:center;justify-content:flex-end;margin-bottom:16px}
+.session-header{display:flex;align-items:center;justify-content:flex-end;max-width:1240px;margin:0 auto 16px}
 
 /* ===== QUESTION CARD (shared shapes rendered by question-engine.js) ===== */
 .q-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
@@ -283,7 +290,7 @@ button{font-family:var(--san);cursor:pointer}
 .sba-option.correct{border-color:var(--correct-border) !important;background:var(--correct-bg) !important;cursor:default}
 .sba-option.wrong{border-color:var(--wrong-border) !important;background:var(--wrong-bg) !important;cursor:default}
 .sba-option.locked:not(.correct):not(.wrong){opacity:.5;cursor:default}
-.sba-letter{width:28px;height:28px;border-radius:8px;background:var(--cream);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);flex-shrink:0;transition:background .15s,border-color .15s,color .15s}
+.sba-letter{width:28px;height:28px;border-radius:8px;background:var(--cream);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;line-height:1;color:var(--stone);flex-shrink:0;transition:background .15s,border-color .15s,color .15s}
 .sba-option.selected .sba-letter{background:var(--coral);border-color:var(--coral);color:#fff}
 .sba-option.correct .sba-letter{background:var(--correct);border-color:var(--correct);color:#fff}
 .sba-option.wrong .sba-letter{background:var(--wrong);border-color:var(--wrong);color:#fff}
@@ -294,7 +301,7 @@ button{font-family:var(--san);cursor:pointer}
 .mtf-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface)}
 .mtf-row.revealed-correct{border-color:var(--correct-border);background:var(--correct-bg)}
 .mtf-row.revealed-wrong{border-color:var(--border);background:var(--surface)}
-.mtf-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--stone);width:22px;flex-shrink:0;padding-top:3px}
+.mtf-letter{font-size:15px;line-height:1.55;font-weight:600;color:var(--stone);width:22px;flex-shrink:0}
 .mtf-statement{flex:1;font-size:15px;line-height:1.55;color:var(--ink)}
 .mtf-toggles{display:flex;gap:6px;flex-shrink:0}
 .mtf-toggle{padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--cream);font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--stone);cursor:pointer;transition:background .15s,border-color .15s,color .15s}
@@ -307,7 +314,7 @@ button{font-family:var(--san);cursor:pointer}
 .emq-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px;background:var(--cream);border-radius:14px;padding:16px;border:1px solid var(--border)}
 .emq-options-label{grid-column:1/-1;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:4px}
 .emq-opt{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.5;color:var(--stone)}
-.emq-opt-letter{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--coral);flex-shrink:0;min-width:18px}
+.emq-opt-letter{font-size:13.5px;line-height:1.5;font-weight:700;color:var(--coral);flex-shrink:0;min-width:18px}
 .emq-questions{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
 .emq-q-row{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px 18px}
 .emq-q-row.correct-ans{border-color:var(--correct-border);background:var(--correct-bg)}
@@ -383,7 +390,7 @@ button{font-family:var(--san);cursor:pointer}
 .wiggle{animation:wiggle .45s ease}
 
 /* ===== RESULTS SUMMARY (sits above the scoreboard once submitted) ===== */
-#results-summary{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.results-panel .results-summary-title{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);margin-bottom:10px}
 .results-summary-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--stone);padding:5px 0}
 .results-summary-row .v{font-weight:700;color:var(--ink)}
 .results-summary-marks{text-align:center;background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:16px;padding:16px 10px;margin:12px 0 16px}
@@ -415,7 +422,7 @@ button{font-family:var(--san);cursor:pointer}
   .q-meta-actions{margin-left:0;flex-basis:100%}
   /* MTF: statement stays beside the letter; TRUE/FALSE drop to their own line. */
   .mtf-row{flex-wrap:wrap;align-items:flex-start;row-gap:10px}
-  .mtf-letter{order:1;padding-top:1px}
+  .mtf-letter{order:1}
   .mtf-statement{order:2;flex:1;min-width:0}
   .mtf-toggles{order:3;flex-basis:100%;width:100%;padding-left:34px}
   .mtf-toggle{padding:5px 12px;font-size:10.5px;letter-spacing:.04em}
@@ -565,23 +572,22 @@ button{font-family:var(--san);cursor:pointer}
     <div id="session-screen" style="display:none">
       <div class="session-layout">
         <aside class="scoreboard" id="side-panel">
-          <div id="results-summary" style="display:none"></div>
           <div class="scoreboard-head" id="scoreboard-head">
             <span class="scoreboard-title" id="side-panel-title">Scoreboard</span>
             <span class="scoreboard-head-meta" id="scoreboard-head-meta"></span>
             <span class="scoreboard-head-ctrls">
-              <button class="sb-arrow" id="sb-prev" type="button" aria-label="Scroll questions left">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+              <button class="sb-btn" id="sb-up" type="button" aria-label="Scroll questions up" hidden>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"/></svg>
               </button>
-              <button class="sb-arrow" id="sb-next" type="button" aria-label="Scroll questions right">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-              </button>
-              <button class="sb-expand" id="sb-expand" type="button" aria-haspopup="dialog" aria-label="Open the full grid">
+              <button class="sb-btn" id="sb-down" type="button" aria-label="Scroll questions down" hidden>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <button class="sb-btn" id="sb-expand" type="button" aria-haspopup="dialog" aria-label="Open the full grid">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
               </button>
             </span>
           </div>
-          <div class="tracker-legend" id="tracker-legend" style="display:none">
+          <div class="tracker-legend" id="tracker-legend" hidden>
             <span><i class="complete"></i> Fully answered</span>
             <span><i class="partial"></i> Partially answered</span>
             <span><i></i> Not attempted</span>
@@ -593,14 +599,19 @@ button{font-family:var(--san);cursor:pointer}
           <div class="session-header">
             <button class="btn btn-primary" id="finish-btn">Finish Exam</button>
           </div>
-          <div id="session-q-wrapper"></div>
-          <div class="relevant-read" id="relevant-read" hidden></div>
-          <div class="session-nav-row">
-            <button class="session-nav-btn" id="prev-btn" disabled>
-              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> <span class="nav-btn-label">Previous</span>
-            </button>
-            <span class="session-progress-text" id="session-progress">Question 1 of 10</span>
-            <button class="session-nav-btn" id="next-btn"><span class="nav-btn-label">Next</span> <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="session-body">
+            <div class="session-q-col">
+              <div id="session-q-wrapper"></div>
+              <div class="relevant-read" id="relevant-read" hidden></div>
+              <div class="session-nav-row">
+                <button class="session-nav-btn" id="prev-btn" disabled>
+                  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> <span class="nav-btn-label">Previous</span>
+                </button>
+                <span class="session-progress-text" id="session-progress">Question 1 of 10</span>
+                <button class="session-nav-btn" id="next-btn"><span class="nav-btn-label">Next</span> <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+              </div>
+            </div>
+            <aside class="results-panel" id="results-summary" hidden></aside>
           </div>
         </div>
       </div>
@@ -744,8 +755,8 @@ async function init() {
   });
 
   document.getElementById('sb-expand').addEventListener('click', openScoreSheet);
-  document.getElementById('sb-prev').addEventListener('click', () => scoreScrollBy(-1));
-  document.getElementById('sb-next').addEventListener('click', () => scoreScrollBy(1));
+  document.getElementById('sb-up').addEventListener('click', () => scoreScrollBy(-1));
+  document.getElementById('sb-down').addEventListener('click', () => scoreScrollBy(1));
   document.getElementById('scoreboard-list').addEventListener('scroll', updateScoreArrows, { passive: true });
   window.addEventListener('resize', updateScoreArrows);
   document.getElementById('score-sheet-close').addEventListener('click', closeScoreSheet);
@@ -1226,9 +1237,11 @@ function renderSession() {
 }
 
 function renderSidePanel() {
-  // Mock shows the completion tracker only while the exam is live; once submitted
-  // it (like every practice set) shows the scoreboard.
-  if (mode === 'mock' && !sessionFinished) renderTracker(); else renderScoreboard();
+  // Mock shows the completion tracker + its colour legend only while the exam is
+  // live; once submitted it (like every practice set) shows the scoreboard.
+  const trackerMode = mode === 'mock' && !sessionFinished;
+  document.getElementById('tracker-legend').hidden = !trackerMode;
+  if (trackerMode) renderTracker(); else renderScoreboard();
   renderRelevantRead();
 }
 
@@ -1368,36 +1381,40 @@ function paintScorePanels(kind /* 'board' | 'tracker' */) {
   const meta = document.getElementById('scoreboard-head-meta');
   if (meta) meta.textContent = sessionQuestions.length ? `Q${currentIdx + 1} / ${sessionQuestions.length}` : '';
   centerCurrentChip();
-  updateScoreArrows();
 }
 
 function renderScoreboard() { paintScorePanels('board'); }
 function renderTracker() { paintScorePanels('tracker'); }
 
-// Keep the active chip in view within the horizontally-scrolling strip.
+// If the wrapped chip grid has overflowed its cap, keep the active chip's row in
+// view, then refresh the ▲▼ scroll buttons.
 function centerCurrentChip() {
-  const list = document.getElementById('scoreboard-list');
-  if (!list || list.scrollWidth <= list.clientWidth + 4) return;
-  const cur = list.querySelector('.is-current');
-  if (!cur) return;
-  list.scrollTo({ left: Math.max(0, cur.offsetLeft - (list.clientWidth - cur.offsetWidth) / 2), behavior: 'auto' });
+  requestAnimationFrame(() => {
+    const list = document.getElementById('scoreboard-list');
+    if (list && list.scrollHeight > list.clientHeight + 4) {
+      const cur = list.querySelector('.is-current');
+      if (cur) list.scrollTop = Math.max(0, cur.offsetTop - (list.clientHeight - cur.offsetHeight) / 2);
+    }
+    updateScoreArrows();
+  });
 }
 
-// Nudge the strip one screenful left / right.
+// Scroll the chip panel by roughly a screenful.
 function scoreScrollBy(dir) {
   const list = document.getElementById('scoreboard-list');
-  if (list) list.scrollBy({ left: dir * Math.max(160, list.clientWidth * 0.8), behavior: 'smooth' });
+  if (list) list.scrollBy({ top: dir * Math.max(44, list.clientHeight * 0.75), behavior: 'smooth' });
 }
 
-// Dim the ‹ › buttons at the ends (or when nothing overflows).
+// Show the ▲▼ buttons only when the panel overflows; dim them at the ends.
 function updateScoreArrows() {
   const list = document.getElementById('scoreboard-list');
-  const prev = document.getElementById('sb-prev');
-  const next = document.getElementById('sb-next');
-  if (!list || !prev || !next) return;
-  const scrollable = list.scrollWidth > list.clientWidth + 4;
-  prev.disabled = !scrollable || list.scrollLeft <= 2;
-  next.disabled = !scrollable || list.scrollLeft >= list.scrollWidth - list.clientWidth - 2;
+  const up = document.getElementById('sb-up');
+  const down = document.getElementById('sb-down');
+  if (!list || !up || !down) return;
+  const scrollable = list.scrollHeight > list.clientHeight + 4;
+  up.hidden = down.hidden = !scrollable;
+  up.disabled = list.scrollTop <= 2;
+  down.disabled = list.scrollTop >= list.scrollHeight - list.clientHeight - 2;
 }
 
 function openScoreSheet() {
@@ -1530,15 +1547,16 @@ async function finishSession() {
 /* ===== RESULTS SUMMARY =====
    Submitting doesn't switch screens — the session view stays up and Previous/Next
    still work, since every card is already revealed by this point. The scoreboard
-   strip stays on top (a mock's completion tracker is now swapped for it), just
-   with this summary pinned above it. */
+   strip stays on top; this summary appears in a sticky box in the right gutter
+   (full-width above the question on mobile). */
 function showResultsPanel({ unitsAnswered, unitsTotal, scorePct, earnedMarks, maxMarks }) {
   document.getElementById('side-panel-title').textContent = 'Scoreboard';
   document.getElementById('finish-btn').style.display = 'none';
 
   const summary = document.getElementById('results-summary');
-  summary.style.display = 'block';
+  summary.hidden = false;
   summary.innerHTML = `
+    <div class="results-summary-title">Result</div>
     <div class="results-summary-row"><span>Questions answered</span><span class="v">${unitsAnswered}/${unitsTotal}</span></div>
     <div class="results-summary-row"><span>Score</span><span class="v">${scorePct}%</span></div>
     <div class="results-summary-marks">
@@ -1546,12 +1564,11 @@ function showResultsPanel({ unitsAnswered, unitsTotal, scorePct, earnedMarks, ma
       <div class="results-summary-marks-label">total marks</div>
     </div>
     <div class="results-panel-actions">
-      <button class="btn btn-primary" id="new-set-btn">Start another set</button>
+      <button class="btn btn-primary" id="new-set-btn">${mode === 'mock' ? 'Start another mock' : 'Start another set'}</button>
       <a class="btn btn-ghost" href="dashboard.html">Back to dashboard</a>
     </div>`;
 
-  renderScoreboard();
-  renderRelevantRead();
+  renderSidePanel();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
