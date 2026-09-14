@@ -265,7 +265,7 @@ footer{background:var(--ink);padding:52px 0}
     e.preventDefault();
     clearError();
 
-    var email = document.getElementById('li-email').value.trim();
+    var email = document.getElementById('li-email').value.trim().toLowerCase();
     var password = document.getElementById('li-password').value;
 
     if(!email || !password){

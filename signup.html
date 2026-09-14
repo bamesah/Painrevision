@@ -304,7 +304,7 @@ footer{background:var(--ink);padding:52px 0}
     var firstName = document.getElementById('su-first-name').value.trim();
     var lastName = document.getElementById('su-last-name').value.trim();
     var username = document.getElementById('su-username').value.trim();
-    var email = document.getElementById('su-email').value.trim();
+    var email = document.getElementById('su-email').value.trim().toLowerCase();
     var password = document.getElementById('su-password').value;
     var password2 = document.getElementById('su-password2').value;
 
@@ -324,6 +324,28 @@ footer{background:var(--ink);padding:52px 0}
     submitBtn.disabled = true;
     submitBtn.textContent = 'Creating account…';
 
+    var usernameCheck = await sb.rpc('username_available', { p_username: username });
+    var emailCheck = await sb.rpc('email_available', { p_email: email });
+
+    if(usernameCheck.error || emailCheck.error){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create account';
+      showError('Something went wrong — please try again.');
+      return;
+    }
+    if(usernameCheck.data === false){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create account';
+      showError('This username is already in use.');
+      return;
+    }
+    if(emailCheck.data === false){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create account';
+      showError('This email is already in use.');
+      return;
+    }
+
     var { data, error } = await sb.auth.signUp({
       email: email,
       password: password,
@@ -334,7 +356,22 @@ footer{background:var(--ink);padding:52px 0}
     submitBtn.textContent = 'Create account';
 
     if(error){
-      showError(error.message || 'Something went wrong — please try again.');
+      var msg = (error.message || '').toLowerCase();
+      if(msg.indexOf('already registered') !== -1 || msg.indexOf('already exists') !== -1){
+        showError('This email is already in use.');
+      } else if(msg.indexOf('username') !== -1 && (msg.indexOf('duplicate') !== -1 || msg.indexOf('unique') !== -1 || msg.indexOf('taken') !== -1)){
+        showError('This username is already in use.');
+      } else {
+        showError(error.message || 'Something went wrong — please try again.');
+      }
+      return;
+    }
+
+    // Supabase returns success with an empty identities array (rather than
+    // an error) when the email is already registered, to avoid leaking
+    // account existence — catch that here so it still reads as a clear error.
+    if(data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0){
+      showError('This email is already in use.');
       return;
     }
 
