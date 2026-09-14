@@ -101,10 +101,20 @@ button{font-family:var(--san);cursor:pointer}
 .page-hero-sub{font-size:15px;color:var(--stone);max-width:520px;line-height:1.5;font-weight:400}
 
 /* ===== WIP BANNER ===== */
-.wip-banner{display:flex;align-items:center;gap:12px;background:var(--amber-soft);border:1px solid rgba(245,165,36,.35);border-radius:14px;padding:13px 18px;margin-bottom:28px}
-.wip-icon{width:18px;height:18px;flex-shrink:0;stroke:var(--amber);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.wip-text{font-size:14px;line-height:1.5;color:var(--ink-soft)}
-.wip-text strong{font-weight:700;color:var(--ink)}
+.qb-promo{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,var(--coral-faint),rgba(245,165,36,.08));border:1px solid rgba(240,98,60,.22);border-radius:16px;padding:16px 20px;margin-bottom:28px}
+.qb-promo-icon{width:38px;height:38px;flex-shrink:0;border-radius:11px;background:var(--surface);border:1px solid rgba(240,98,60,.22);display:flex;align-items:center;justify-content:center}
+.qb-promo-icon svg{width:19px;height:19px;stroke:var(--coral);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.qb-promo-text{flex:1;font-size:14px;line-height:1.5;color:var(--ink-soft)}
+.qb-promo-text strong{font-weight:700;color:var(--ink)}
+.qb-promo-price{font-family:var(--mono);font-weight:700;color:var(--coral-deep)}
+.qb-promo-cta{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;background:var(--coral);color:#fff;font-size:13.5px;font-weight:700;padding:10px 18px;border-radius:999px;white-space:nowrap;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
+.qb-promo-cta:hover{background:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 18px -6px rgba(240,98,60,.5)}
+.qb-promo-cta:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
+.qb-promo-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:560px){
+  .qb-promo{flex-wrap:wrap}
+  .qb-promo-cta{width:100%;justify-content:center}
+}
 
 /* ===== MAIN LAYOUT ===== */
 .mcq-main{padding:40px 0 80px}
@@ -384,7 +394,7 @@ button{font-family:var(--san);cursor:pointer}
     <div class="page-hero-inner">
       <span class="eyebrow">Question of the Day</span>
       <h1><span class="ink">FFPMRCA</span> <span class="coral">Question of the Day</span></h1>
-      <p class="page-hero-sub">A free taste of the question bank — SBA, MTF, and EMQ formats. Want the full bank? See <a href="question-bank.html" style="color:var(--coral);font-weight:600">Question bank</a>.</p>
+      <p class="page-hero-sub">A free daily taste of the question bank — SBA, MTF, and EMQ formats.</p>
     </div>
   </div>
 </section>
@@ -394,10 +404,16 @@ button{font-family:var(--san);cursor:pointer}
   <div class="wrap">
     <div class="mcq-content">
 
-      <!-- WIP BANNER -->
-      <div class="wip-banner reveal">
-        <svg class="wip-icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        <p class="wip-text"><strong>Work in progress:</strong> A full MCQ bank covering all aspects of pain medicine is currently being built. This page is a taster of what's to come.</p>
+      <!-- QUESTION BANK PROMO -->
+      <div class="qb-promo reveal">
+        <div class="qb-promo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+        <p class="qb-promo-text">This is a free daily taster. <strong>Get the full question bank</strong> — mock exams, custom practice sets, stats and more. Launch offer: <span class="qb-promo-price">£14.99</span>, access until 31 Oct 2026.</p>
+        <a class="qb-promo-cta" href="question-bank.html">
+          See offer
+          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
       </div>
 
       <!-- QUESTION OF THE DAY -->

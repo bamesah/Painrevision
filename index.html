@@ -156,6 +156,21 @@ a{color:inherit;text-decoration:none}
 .about-content .about-cta{margin-top:36px}
 
 /* ===== SOE COURSE CTA ===== */
+.qb-cta{padding:100px 0;background:linear-gradient(135deg,#1B1310 0%,#241B16 55%,#31241B 100%);position:relative;overflow:hidden}
+.qb-cta::before{content:"";position:absolute;right:-100px;top:-100px;width:420px;height:420px;border:56px solid rgba(245,165,36,.08);border-radius:50%;pointer-events:none}
+.qb-cta::after{content:"";position:absolute;left:-70px;bottom:-70px;width:280px;height:280px;border:36px solid rgba(240,98,60,.1);border-radius:50%;pointer-events:none}
+.qb-cta .wrap{position:relative;z-index:1;text-align:center}
+.qb-cta .eyebrow{color:var(--amber)}
+.qb-cta h2{font-size:clamp(28px,4.5vw,48px);font-weight:800;letter-spacing:-.03em;color:#fff;margin:18px 0 36px;line-height:1.08}
+.qb-cta-features{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px 32px;max-width:640px;margin:0 auto 44px;text-align:left}
+.qb-cta-features li{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:rgba(255,255,255,.82);line-height:1.4}
+.qb-cta-features svg{width:19px;height:19px;stroke:var(--amber);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.qb-cta-price{margin-bottom:40px}
+.qb-cta-price .amt{font-size:clamp(38px,6vw,54px);font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1}
+.qb-cta-price .amt span{font-family:var(--mono);font-size:15px;font-weight:600;color:rgba(255,255,255,.5);margin-left:8px;letter-spacing:0}
+.qb-cta-price .until{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--amber);margin-top:8px}
+@media(max-width:600px){.qb-cta-features{grid-template-columns:1fr}}
+
 .soe-cta{padding:110px 0;background:linear-gradient(135deg,#E04A1F 0%,#F0623C 50%,#F47A4F 100%);position:relative;overflow:hidden}
 .soe-cta::before{content:"";position:absolute;right:-120px;top:-120px;width:500px;height:500px;border:60px solid rgba(255,255,255,.1);border-radius:50%;pointer-events:none}
 .soe-cta::after{content:"";position:absolute;left:-80px;bottom:-80px;width:320px;height:320px;border:40px solid rgba(255,255,255,.07);border-radius:50%;pointer-events:none}
@@ -328,11 +343,33 @@ footer{background:var(--ink);padding:52px 0;border-top:none}
     </h1>
     <p class="hero-sub">Viva mock exams, MCQ practice, and video tutorials — everything a pain medicine doctor needs to pass, in one place.</p>
     <div class="hero-ctas">
-      <a href="questions.html" class="btn btn-primary">MCQ Question of the Day →</a>
+      <a href="question-bank.html" class="btn btn-primary">Question Bank →</a>
+      <a href="questions.html" class="btn btn-secondary">MCQ Question of the Day →</a>
       <a href="https://www.tickettailor.com/events/painrevision/2242524" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">SOE Practice Course →</a>
     </div>
   </div>
 </section>
+
+<!-- ===== QUESTION BANK CTA ===== -->
+<div class="qb-cta">
+  <div class="wrap">
+    <span class="eyebrow">Launch offer</span>
+    <h2>Get full access to the question bank</h2>
+    <ul class="qb-cta-features">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Full timed mock exams</li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Custom practice sets by category</li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Full access to knowledge summaries</li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Bookmark questions and write your own notes</li>
+    </ul>
+    <div class="qb-cta-price">
+      <div class="amt">Only £14.99<span>one-time</span></div>
+      <div class="until">FULL ACCESS UNTIL 31 OCTOBER 2026</div>
+    </div>
+    <div>
+      <a href="question-bank.html" class="btn btn-primary">Start Today →</a>
+    </div>
+  </div>
+</div>
 
 <!-- ===== VIDEO SECTION ===== -->
 <div class="video-section" id="vision">
