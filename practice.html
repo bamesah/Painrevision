@@ -566,6 +566,16 @@ button{font-family:var(--san);cursor:pointer}
       </div>
     </div>
 
+    <!-- UPSELL — shown instead of the config screen when the user has no active subscription -->
+    <div id="upsell-block" style="display:none">
+      <div class="config-card" style="text-align:center">
+        <span class="eyebrow" style="margin-bottom:8px">Full Access</span>
+        <h1>Unlock the full question bank</h1>
+        <p class="sub">Mock exams, custom practice sets and every question in the bank are part of the paid plan. Get access until 31 October 2026 for £14.99.</p>
+        <a class="btn btn-primary" href="upgrade.html" style="width:100%;justify-content:center">Get access — £14.99</a>
+      </div>
+    </div>
+
     <!-- SESSION SCREEN — also the results/review view after submission,
          with the sidebar swapped from a live scoreboard/tracker to a score
          panel, and the question cards left revealed and still navigable. -->
@@ -653,6 +663,7 @@ button{font-family:var(--san);cursor:pointer}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/subscription-gate.js"></script>
 <script src="js/question-engine.js"></script>
 <script src="js/question-notes.js"></script>
 <script src="js/question-report.js"></script>
@@ -714,6 +725,12 @@ async function init() {
 
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('app-main').style.display = 'block';
+
+  const access = await SubscriptionGate.checkAccess(currentUser.id);
+  if (!access.active) {
+    document.getElementById('upsell-block').style.display = 'block';
+    return;
+  }
 
   if (mode === 'mock') {
     document.getElementById('config-eyebrow').textContent = 'Mock Exam';

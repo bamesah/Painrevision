@@ -78,7 +78,7 @@ button{font-family:var(--san);cursor:pointer}
 .profile-layout{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;max-width:900px}
 @media(max-width:800px){.profile-layout{grid-template-columns:1fr}}
 .profile-grid{display:flex;flex-direction:column;gap:20px}
-.profile-sidebar{position:sticky;top:84px}
+.profile-sidebar{position:sticky;top:84px;display:flex;flex-direction:column;gap:20px}
 .profile-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow-sm);padding:28px 30px}
 .profile-card h2{font-size:16px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
 .profile-card .card-sub{font-size:13px;color:var(--stone);margin-bottom:20px;line-height:1.5}
@@ -231,6 +231,12 @@ button{font-family:var(--san);cursor:pointer}
 
     <div class="profile-sidebar">
       <div class="profile-card">
+        <h2>Subscription</h2>
+        <p class="card-sub" id="sub-status-text">Checking your access…</p>
+        <a class="btn btn-primary" id="sub-cta-btn" href="upgrade.html" style="width:100%;justify-content:center;display:none">Get access</a>
+      </div>
+
+      <div class="profile-card">
         <h2>FFPMRCA exam date</h2>
         <p class="card-sub">Set your exam date to see a countdown on your dashboard.</p>
         <div class="form-group">
@@ -248,6 +254,7 @@ button{font-family:var(--san);cursor:pointer}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/subscription-gate.js"></script>
 <script src="js/app-shell.js"></script>
 <script>
 let currentUser = null;
@@ -284,6 +291,21 @@ async function init() {
   wireEmailUpdate();
   wirePasswordUpdate();
   wireExamDateUpdate();
+
+  const access = await SubscriptionGate.checkAccess(currentUser.id);
+  const statusEl = document.getElementById('sub-status-text');
+  const cta = document.getElementById('sub-cta-btn');
+  if (access.active) {
+    const until = access.expiresAt
+      ? new Date(access.expiresAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+      : null;
+    statusEl.textContent = until ? `Active — full access until ${until}.` : 'Active — full access.';
+    cta.style.display = 'none';
+  } else {
+    statusEl.textContent = 'No active subscription.';
+    cta.textContent = 'Get access';
+    cta.style.display = 'inline-flex';
+  }
 }
 
 function wireUserMenu() {

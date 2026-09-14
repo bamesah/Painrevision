@@ -2,4 +2,7 @@ _live-preview.html
 .claude/
 ticket-description-preview.html
 node_modules/
+.env
+.env.local
+.vercel/
 _batch6-preview.html
