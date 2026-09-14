@@ -215,6 +215,8 @@ button{font-family:var(--san);cursor:pointer}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
+<script src="js/subscription-gate.js"></script>
+<script src="js/paywall.js"></script>
 <script src="js/app-shell.js"></script>
 <script src="js/reset-progress.js"></script>
 <script>
@@ -245,6 +247,9 @@ async function init() {
   document.getElementById('reset-progress-btn').addEventListener('click', () => {
     ResetProgress.open({ userId: currentUser.id, onComplete: () => { loadStats(); AppShell.refreshCounts(); } });
   });
+
+  const access = await Paywall.enforce(currentUser.id, document.getElementById('progress-main'));
+  if (!access.active) return;
 
   loadStats();
 }

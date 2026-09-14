@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Create your account — PainRevision</title>
-<meta name="description" content="Create your free PainRevision account to start practising FFPMRCA MCQs."/>
+<meta name="description" content="Get full access to the PainRevision FFPMRCA question bank."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -91,6 +91,14 @@ a{color:inherit;text-decoration:none}
 .pw-match-msg.show{display:block}
 .pw-match-msg.is-match{color:#1F8A4C}
 .pw-match-msg.is-mismatch{color:#C0392B}
+.plan-select{display:flex;flex-direction:column;gap:8px}
+.plan-opt{display:flex;align-items:center;gap:10px;padding:14px 16px;border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s}
+.plan-opt:hover{border-color:var(--coral)}
+.plan-opt.checked{border-color:var(--coral);background:var(--coral-soft)}
+.plan-opt input{accent-color:var(--coral)}
+.plan-opt-text{flex:1;font-size:14px;font-weight:600;color:var(--ink)}
+.plan-opt-text small{display:block;font-size:12px;font-weight:400;color:var(--stone);margin-top:2px}
+.plan-opt-price{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--coral-deep)}
 .auth-error{display:none;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.32);color:#C0392B;font-size:13.5px;font-weight:500;padding:12px 16px;border-radius:10px;margin-bottom:20px;line-height:1.5}
 .auth-error.show{display:block}
 .btn-submit{width:100%;justify-content:center;margin-top:8px;background:var(--coral);color:#fff;border:2px solid var(--coral);border-radius:999px;font-family:var(--san);font-size:15px;font-weight:600;padding:15px 32px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;letter-spacing:-.01em;transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1)}
@@ -100,19 +108,6 @@ a{color:inherit;text-decoration:none}
 .auth-switch{text-align:center;margin-top:24px;font-size:14px;color:var(--stone)}
 .auth-switch a{color:var(--coral);font-weight:600}
 .auth-switch a:hover{text-decoration:underline}
-
-/* success state */
-.form-success{display:none;flex-direction:column;align-items:center;gap:16px;padding:8px 0;text-align:center}
-.form-success.show{display:flex}
-.auth-card.success-mode form{display:none}
-.success-icon{width:64px;height:64px;border-radius:50%;background:var(--coral-soft);display:flex;align-items:center;justify-content:center}
-.success-icon svg{width:28px;height:28px;fill:none;stroke:var(--coral);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.success-title{font-size:20px;font-weight:800;letter-spacing:-.025em;color:var(--ink)}
-.success-desc{font-size:14.5px;color:var(--stone);line-height:1.6;max-width:300px}
-.resend-row{font-size:13.5px;color:var(--stone-light);margin-top:-4px}
-.resend-btn{background:none;border:none;padding:0;font-family:var(--san);font-size:13.5px;font-weight:600;color:var(--coral);cursor:pointer}
-.resend-btn:hover{text-decoration:underline}
-.resend-btn[disabled]{color:var(--stone-light);cursor:not-allowed;text-decoration:none}
 
 /* ===== FOOTER ===== */
 footer{background:var(--ink);padding:52px 0}
@@ -162,7 +157,7 @@ footer{background:var(--ink);padding:52px 0}
     </a>
     <div class="nav-links" role="menubar">
       <a href="index.html" role="menuitem">Home</a>
-      <a href="questions.html" role="menuitem">MCQ Practice</a>
+      <a href="questions.html" role="menuitem">Question of the Day</a>
       <a href="login.html" role="menuitem">Log in</a>
     </div>
     <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -176,7 +171,7 @@ footer{background:var(--ink);padding:52px 0}
   <div class="nav-drawer-overlay" id="drawer-overlay"></div>
   <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
     <a href="index.html">Home</a>
-    <a href="questions.html">MCQ Practice</a>
+    <a href="questions.html">Question of the Day</a>
     <a href="login.html">Log in</a>
   </div>
 </div>
@@ -193,7 +188,7 @@ footer{background:var(--ink);padding:52px 0}
     </div>
     <span class="eyebrow page-hero-eyebrow">Get started</span>
     <h1 id="signup-heading"><span class="pain">Create your </span><span class="rev">account</span></h1>
-    <p class="page-hero-tag">Sign up free to start practising FFPMRCA MCQs.</p>
+    <p class="page-hero-tag">Full access to the FFPMRCA question bank — enter your details and continue to payment.</p>
   </div>
 </section>
 
@@ -231,17 +226,19 @@ footer{background:var(--ink);padding:52px 0}
           <input class="form-input" type="password" id="su-password2" name="password2" placeholder="••••••••" autocomplete="new-password" minlength="8" required/>
           <span class="pw-match-msg" id="pw-match-msg"></span>
         </div>
-        <button class="btn-submit" type="submit" id="submit-btn">Create account</button>
-      </form>
-
-      <div class="form-success" id="form-success">
-        <div class="success-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+        <div class="form-group">
+          <label class="form-label">Plan</label>
+          <div class="plan-select" id="plan-select">
+            <label class="plan-opt checked" data-plan="launch_offer_2026_oct">
+              <input type="radio" name="plan" value="launch_offer_2026_oct" checked/>
+              <span class="plan-opt-text">Full access until 31 October 2026<small>Intro offer — mock exams, practice sets, stats and more</small></span>
+              <span class="plan-opt-price">£14.99</span>
+            </label>
+          </div>
         </div>
-        <p class="success-title">Check your inbox</p>
-        <p class="success-desc" id="success-desc">We've sent a confirmation link to your email — click it to activate your account.</p>
-        <p class="resend-row">Didn't get it? <button type="button" class="resend-btn" id="resend-btn">Resend email</button></p>
-      </div>
+
+        <button class="btn-submit" type="submit" id="submit-btn">Continue to payment — £14.99</button>
+      </form>
 
     </div>
     <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
@@ -290,8 +287,6 @@ footer{background:var(--ink);padding:52px 0}
   var form = document.getElementById('signup-form');
   var errorBox = document.getElementById('auth-error');
   var submitBtn = document.getElementById('submit-btn');
-  var card = document.getElementById('auth-card');
-  var successDesc = document.getElementById('success-desc');
 
   function showError(msg){
     errorBox.textContent = msg;
@@ -300,6 +295,10 @@ footer{background:var(--ink);padding:52px 0}
   function clearError(){
     errorBox.classList.remove('show');
     errorBox.textContent = '';
+  }
+
+  if(new URLSearchParams(window.location.search).get('cancelled') === '1'){
+    showError('Checkout was cancelled — your card was not charged. You can try again below.');
   }
 
   var pwInput = document.getElementById('su-password');
@@ -320,6 +319,14 @@ footer{background:var(--ink);padding:52px 0}
   pw2Input.addEventListener('input', updatePwMatch);
   pwInput.addEventListener('input', updatePwMatch);
 
+  document.querySelectorAll('#plan-select input[name="plan"]').forEach(function(input){
+    input.addEventListener('change', function(){
+      document.querySelectorAll('#plan-select .plan-opt').forEach(function(opt){
+        opt.classList.toggle('checked', opt.querySelector('input').checked);
+      });
+    });
+  });
+
   form.addEventListener('submit', async function(e){
     e.preventDefault();
     clearError();
@@ -330,6 +337,7 @@ footer{background:var(--ink);padding:52px 0}
     var email = document.getElementById('su-email').value.trim().toLowerCase();
     var password = document.getElementById('su-password').value;
     var password2 = document.getElementById('su-password2').value;
+    var planId = document.querySelector('#plan-select input[name="plan"]:checked').value;
 
     if(!firstName || !lastName || !username || !email || !password){
       showError('Please fill in all fields.');
@@ -345,105 +353,58 @@ footer{background:var(--ink);padding:52px 0}
     }
 
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Creating account…';
+    submitBtn.textContent = 'Checking availability…';
 
     var usernameCheck = await sb.rpc('username_available', { p_username: username });
     var emailCheck = await sb.rpc('email_available', { p_email: email });
 
     if(usernameCheck.error || emailCheck.error){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Create account';
+      submitBtn.textContent = 'Continue to payment — £14.99';
       showError('Something went wrong — please try again.');
       return;
     }
     if(usernameCheck.data === false && emailCheck.data === false){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Create account';
+      submitBtn.textContent = 'Continue to payment — £14.99';
       showError('This username and email are already in use.');
       return;
     }
     if(usernameCheck.data === false){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Create account';
+      submitBtn.textContent = 'Continue to payment — £14.99';
       showError('This username is already in use.');
       return;
     }
     if(emailCheck.data === false){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Create account';
+      submitBtn.textContent = 'Continue to payment — £14.99';
       showError('This email is already in use.');
       return;
     }
 
-    var { data, error } = await sb.auth.signUp({
-      email: email,
-      password: password,
-      options: { data: { username: username, first_name: firstName, last_name: lastName } }
+    submitBtn.textContent = 'Redirecting to secure payment…';
+
+    try{
+      sessionStorage.setItem('pr_signup_email', email);
+      sessionStorage.setItem('pr_signup_password', password);
+    } catch(_){}
+
+    var res = await fetch('/api/create-signup-checkout-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName: firstName, lastName: lastName, username: username, email: email, planId: planId })
     });
+    var body = await res.json();
+
+    if(body.url){
+      window.location.href = body.url;
+      return;
+    }
 
     submitBtn.disabled = false;
-    submitBtn.textContent = 'Create account';
-
-    if(error){
-      var msg = (error.message || '').toLowerCase();
-      if(msg.indexOf('already registered') !== -1 || msg.indexOf('already exists') !== -1){
-        showError('This email is already in use.');
-      } else if(msg.indexOf('username') !== -1 && (msg.indexOf('duplicate') !== -1 || msg.indexOf('unique') !== -1 || msg.indexOf('taken') !== -1)){
-        showError('This username is already in use.');
-      } else {
-        showError(error.message || 'Something went wrong — please try again.');
-      }
-      return;
-    }
-
-    // Supabase returns success with an empty identities array (rather than
-    // an error) when the email is already registered, to avoid leaking
-    // account existence — catch that here so it still reads as a clear error.
-    if(data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0){
-      showError('This email is already in use.');
-      return;
-    }
-
-    successDesc.textContent = 'We’ve sent a confirmation link to ' + email + ' — click it to activate your account, then log in.';
-    card.classList.add('success-mode');
-    document.getElementById('form-success').classList.add('show');
-    lastEmail = email;
-  });
-
-  var lastEmail = '';
-  var resendBtn = document.getElementById('resend-btn');
-  var cooldownSecs = 0;
-  var cooldownTimer = null;
-
-  function tickCooldown(){
-    cooldownSecs--;
-    if(cooldownSecs <= 0){
-      clearInterval(cooldownTimer);
-      resendBtn.disabled = false;
-      resendBtn.textContent = 'Resend email';
-    } else {
-      resendBtn.textContent = 'Resend email (' + cooldownSecs + 's)';
-    }
-  }
-
-  resendBtn.addEventListener('click', async function(){
-    if(!lastEmail || resendBtn.disabled) return;
-
-    resendBtn.disabled = true;
-    resendBtn.textContent = 'Sending…';
-
-    var { error } = await sb.auth.resend({ type: 'signup', email: lastEmail });
-
-    if(error){
-      showError(error.message || 'Could not resend right now — please try again shortly.');
-      resendBtn.disabled = false;
-      resendBtn.textContent = 'Resend email';
-      return;
-    }
-
-    cooldownSecs = 45;
-    resendBtn.textContent = 'Resend email (45s)';
-    cooldownTimer = setInterval(tickCooldown, 1000);
+    submitBtn.textContent = 'Continue to payment — £14.99';
+    showError(body.error || 'Something went wrong — please try again.');
   });
 })();
 </script>

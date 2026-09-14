@@ -1,10 +1,14 @@
 // Vercel serverless function — POST /api/stripe-webhook
 // Verifies the Stripe signature (needs the RAW request body, hence
-// `bodyParser: false` below) and, on checkout.session.completed, upserts the
-// buyer's subscriptions row using the Supabase service-role key (bypasses
-// RLS — this is the only writer of this table).
+// `bodyParser: false` below) and, on checkout.session.completed, either
+// activates an existing user's renewal (kind:'renewal', from
+// api/create-checkout-session.js) or acts as the safety net for a
+// pay-to-register signup (kind:'signup', from
+// api/create-signup-checkout-session.js) in case the buyer never made it
+// back to signup-complete.html — see api/_lib/account.js for that path.
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
+import { createOrReconcileAccount } from './_lib/account.js';
 
 const SUPABASE_URL = 'https://vxlxcxqyankqugwiypac.supabase.co';
 
@@ -35,25 +39,42 @@ export default async function handler(req, res) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const userId = session.metadata?.supabase_user_id;
-    const plan = session.metadata?.plan;
-    const expiresAt = session.metadata?.expires_at;
+    const { kind, plan, expires_at: expiresAt } = session.metadata || {};
+    const supabaseAdmin = createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
-    if (userId && plan && expiresAt) {
-      const supabase = createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-      const { error } = await supabase.from('subscriptions').upsert({
-        user_id: userId,
-        status: 'active',
-        plan,
-        expires_at: expiresAt,
-        stripe_customer_id: session.customer,
-        stripe_checkout_session_id: session.id,
-        stripe_payment_intent_id: session.payment_intent,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id' });
-      if (error) console.error('subscriptions upsert failed', error);
+    if (kind === 'signup') {
+      const { email, first_name: firstName, last_name: lastName, username } = session.metadata;
+      if (email && plan && expiresAt) {
+        try {
+          await createOrReconcileAccount(supabaseAdmin, {
+            email, username, firstName, lastName, plan, expiresAt,
+            stripeCustomerId: session.customer,
+            stripeCheckoutSessionId: session.id,
+            stripePaymentIntentId: session.payment_intent,
+          });
+        } catch (err) {
+          console.error('signup account creation failed', err);
+        }
+      } else {
+        console.error('checkout.session.completed (signup) missing expected metadata', session.id);
+      }
     } else {
-      console.error('checkout.session.completed missing expected metadata', session.id);
+      const userId = session.metadata?.supabase_user_id;
+      if (userId && plan && expiresAt) {
+        const { error } = await supabaseAdmin.from('subscriptions').upsert({
+          user_id: userId,
+          status: 'active',
+          plan,
+          expires_at: expiresAt,
+          stripe_customer_id: session.customer,
+          stripe_checkout_session_id: session.id,
+          stripe_payment_intent_id: session.payment_intent,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'user_id' });
+        if (error) console.error('subscriptions upsert failed', error);
+      } else {
+        console.error('checkout.session.completed (renewal) missing expected metadata', session.id);
+      }
     }
   }
 

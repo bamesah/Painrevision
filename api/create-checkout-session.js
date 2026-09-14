@@ -1,23 +1,16 @@
 // Vercel serverless function — POST /api/create-checkout-session
-// Verifies the caller's Supabase session server-side, then creates a Stripe
-// Checkout Session for the current launch offer and returns its URL.
-//
-// The whole offer (amount, copy, what it grants) lives in the OFFER constant
-// below — change this file to change the offer, no Stripe Dashboard edits
-// needed. `metadata` carries the plan + expiry the checkout was created for
-// so the webhook (api/stripe-webhook.js) can trust it without recomputing it.
+// Renewal/upgrade checkout for an ALREADY-SIGNED-IN user (called from
+// upgrade.html and js/paywall.js). Verifies the caller's Supabase session
+// server-side, then creates a Stripe Checkout Session for the requested plan
+// (or the default plan if none given) and returns its URL. `metadata` carries
+// the plan + expiry + kind:'renewal' so the webhook (api/stripe-webhook.js)
+// can trust it without recomputing it, and can tell this apart from a
+// pay-to-register signup checkout (api/create-signup-checkout-session.js).
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
+import { PLANS, DEFAULT_PLAN_ID } from './_lib/plans.js';
 
 const SUPABASE_URL = 'https://vxlxcxqyankqugwiypac.supabase.co';
-
-const OFFER = {
-  planId: 'launch_offer_2026_oct',
-  amountPence: 1499, // £14.99
-  currency: 'gbp',
-  name: 'PainRevision — Full access until 31 Oct 2026',
-  expiresAtIso: '2026-10-31T23:59:59Z',
-};
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -31,6 +24,10 @@ export default async function handler(req, res) {
   if (userErr || !userData?.user) return res.status(401).json({ error: 'Invalid session' });
   const user = userData.user;
 
+  const planId = (req.body && req.body.planId) || DEFAULT_PLAN_ID;
+  const plan = PLANS[planId];
+  if (!plan) return res.status(400).json({ error: 'Unknown plan' });
+
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const origin = req.headers.origin || `https://${req.headers.host}`;
 
@@ -40,17 +37,18 @@ export default async function handler(req, res) {
       payment_method_types: ['card'],
       line_items: [{
         price_data: {
-          currency: OFFER.currency,
-          unit_amount: OFFER.amountPence,
-          product_data: { name: OFFER.name },
+          currency: plan.currency,
+          unit_amount: plan.amountPence,
+          product_data: { name: plan.name },
         },
         quantity: 1,
       }],
       client_reference_id: user.id,
       metadata: {
+        kind: 'renewal',
         supabase_user_id: user.id,
-        plan: OFFER.planId,
-        expires_at: OFFER.expiresAtIso,
+        plan: planId,
+        expires_at: plan.expiresAtIso,
       },
       customer_email: user.email,
       success_url: `${origin}/upgrade.html?success=1`,

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Setting up your account — PainRevision</title>
+<meta name="robots" content="noindex"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;
+  --amber:#F5A524;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+a{color:inherit;text-decoration:none}
+.status-card{max-width:420px;width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:22px;padding:40px;box-shadow:var(--shadow);text-align:center}
+.status-logo{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;margin-bottom:24px}
+.status-logo .pain{color:var(--ink)}
+.status-logo .rev{color:var(--coral)}
+.spinner{width:30px;height:30px;border-radius:999px;border:3px solid var(--border);border-top-color:var(--coral);margin:0 auto 18px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.status-title{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.status-text{font-size:14px;color:var(--stone);line-height:1.6}
+.status-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.status-icon.ok{background:var(--coral-soft)}
+.status-icon.err{background:rgba(192,57,43,.1)}
+.status-icon svg{width:26px;height:26px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.status-icon.ok svg{stroke:var(--coral)}
+.status-icon.err svg{stroke:#C0392B}
+.status-link{display:inline-block;margin-top:18px;background:var(--coral);color:#fff;border-radius:999px;padding:12px 26px;font-weight:600;font-size:14px}
+.status-link:hover{background:var(--coral-deep)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="status-card">
+  <div class="status-logo"><span class="pain">Pain</span><span class="rev">Revision</span></div>
+
+  <div id="state-working">
+    <div class="spinner" aria-hidden="true"></div>
+    <p class="status-title">Setting up your account…</p>
+    <p class="status-text">Confirming your payment and getting everything ready. This takes a few seconds.</p>
+  </div>
+
+  <div id="state-success" hidden>
+    <div class="status-icon ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <p class="status-title">You're in</p>
+    <p class="status-text">Taking you to your dashboard…</p>
+  </div>
+
+  <div id="state-fallback" hidden>
+    <div class="status-icon ok"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <p class="status-title">Account created</p>
+    <p class="status-text">Your payment went through and your account is ready. We couldn't sign you in automatically here — use "Forgot password" to set your password and log in.</p>
+    <a class="status-link" href="forgot-password.html">Set your password</a>
+  </div>
+
+  <div id="state-error" hidden>
+    <div class="status-icon err"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+    <p class="status-title">We couldn't confirm this payment</p>
+    <p class="status-text" id="error-text">If you completed checkout, please try again — no account was created and you haven't been charged twice.</p>
+    <a class="status-link" href="signup.html">Back to sign up</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script>
+function showState(id){
+  ['state-working','state-success','state-fallback','state-error'].forEach(function(s){
+    document.getElementById(s).hidden = (s !== id);
+  });
+}
+
+async function run(){
+  var sessionId = new URLSearchParams(window.location.search).get('session_id');
+  if(!sessionId){ showState('state-error'); return; }
+
+  var email = null, password = null;
+  try{
+    email = sessionStorage.getItem('pr_signup_email');
+    password = sessionStorage.getItem('pr_signup_password');
+    sessionStorage.removeItem('pr_signup_email');
+    sessionStorage.removeItem('pr_signup_password');
+  } catch(_){}
+
+  var res, body;
+  try{
+    res = await fetch('/api/complete-signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, password: password || undefined })
+    });
+    body = await res.json();
+  } catch(_){
+    showState('state-error');
+    return;
+  }
+
+  if(!body || !body.ok){
+    document.getElementById('error-text').textContent = (body && body.error) || 'If you completed checkout, please try again — no account was created and you haven\'t been charged twice.';
+    showState('state-error');
+    return;
+  }
+
+  if(email && password){
+    var signIn = await sb.auth.signInWithPassword({ email: email, password: password });
+    if(!signIn.error){
+      showState('state-success');
+      window.location.href = 'dashboard.html';
+      return;
+    }
+  }
+
+  showState('state-fallback');
+}
+
+run();
+</script>
+</body>
+</html>

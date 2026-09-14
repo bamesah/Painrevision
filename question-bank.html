@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Question Bank — PainRevision</title>
+<meta name="description" content="Full access to the PainRevision FFPMRCA question bank — mock exams, custom practice sets, stats and more."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+
+/* ===== NAVIGATION ===== */
+.nav{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm)}
+.nav-in{display:flex;align-items:center;gap:16px;padding:16px 32px;max-width:var(--maxw);margin:0 auto}
+.nav-logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:18px;letter-spacing:-.03em;flex-shrink:0}
+.nav-logo svg{width:32px;height:32px;flex-shrink:0}
+.nav-logo .pain{color:var(--ink)}
+.nav-logo .rev{color:var(--coral)}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-links a{font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.nav-links a:hover{color:var(--ink);background:var(--surface-warm)}
+.nav-links a.active{color:var(--ink);font-weight:600;background:rgba(36,27,22,.06)}
+.nav-dropdown{position:relative}
+.nav-dropdown-trigger{display:flex;align-items:center;gap:5px;font-family:var(--san);font-size:14.5px;font-weight:500;color:var(--stone);padding:8px 14px;border-radius:999px;background:none;border:none;cursor:pointer;transition:color .18s,background .18s}
+.nav-dropdown-trigger:hover{color:var(--ink);background:var(--surface-warm)}
+.nav-dropdown-chevron{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.nav-dropdown.open .nav-dropdown-chevron{transform:rotate(180deg)}
+.nav-dropdown-menu{position:absolute;top:100%;left:0;padding-top:8px;opacity:0;pointer-events:none;transition:opacity .18s;z-index:50}
+.nav-dropdown.open .nav-dropdown-menu{opacity:1;pointer-events:all}
+.nav-dropdown-menu a{display:flex;align-items:center;gap:10px;min-width:190px;background:var(--surface);border:1px solid var(--border);white-space:nowrap;font-size:14px;font-weight:600;color:var(--ink-soft);padding:11px 14px;transition:background .15s}
+.nav-dropdown-menu a:first-child{border-radius:14px 14px 0 0}
+.nav-dropdown-menu a:last-child{border-radius:0 0 14px 14px}
+.nav-dropdown-menu a+a{border-top:none}
+.nav-dropdown-menu{border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.nav-dropdown-menu a:hover{background:var(--surface-warm)}
+.drop-icon{width:16px;height:16px;stroke:var(--coral);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;background:none;border:none;-webkit-tap-highlight-color:transparent}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:99px;transition:transform .3s,opacity .3s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;inset:0;z-index:99;pointer-events:none}
+.nav-drawer-overlay{position:absolute;inset:0;background:rgba(36,27,22,.4);opacity:0;transition:opacity .3s}
+.nav-drawer-panel{position:absolute;top:56px;right:0;width:min(220px,68vw);background:rgba(251,245,238,.96);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);padding:8px 12px 16px;border-radius:0 0 0 16px;border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;gap:2px;box-shadow:-4px 12px 32px -8px rgba(36,27,22,.18)}
+.nav-drawer.open{pointer-events:all}
+.nav-drawer.open .nav-drawer-overlay{opacity:1}
+.nav-drawer.open .nav-drawer-panel{transform:none}
+.nav-drawer-panel a,.drawer-res-btn{font-size:15px;font-weight:600;color:var(--ink);padding:9px 12px;border-radius:10px;display:flex;align-items:center;width:100%;background:none;border:none;font-family:var(--san);cursor:pointer;transition:background .18s}
+.nav-drawer-panel a:hover,.drawer-res-btn:hover{background:rgba(36,27,22,.06)}
+.drawer-res-chevron{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.3;margin-left:auto;transition:transform .2s}
+.drawer-res-btn.open .drawer-res-chevron{transform:rotate(180deg)}
+.drawer-res-sub{max-height:0;overflow:hidden;transition:max-height .25s;display:flex;flex-direction:column;padding-left:14px}
+.drawer-res-sub.open{max-height:200px}
+@media(max-width:760px){.nav-links{display:none}.nav-hamburger{display:flex}.wrap{padding:0 20px}.nav-in{padding:14px 20px}}
+
+/* ===== HERO ===== */
+.page-hero{padding:60px 0 36px;position:relative;overflow:hidden;text-align:center}
+.hero-glow{position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(620px 360px at 50% -5%,rgba(245,165,36,.16),transparent 65%),radial-gradient(720px 440px at 50% 0%,rgba(240,98,60,.10),transparent 60%)}
+.page-hero .wrap{position:relative;z-index:1}
+.page-hero h1{font-size:clamp(30px,4.8vw,42px);font-weight:800;letter-spacing:-.03em;line-height:1.08;margin:10px 0 12px}
+.page-hero-sub{font-size:16px;color:var(--stone);max-width:480px;margin:0 auto;line-height:1.6}
+
+/* ===== OFFER CARD ===== */
+.offer-section{padding:8px 0 90px}
+.offer-card{max-width:560px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow);padding:48px;text-align:center}
+.offer-badge{display:inline-block;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-deep);background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:999px;padding:5px 14px;margin-bottom:18px}
+.offer-card h2{font-size:24px;font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.offer-sub{font-size:14.5px;color:var(--stone);line-height:1.6;margin-bottom:26px}
+.offer-price{font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.offer-price span{font-size:16px;font-weight:600;color:var(--stone);margin-left:6px}
+.offer-until{font-size:13.5px;color:var(--stone);margin:8px 0 30px}
+.offer-features{list-style:none;text-align:left;margin:0 0 32px;display:flex;flex-direction:column;gap:13px}
+.offer-features li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--ink-soft)}
+.offer-features svg{width:18px;height:18px;stroke:var(--correct);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.btn-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px 26px;border-radius:999px;font-family:var(--san);font-size:15.5px;font-weight:700;cursor:pointer;border:2px solid var(--coral);background:var(--coral);color:#fff;letter-spacing:-.01em;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
+.btn-cta:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(240,98,60,.5)}
+.btn-cta:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
+.offer-note{font-size:12.5px;color:var(--stone-light);margin-top:16px}
+
+@media(max-width:600px){
+  .wrap{padding:0 20px}
+  .offer-card{padding:32px 24px}
+  .offer-price{font-size:42px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html" aria-label="PainRevision home">
+      <svg viewBox="0 0 100 100" width="32" height="32" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <div class="nav-links" role="menubar">
+      <a href="index.html" role="menuitem">Home</a>
+      <a href="courses.html" role="menuitem">Courses</a>
+      <div class="nav-dropdown" id="resources-dropdown">
+        <button class="nav-dropdown-trigger" id="resources-trigger" aria-expanded="false" aria-haspopup="true">
+          Resources
+          <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="question-bank.html" role="menuitem" class="active" aria-current="page">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Question bank
+          </a>
+          <a href="questions.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Question of the Day
+          </a>
+          <a href="videos.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Video Tutorials
+          </a>
+          <a href="guidelines.html" role="menuitem">
+            <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Key Guidelines
+          </a>
+        </div>
+      </div>
+      <a href="about.html" role="menuitem">About</a>
+      <a href="contact.html" role="menuitem">Contact us</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <div class="nav-drawer-overlay" id="drawer-overlay"></div>
+  <div class="nav-drawer-panel" role="dialog" aria-label="Navigation menu">
+    <a href="index.html">Home</a>
+    <a href="courses.html">Courses</a>
+    <button class="drawer-res-btn" id="drawer-res-btn" aria-expanded="false">
+      Resources
+      <svg class="drawer-res-chevron" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="drawer-res-sub" id="drawer-res-sub">
+      <a href="question-bank.html">Question bank</a>
+      <a href="questions.html">Question of the Day</a>
+      <a href="videos.html">Video Tutorials</a>
+      <a href="guidelines.html">Key Guidelines</a>
+    </div>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact us</a>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero" aria-labelledby="qb-heading">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow">Question Bank</span>
+    <h1 id="qb-heading">Full access to the <span style="color:var(--coral)">FFPMRCA question bank</span></h1>
+    <p class="page-hero-sub">Mock exams, custom practice sets, per-category stats, bookmarks and notes — everything you need to prepare, in one place.</p>
+  </div>
+</section>
+
+<!-- ===== OFFER ===== -->
+<section class="offer-section">
+  <div class="wrap">
+    <div class="offer-card">
+      <span class="offer-badge">Launch offer</span>
+      <h2>Get full access</h2>
+      <p class="offer-sub">Every SBA, MTF and EMQ in the bank — including everything added between now and the offer's end date.</p>
+
+      <div class="offer-price">£14.99<span>one-time</span></div>
+      <p class="offer-until">Sign up today, access runs until <strong>31 October 2026</strong>.</p>
+
+      <ul class="offer-features">
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Unlimited practice sets and full timed mock exams</li>
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Per-category stats, bookmarks and personal notes</li>
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SBA, MTF and EMQ formats across every topic</li>
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added through 31 Oct 2026</li>
+      </ul>
+
+      <a class="btn-cta" href="signup.html">Get access — £14.99</a>
+      <p class="offer-note">You'll enter your details and complete payment on the next step.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer style="background:var(--ink);padding:44px 0;border-top:none">
+  <div class="wrap">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+      <div style="display:flex;align-items:center;gap:11px">
+        <svg viewBox="0 0 100 100" width="34" height="34" style="--mark-stroke:#F0623C;--mark-dot:#F5A524"><use href="#pr-mark"/></svg>
+        <span style="font-size:20px;font-weight:800;letter-spacing:-.03em;color:#fff"><span style="color:#fff">Pain</span><span style="color:var(--amber)">Revision</span></span>
+      </div>
+      <p style="font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.32);letter-spacing:.04em;text-align:center">© 2026 PainRevision. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var hamburger = document.getElementById('hamburger');
+  var drawer = document.getElementById('nav-drawer');
+  var overlay = document.getElementById('drawer-overlay');
+  function toggleDrawer(open){
+    hamburger.classList.toggle('open', open);
+    drawer.classList.toggle('open', open);
+    drawer.setAttribute('aria-hidden', String(!open));
+    hamburger.setAttribute('aria-expanded', String(open));
+  }
+  hamburger.addEventListener('click', function(){ toggleDrawer(!drawer.classList.contains('open')); });
+  overlay.addEventListener('click', function(){ toggleDrawer(false); });
+
+  var resBtn = document.getElementById('drawer-res-btn');
+  var resSub = document.getElementById('drawer-res-sub');
+  resBtn.addEventListener('click', function(){
+    var open = resBtn.classList.toggle('open');
+    resSub.classList.toggle('open', open);
+    resBtn.setAttribute('aria-expanded', String(open));
+  });
+  resBtn.classList.add('open'); resSub.classList.add('open'); resBtn.setAttribute('aria-expanded','true');
+
+  var resDropdown = document.getElementById('resources-dropdown');
+  var resTrigger = document.getElementById('resources-trigger');
+  var resTimer;
+  resDropdown.addEventListener('mouseenter', function(){
+    clearTimeout(resTimer);
+    resDropdown.classList.add('open');
+    resTrigger.setAttribute('aria-expanded','true');
+  });
+  resDropdown.addEventListener('mouseleave', function(){
+    resTimer = setTimeout(function(){
+      resDropdown.classList.remove('open');
+      resTrigger.setAttribute('aria-expanded','false');
+    }, 150);
+  });
+})();
+</script>
+</body>
+</html>
