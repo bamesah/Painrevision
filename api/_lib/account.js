@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { sendWelcomeEmail } from './email.js';
 
 async function findUserByEmail(supabaseAdmin, email) {
   const target = email.toLowerCase();
@@ -33,6 +34,11 @@ export async function createOrReconcileAccount(supabaseAdmin, {
 
   if (created?.user) {
     userId = created.user.id;
+    try {
+      await sendWelcomeEmail({ email, firstName, username });
+    } catch (err) {
+      console.error('sendWelcomeEmail failed', err);
+    }
   } else {
     const msg = (createErr?.message || '').toLowerCase();
     const alreadyExists = createErr?.code === 'email_exists' || msg.includes('already') || msg.includes('registered');

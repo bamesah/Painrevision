@@ -6,3 +6,4 @@ node_modules/
 .env.local
 .vercel/
 _batch6-preview.html
+temporary screenshots/
