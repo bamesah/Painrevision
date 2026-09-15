@@ -50,6 +50,7 @@ export default async function handler(req, res) {
         },
         quantity: 1,
       }],
+      invoice_creation: { enabled: true },
       metadata: {
         kind: 'signup',
         email,

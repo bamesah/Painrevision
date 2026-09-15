@@ -43,6 +43,7 @@ export default async function handler(req, res) {
         },
         quantity: 1,
       }],
+      invoice_creation: { enabled: true },
       client_reference_id: user.id,
       metadata: {
         kind: 'renewal',
