@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Try PainRevision — PainRevision</title>
+<meta name="description" content="A free-roam preview of your PainRevision dashboard — no account needed."/>
+<meta name="robots" content="noindex"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);--correct-border:rgba(26,138,74,.32);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);--wrong-border:rgba(192,57,43,.32);
+  --flag:#3B6FD6;--flag-bg:rgba(59,111,214,.1);--flag-border:rgba(59,111,214,.32);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --maxw:1440px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,3.5vw,48px)}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-family:var(--san);font-size:14.5px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+
+/* ===== GENERIC HOVER TOOLTIP (feature explanations, replaces a forced tour) ===== */
+.demo-tip{position:relative}
+.demo-tip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(4px);width:max-content;max-width:220px;white-space:normal;line-height:1.35;text-align:center;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;padding:7px 11px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:80}
+.demo-tip::before{content:'';position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink);opacity:0;transition:opacity .16s;z-index:80}
+.demo-tip:hover::after,.demo-tip:focus-visible::after{opacity:1;transform:translateX(-50%) translateY(0)}
+.demo-tip:hover::before,.demo-tip:focus-visible::before{opacity:1}
+.demo-tip-below::after{bottom:auto;top:calc(100% + 9px);transform:translateX(-50%) translateY(-4px)}
+.demo-tip-below::before{bottom:auto;top:calc(100% + 4px);border-top-color:transparent;border-bottom-color:var(--ink)}
+.demo-tip-below:hover::after,.demo-tip-below:focus-visible::after{transform:translateX(-50%) translateY(0)}
+
+/* ===== TOPBAR ===== */
+.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border)}
+.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px clamp(20px,3.5vw,48px);max-width:var(--maxw);margin:0 auto}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
+.app-logo svg{width:28px;height:28px;flex-shrink:0}
+.app-logo .pain{color:var(--ink)}
+.app-logo .rev{color:var(--coral)}
+.demo-badge{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:999px;padding:5px 12px;margin-left:14px}
+.app-topbar-right{display:flex;align-items:center;gap:14px;margin-left:auto}
+.app-timer{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink);background:var(--surface-warm);border:1px solid var(--border);border-radius:999px;padding:6px 14px;display:none;align-items:center;gap:6px;flex-shrink:0;white-space:nowrap}
+.app-timer.low{color:var(--wrong);border-color:var(--wrong-border)}
+.app-timer svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.exit-demo{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .18s}
+.exit-demo:hover{border-color:var(--coral);color:var(--coral)}
+.topbar-dash-btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:7px 16px 7px 12px;cursor:pointer;transition:all .18s}
+.topbar-dash-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.topbar-dash-btn:hover{border-color:var(--coral);color:var(--coral)}
+@media(max-width:700px){.demo-badge{display:none}.topbar-dash-btn span{display:none}}
+
+/* ===== TOAST (for "not included in this preview") ===== */
+.demo-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(12px);background:var(--ink);color:var(--cream);font-size:13.5px;font-weight:600;padding:12px 20px;border-radius:999px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:500}
+.demo-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== VIEW SWAPPING ===== */
+.demo-view{display:none;padding:44px 0 80px}
+.demo-view.active{display:block}
+
+/* ===== DASHBOARD VIEW ===== */
+.dash-hero{display:flex;flex-wrap:wrap;align-items:center;gap:36px;background:var(--surface);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);padding:36px 40px;margin-bottom:36px;position:relative}
+.dash-hero-bg{position:absolute;inset:0;border-radius:28px;overflow:hidden;pointer-events:none;z-index:0}
+.dash-hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(480px 260px at 100% -10%,rgba(245,165,36,.10),transparent 65%)}
+.dash-hero-tip{position:absolute;inset:0;z-index:2}
+.dash-hero-text{flex:1;min-width:220px;position:relative;z-index:1}
+.dash-hero-text h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.dash-hero-text h1 .coral{color:var(--coral)}
+.dash-hero-sub{font-size:14.5px;color:var(--stone);max-width:380px;line-height:1.6}
+.ring-wrap-col{display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;position:relative;z-index:1}
+.ring-wrap{position:relative;width:148px;height:148px;flex-shrink:0}
+.ring-svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:var(--border);stroke-width:11}
+.ring-fill{fill:none;stroke:var(--coral);stroke-width:11;stroke-linecap:round}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.ring-num{font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.ring-num .sep{color:var(--stone-light);font-weight:600;margin:0 1px}
+.ring-pct{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral);letter-spacing:.03em;margin-top:2px}
+.ring-denom{font-family:var(--mono);font-size:10px;color:var(--stone-light);letter-spacing:.05em;margin-top:1px}
+.exam-widget{display:inline-flex;align-items:center;gap:10px;margin-top:16px;padding:12px 16px;border-radius:14px;font-size:13.5px;font-weight:600;max-width:380px}
+.exam-widget.countdown{background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);color:var(--coral-deep)}
+.exam-widget svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+.launch-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.launch-grid{grid-template-columns:1fr}}
+.launch-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:30px 30px 28px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px;transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s,border-color .22s;cursor:pointer}
+.launch-card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--border-strong)}
+.launch-card:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+.launch-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.launch-icon svg{width:24px;height:24px;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.launch-icon.mock{background:var(--coral-faint)}
+.launch-icon.mock svg{stroke:var(--coral)}
+.launch-icon.custom{background:var(--amber-soft)}
+.launch-icon.custom svg{stroke:var(--coral-deep)}
+.launch-icon.bookmarks{background:var(--coral-faint)}
+.launch-icon.bookmarks svg{stroke:var(--coral-deep)}
+.launch-card h3{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.launch-card p{font-size:14px;color:var(--stone);line-height:1.6}
+.launch-card-cta{margin-top:auto;display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--coral)}
+.launch-card-cta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform .2s}
+.launch-card:hover .launch-card-cta svg{transform:translateX(3px)}
+.launch-card.is-placeholder{cursor:default;border-style:dashed;background:var(--surface-warm);box-shadow:none}
+.launch-card.is-placeholder:hover{transform:none;box-shadow:none;border-color:var(--border)}
+.launch-card.is-placeholder h3{color:var(--stone)}
+.launch-card.is-placeholder p{color:var(--stone-light)}
+.launch-card-cta.placeholder-cta{color:var(--stone-light);font-weight:600}
+
+/* ===== CONFIG SCREEN ===== */
+.config-card{max-width:640px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:40px}
+.config-card h1{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.config-card > p.sub{font-size:14.5px;color:var(--stone);margin-bottom:28px;line-height:1.6}
+.config-section{margin-bottom:26px}
+.config-label{font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:10px;display:block}
+.source-row{display:flex;flex-direction:column;gap:8px}
+.source-opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:border-color .15s,background .15s,opacity .15s}
+.source-opt:hover{border-color:var(--stone-light)}
+.source-opt.checked{border-color:var(--coral);background:var(--coral-faint)}
+.source-opt input{accent-color:var(--coral)}
+.source-opt-text{font-size:14px;color:var(--ink-soft)}
+.source-opt-text small{display:block;font-size:12px;color:var(--stone-light);margin-top:1px}
+.mock-summary{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:26px}
+.mock-stat{background:var(--surface-warm);border:1px solid var(--border);border-radius:14px;padding:14px 18px;flex:1;min-width:130px}
+.mock-stat .n{font-size:22px;font-weight:800;color:var(--coral);letter-spacing:-.02em}
+.mock-stat .l{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:2px}
+.config-count-row{display:flex;align-items:center;gap:14px}
+.config-count-row input[type=range]{flex:1;accent-color:var(--coral)}
+.config-count-num{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--coral);min-width:34px;text-align:center}
+.config-avail{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--stone-light);margin-top:9px}
+.config-avail.none{color:var(--wrong)}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.cat-grid{grid-template-columns:1fr}}
+.cat-chip{display:flex;align-items:center;gap:9px;padding:9px 12px;border:1.5px solid var(--border);border-radius:12px;font-size:13.5px;color:var(--ink-soft);cursor:pointer;transition:border-color .15s,background .15s}
+.cat-chip:hover{border-color:var(--stone-light)}
+.cat-chip.checked{border-color:var(--coral);background:var(--coral-faint);color:var(--ink)}
+.cat-chip input{accent-color:var(--coral)}
+.cat-chip .cnt{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--stone-light)}
+
+/* ===== SESSION LAYOUT ===== */
+.session-layout{display:flex;flex-direction:column;gap:18px}
+.session-main{min-width:0}
+.session-body{display:flex;gap:24px;align-items:flex-start;justify-content:center}
+.session-q-col{flex:1;min-width:0;max-width:1240px}
+.practice-q-slide{display:none}
+.practice-q-slide.is-active{display:block}
+.results-panel{flex:0 0 240px;position:sticky;top:72px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:18px}
+.results-panel[hidden]{display:none}
+@media(max-width:760px){
+  .session-body{flex-direction:column;gap:16px}
+  .results-panel{flex:none;width:100%;position:static;order:-1}
+}
+.demo-tracker-row{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:14px 18px}
+.demo-tracker-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.demo-tracker-title{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);white-space:nowrap}
+.demo-tracker-chips{display:flex;flex-wrap:wrap;gap:8px;max-height:150px;overflow-y:auto;padding:2px}
+.qtracker-item{flex:none;position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--ink-soft);font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.qtracker-item:hover{border-color:var(--stone)}
+.qtracker-item.complete{background:var(--correct);border-color:var(--correct);color:#fff}
+.qtracker-item.partial{background:var(--amber);border-color:var(--amber);color:#fff}
+.qtracker-item.is-current{outline:2px solid var(--coral);outline-offset:-2px}
+.qtracker-item.flagged::after{content:'';position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--flag);border:2px solid var(--surface)}
+.tracker-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--stone);margin-left:auto}
+.tracker-legend[hidden]{display:none}
+.tracker-legend span{display:inline-flex;align-items:center;gap:6px}
+.tracker-legend i{width:9px;height:9px;border-radius:3px;display:inline-block;border:1.5px solid var(--border-strong)}
+.tracker-legend i.complete{background:var(--correct);border-color:var(--correct)}
+.tracker-legend i.partial{background:var(--amber);border-color:var(--amber)}
+.tracker-legend i.flagged{border-radius:50%;background:var(--flag);border-color:var(--flag)}
+.tracker-legend i.locked{background:var(--border-strong);border-color:var(--border-strong)}
+@media(max-width:700px){.tracker-legend{display:none}}
+.qtracker-item.locked{background:var(--cream);border-color:var(--border);color:var(--stone-light);cursor:pointer}
+.qtracker-item.locked svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* practice-session scoreboard chip: "Q5  tick/cross/fraction" — matches the
+   real site's practice.html scoreboard exactly, distinct from the mock's
+   numbered completion-tracker grid above. */
+.score-row{flex:none;display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:10px;border:1.5px solid var(--border);background:none;font-family:var(--san);cursor:pointer;transition:background .15s,border-color .15s;white-space:nowrap}
+.score-row:hover{background:var(--surface-warm)}
+.score-row.is-current{border-color:var(--coral);background:var(--coral-faint)}
+.score-num{font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+.score-status{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:6px;font-family:var(--mono);font-size:10.5px;font-weight:700}
+.score-status.pending{color:var(--stone-light);background:var(--cream);border:1.5px solid var(--border)}
+.score-status svg{width:12px;height:12px;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.score-status.good{background:var(--correct-bg);color:var(--correct)}
+.score-status.good svg{stroke:var(--correct)}
+.score-status.bad{background:var(--wrong-bg);color:var(--wrong)}
+.score-status.bad svg{stroke:var(--wrong)}
+.score-status.mid{background:var(--amber-soft);color:#9a6a0a}
+.score-status.frac{min-width:32px;padding:0 4px}
+.score-row.locked{cursor:pointer;color:var(--stone-light)}
+.score-row.locked .score-num{color:var(--stone-light)}
+.score-status.locked{color:var(--stone-light);background:var(--cream);border:1.5px solid var(--border)}
+.score-status.locked svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== PAYWALL POPUP (mock/practice sessions, beyond the free preview) ===== */
+.paywall-popup-card{background:var(--surface);border-radius:22px;padding:36px 34px;max-width:380px;width:100%;text-align:center;box-shadow:var(--shadow);position:relative}
+.paywall-popup-close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:9px;border:1px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);cursor:pointer;transition:background .15s,color .15s}
+.paywall-popup-close:hover{background:var(--cream);color:var(--ink)}
+.paywall-popup-close svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+.paywall-popup-icon{width:52px;height:52px;border-radius:16px;background:var(--coral-faint);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.paywall-popup-icon svg{width:24px;height:24px;stroke:var(--coral);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.paywall-popup-card h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.paywall-popup-card p{font-size:14px;color:var(--stone);line-height:1.6;margin-bottom:22px}
+
+/* ===== TIME WARNING MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(36,27,22,.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px}
+.modal-card{background:var(--surface);border-radius:22px;padding:34px 32px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow)}
+.modal-icon{width:52px;height:52px;border-radius:16px;background:var(--amber-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.modal-icon svg{width:24px;height:24px;stroke:#9a6a0a;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.modal-card h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.modal-card p{font-size:14px;color:var(--stone);line-height:1.6;margin-bottom:22px}
+
+/* ===== MY PROGRESS EXAMPLE MODAL ===== */
+.progress-modal-card{background:var(--surface);border-radius:24px;max-width:600px;width:100%;max-height:82vh;overflow-y:auto;box-shadow:var(--shadow)}
+.progress-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:26px 30px 0}
+.progress-modal-head h3{font-size:22px;font-weight:800;letter-spacing:-.03em}
+.progress-modal-close{width:34px;height:34px;flex-shrink:0;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);cursor:pointer;transition:background .15s,color .15s}
+.progress-modal-close:hover{background:var(--cream);color:var(--ink)}
+.progress-modal-close svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+.progress-modal-body{padding:20px 30px 30px}
+.progress-modal-intro{font-size:13px;color:var(--stone-light);line-height:1.5;margin-bottom:22px;font-style:italic}
+.progress-overall-row{display:flex;gap:16px;margin-bottom:26px}
+.progress-stat{flex:1;background:var(--surface-warm);border:1px solid var(--border);border-radius:16px;padding:16px 20px;text-align:center}
+.progress-stat .n{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--coral)}
+.progress-stat .n span{font-size:15px;font-weight:600;color:var(--stone-light)}
+.progress-stat .l{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:3px}
+.progress-cat-row{padding:13px 0;border-bottom:1px solid var(--border)}
+.progress-cat-row:last-child{border-bottom:none}
+.progress-cat-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
+.progress-cat-name{font-size:14px;font-weight:700;color:var(--ink)}
+.progress-cat-nums{font-family:var(--mono);font-size:12px;color:var(--stone);white-space:nowrap}
+.progress-cat-nums strong{color:var(--coral-deep)}
+.progress-bar{height:7px;border-radius:99px;background:var(--cream);overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--coral);border-radius:99px}
+
+.session-header{display:flex;align-items:center;justify-content:flex-end;max-width:1240px;margin:0 auto 16px}
+
+/* ===== QUESTION CARD (rendered by question-engine.js) ===== */
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.q-card-top{height:4px;background:linear-gradient(90deg,var(--coral),var(--amber))}
+.q-card-body{padding:36px 40px}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.q-badge{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid}
+.q-badge-sba{color:#1a4a8a;background:rgba(26,74,138,.08);border-color:rgba(26,74,138,.2)}
+.q-badge-mtf{color:#5a1a8a;background:rgba(90,26,138,.08);border-color:rgba(90,26,138,.2)}
+.q-badge-emq{color:#1a7a5a;background:rgba(26,122,90,.08);border-color:rgba(26,122,90,.2)}
+.q-topic{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light);background:var(--cream);padding:4px 10px;border-radius:999px;border:1px solid var(--border)}
+.q-meta-hidden{display:none}
+.flag-btn{margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:12.5px;font-weight:600;color:var(--stone);cursor:pointer;transition:all .18s}
+.flag-btn:hover{border-color:var(--stone)}
+.flag-btn .flag-icon{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Report / Bookmark / Notes / Flag sit together as one right-aligned cluster,
+   matching the real site's meta-row layout exactly. */
+.q-meta-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.qr-btn{position:relative;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--stone);font-family:var(--san);font-size:12.5px;font-weight:600;letter-spacing:-.01em;cursor:pointer;transition:color .18s,border-color .18s,background .18s,transform .18s}
+.qr-btn:hover{border-color:var(--wrong);color:var(--wrong);transform:translateY(-1px)}
+.qr-btn:active{transform:translateY(0)}
+.qr-btn .qr-btn-icon{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.flag-btn.active{background:var(--flag-bg);border-color:var(--flag-border);color:var(--flag)}
+.flag-btn.active .flag-icon{fill:currentColor}
+.bookmark-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--stone);cursor:pointer;transition:color .18s,border-color .18s,background .18s,transform .18s}
+.bookmark-btn:hover{border-color:var(--stone);color:var(--ink-soft);transform:translateY(-1px)}
+.bookmark-btn .bookmark-icon{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:fill .18s}
+.bookmark-btn.active{border-color:rgba(240,98,60,.4);background:var(--coral-faint);color:var(--coral)}
+.bookmark-btn.active .bookmark-icon{fill:currentColor}
+/* Tip opens toward the card's interior so it can't be clipped by .q-card's
+   overflow: rightward on mobile (actions sit on their own line at the left),
+   leftward on desktop (actions align to the right of the meta row). */
+.bookmark-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:0;right:auto;width:max-content;max-width:min(220px,calc(100vw - 84px));white-space:normal;line-height:1.35;text-align:left;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:-.01em;padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:6}
+.bookmark-btn::before{content:'';position:absolute;top:calc(100% + 4px);left:12px;right:auto;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:6}
+@media(min-width:901px){
+  .bookmark-btn::after{left:auto;right:0}
+  .bookmark-btn::before{left:auto;right:12px}
+}
+.bookmark-btn:hover::after,.bookmark-btn:focus-visible::after{opacity:1;transform:translateY(0)}
+.bookmark-btn:hover::before,.bookmark-btn:focus-visible::before{opacity:1}
+.q-text{font-size:17px;font-weight:500;line-height:1.65;color:var(--ink);margin-bottom:28px;text-wrap:pretty}
+.q-stem{font-size:16px;font-weight:500;line-height:1.6;color:var(--ink);margin-bottom:24px;text-wrap:pretty}
+
+.sba-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.sba-option{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;transition:border-color .15s,background .15s}
+.sba-option:hover:not(.locked){border-color:var(--coral);background:var(--coral-faint)}
+.sba-option.selected{border-color:var(--coral);background:var(--coral-faint)}
+.sba-option.correct{border-color:var(--correct-border) !important;background:var(--correct-bg) !important;cursor:default}
+.sba-option.wrong{border-color:var(--wrong-border) !important;background:var(--wrong-bg) !important;cursor:default}
+.sba-option.locked:not(.correct):not(.wrong){opacity:.5;cursor:default}
+.sba-letter{width:28px;height:28px;border-radius:8px;background:var(--cream);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;line-height:1;color:var(--stone);flex-shrink:0;transition:background .15s,border-color .15s,color .15s}
+.sba-option.selected .sba-letter{background:var(--coral);border-color:var(--coral);color:#fff}
+.sba-option.correct .sba-letter{background:var(--correct);border-color:var(--correct);color:#fff}
+.sba-option.wrong .sba-letter{background:var(--wrong);border-color:var(--wrong);color:#fff}
+.sba-option-text{font-size:15px;line-height:1.55;color:var(--ink);flex:1;padding-top:2px}
+.sba-option-icon{width:18px;height:18px;flex-shrink:0;margin-top:4px}
+
+.mtf-choices{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.mtf-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface)}
+.mtf-row.revealed-correct{border-color:var(--correct-border);background:var(--correct-bg)}
+.mtf-row.revealed-wrong{border-color:var(--border);background:var(--surface)}
+.mtf-letter{font-size:15px;line-height:1.55;font-weight:600;color:var(--stone);width:22px;flex-shrink:0}
+.mtf-statement{flex:1;font-size:15px;line-height:1.55;color:var(--ink)}
+.mtf-toggles{display:flex;gap:6px;flex-shrink:0}
+.mtf-toggle{padding:6px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--cream);font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--stone);cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.mtf-toggle:hover:not([disabled]){border-color:var(--stone)}
+.mtf-toggle.selected-true,.mtf-toggle.selected-false{background:rgba(240,98,60,.1);border-color:rgba(240,98,60,.35);color:var(--coral)}
+.mtf-toggle[disabled]{cursor:default;opacity:.75}
+.mtf-toggle.correct-answer{background:var(--correct-bg)!important;border-color:var(--correct-border)!important;color:var(--correct)!important;opacity:1!important}
+
+.emq-lead{font-size:15px;color:var(--stone);line-height:1.6;margin-bottom:20px;font-style:italic}
+.emq-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px;background:var(--cream);border-radius:14px;padding:16px;border:1px solid var(--border)}
+.emq-options-label{grid-column:1/-1;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:4px}
+.emq-opt{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;line-height:1.5;color:var(--stone)}
+.emq-opt-letter{font-size:13.5px;line-height:1.5;font-weight:700;color:var(--coral);flex-shrink:0;min-width:18px}
+.emq-questions{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.emq-q-row{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:16px 18px}
+.emq-q-row.correct-ans{border-color:var(--correct-border);background:var(--correct-bg)}
+.emq-q-row.wrong-ans{border-color:var(--wrong-border);background:var(--wrong-bg)}
+.emq-q-num{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:6px}
+.emq-q-text{font-size:14.5px;line-height:1.6;color:var(--ink);margin-bottom:12px}
+.emq-select{width:100%;padding:9px 14px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--cream);font-family:var(--san);font-size:14px;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237C7068' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
+.emq-select:disabled{opacity:.65;cursor:default}
+.emq-answer-reveal{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:8px;display:inline-block;margin-top:8px}
+.emq-answer-correct{color:var(--correct);background:var(--correct-bg)}
+.emq-answer-wrong{color:var(--wrong);background:var(--wrong-bg)}
+
+.explanation{display:none;margin-top:24px;padding:20px 22px;background:var(--surface-warm);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:14px}
+.explanation.visible{display:block}
+.explanation-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.explanation-text{font-size:14.5px;line-height:1.7;color:var(--stone);text-wrap:pretty}
+.explanation-text table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+.explanation-text th,.explanation-text td{border:1px solid var(--border-strong);padding:7px 11px;text-align:left}
+.explanation-text th{background:var(--cream);font-weight:700;color:var(--ink)}
+.explanation-text strong{color:var(--ink);font-weight:700}
+.explanation-text em{font-style:italic}
+.explanation-text hr{border:none;border-top:1px solid var(--border);margin:12px 0}
+.explanation-text img{cursor:zoom-in;transition:opacity .15s}
+.explanation-text img:hover{opacity:.85}
+.explanation-text table{cursor:zoom-in}
+.explanation-text img:focus-visible,.explanation-text table:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+
+/* ===== LIGHTBOX (click-to-zoom on explanation images/tables) ===== */
+.lightbox-overlay{position:fixed;inset:0;z-index:200;background:rgba(36,27,22,.72);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
+.lightbox-overlay.open{opacity:1;pointer-events:all}
+.lightbox-box{position:relative;max-width:min(92vw,960px);width:100%}
+.lightbox-scroll{max-height:88vh;overflow-y:auto;background:var(--surface);border-radius:20px;box-shadow:0 4px 80px -16px rgba(36,27,22,.55);padding:36px;transform:scale(.93);transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.lightbox-overlay.open .lightbox-scroll{transform:scale(1)}
+.lightbox-close{position:absolute;top:-14px;right:-14px;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--stone);transition:background .15s,color .15s;box-shadow:var(--shadow-sm)}
+.lightbox-close:hover{background:var(--cream);color:var(--ink)}
+.lightbox-content img{max-width:100%;display:block;border-radius:10px}
+.lightbox-content table{border-collapse:collapse;width:100%;font-size:14px}
+.lightbox-content th,.lightbox-content td{border:1px solid var(--border-strong);padding:10px 14px;text-align:left;line-height:1.5}
+.lightbox-content th{background:var(--cream);font-weight:700;color:var(--ink)}
+
+.q-actions{display:flex;align-items:center;gap:12px;padding:24px 40px;border-top:1px solid var(--border);background:var(--surface-warm);flex-wrap:wrap}
+.practice-answered-note{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--correct-bg);border-radius:12px;border:1px solid var(--correct-border)}
+.practice-answered-note svg{width:16px;height:16px;stroke:var(--correct);fill:none;stroke-width:2.5}
+.practice-answered-note p{font-size:13.5px;font-weight:600;color:var(--correct)}
+.tomorrow-note{display:flex;align-items:center;gap:10px;padding:14px 18px;background:var(--cream);border:1px solid var(--border);border-radius:14px}
+
+.session-nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:20px;padding:16px 0}
+.session-nav-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:999px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:14px;font-weight:600;color:var(--stone);cursor:pointer;transition:all .2s}
+.session-nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+.session-nav-btn:not(:disabled):hover{border-color:var(--coral);color:var(--coral)}
+.session-nav-btn:disabled{opacity:.35;cursor:default}
+.session-progress-text{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-light)}
+
+/* ===== NOTES (custom, local-only — see plan tradeoff notes) ===== */
+.notes-toggle-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);color:var(--stone);cursor:pointer;transition:color .18s,border-color .18s,background .18s}
+.notes-toggle-btn:hover{border-color:var(--stone);color:var(--ink-soft)}
+.notes-toggle-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.notes-toggle-btn.open{border-color:rgba(240,98,60,.4);background:var(--coral-faint);color:var(--coral)}
+.qn-dot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:var(--coral);border:2px solid var(--surface)}
+.qn-dot[hidden]{display:none}
+/* Tip opens toward the card's interior so it can't be clipped by .q-card's
+   overflow: rightward on mobile (actions sit on their own line at the left),
+   leftward on desktop (actions align to the right of the meta row). */
+.notes-toggle-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 9px);left:0;right:auto;width:max-content;max-width:min(200px,calc(100vw - 84px));white-space:normal;text-align:left;line-height:1.35;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;letter-spacing:-.01em;padding:6px 10px;border-radius:8px;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;box-shadow:var(--shadow-sm);z-index:6}
+.notes-toggle-btn::before{content:'';position:absolute;top:calc(100% + 4px);left:12px;right:auto;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:6}
+@media(min-width:901px){
+  .notes-toggle-btn::after{left:auto;right:0}
+  .notes-toggle-btn::before{left:auto;right:12px}
+}
+.notes-toggle-btn:hover::after,.notes-toggle-btn:focus-visible::after{opacity:1;transform:translateY(0)}
+.notes-toggle-btn:hover::before,.notes-toggle-btn:focus-visible::before{opacity:1}
+.notes-panel{margin-top:18px;padding:16px;background:var(--surface-warm);border:1px solid var(--border);border-radius:14px}
+.notes-panel-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);margin-bottom:8px}
+.notes-textarea{width:100%;min-height:80px;resize:vertical;border:1.5px solid var(--border);border-radius:10px;background:var(--surface);padding:10px 12px;font-family:var(--san);font-size:13.5px;color:var(--ink);line-height:1.55}
+.notes-textarea:focus{outline:none;border-color:var(--coral)}
+
+/* ===== RESULTS SUMMARY ===== */
+.results-panel .results-summary-title{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--stone-light);margin-bottom:10px}
+.results-summary-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--stone);padding:5px 0}
+.results-summary-row .v{font-weight:700;color:var(--ink)}
+.results-summary-marks{text-align:center;background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:16px;padding:16px 10px;margin:12px 0 16px}
+.results-summary-marks-num{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--coral)}
+.results-summary-marks-label{font-family:var(--mono);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:2px}
+.results-panel-actions{display:flex;flex-direction:column;gap:8px}
+.results-panel-actions .btn{width:100%;justify-content:center}
+.results-cta-card{max-width:560px;margin:36px auto 0;background:linear-gradient(135deg,#1B1310,#241B16);border-radius:24px;padding:36px 40px;text-align:center;color:#fff}
+.results-cta-card .eyebrow{color:var(--amber)}
+.results-cta-card h2{font-size:24px;font-weight:800;letter-spacing:-.03em;margin:12px 0 10px}
+.results-cta-card p{color:rgba(255,255,255,.72);font-size:14.5px;line-height:1.6;margin-bottom:24px}
+
+/* ===== KNOWLEDGE SUMMARY VIEW (mirrors knowledge-summary.html exactly) ===== */
+.ks-controls{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.ks-field{display:flex;flex-direction:column;gap:6px}
+.ks-field-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);padding-left:2px}
+.ks-seg{display:inline-flex;background:var(--surface);border:1.5px solid var(--border-strong);border-radius:11px;padding:3px;gap:3px}
+.ks-seg button{border:none;background:none;font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);padding:7px 14px;border-radius:8px;transition:background .15s,color .15s;cursor:pointer}
+.ks-seg button:hover:not(.active){color:var(--ink)}
+.ks-seg button.active{background:var(--coral);color:#fff}
+.ks-mini{position:relative}
+.ks-mini-btn{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border-radius:11px;border:1.5px solid var(--border-strong);background:var(--surface);font-family:var(--san);font-size:13.5px;font-weight:600;color:var(--ink);transition:border-color .15s,box-shadow .15s;cursor:pointer}
+.ks-mini-btn:hover{border-color:var(--stone-light)}
+.ks-mini.open .ks-mini-btn{border-color:var(--coral);box-shadow:0 0 0 3px var(--coral-faint)}
+.ks-mini-btn .chev{width:14px;height:14px;stroke:var(--stone);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.ks-mini.open .ks-mini-btn .chev{transform:rotate(180deg)}
+.ks-mini-panel{position:absolute;z-index:60;top:calc(100% + 8px);left:0;min-width:230px;background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:6px;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .16s,transform .18s cubic-bezier(.2,.7,.2,1);max-height:min(52vh,380px);overflow-y:auto}
+.ks-mini.open .ks-mini-panel{opacity:1;pointer-events:all;transform:translateY(0)}
+.ks-mini-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;padding:9px 12px;border:none;background:none;border-radius:9px;font-family:var(--san);font-size:13.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:background .13s}
+.ks-mini-opt:hover{background:var(--surface-warm)}
+.ks-mini-opt[aria-selected="true"]{background:rgba(36,27,22,.06);color:var(--ink)}
+.ks-mini-opt .c{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--stone-light);flex-shrink:0}
+.ks-picker{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.ks-picker-wrap{position:relative;flex:1;min-width:240px;max-width:440px}
+.ks-picker-btn{width:100%;display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:14px;border:1.5px solid var(--border-strong);background:var(--surface);box-shadow:var(--shadow-sm);font-family:var(--san);font-size:14.5px;font-weight:600;color:var(--ink);text-align:left;transition:border-color .15s,box-shadow .15s;cursor:pointer}
+.ks-picker-btn:hover{border-color:var(--stone-light)}
+.ks-picker-wrap.open .ks-picker-btn{border-color:var(--coral);box-shadow:0 0 0 3px var(--coral-faint)}
+.ks-picker-btn .lbl{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ks-picker-btn .chev{width:15px;height:15px;stroke:var(--stone);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.ks-picker-wrap.open .ks-picker-btn .chev{transform:rotate(180deg)}
+.ks-picker-panel{position:absolute;z-index:60;top:calc(100% + 8px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:8px;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .16s,transform .18s cubic-bezier(.2,.7,.2,1)}
+.ks-picker-wrap.open .ks-picker-panel{opacity:1;pointer-events:all;transform:translateY(0)}
+.ks-picker-search{position:relative;margin-bottom:6px}
+.ks-picker-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.ks-picker-search input{width:100%;padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid var(--border);background:var(--cream);font-family:var(--san);font-size:13.5px;color:var(--ink)}
+.ks-picker-search input:focus{outline:none;border-color:var(--coral);background:var(--surface)}
+.ks-picker-list{max-height:min(52vh,420px);overflow-y:auto;display:flex;flex-direction:column;gap:1px}
+.ks-opt{display:flex;align-items:baseline;gap:10px;width:100%;text-align:left;padding:9px 12px;border:none;background:none;border-radius:10px;font-family:var(--san);cursor:pointer;transition:background .13s}
+.ks-opt:hover{background:var(--surface-warm)}
+.ks-opt[aria-selected="true"]{background:rgba(36,27,22,.06)}
+.ks-opt-label{flex:1;min-width:0;font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.ks-opt[aria-selected="true"] .ks-opt-label{color:var(--ink)}
+.ks-opt-cat{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--stone-light);flex-shrink:0}
+.ks-opt-empty{padding:16px 12px;font-size:13px;color:var(--stone);text-align:center}
+.ks-list-head{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);padding:11px 12px 5px}
+.ks-list-head:first-child{padding-top:4px}
+.ks-stepper{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.ks-step-btn{width:38px;height:38px;border-radius:11px;border:1.5px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);transition:border-color .15s,color .15s,background .15s}
+.ks-step-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ks-step-btn:hover:not(:disabled){border-color:var(--coral);color:var(--coral)}
+.ks-step-btn:disabled{opacity:.4;cursor:default}
+.ks-step-pos{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.04em;color:var(--stone);min-width:58px;text-align:center}
+.ks-view-cat{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-light);margin-bottom:12px;display:block}
+.ks-boxes{display:flex;flex-direction:column;gap:22px}
+.ks-item-foot{display:flex;align-items:center;gap:7px;margin-top:9px;padding-left:2px}
+.ks-item-foot svg{width:12px;height:12px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.ks-item-foot span{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.06em;color:var(--stone-light)}
+.ks-box{font-size:14.5px;line-height:1.65;color:var(--stone)}
+.ks-box p{margin:8px 0}
+.ks-box ul,.ks-box ol{margin:8px 0 8px 20px}
+.ks-box li{margin:4px 0}
+.ks-box img{max-width:100%;height:auto;border-radius:10px;margin-top:10px;border:1px solid var(--border)}
+.ks-tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.ks-box table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px}
+.ks-box th,.ks-box td{border:1px solid var(--border-strong);padding:7px 11px;text-align:left;vertical-align:top}
+.ks-box th{background:var(--cream);font-weight:700;color:var(--ink)}
+.ks-box td{color:var(--ink-soft)}
+.ks-box img,.ks-tablewrap>table{cursor:zoom-in}
+.ks-box img:focus-visible,.ks-tablewrap>table:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+.ks-reading{margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.ks-reading-eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--coral-deep);margin-bottom:12px}
+.ks-reading-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ks-reading .rr-link{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-warm);text-decoration:none;transition:border-color .15s,background .15s,transform .15s}
+.ks-reading .rr-link:hover{border-color:var(--coral);background:var(--coral-faint);transform:translateY(-1px)}
+.ks-reading .rr-ico{flex-shrink:0;width:15px;height:15px;margin-top:2px;stroke:var(--coral-deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ks-reading .rr-body{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.ks-reading .rr-title{font-size:13px;font-weight:600;line-height:1.35;color:var(--ink)}
+.ks-reading .rr-src{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--stone-light)}
+.ks-reading .rr-arrow{flex-shrink:0;width:12px;height:12px;margin-top:3px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s}
+.ks-reading .rr-link:hover .rr-arrow{stroke:var(--coral)}
+.ks-empty{padding:56px 24px;text-align:center;border:1px dashed var(--border-strong);border-radius:18px;background:var(--surface-warm)}
+.ks-empty p{font-size:14.5px;color:var(--stone);line-height:1.6}
+.ks-box p:first-child{margin-top:0}
+.ks-box strong{color:var(--ink);font-weight:700}
+
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  .app-topbar-in{padding:12px 20px;gap:4px}
+  .demo-view{padding:28px 0 60px}
+  .config-card{padding:26px 22px}
+  .ks-picker-wrap{max-width:none}
+  .q-card-body{padding:24px 20px}
+  .q-actions{padding:18px 20px}
+  .emq-options-grid{grid-template-columns:1fr}
+  /* Meta row stacks: type + category on line 1, action buttons on line 2. */
+  .q-meta-actions{margin-left:0;flex-basis:100%}
+  .mtf-row{flex-wrap:wrap;align-items:flex-start;row-gap:10px}
+  .mtf-letter{order:1}
+  .mtf-statement{order:2;flex:1;min-width:0}
+  .mtf-toggles{order:3;flex-basis:100%;width:100%;padding-left:34px}
+  .mtf-toggle{padding:5px 12px;font-size:10.5px;letter-spacing:.04em}
+  .session-nav-btn{padding:9px 14px;font-size:13px;gap:4px}
+  .nav-btn-label{display:none}
+  .dash-hero{flex-direction:column;text-align:center;padding:28px 24px;gap:22px}
+  .dash-hero-text{text-align:center}
+  .results-cta-card{padding:28px 24px}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app-topbar">
+  <div class="app-topbar-in">
+    <a class="app-logo" href="question-bank.html" aria-label="PainRevision">
+      <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <span class="demo-badge">Demo mode</span>
+    <div class="app-topbar-right">
+      <button type="button" class="topbar-dash-btn" id="topbar-dashboard-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg><span>Dashboard</span></button>
+      <div class="app-timer" id="app-timer"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span id="timer-text">03:00</span></div>
+      <a class="exit-demo" href="question-bank.html">Exit demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD VIEW ===== -->
+<main class="demo-view active" id="view-dashboard">
+  <div class="wrap app-shell">
+    <aside class="app-rail" id="app-rail" data-active="dashboard"></aside>
+    <div class="app-shell-content">
+
+      <div class="dash-hero">
+        <div class="dash-hero-bg" aria-hidden="true"></div>
+        <div class="dash-hero-text">
+          <span class="eyebrow" style="margin-bottom:8px">Welcome back</span>
+          <h1>Hi, <span class="coral">Guest</span></h1>
+          <p class="dash-hero-sub">This is a live preview of your dashboard — click around freely. Everything here works exactly like the real thing, with 3 sample questions standing in for the full bank.</p>
+        </div>
+        <div class="ring-wrap-col">
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 148 148" aria-hidden="true">
+              <circle class="ring-track" cx="74" cy="74" r="62"/>
+              <circle class="ring-fill" cx="74" cy="74" r="62" stroke-dasharray="389.6" stroke-dashoffset="331"/>
+            </svg>
+            <div class="ring-center">
+              <span class="ring-num">84<span class="sep">/</span>560</span>
+              <span class="ring-pct">15%</span>
+              <span class="ring-denom">solved</span>
+            </div>
+          </div>
+          <div class="exam-widget countdown">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>42 days until your exam</span>
+          </div>
+        </div>
+        <div class="dash-hero-tip demo-tip demo-tip-below" data-tip="Your overall progress across the whole bank" aria-hidden="true"></div>
+      </div>
+
+      <div class="launch-grid">
+        <div class="launch-card demo-tip" id="demo-mock-card" data-tip="A timed simulation with the real exam's question mix">
+          <div class="launch-icon mock">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3>Start Mock Exam</h3>
+          <p>A timed simulation built to the real exam's question mix — sit the full three-hour paper or a 90-minute half.</p>
+          <span class="launch-card-cta">Start exam <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+        <div class="launch-card demo-tip" id="demo-custom-card" data-tip="Pick a count, category, type and source — build your own set">
+          <div class="launch-icon custom">
+            <svg viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+          </div>
+          <h3>Practice Set</h3>
+          <p>Choose how many questions, which categories, and whether to focus on new, answered, or previously wrong questions.</p>
+          <span class="launch-card-cta">Build a set <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+        <div class="launch-card demo-tip" id="demo-bookmarks-card" data-tip="Questions you've bookmarked gather here for focused review">
+          <div class="launch-icon bookmarks">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Bookmarked Questions</h3>
+          <p>Every question you've saved with the bookmark icon, gathered into one practice set.</p>
+          <span class="launch-card-cta">Start review <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+        </div>
+        <div class="launch-card is-placeholder">
+          <h3>More soon</h3>
+          <p>Another way to practise is on the way — this space is reserved for it.</p>
+          <span class="launch-card-cta placeholder-cta">Coming soon</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- ===== CONFIG VIEW (mock + custom) ===== -->
+<main class="demo-view" id="view-config">
+  <div class="wrap">
+    <div class="config-card">
+      <span class="eyebrow" id="config-eyebrow" style="margin-bottom:8px">Practice Set</span>
+      <h1 id="config-title">Build a practice set</h1>
+      <p class="sub" id="config-sub">Choose how many questions and which categories.</p>
+
+      <div id="mock-summary-block" style="display:none">
+        <div class="config-section">
+          <label class="config-label">Exam length</label>
+          <div class="source-row" id="demo-size-row">
+            <label class="source-opt checked" data-size="full"><input type="radio" name="demosize" value="full" checked/><span class="source-opt-text">Full mock — 3 hours<small>40 MTF · 25 SBA · 5 EMQ (25 sub-questions)</small></span></label>
+            <label class="source-opt" data-size="half"><input type="radio" name="demosize" value="half"/><span class="source-opt-text">Half mock — 90 minutes<small>20 MTF · 12 SBA · 3 EMQ (15 sub-questions)</small></span></label>
+          </div>
+        </div>
+        <div class="mock-summary">
+          <div class="mock-stat"><div class="n" id="mock-stat-q">70</div><div class="l">Questions</div></div>
+          <div class="mock-stat"><div class="n" id="mock-stat-min">180</div><div class="l">Minutes</div></div>
+          <div class="mock-stat"><div class="n" id="mock-stat-marks">400</div><div class="l">Marks</div></div>
+        </div>
+        <p class="config-avail demo-tip" data-tip="The rest is unlocked with full access" style="margin-bottom:20px">The first 3 questions are free to try</p>
+      </div>
+
+      <div id="custom-config-block" style="display:none">
+        <div class="config-section">
+          <label class="config-label demo-tip" data-tip="The first 3 questions in any set are free to try">Number of questions</label>
+          <div class="config-count-row">
+            <input type="range" id="count-range" min="1" max="50" value="10"/>
+            <span class="config-count-num" id="count-num">10</span>
+          </div>
+          <p class="config-avail" id="count-avail"></p>
+        </div>
+        <div class="config-section">
+          <label class="config-label">Categories <span style="font-weight:400;color:var(--stone-light)">(none selected = all)</span></label>
+          <div class="cat-grid" id="cat-grid"></div>
+        </div>
+        <div class="config-section">
+          <label class="config-label">Question type <span style="font-weight:400;color:var(--stone-light)">(none selected = all)</span></label>
+          <div class="cat-grid" id="type-grid">
+            <label class="cat-chip" data-type="SBA"><input type="checkbox" value="SBA"/><span>SBA — Single Best Answer</span></label>
+            <label class="cat-chip" data-type="MTF"><input type="checkbox" value="MTF"/><span>MTF — Multiple True/False</span></label>
+            <label class="cat-chip" data-type="EMQ"><input type="checkbox" value="EMQ"/><span>EMQ — Extended Matching</span></label>
+          </div>
+        </div>
+        <div class="config-section">
+          <label class="config-label demo-tip" data-tip="Answer a few questions first, then come back — this filter uses what you've actually attempted">Question source</label>
+          <div class="source-row" id="source-row">
+            <label class="source-opt checked"><input type="radio" name="source" value="all" checked/><span class="source-opt-text">All questions<small>Every question in the selected categories</small></span></label>
+            <label class="source-opt"><input type="radio" name="source" value="new"/><span class="source-opt-text">New only<small>Questions you haven't attempted yet</small></span></label>
+            <label class="source-opt"><input type="radio" name="source" value="answered"/><span class="source-opt-text">Previously answered<small>Anything you've attempted before</small></span></label>
+            <label class="source-opt"><input type="radio" name="source" value="wrong"/><span class="source-opt-text">Previously wrong only<small>Your last attempt on these was incorrect</small></span></label>
+          </div>
+        </div>
+        <div class="config-section">
+          <label class="config-label">Bookmarks</label>
+          <div class="source-row">
+            <label class="source-opt" id="bookmarked-only-opt"><input type="checkbox" id="bookmarked-only"/><span class="source-opt-text">Bookmarked questions only<small>Draw only from questions you've saved</small></span></label>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="demo-start-btn" style="width:100%;justify-content:center">Start</button>
+    </div>
+  </div>
+</main>
+
+<!-- ===== SESSION VIEW (mock/custom/bookmarks/notes share this) ===== -->
+<main class="demo-view" id="view-session">
+  <div class="wrap" id="session-wrap">
+    <div class="session-layout" id="session-layout">
+      <div class="demo-tracker-row" id="demo-tracker-row">
+        <div class="demo-tracker-head">
+          <span class="demo-tracker-title" id="demo-tracker-title">Progress</span>
+          <div class="tracker-legend" id="demo-tracker-legend">
+            <span><i class="complete"></i> Fully answered</span>
+            <span><i class="partial"></i> Partially answered</span>
+            <span><i></i> Not attempted</span>
+            <span><i class="flagged"></i> Flagged for review</span>
+            <span><i class="locked"></i> Requires full access</span>
+          </div>
+        </div>
+        <div class="demo-tracker-chips" id="demo-tracker-chips"></div>
+      </div>
+      <div class="session-main">
+        <div class="session-header">
+          <button class="btn btn-primary" id="demo-finish-btn">Finish Exam</button>
+        </div>
+        <div class="session-body">
+          <div class="session-q-col">
+            <div id="session-q-wrapper"></div>
+            <div class="session-nav-row">
+              <button class="session-nav-btn" id="demo-prev-btn" disabled>
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> <span class="nav-btn-label">Previous</span>
+              </button>
+              <span class="session-progress-text" id="demo-progress-text">Question 1 of 3</span>
+              <button class="session-nav-btn" id="demo-next-btn"><span class="nav-btn-label">Next</span> <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+            </div>
+          </div>
+          <aside class="results-panel" id="demo-results-summary" hidden></aside>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-cta-card" id="demo-cta-card" hidden>
+      <span class="eyebrow">That's a taste of it</span>
+      <h2>Ready for the real thing?</h2>
+      <p>Get full access to every question, mock exam, and feature you just tried — £14.99, until 31 October 2026.</p>
+      <a class="btn btn-primary" href="question-bank.html">Get access — £14.99</a>
+    </div>
+  </div>
+</main>
+
+<!-- ===== KNOWLEDGE SUMMARY VIEW ===== -->
+<main class="demo-view" id="view-knowledge">
+  <div class="wrap">
+    <span class="eyebrow" style="margin-bottom:8px">Knowledge Summary</span>
+    <h1 style="font-size:24px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px">Knowledge summaries</h1>
+    <p class="sub" id="ks-sub" style="margin-bottom:24px">The knowledge boxes from across the question bank, one at a time.</p>
+
+    <div class="ks-controls">
+      <div class="ks-field">
+        <span class="ks-field-label" id="ks-topic-label">Topic</span>
+        <div class="ks-mini" id="ks-topic-wrap">
+          <button class="ks-mini-btn" id="ks-topic-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span id="ks-topic-current">All topics</span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="ks-mini-panel" id="ks-topic-panel" role="listbox" aria-label="Filter by topic"></div>
+        </div>
+      </div>
+      <div class="ks-field">
+        <span class="ks-field-label" id="ks-sort-label">Sort</span>
+        <div class="ks-seg" id="ks-sort" role="group" aria-labelledby="ks-sort-label">
+          <button type="button" data-sort="alpha" class="active" aria-pressed="true">A–Z</button>
+          <button type="button" data-sort="topic" aria-pressed="false">By topic</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ks-picker">
+      <div class="ks-picker-wrap" id="ks-picker-wrap">
+        <button class="ks-picker-btn" id="ks-picker-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <span class="lbl" id="ks-picker-label">—</span>
+          <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="ks-picker-panel" id="ks-picker-panel" role="listbox" aria-label="Choose a summary">
+          <div class="ks-picker-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="ks-picker-search" placeholder="Search summaries…" autocomplete="off" aria-label="Search summaries"/>
+          </div>
+          <div class="ks-picker-list" id="ks-picker-list"></div>
+        </div>
+      </div>
+      <div class="ks-stepper">
+        <button class="ks-step-btn" id="ks-prev" type="button" aria-label="Previous summary"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <span class="ks-step-pos" id="ks-step-pos">1 / 3</span>
+        <button class="ks-step-btn" id="ks-next" type="button" aria-label="Next summary"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+    </div>
+
+    <div id="ks-view" aria-live="polite"></div>
+  </div>
+</main>
+
+<!-- 10-MINUTES-REMAINING WARNING -->
+<div class="modal-overlay" id="time-warning-modal" style="display:none">
+  <div class="modal-card">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <h3>10 minutes left</h3>
+    <p>The exam will auto-submit as soon as time runs out.</p>
+    <button class="btn btn-primary" id="time-warning-dismiss" style="width:100%;justify-content:center">Got it</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="paywall-popup-overlay" style="display:none">
+  <div class="paywall-popup-card">
+    <button class="paywall-popup-close" id="paywall-popup-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="paywall-popup-icon">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h3>This requires full access</h3>
+    <p>The free preview covers the first 3 questions. Get full access to unlock the rest of the question bank.</p>
+    <a class="btn btn-primary" href="question-bank.html" style="width:100%;justify-content:center">Get access — £14.99</a>
+  </div>
+</div>
+
+<div class="modal-overlay" id="progress-modal-overlay" style="display:none">
+  <div class="progress-modal-card">
+    <div class="progress-modal-head">
+      <div>
+        <span class="eyebrow" style="margin-bottom:4px">Example page</span>
+        <h3>My Progress</h3>
+      </div>
+      <button class="progress-modal-close" id="progress-modal-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="progress-modal-body">
+      <p class="progress-modal-intro">Illustrative stats — in your real account, this shows your actual progress across the whole bank.</p>
+      <div class="progress-overall-row">
+        <div class="progress-stat"><div class="n">84<span>/560</span></div><div class="l">Solved</div></div>
+        <div class="progress-stat"><div class="n">71%</div><div class="l">Accuracy</div></div>
+      </div>
+      <div class="progress-cat-list" id="progress-cat-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-toast" id="demo-toast"></div>
+
+<script src="js/app-shell.js"></script>
+<script src="js/question-engine.js"></script>
+<script>
+/* ===== DEMO QUESTION DATA (3 real questions from the bank) ===== */
+const DEMO_QUESTIONS = [
+  {
+    "id": "q_beta_arrestin_001",
+    "type": "MTF",
+    "topic": "Pharmacology",
+    "stem": "Regarding the β-Arrestin pathway in opioid receptors:",
+    "choices": [
+      "Mediates receptor internalisation",
+      "Reduces receptor desensitisation",
+      "Contributes to respiratory depression",
+      "Is reduced in biased agonists",
+      "Increases intracellular cAMP"
+    ],
+    "correct": [
+      true,
+      false,
+      true,
+      true,
+      false
+    ],
+    "explanation": "<p>When a ligand binds to an opioid receptor, it activates two distinct intracellular pathways:</p>\n\n<table style=\"margin-top:20px\">\n  <tr><th>Pathway</th><th>Key Effects</th></tr>\n  <tr><td><strong>G-protein (Gᵢ) pathway</strong></td><td>Inhibition of adenylate cyclase → ↓ cAMP; closure of voltage-gated Ca²⁺ channels; opening of voltage-gated K⁺ channels → hyperpolarisation → inhibition of neurotransmitter release</td></tr>\n  <tr><td><strong>β-Arrestin pathway</strong></td><td>Receptor desensitisation and <strong>internalisation</strong> (contributing to tolerance); side effects including <strong>respiratory depression</strong></td></tr>\n</table>\n\n<p style=\"margin-top:20px\"><strong>Biased agonism</strong> refers to ligands that preferentially activate one pathway over the other. Biased agonists such as <strong>oliceridine</strong> favour the G-protein pathway over the β-Arrestin pathway, potentially resulting in less tolerance and fewer side effects (including less respiratory depression).</p>\n\n<p style=\"margin-top:20px\"><strong>G-protein signalling cascade — step by step:</strong></p>\n<ol>\n  <li>Ligand binds to the extracellular <strong>N-terminus</strong> of the 7-transmembrane Gᵢ-protein coupled receptor</li>\n  <li>Conformational change → intracellular <strong>GDP is exchanged for GTP</strong> on the α-subunit</li>\n  <li>α-GTP <strong>dissociates</strong> from the βγ dimer</li>\n  <li>α-GTP <strong>inhibits adenylate cyclase</strong> → ↓ conversion of ATP to cAMP</li>\n  <li>βγ dimer <strong>closes voltage-gated Ca²⁺ channels</strong> and <strong>opens inwardly-rectifying K⁺ channels</strong></li>\n  <li>Net result: membrane <strong>hyperpolarisation</strong> → inhibition of glutamate release and propagation of action potentials in nociceptive fibres</li>\n</ol>\n\n<p style=\"color:#7C7068;font-size:13px;margin-top:20px\">Note: all opioid receptors are 7-transmembrane Gᵢ-protein coupled receptors. The transmembrane domain is highly conserved across receptor subtypes (μ, δ, κ); differences occur mainly in the extracellular regions, which accounts for ligand selectivity.</p>\n\n<img src=\"images/opioid-gpcr.png\" alt=\"G-protein coupled receptor signalling diagram showing Gi-protein activation, adenylate cyclase inhibition, and ion channel modulation\" style=\"max-width:100%;border-radius:10px;margin-top:20px;border:1px solid #EDE3D7\">"
+  },
+  {
+    "id": "q_emq_paediatric_pain_scales_001",
+    "type": "EMQ",
+    "topic": "Clinical Pain",
+    "stem": "Paediatric pain assessment scales",
+    "lead": "For each of the following scenarios, select the most likely choice from the list of options above. Each option may be used once, more than once, or not at all.",
+    "options": [
+      "CRIES scale",
+      "COMFORT scale",
+      "Paediatric Pain Profile (PPP)",
+      "Functional Disability Inventory (FDI)",
+      "FLACC scale",
+      "Faces scale",
+      "Paediatric Quality of Life Inventory (PedsQL)",
+      "Visual Analogue Scale (VAS)"
+    ],
+    "questions": [
+      {
+        "question": "35-week neonate, post-inguinal hernia repair.",
+        "correct": 0,
+        "explanation": "<strong>A. CRIES scale</strong> — CRIES (Crying, Requires oxygen, Increased vital signs, Expression, Sleeplessness) is a behavioural scale validated for acute postoperative pain in neonates from around 32 weeks&rsquo; gestation, making it appropriate for this 35-week neonate."
+      },
+      {
+        "question": "12-year-old with back pain and severe cognitive dysfunction.",
+        "correct": 2,
+        "explanation": "<strong>C. Paediatric Pain Profile (PPP)</strong> — The PPP is a 20-item behaviour-rating scale validated for assessing pain in children with severe to profound neurological impairment. It is designed for use in the home setting by a parent, as well as in the hospital or hospice setting by health professionals."
+      },
+      {
+        "question": "6-year-old having venepuncture.",
+        "correct": 5,
+        "explanation": "<strong>F. Faces scale</strong> — The Faces scale is a self-report tool suited to school-age children old enough to identify with facial expressions of pain, appropriate for a cooperative 6-year-old facing a brief procedural pain event.\n<div style=\"margin-top:14px;text-align:center\">\n  <img src=\"images/faces-pain-scale.jpg\" alt=\"Faces Pain Scale — Revised, showing six faces from 0 (no pain) to 5 (worst pain)\" style=\"max-width:100%;border-radius:10px;border:1px solid #EDE3D7;background:#FFFAF4;padding:14px 10px\">\n</div>"
+      },
+      {
+        "question": "3-year-old on day 1 post emergency appendicectomy.",
+        "correct": 4,
+        "explanation": "<strong>E. FLACC scale</strong> — FLACC (Face, Legs, Activity, Cry, Consolability) is a behavioural observational scale validated for infants and young children unable to reliably self-report, fitting the postoperative 3-year-old. The revised FLACC tool identifies specific indicators of pain in children with severe cognitive impairment, including spasms, self-harm behaviours, consoling actions, and breathing or verbal noises.\n<table style=\"margin-top:14px\">\n  <tr><th>Category</th><th>0</th><th>1</th><th>2</th></tr>\n  <tr><td><strong>Face</strong></td><td>No particular expression or smile</td><td>Occasional grimace or frown, withdrawn, disinterested</td><td>Frequent to constant frown, quivering chin, clenched jaw</td></tr>\n  <tr><td><strong>Legs</strong></td><td>Normal position or relaxed</td><td>Uneasy, restless, tense</td><td>Kicking or legs drawn up</td></tr>\n  <tr><td><strong>Activity</strong></td><td>Lying quietly, normal position, moves easily</td><td>Squirming, shifting back and forth, tense</td><td>Arched, rigid or jerking</td></tr>\n  <tr><td><strong>Cry</strong></td><td>No cry (awake or asleep)</td><td>Moans or whimpers, occasional complaint</td><td>Crying steadily, screams or sobs, frequent complaints</td></tr>\n  <tr><td><strong>Consolability</strong></td><td>Content, relaxed</td><td>Reassured by occasional touching, hugging or being talked to, distractible</td><td>Difficult to console or comfort</td></tr>\n</table>"
+      },
+      {
+        "question": "9-year-old with juvenile idiopathic arthritis, being reviewed in a chronic pain clinic.",
+        "correct": 6,
+        "explanation": "<strong>G. Paediatric Quality of Life Inventory (PedsQL)</strong> — The PedsQL is a multiple-domain tool that broadly assesses function in children with chronic pain, fitting a child being followed longitudinally in a chronic pain clinic rather than being scored for acute pain intensity. Three age-banded versions exist (young child 5&ndash;7 years, child 8&ndash;12 years, teen 13&ndash;18 years), each measuring four functional subdomains &mdash; physical, emotional, social, and school &mdash; to produce a scale summary score, physical health score, and psychosocial health score. Higher scores indicate better function, and analogous carer-proxy versions allow comparison between patient- and carer-reported function."
+      }
+    ],
+    "reference": "<div style=\"border:1px solid var(--border-strong);border-radius:14px;overflow:hidden\">\n  <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:var(--coral)\">\n    <span style=\"font-weight:700;color:#fff;font-size:14.5px\">Unselected Options — Key Definitions</span>\n    <div style=\"display:inline-flex;align-items:center;gap:7px;flex-shrink:0\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"8\" x2=\"12.01\" y2=\"8\"/></svg>\n      <span style=\"font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:3px 9px\">Knowledge</span>\n    </div>\n  </div>\n  <div style=\"background:var(--surface-warm)\"><div style=\"padding:16px 18px\"><table style=\"margin:0\">\n  <tr><th>Scale</th><th>Definition</th></tr>\n  <tr><td><strong>COMFORT</strong></td><td>Designed to assess distress in ventilated patients: 6 behavioural items (alertness, calmness, muscle tone, movement, facial tension, respiratory response) plus 2 physiological items (heart rate, mean arterial pressure). The COMFORT-B revision removed the physiological items and added crying as a behavioural item for non-ventilated children. Takes ~3 minutes; used from 0&ndash;17 years, including unconscious or sedated patients.</td></tr>\n  <tr><td><strong>Functional Disability Inventory (FDI)</strong></td><td>Self/parent-report measure of the impact of pain on physical and functional activities of daily living, used mainly in chronic paediatric pain.</td></tr>\n  <tr><td><strong>Visual Analogue Scale (VAS)</strong></td><td>A 10cm (100mm) line anchored &lsquo;no pain&rsquo; to &lsquo;worst pain imaginable&rsquo;; the patient marks the line, and the score is read as the distance from zero (0&ndash;10 or 0&ndash;100 scale). Requires abstract/cognitive maturity, typically usable from ~7&ndash;8 years upward.\n    <div style=\"margin-top:10px\"><img src=\"images/vas-scale.svg\" alt=\"Visual Analogue Scale — a 10cm line anchored from no pain to worst pain imaginable\" style=\"max-width:100%\"></div>\n  </td></tr>\n</table></div></div>\n</div>"
+  },
+  {
+    "id": "q_sba_fibromyalgia_psychological_therapy_evidence_001",
+    "type": "SBA",
+    "topic": "Psychology",
+    "question": "Which of the following psychological therapies has the least evidence for effectiveness in the management of fibromyalgia?",
+    "choices": [
+      "Psychodynamic therapy",
+      "Acceptance and Commitment Therapy (ACT)",
+      "Cognitive Behavioural Therapy (CBT)",
+      "Dialectical Behaviour Therapy (DBT)",
+      "Behavioural activation"
+    ],
+    "correct": 0,
+    "explanation": "<p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">Psychological therapy is a core part of multidisciplinary fibromyalgia management. The evidence base is strongest for CBT and increasingly supportive for ACT; psychodynamic therapy is neither recommended nor well studied for this condition.</p><p style=\"margin:12px 0 0;font-size:14px;line-height:1.65;color:var(--ink-soft)\"><strong>A. Correct.</strong> Psychodynamic therapy has the weakest evidence base of the options listed for fibromyalgia. It is not recommended in fibromyalgia guidance (e.g. EULAR) and has not been shown in controlled trials to improve fibromyalgia outcomes.</p><p style=\"margin:8px 0 0;font-size:14px;line-height:1.65;color:var(--ink-soft)\"><strong>B. Incorrect.</strong> ACT has a growing and reasonably supportive evidence base in fibromyalgia and chronic pain, targeting psychological flexibility, acceptance of pain and values-based action rather than direct symptom reduction; it is a recommended option in EULAR guidance.</p><p style=\"margin:8px 0 0;font-size:14px;line-height:1.65;color:var(--ink-soft)\"><strong>C. Incorrect.</strong> CBT has the strongest and most established evidence base of the psychological therapies for fibromyalgia and is recommended in multiple guidelines as part of a multidisciplinary approach.</p><p style=\"margin:8px 0 0;font-size:14px;line-height:1.65;color:var(--ink-soft)\"><strong>D. Incorrect.</strong> DBT has a more limited fibromyalgia-specific evidence base than CBT or ACT, but some components (e.g. distress tolerance, emotion regulation) have theoretical and emerging relevance to chronic pain &mdash; giving it more traction than psychodynamic therapy.</p><p style=\"margin:8px 0 0;font-size:14px;line-height:1.65;color:var(--ink-soft)\"><strong>E. Incorrect.</strong> Behavioural activation is a component of broader CBT-based programmes rather than a stand-alone therapy; it is used in chronic pain and fibromyalgia to address pain-related avoidance and deconditioning, and so carries more supporting evidence than psychodynamic therapy.</p><div style=\"margin-top:18px\"><div style=\"border:1px solid var(--border-strong);border-radius:14px;overflow:hidden\">\n  <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:var(--coral)\">\n    <span style=\"font-weight:700;color:#fff;font-size:14.5px\">Psychological Therapies in Chronic Pain</span>\n    <div style=\"display:inline-flex;align-items:center;gap:7px;flex-shrink:0\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"8\" x2=\"12.01\" y2=\"8\"/></svg>\n      <span style=\"font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:3px 9px\">Knowledge</span>\n    </div>\n  </div>\n  <div style=\"background:var(--surface-warm)\"><div style=\"padding:16px 18px 14px;\"><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">Several psychological therapies are used in chronic pain and fibromyalgia. They differ in their mechanism and in the strength of their evidence base: CBT is the best established, ACT is increasingly well supported, and psychodynamic therapy is neither recommended nor well studied for chronic pain.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Cognitive Behavioural Therapy (CBT)</div><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">A structured, time-limited therapy based on the premise that thoughts, emotions and behaviours are interconnected, and that maladaptive patterns can perpetuate and amplify experiences including chronic pain. It has the strongest and most established evidence base of the psychological therapies for fibromyalgia and is recommended across guidelines as part of a multidisciplinary approach.</p><table style=\"margin:0\"><tr><th>Components</th></tr><tr><td>Cognitive restructuring &mdash; identifying and challenging unhelpful, distorted pain-related thoughts (e.g. catastrophising, &ldquo;my pain means I am doing damage&rdquo;)</td></tr><tr><td>Behavioural activation &mdash; graded activity and exposure, pacing</td></tr><tr><td>Psychoeducation &mdash; understanding the pain experience and the mind&ndash;body relationship</td></tr><tr><td>Relaxation and coping-skills training &mdash; e.g. progressive muscle relaxation, diaphragmatic breathing</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Acceptance and Commitment Therapy (ACT)</div><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">A &ldquo;third-wave&rdquo; behavioural therapy that aims to increase <strong>psychological flexibility</strong> &mdash; the ability to accept unwanted internal experiences (pain, thoughts, emotions) without struggling against them, while committing to actions aligned with personal values &mdash; rather than focusing on reducing or eliminating the pain itself. It has a growing and reasonably supportive evidence base in fibromyalgia and chronic pain, and is a recommended option in EULAR guidance.</p><div style=\"text-align:center\"><img src=\"images/act-hexaflex.svg\" alt=\"The ACT hexaflex: six core processes of psychological flexibility arranged around a hexagon — acceptance, cognitive defusion, present-moment awareness, values, committed action and self-as-context\" style=\"max-width:100%;border-radius:10px;margin-top:4px;border:1px solid #EDE3D7\"></div><p style=\"margin:10px 0 0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">The six core processes (the &ldquo;hexaflex&rdquo;): acceptance, cognitive defusion, present-moment awareness / mindfulness, values clarification, committed action, and self-as-context.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Behavioural activation</div><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">Structured engagement in meaningful and rewarding activities, based on the principle that avoidance and withdrawal maintain and worsen distress and disability. It is a component of broader CBT-based programmes rather than a stand-alone therapy, and in chronic pain it targets pain-related avoidance and deconditioning.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Dialectical Behaviour Therapy (DBT)</div><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">Originally developed for borderline personality disorder and chronic emotional dysregulation. DBT combines standard cognitive-behavioural techniques with mindfulness and acceptance, structured around balancing the &ldquo;dialectic&rdquo; of acceptance and change. Its fibromyalgia-specific evidence base is more limited than that of CBT or ACT.</p><table style=\"margin:0\"><tr><th>Components</th></tr><tr><td>Mindfulness &mdash; the core skill underpinning the other modules; present-moment, non-judgemental awareness</td></tr><tr><td>Distress tolerance &mdash; surviving crises and intense distress without making things worse</td></tr><tr><td>Emotion regulation &mdash; identifying, understanding and modulating intense emotional responses</td></tr><tr><td>Interpersonal effectiveness &mdash; navigating relationships and communicating needs assertively while maintaining self-respect</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Psychodynamic therapy</div><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">Rooted in psychoanalytic theory, exploring how unconscious processes, unresolved past conflicts and early developmental / relational experiences influence present-day thoughts, emotions and behaviour, including symptom experience and coping style. It has the weakest evidence base of the therapies listed here for fibromyalgia and is not a recommended intervention for chronic pain.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Biofeedback</div><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">The patient is connected to monitoring equipment that provides real-time visual or auditory feedback on physiological processes normally outside conscious awareness &mdash; e.g. muscle tension (EMG), skin temperature, heart rate variability. Through repeated practice and operant conditioning the patient learns to consciously influence these processes to reduce pain, muscle tension or physiological arousal. It relies on physiological self-regulation and feedback learning, <strong>not</strong> on mindfulness or present-moment acceptance.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Compassion-Focused Therapy (CFT)</div><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">Aimed at people who experience high levels of shame and self-criticism, helping them develop self-compassion and activate a calming, &ldquo;soothing&rdquo; emotional system rather than remaining dominated by threat-based (fight/flight) responses to their pain and symptoms. Mindfulness practice is used as a core technique to access the calm, self-soothing state.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Mindfulness across the therapies</div><table style=\"margin:0\"><tr><th>Therapy</th><th>Mindfulness a core component?</th></tr><tr><td>CBT</td><td>Not core to traditional CBT; many modern chronic-pain CBT programmes add mindfulness-based elements as adjuncts</td></tr><tr><td>ACT</td><td>Yes &mdash; present-moment awareness is one of the six core processes</td></tr><tr><td>DBT</td><td>Yes &mdash; the foundational core skill underpinning the other modules</td></tr><tr><td>CFT</td><td>Yes &mdash; used to reach a calm, self-soothing state before compassion work</td></tr><tr><td>Biofeedback</td><td>No &mdash; works through physiological feedback and operant conditioning</td></tr></table></div></div></div></div>"
+  }
+];
+
+const DEMO_TOPICS = ['Pharmacology', 'Clinical Pain', 'Psychology'];
+
+/* ===== SAMPLE KNOWLEDGE SUMMARY ENTRIES ===== */
+const KS_ENTRIES = [
+  {
+    "label": "Acute Pain Management in the Opioid-Tolerant Patient",
+    "category": "Clinical Pain",
+    "boxes": [
+      {
+        "html": "<div style=\"border:1px solid var(--border-strong);border-radius:14px;overflow:hidden\">\n  <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:var(--coral)\">\n    <span style=\"font-weight:700;color:#fff;font-size:14.5px\">Acute Pain Management in the Opioid-Tolerant Patient</span>\n    <div style=\"display:inline-flex;align-items:center;gap:7px;flex-shrink:0\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"8\" x2=\"12.01\" y2=\"8\"/></svg>\n      <span style=\"font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:3px 9px\">Knowledge</span>\n    </div>\n  </div>\n  <div style=\"background:var(--surface-warm)\"><div style=\"padding:16px 18px 14px;\"><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">The goals in the perioperative / acute period are threefold: avoid precipitating withdrawal, achieve effective analgesia, and ensure a safe, coordinated plan for continuing care after discharge.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">General principles</div><table style=\"margin:0\"><tr><th>Point</th></tr><tr><td>Continue the baseline (chronic) opioid to prevent withdrawal and maintain tolerance-adjusted baseline analgesia</td></tr><tr><td>Additional analgesia is required on top of baseline therapy &mdash; the baseline dose alone will not cover a new acute painful stimulus</td></tr><tr><td>Use multimodal analgesia (paracetamol, NSAIDs where appropriate, regional techniques, ketamine, gabapentinoids) as adjuncts to reduce total opioid requirement, not as a substitute for adequate opioid dosing</td></tr><tr><td>Involve the multidisciplinary team &mdash; the existing chronic pain or palliative care service alongside the acute pain team</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Dosing considerations</div><table style=\"margin:0\"><tr><th>Point</th></tr><tr><td>Opioid-tolerant patients generally require higher opioid doses than opioid-naive patients for equivalent analgesia, reflecting pharmacological tolerance and, in some cases, opioid-induced hyperalgesia</td></tr><tr><td>PCA is appropriate and useful, but background infusion rates and bolus doses typically need upward adjustment compared with opioid-naive patients</td></tr><tr><td>Careful, individualised titration is needed, often with closer monitoring given the higher total doses involved</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Patients on opioid substitution therapy</div><table style=\"margin:0\"><tr><th>Drug</th><th>Approach</th></tr><tr><td>Methadone maintenance</td><td>Continue the maintenance dose; add short-acting opioids for the acute pain on top</td></tr><tr><td>Buprenorphine &mdash; low-dose transdermal (up to ~70 micrograms/hour)</td><td>Unlikely to meaningfully interfere with full agonists used for acute pain; generally continued</td></tr><tr><td>Buprenorphine &mdash; high-dose sublingual (opioid use disorder)</td><td>High receptor affinity and partial agonism can blunt added full agonists. Options: continue it and add higher-dose short-acting opioids, split the buprenorphine dose, or temporarily transition to a full agonist for the acute period &mdash; with specialist / addiction-medicine input</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Emergency reversal</div><table style=\"margin:0\"><tr><th>Point</th></tr><tr><td>Naloxone is not contraindicated in opioid-tolerant patients with dangerous respiratory depression, but standard doses risk precipitating severe acute withdrawal and abrupt loss of analgesia</td></tr><tr><td>Use small, incremental, carefully titrated doses; re-titrate analgesia once the acute danger has passed</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Practical and system considerations</div><table style=\"margin:0\"><tr><th>Point</th></tr><tr><td>An acute admission is <strong>not</strong> the time to attempt opioid tapering &mdash; the priority is analgesia and avoiding withdrawal</td></tr><tr><td>Communicate clearly with the patient&rsquo;s regular prescriber (GP, pain service or substance-misuse service) about the admission and any medication changes</td></tr><tr><td>Discharge planning should include liaison with the regular prescriber and a clear plan for weaning any additional opioids started for the acute event</td></tr></table></div></div></div>",
+        "count": 1
+      }
+    ],
+    "reading": [
+      {
+        "label": "Perioperative management of opioid-tolerant patients",
+        "source": "BJA Education",
+        "url": "https://www.bjaed.org/article/S2058-5349(17)30056-2/fulltext"
+      },
+      {
+        "label": "Acute pain management in patients receiving opioids for chronic and cancer pain",
+        "source": "BJA Education",
+        "url": "https://www.bjaed.org/article/S1743-1816(17)30548-6/fulltext"
+      }
+    ]
+  },
+  {
+    "label": "Amitriptyline",
+    "category": "Pharmacology",
+    "boxes": [
+      {
+        "html": "<div style=\"border:1px solid var(--border-strong);border-radius:14px;overflow:hidden\">\n  <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:var(--coral)\">\n    <span style=\"font-weight:700;color:#fff;font-size:14.5px\">Amitriptyline</span>\n    <div style=\"display:inline-flex;align-items:center;gap:7px;flex-shrink:0\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"8\" x2=\"12.01\" y2=\"8\"/></svg>\n      <span style=\"font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:3px 9px\">Knowledge</span>\n    </div>\n  </div>\n  <div style=\"background:var(--surface-warm)\"><div style=\"padding:16px 18px 14px;\"><p style=\"margin:0;font-size:14px;line-height:1.65;color:var(--ink-soft)\"><strong>Class:</strong> Tricyclic antidepressant (TCA)</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Mechanism of Action</div><table style=\"margin:0\"><tr><th>Mechanism</th><th>Detail</th></tr><tr><td><strong>Non-selective monoamine reuptake inhibitor</strong></td><td>Blocks presynaptic reuptake of both serotonin (5-HT) and noradrenaline, enhancing descending inhibitory pain pathways and mood regulation.</td></tr><tr><td><strong>Sodium channel blockade (central &amp; peripheral)</strong></td><td>Local anaesthetic-like, membrane-stabilising effect contributing to analgesia, independent of monoamine effects.</td></tr><tr><td>Muscarinic (antimuscarinic) antagonism</td><td>High affinity &mdash; drives much of the side-effect profile.</td></tr><tr><td>Histamine H1 antagonism</td><td>Sedative effect.</td></tr><tr><td>Alpha-1 adrenergic antagonism</td><td>Postural hypotension.</td></tr><tr><td>NMDA receptor antagonism</td><td>Some activity, contributing to the analgesic effect.</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Dose-Dependent Effect</div><table style=\"margin:0\"><tr><th>Indication</th><th>Typical dose</th><th>Onset</th></tr><tr><td>Neuropathic pain</td><td>Low dose (10&ndash;50 mg, often at night)</td><td>Days to ~2 weeks</td></tr><tr><td>Depression</td><td>Higher dose (150 mg+)</td><td>2&ndash;4 weeks</td></tr></table><p style=\"margin:12px 0 0;font-size:14px;line-height:1.65;color:var(--ink-soft)\">Analgesic benefit occurs independently of, and at doses well below, those needed for antidepressant effect.</p></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Pharmacokinetics</div><table style=\"margin:0\"><tr><th>Parameter</th><th>Detail</th></tr><tr><td>Absorption</td><td>Well absorbed orally; significant first-pass hepatic metabolism, giving relatively low and variable oral bioavailability.</td></tr><tr><td>Metabolism</td><td>Hepatic, primarily via CYP2D6 (and CYP1A2, CYP3A4) &rarr; demethylation to nortriptyline, itself a pharmacologically active tricyclic antidepressant/analgesic (more noradrenaline-selective than the parent drug).</td></tr><tr><td>Protein binding</td><td>Highly protein-bound (~95%).</td></tr><tr><td>Volume of distribution</td><td>Large (highly lipophilic, extensive tissue distribution) &mdash; relevant to the difficulty of dialysing it out in overdose.</td></tr><tr><td>Half-life</td><td>Long and variable, roughly 10&ndash;28 hours (contributes to once-daily dosing, typically at night due to sedation).</td></tr><tr><td>Excretion</td><td>Renal excretion of (conjugated) metabolites, with some faecal elimination.</td></tr><tr><td>Genetic variability</td><td>CYP2D6 polymorphism causes significant interpatient variability &mdash; poor metabolisers may accumulate higher levels at standard doses (increasing side-effect/toxicity risk); ultra-rapid metabolisers may have reduced efficacy at standard doses.</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><table style=\"margin:0\"><tr><th>Clinical Uses</th></tr><tr><td>Neuropathic pain (first/second-line agent per NICE guidance)</td></tr><tr><td>Chronic pain syndromes (e.g. fibromyalgia &mdash; off-label)</td></tr><tr><td>Migraine prophylaxis</td></tr><tr><td>Depression (higher dose)</td></tr><tr><td>Insomnia (off-label, low dose, due to sedative H1 antagonism)</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Side Effects (largely receptor-driven)</div><table style=\"margin:0\"><tr><th>System</th><th>Effects</th></tr><tr><td>Anticholinergic</td><td>Dry mouth, blurred vision, constipation, urinary retention, confusion (especially in the elderly).</td></tr><tr><td>Antihistaminergic</td><td>Sedation, weight gain.</td></tr><tr><td>Alpha-1 blockade</td><td>Postural hypotension.</td></tr><tr><td>Cardiac</td><td>QTc prolongation, arrhythmia risk (sodium/potassium channel effects) &mdash; caution in cardiac disease.</td></tr><tr><td>CNS</td><td>Lowers the seizure threshold.</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><table style=\"margin:0\"><tr><th>Contraindications / Cautions</th></tr><tr><td>Recent myocardial infarction</td></tr><tr><td>Arrhythmias, heart block</td></tr><tr><td>Severe hepatic impairment</td></tr><tr><td>Concurrent MAOI use (risk of serotonin syndrome / hypertensive crisis)</td></tr><tr><td>Caution in elderly patients (anticholinergic burden, falls risk, sedation)</td></tr><tr><td>Caution in narrow-angle glaucoma and urinary retention (e.g. prostatic hypertrophy)</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><table style=\"margin:0\"><tr><th>Overdose</th></tr><tr><td>Classic and dangerous in TCA overdose: cardiotoxicity (sodium channel blockade &rarr; wide QRS, arrhythmias), seizures, severe anticholinergic toxicity, coma.</td></tr><tr><td>Sodium bicarbonate is used in the management of TCA-induced cardiotoxicity (widened QRS).</td></tr></table></div></div>\n</div>",
+        "count": 1
+      }
+    ],
+    "reading": []
+  },
+  {
+    "label": "Autonomic Nervous System",
+    "category": "Pharmacology",
+    "boxes": [
+      {
+        "html": "<div style=\"border:1px solid var(--border-strong);border-radius:14px;overflow:hidden\">\n  <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:var(--coral)\">\n    <span style=\"font-weight:700;color:#fff;font-size:14.5px\">Autonomic Nervous System</span>\n    <div style=\"display:inline-flex;align-items:center;gap:7px;flex-shrink:0\">\n      <svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"8\" x2=\"12.01\" y2=\"8\"/></svg>\n      <span style=\"font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:3px 9px\">Knowledge</span>\n    </div>\n  </div>\n  <div style=\"background:var(--surface-warm)\"><div style=\"padding:16px 18px 14px;\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Combined Reference Table</div><table style=\"margin:0\"><tr><th>Feature</th><th>Sympathetic</th><th>Parasympathetic</th></tr><tr><td>Spinal outflow</td><td>Thoracolumbar (T1&ndash;L2)</td><td>Craniosacral (CN III, VII, IX, X; S2&ndash;S4)</td></tr><tr><td>Preganglionic neuron length</td><td>Short</td><td>Long</td></tr><tr><td>Preganglionic neurotransmitter</td><td>Acetylcholine</td><td>Acetylcholine</td></tr><tr><td>Preganglionic receptor (on ganglion)</td><td>Nicotinic (N<sub>n</sub>)</td><td>Nicotinic (N<sub>n</sub>)</td></tr><tr><td>Ganglion location</td><td>Close to spinal cord (paravertebral chain / prevertebral ganglia, e.g. coeliac, mesenteric)</td><td>Close to, or within, the target organ wall (e.g. cardiac plexus, myenteric plexus, ciliary ganglion)</td></tr><tr><td>Postganglionic neuron length</td><td>Long</td><td>Short</td></tr><tr><td>Postganglionic neurotransmitter (most targets)</td><td>Noradrenaline</td><td>Acetylcholine</td></tr><tr><td>Postganglionic receptor (most targets)</td><td>Alpha (&alpha;1, &alpha;2) / Beta (&beta;1, &beta;2, &beta;3) adrenoreceptors</td><td>Muscarinic (M1&ndash;M5)</td></tr><tr><td>Exception &mdash; sweat glands (eccrine)</td><td>Sympathetic, but the postganglionic transmitter is <strong>acetylcholine</strong> &rarr; muscarinic receptors</td><td>&mdash;</td></tr><tr><td>Exception &mdash; adrenal medulla</td><td>Preganglionic fibre synapses <strong>directly</strong> on chromaffin cells (no postganglionic neuron); releases ACh &rarr; nicotinic receptors; chromaffin cells then secrete adrenaline (~80%) and noradrenaline (~20%) into the bloodstream as hormones</td><td>&mdash;</td></tr></table></div><div style=\"padding:16px 18px 14px;border-top:2px solid var(--border-strong);\"><div style=\"font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:8px\">Neurotransmitters &amp; receptors of the pre- and postganglionic neurons</div><div style=\"text-align:center\"><img src=\"images/autonomic-preganglionic-postganglionic-neurons.png\" alt=\"Diagram comparing the parasympathetic and sympathetic nervous systems — preganglionic and postganglionic fibre lengths with acetylcholine, noradrenaline, nicotinic, muscarinic and adrenergic receptors marked\" style=\"max-width:100%;border-radius:10px;margin-top:0;border:1px solid #EDE3D7\"></div></div></div>\n</div>",
+        "count": 1
+      }
+    ],
+    "reading": []
+  }
+];
+
+/* ===== STATE ===== */
+let demoBookmarked = new Set();
+let demoNotes = {};
+let demoAttemptHistory = {};
+
+let currentPool = [];    // real, answerable questions only (max 3)
+let totalCount = 3;      // pretend full exam/set size shown in the tracker
+let currentMode = 'exam';
+let currentIdx = 0;
+let controllers = [];
+let flagged = [];
+let sessionFinished = false;
+let isNotesSession = false;
+let timerInterval = null;
+let timeRemaining = 180;
+
+const MOCK_SPECS = {
+  full: { minutes: 180, questions: 70, marks: 400 },
+  half: { minutes: 90, questions: 35, marks: 208 }
+};
+const CAT_META = [
+  { name: 'Clinical Pain', count: 80 },
+  { name: 'Physiology', count: 60 },
+  { name: 'Pharmacology', count: 70 },
+  { name: 'Anatomy', count: 50 },
+  { name: 'Regional Anaesthesia', count: 45 },
+  { name: 'Psychology', count: 40 }
+];
+
+/* ===== VIEW SWAP ===== */
+function showView(id) {
+  document.querySelectorAll('.demo-view').forEach(v => v.classList.toggle('active', v.id === id));
+  window.scrollTo(0, 0);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('demo-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ===== MY PROGRESS EXAMPLE MODAL ===== */
+const PROGRESS_CATEGORIES = [
+  { name: 'Clinical Pain', solved: 22, total: 80 },
+  { name: 'Physiology', solved: 15, total: 60 },
+  { name: 'Pharmacology', solved: 18, total: 70 },
+  { name: 'Anatomy', solved: 9, total: 50 },
+  { name: 'Regional Anaesthesia', solved: 12, total: 45 },
+  { name: 'Psychology', solved: 8, total: 40 }
+];
+function renderProgressModal() {
+  document.getElementById('progress-cat-list').innerHTML = PROGRESS_CATEGORIES.map(c => {
+    const pct = Math.round((c.solved / c.total) * 100);
+    return `<div class="progress-cat-row">
+      <div class="progress-cat-top">
+        <span class="progress-cat-name">${escHtml(c.name)}</span>
+        <span class="progress-cat-nums"><strong>${pct}%</strong> · ${c.solved}/${c.total}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+function openProgressModal() {
+  renderProgressModal();
+  document.getElementById('progress-modal-overlay').style.display = 'flex';
+}
+function closeProgressModal() {
+  document.getElementById('progress-modal-overlay').style.display = 'none';
+}
+document.getElementById('progress-modal-close').addEventListener('click', closeProgressModal);
+document.getElementById('progress-modal-overlay').addEventListener('click', e => {
+  if (e.target.id === 'progress-modal-overlay') closeProgressModal();
+});
+
+function shuffle(arr) { return arr.map(v => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(p => p[1]); }
+function escHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+/* ===== DASHBOARD + NAV RAIL WIRING ===== */
+document.getElementById('demo-mock-card').addEventListener('click', () => openConfig('mock'));
+document.getElementById('demo-custom-card').addEventListener('click', () => openConfig('custom'));
+document.getElementById('demo-bookmarks-card').addEventListener('click', () => openBookmarksOrEmpty());
+
+document.getElementById('app-rail').addEventListener('click', e => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  if (href === 'dashboard.html') { e.preventDefault(); showView('view-dashboard'); }
+  else if (href.includes('mode=bookmarks')) { e.preventDefault(); openBookmarksOrEmpty(); }
+  else if (href.includes('mode=notes')) { e.preventDefault(); openNotesOrEmpty(); }
+  else if (href === 'knowledge-summary.html') { e.preventDefault(); openKnowledge(); }
+  else if (href === 'my-progress.html') { e.preventDefault(); openProgressModal(); }
+});
+
+const RAIL_TIPS = {
+  'dashboard.html': 'Your home base — progress and quick launches at a glance',
+  'my-progress.html': 'A full breakdown of your progress, with detailed stats by category',
+  'practice.html?mode=bookmarks': "Every question you've saved, gathered here for review",
+  'practice.html?mode=notes': "Everything you've written notes on, in one place",
+  'knowledge-summary.html': 'Quick, bite-sized facts covering the curriculum'
+};
+function tagRailTips() {
+  document.querySelectorAll('#app-rail a').forEach(a => {
+    const tip = RAIL_TIPS[a.getAttribute('href')];
+    if (tip) { a.classList.add('demo-tip'); a.setAttribute('data-tip', tip); }
+  });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tagRailTips);
+else tagRailTips();
+
+/* ===== CONFIG VIEW ===== */
+function mockSizeChoice() {
+  return document.querySelector('#demo-size-row input[name="demosize"]:checked').value;
+}
+function syncMockSummary() {
+  const spec = MOCK_SPECS[mockSizeChoice()];
+  document.getElementById('mock-stat-q').textContent = spec.questions;
+  document.getElementById('mock-stat-min').textContent = spec.minutes;
+  document.getElementById('mock-stat-marks').textContent = spec.marks;
+  document.querySelectorAll('#demo-size-row .source-opt').forEach(opt => {
+    opt.classList.toggle('checked', opt.querySelector('input').checked);
+  });
+}
+document.querySelectorAll('#demo-size-row input[name="demosize"]').forEach(input => {
+  input.addEventListener('change', syncMockSummary);
+});
+
+function openConfig(kind) {
+  showView('view-config');
+  const mockBlock = document.getElementById('mock-summary-block');
+  const customBlock = document.getElementById('custom-config-block');
+  const startBtn = document.getElementById('demo-start-btn');
+  if (kind === 'mock') {
+    mockBlock.style.display = 'block';
+    customBlock.style.display = 'none';
+    document.getElementById('config-eyebrow').textContent = 'Mock Exam';
+    document.getElementById('config-title').textContent = 'Sit a mock exam';
+    document.getElementById('config-sub').textContent = 'A timed simulation built to the real exam’s mix of question types.';
+    startBtn.textContent = 'Start Mock Exam';
+    syncMockSummary();
+    startBtn.onclick = () => {
+      const spec = MOCK_SPECS[mockSizeChoice()];
+      const realPool = shuffle(DEMO_QUESTIONS.slice());
+      startSessionCommon('exam', realPool, { timer: true, minutes: spec.minutes, totalCount: spec.questions });
+    };
+  } else {
+    mockBlock.style.display = 'none';
+    customBlock.style.display = 'block';
+    document.getElementById('config-eyebrow').textContent = 'Practice Set';
+    document.getElementById('config-title').textContent = 'Build a practice set';
+    document.getElementById('config-sub').textContent = 'Choose how many questions, which categories, and where to draw them from.';
+    startBtn.textContent = 'Start';
+    populateCategoryGrid();
+    wireConfigControls();
+    updateCountMax();
+    startBtn.onclick = () => {
+      const filters = readCustomFilters();
+      const realMatches = shuffle(applyCustomFilters(DEMO_QUESTIONS, filters));
+      const realPool = realMatches.slice(0, Math.min(3, filters.count, realMatches.length));
+      startSessionCommon('practice', realPool, { timer: false, totalCount: filters.count });
+    };
+  }
+}
+
+function populateCategoryGrid() {
+  const grid = document.getElementById('cat-grid');
+  grid.innerHTML = CAT_META.map(c =>
+    `<label class="cat-chip" data-cat="${escHtml(c.name)}"><input type="checkbox" value="${escHtml(c.name)}"/><span>${escHtml(c.name)}</span><span class="cnt">${c.count}</span></label>`
+  ).join('');
+}
+
+function wireConfigControls() {
+  const range = document.getElementById('count-range');
+  range.addEventListener('input', () => { document.getElementById('count-num').textContent = range.value; });
+  document.querySelectorAll('#cat-grid input, #type-grid input').forEach(input => {
+    input.addEventListener('change', () => {
+      input.closest('.cat-chip').classList.toggle('checked', input.checked);
+      updateCountMax();
+    });
+  });
+  document.querySelectorAll('#source-row input[name="source"]').forEach(input => {
+    input.addEventListener('change', () => {
+      document.querySelectorAll('#source-row .source-opt').forEach(opt => opt.classList.toggle('checked', opt.querySelector('input').checked));
+      updateCountMax();
+    });
+  });
+  document.getElementById('bookmarked-only').addEventListener('change', e => {
+    document.getElementById('bookmarked-only-opt').classList.toggle('checked', e.target.checked);
+    updateCountMax();
+  });
+}
+
+function readCustomFilters() {
+  const cats = [...document.querySelectorAll('#cat-grid input:checked')].map(i => i.value);
+  const types = [...document.querySelectorAll('#type-grid input:checked')].map(i => i.value);
+  const source = document.querySelector('#source-row input[name="source"]:checked').value;
+  const bookmarkedOnly = document.getElementById('bookmarked-only').checked;
+  const count = parseInt(document.getElementById('count-range').value, 10);
+  return { cats, types, source, bookmarkedOnly, count };
+}
+
+function applyCustomFilters(pool, f) {
+  return pool.filter(q => {
+    if (f.cats.length && !f.cats.includes(q.topic)) return false;
+    if (f.types.length && !f.types.includes(q.type)) return false;
+    if (f.bookmarkedOnly && !demoBookmarked.has(q.id)) return false;
+    if (f.source === 'new' && (q.id in demoAttemptHistory)) return false;
+    if (f.source === 'answered' && !(q.id in demoAttemptHistory)) return false;
+    if (f.source === 'wrong' && demoAttemptHistory[q.id] !== false) return false;
+    return true;
+  });
+}
+
+// Illustrative "how many questions this filter combo would match" — a real
+// bank scale, not the literal 3 demo questions (which is what actually gets
+// used, capped, once the session starts). Bookmarked-only is the one filter
+// that's always genuinely small, so it uses the real count instead.
+function computeAvailable(f) {
+  if (f.bookmarkedOnly) return applyCustomFilters(DEMO_QUESTIONS, f).length;
+  const cats = f.cats.length ? CAT_META.filter(c => f.cats.includes(c.name)) : CAT_META;
+  return cats.reduce((sum, c) => sum + c.count, 0);
+}
+
+function updateCountMax() {
+  const filters = readCustomFilters();
+  const avail = computeAvailable(filters);
+  const range = document.getElementById('count-range');
+  const max = Math.max(1, Math.min(50, avail));
+  range.max = max;
+  if (parseInt(range.value, 10) > max) range.value = max;
+  document.getElementById('count-num').textContent = range.value;
+  range.disabled = avail === 0;
+  const availEl = document.getElementById('count-avail');
+  availEl.textContent = avail === 0 ? 'No questions match these filters' : `${avail} question${avail === 1 ? '' : 's'} available`;
+  availEl.classList.toggle('none', avail === 0);
+}
+
+/* ===== BOOKMARKS / NOTES ENTRY POINTS ===== */
+function openBookmarksOrEmpty() {
+  const pool = DEMO_QUESTIONS.filter(q => demoBookmarked.has(q.id));
+  showView('view-session');
+  restoreSessionChrome();
+  if (!pool.length) return showEmptySession('bookmarks');
+  startSessionCommon('practice', shuffle(pool.slice()), { timer: false, totalCount: pool.length });
+}
+
+function openNotesOrEmpty() {
+  const pool = DEMO_QUESTIONS.filter(q => demoNotes[q.id] && demoNotes[q.id].trim());
+  showView('view-session');
+  restoreSessionChrome();
+  if (!pool.length) return showEmptySession('notes');
+  startSessionCommon('practice', pool.slice(), { timer: false, isNotes: true, totalCount: pool.length });
+}
+
+function showEmptySession(kind) {
+  const icon = kind === 'notes'
+    ? '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>'
+    : '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>';
+  const title = kind === 'notes' ? 'No notes yet' : 'No bookmarks yet';
+  const body = kind === 'notes'
+    ? 'Open the notes panel on any question during a practice set or mock exam and start writing — noted questions gather here for review.'
+    : 'During any practice set or mock exam, tap the bookmark icon on a question to save it here for focused review.';
+  document.getElementById('session-layout').style.display = 'none';
+  document.getElementById('session-wrap').insertAdjacentHTML('afterbegin', `
+    <div class="config-card" id="empty-session-card" style="text-align:center;max-width:460px;margin:0 auto">
+      <div style="width:52px;height:52px;border-radius:16px;background:var(--coral-faint);display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--coral)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icon}</svg>
+      </div>
+      <h1>${title}</h1>
+      <p class="sub" style="margin:0 auto 24px;max-width:360px">${body}</p>
+      <button class="btn btn-primary" style="justify-content:center;width:100%" onclick="showView('view-dashboard')">Back to dashboard</button>
+    </div>`);
+}
+
+function restoreSessionChrome() {
+  const empty = document.getElementById('empty-session-card');
+  if (empty) empty.remove();
+  document.getElementById('session-layout').style.display = '';
+  document.getElementById('demo-cta-card').hidden = true;
+}
+
+/* ===== PAYWALL POPUP ===== */
+function openPaywallPopup() {
+  document.getElementById('paywall-popup-overlay').style.display = 'flex';
+}
+function closePaywallPopup() {
+  document.getElementById('paywall-popup-overlay').style.display = 'none';
+}
+document.getElementById('paywall-popup-close').addEventListener('click', closePaywallPopup);
+document.getElementById('paywall-popup-overlay').addEventListener('click', e => {
+  if (e.target.id === 'paywall-popup-overlay') closePaywallPopup();
+});
+
+/* ===== SESSION RUNNER (shared by mock/custom/bookmarks/notes) =====
+   currentPool holds only the REAL, answerable questions (max 3). totalCount
+   is the pretend full exam/set size the tracker displays — every position
+   from currentPool.length up to totalCount is rendered as a locked chip;
+   trying to reach one (via Next or clicking the chip) opens the paywall
+   popup instead of navigating. All real slides are rendered ONCE up front
+   (matching the real site's architecture) and navigation just toggles
+   which .practice-q-slide is visible, so answered/revealed state is never
+   lost when moving between questions. */
+function startSessionCommon(mode, pool, opts) {
+  opts = opts || {};
+  showView('view-session');
+  restoreSessionChrome();
+  currentMode = mode;
+  currentPool = pool;
+  totalCount = opts.totalCount != null ? opts.totalCount : pool.length;
+  isNotesSession = !!opts.isNotes;
+  currentIdx = 0;
+  controllers = new Array(pool.length).fill(null);
+  flagged = new Array(pool.length).fill(false);
+  sessionFinished = false;
+
+  const finishBtn = document.getElementById('demo-finish-btn');
+  finishBtn.style.display = '';
+  finishBtn.textContent = isNotesSession ? 'Back to dashboard' : (mode === 'exam' ? 'Finish Exam' : 'Submit Set');
+  document.getElementById('demo-tracker-row').style.display = '';
+  document.getElementById('demo-results-summary').hidden = true;
+
+  renderAllSlides();
+  renderTracker();
+  if (currentPool.length > 0) {
+    goToQuestion(0);
+  } else {
+    document.getElementById('demo-progress-text').textContent = `Question 1 of ${totalCount}`;
+    document.getElementById('demo-prev-btn').disabled = true;
+    document.getElementById('demo-next-btn').disabled = totalCount <= 1;
+  }
+
+  if (opts.timer) {
+    startTimer(opts.minutes * 60);
+  } else {
+    clearInterval(timerInterval);
+    document.getElementById('app-timer').style.display = 'none';
+  }
+}
+
+function renderAllSlides() {
+  const container = document.getElementById('session-q-wrapper');
+  container.innerHTML = '';
+  currentPool.forEach((q, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'practice-q-slide';
+    slide.dataset.idx = i;
+    container.appendChild(slide);
+
+    const bookmarkOpts = {
+      isBookmarked: demoBookmarked.has(q.id),
+      onToggle: (id, next) => { if (next) demoBookmarked.add(id); else demoBookmarked.delete(id); return true; }
+    };
+    const onReveal = (a) => {
+      if (currentMode === 'practice' && !isNotesSession) demoAttemptHistory[q.id] = a;
+      renderTracker();
+    };
+    const onFlag = (isFlagged) => { flagged[i] = isFlagged; renderTracker(); };
+
+    controllers[i] = renderQuestion(q, slide, currentMode, onReveal, onFlag, bookmarkOpts);
+    attachNotesUI(slide.querySelector('.q-card'), q);
+    attachReportUI(slide.querySelector('.q-card'));
+    groupMetaActions(slide.querySelector('.q-card'));
+    if (isNotesSession) controllers[i].forceReveal(true);
+  });
+}
+
+/* Report a problem — matches the real site's button exactly (icon, label,
+   position at the front of the action cluster); wired to the paywall since
+   submitting a report needs a real account. */
+function attachReportUI(card) {
+  if (!card) return;
+  const metaRow = card.querySelector('.q-meta');
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'qr-btn';
+  btn.innerHTML = '<svg class="qr-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Report</span>';
+  btn.addEventListener('click', () => openPaywallPopup());
+  const anchor = metaRow.querySelector('.bookmark-btn, .notes-toggle-btn, .flag-btn');
+  if (anchor) metaRow.insertBefore(btn, anchor); else metaRow.appendChild(btn);
+}
+
+/* Groups Report / Bookmark / Notes / Flag into one right-aligned cluster,
+   exactly like practice.html does after QuestionReport/QuestionNotes attach. */
+function groupMetaActions(card) {
+  if (!card) return;
+  const metaRow = card.querySelector('.q-meta');
+  if (!metaRow || metaRow.querySelector('.q-meta-actions')) return;
+  const actions = document.createElement('div');
+  actions.className = 'q-meta-actions';
+  metaRow.querySelectorAll(':scope > .qr-btn, :scope > .bookmark-btn, :scope > .notes-toggle-btn, :scope > .flag-btn')
+    .forEach(b => actions.appendChild(b));
+  metaRow.appendChild(actions);
+}
+
+function attachNotesUI(card, q) {
+  if (!card) return;
+  const metaRow = card.querySelector('.q-meta');
+  const flagBtn = metaRow.querySelector('.flag-btn');
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'notes-toggle-btn';
+  btn.setAttribute('data-tip', 'Write a private note on this question');
+  btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span class="qn-dot" hidden></span>';
+  if (flagBtn) metaRow.insertBefore(btn, flagBtn); else metaRow.appendChild(btn);
+
+  if (isNotesSession) {
+    const panel = document.createElement('div');
+    panel.className = 'notes-panel';
+    panel.innerHTML = `<div class="notes-panel-label">Your notes</div><textarea class="notes-textarea" readonly>${escHtml(demoNotes[q.id] || '')}</textarea>`;
+    card.querySelector('.q-card-body').appendChild(panel);
+    btn.classList.add('open');
+    if (demoNotes[q.id] && demoNotes[q.id].trim()) btn.querySelector('.qn-dot').hidden = false;
+  }
+
+  btn.addEventListener('click', () => openPaywallPopup());
+}
+
+const LOCK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+const TICK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+const CROSS_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+/* Mock exam gets the real completion-tracker grid (colour = fully-answered,
+   not correctness) plus its legend; practice/bookmarks/notes get the real
+   scoreboard list (Q# + tick/cross/fraction, no legend, no flag) — exactly
+   mirroring practice.html's trackerMode split. */
+function renderTracker() {
+  const trackerMode = currentMode === 'exam' && !sessionFinished;
+  document.getElementById('demo-tracker-legend').hidden = !trackerMode;
+  document.getElementById('demo-tracker-title').textContent = trackerMode ? 'Progress' : 'Scoreboard';
+  const wrap = document.getElementById('demo-tracker-chips');
+  wrap.className = trackerMode ? 'demo-tracker-chips' : 'demo-tracker-chips demo-scoreboard-list';
+  wrap.innerHTML = trackerMode ? trackerItemsHTML() : scoreboardItemsHTML();
+  wrap.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => goToQuestion(parseInt(b.dataset.idx, 10)));
+  });
+}
+
+function trackerItemsHTML() {
+  let html = '';
+  for (let i = 0; i < totalCount; i++) {
+    if (i < currentPool.length) {
+      const ctrl = controllers[i];
+      let cls = 'qtracker-item';
+      if (ctrl) {
+        const r = ctrl.getResult();
+        const fullyAnswered = r.fullyAnswered !== undefined ? r.fullyAnswered
+          : (r.subAnswered ? r.subAnswered.every(Boolean) : r.answered);
+        const status = !r.answered ? '' : (fullyAnswered ? 'complete' : 'partial');
+        if (status) cls += ' ' + status;
+      }
+      if (i === currentIdx) cls += ' is-current';
+      if (flagged[i]) cls += ' flagged';
+      html += `<button class="${cls}" data-idx="${i}" type="button" aria-label="Question ${i + 1}">${i + 1}</button>`;
+    } else {
+      html += `<button class="qtracker-item locked" data-idx="${i}" type="button" aria-label="Question ${i + 1} — requires full access">${LOCK_SVG}</button>`;
+    }
+  }
+  return html;
+}
+
+function scoreboardItemsHTML() {
+  let html = '';
+  for (let i = 0; i < totalCount; i++) {
+    const curCls = i === currentIdx ? ' is-current' : '';
+    if (i < currentPool.length) {
+      const ctrl = controllers[i];
+      const q = currentPool[i];
+      let statusHtml = '<span class="score-status pending">–</span>';
+      if (ctrl && ctrl.isRevealed()) {
+        const r = ctrl.getResult();
+        if (q.type === 'MTF') {
+          const cls = r.correct === 0 ? 'bad' : r.correct === r.total ? 'good' : 'mid';
+          statusHtml = `<span class="score-status frac ${cls}">${r.correct}/${r.total}</span>`;
+        } else {
+          statusHtml = r.isCorrect
+            ? `<span class="score-status good">${TICK_SVG}</span>`
+            : `<span class="score-status bad">${CROSS_SVG}</span>`;
+        }
+      }
+      html += `<button class="score-row${curCls}" data-idx="${i}" type="button"><span class="score-num">Q${i + 1}</span>${statusHtml}</button>`;
+    } else {
+      html += `<button class="score-row locked" data-idx="${i}" type="button" aria-label="Question ${i + 1} — requires full access"><span class="score-num">Q${i + 1}</span><span class="score-status locked">${LOCK_SVG}</span></button>`;
+    }
+  }
+  return html;
+}
+
+function goToQuestion(idx) {
+  if (idx < 0) return;
+  if (idx >= currentPool.length) { openPaywallPopup(); return; }
+  currentIdx = idx;
+  document.querySelectorAll('#session-q-wrapper .practice-q-slide').forEach(s => {
+    s.classList.toggle('is-active', parseInt(s.dataset.idx, 10) === idx);
+  });
+  document.getElementById('demo-progress-text').textContent = `Question ${currentIdx + 1} of ${totalCount}`;
+  document.getElementById('demo-prev-btn').disabled = currentIdx === 0;
+  document.getElementById('demo-next-btn').disabled = currentIdx === totalCount - 1;
+  renderTracker();
+}
+
+document.getElementById('demo-next-btn').addEventListener('click', () => goToQuestion(currentIdx + 1));
+document.getElementById('demo-prev-btn').addEventListener('click', () => goToQuestion(currentIdx - 1));
+
+document.getElementById('demo-finish-btn').addEventListener('click', () => {
+  if (isNotesSession) { showView('view-dashboard'); return; }
+  const allAnswered = currentPool.every((q, i) => {
+    const ctrl = controllers[i];
+    return ctrl ? ctrl.getResult().answered : false;
+  });
+  const msg = allAnswered
+    ? 'Are you sure you want to submit?'
+    : 'Not all answers have been attempted — are you sure you want to submit?';
+  if (!window.confirm(msg)) return;
+  finishDemoSession();
+});
+
+function startTimer(seconds) {
+  timeRemaining = seconds;
+  let tenMinWarned = false;
+  const timerEl = document.getElementById('app-timer');
+  timerEl.style.display = 'flex';
+  timerEl.classList.remove('low');
+  const textEl = document.getElementById('timer-text');
+  function paintTimer() {
+    const m = Math.floor(Math.max(0, timeRemaining) / 60);
+    const s = Math.max(0, timeRemaining) % 60;
+    textEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    if (timeRemaining <= 300) timerEl.classList.add('low');
+  }
+  paintTimer();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeRemaining--;
+    paintTimer();
+    if (!tenMinWarned && timeRemaining <= 600) {
+      tenMinWarned = true;
+      document.getElementById('time-warning-modal').style.display = 'flex';
+    }
+    if (timeRemaining <= 0) { clearInterval(timerInterval); finishDemoSession(); }
+  }, 1000);
+}
+document.getElementById('time-warning-dismiss').addEventListener('click', () => {
+  document.getElementById('time-warning-modal').style.display = 'none';
+});
+
+document.getElementById('topbar-dashboard-btn').addEventListener('click', () => {
+  clearInterval(timerInterval);
+  document.getElementById('app-timer').style.display = 'none';
+  showView('view-dashboard');
+});
+
+function finishDemoSession() {
+  if (sessionFinished) return;
+  sessionFinished = true;
+  clearInterval(timerInterval);
+  document.getElementById('app-timer').style.display = 'none';
+
+  let earnedMarks = 0, maxMarks = 0, answeredCount = 0;
+  currentPool.forEach((q, i) => {
+    const ctrl = controllers[i];
+    if (!ctrl) return;
+    const r = ctrl.getResult();
+    if (r.answered) { answeredCount++; demoAttemptHistory[q.id] = r.isCorrect !== undefined ? r.isCorrect : (r.correct === r.total); }
+    const perUnit = q.type === 'SBA' ? 4 : q.type === 'MTF' ? 1 : 4;
+    maxMarks += r.total * perUnit;
+    earnedMarks += r.correct * perUnit;
+    ctrl.forceReveal(true);
+  });
+  document.querySelectorAll('#session-q-wrapper .flag-btn').forEach(b => b.remove());
+
+  const scorePct = maxMarks ? Math.round((earnedMarks / maxMarks) * 100) : 0;
+  const panel = document.getElementById('demo-results-summary');
+  panel.innerHTML = `
+    <div class="results-summary-title">Result</div>
+    <div class="results-summary-row"><span>Answered</span><span class="v">${answeredCount} / ${currentPool.length}</span></div>
+    <div class="results-summary-row"><span>Score</span><span class="v">${scorePct}%</span></div>
+    <div class="results-summary-marks">
+      <div class="results-summary-marks-num">${earnedMarks}/${maxMarks}</div>
+      <div class="results-summary-marks-label">Marks</div>
+    </div>
+    <div class="results-panel-actions">
+      <a class="btn btn-primary" href="question-bank.html">Get full access</a>
+    </div>`;
+  panel.hidden = false;
+  document.getElementById('demo-finish-btn').style.display = 'none';
+  document.getElementById('demo-cta-card').hidden = false;
+  renderTracker();
+}
+
+/* ===== KNOWLEDGE SUMMARY VIEW =====
+   Mirrors knowledge-summary.html's actual controls (topic filter, A-Z/by-topic
+   sort, searchable picker, prev/next stepper) working for real against the
+   free preview's 3 real knowledge boxes — same allEntries/view/current/
+   sortMode/topicFilter/applyView/buildList/show architecture as the real page. */
+let allEntries = KS_ENTRIES;
+let view = [];
+let current = 0;
+let sortMode = 'alpha';
+let topicFilter = '';
+
+function openKnowledge() {
+  showView('view-knowledge');
+  document.getElementById('ks-sub').innerHTML = 'The knowledge boxes from across the question bank, one at a time — <b>' +
+    allEntries.length + '</b> ' + (allEntries.length === 1 ? 'summary' : 'summaries') + ' in this free preview.';
+  syncSortButtons();
+  document.getElementById('ks-topic-current').textContent = topicFilter || 'All topics';
+  buildTopicPanel();
+  applyView(view[current] && view[current].label);
+}
+
+function categoryList() {
+  const counts = new Map();
+  allEntries.forEach(e => {
+    const c = e.category || 'Uncategorised';
+    counts.set(c, (counts.get(c) || 0) + 1);
+  });
+  return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+}
+
+function applyView(keepLabel) {
+  const filtered = topicFilter
+    ? allEntries.filter(e => (e.category || 'Uncategorised') === topicFilter)
+    : allEntries.slice();
+  filtered.sort(sortMode === 'topic'
+    ? (a, b) => (a.category || '~').localeCompare(b.category || '~') || a.label.localeCompare(b.label)
+    : (a, b) => a.label.localeCompare(b.label));
+  view = filtered;
+
+  const idx = keepLabel ? view.findIndex(e => e.label === keepLabel) : -1;
+  current = idx >= 0 ? idx : 0;
+
+  buildList();
+
+  if (!view.length) {
+    document.getElementById('ks-view').innerHTML = '<div class="ks-empty"><p>No summaries in this topic.</p></div>';
+    document.getElementById('ks-step-pos').textContent = '0 / 0';
+    document.getElementById('ks-prev').disabled = true;
+    document.getElementById('ks-next').disabled = true;
+    document.getElementById('ks-picker-label').textContent = '—';
+    return;
+  }
+  showKs(current, false);
+}
+
+function syncSortButtons() {
+  document.querySelectorAll('#ks-sort button').forEach(b => {
+    const on = b.dataset.sort === sortMode;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+}
+
+function buildTopicPanel() {
+  const panel = document.getElementById('ks-topic-panel');
+  const opts = [['', 'All topics', allEntries.length]].concat(categoryList().map(([c, n]) => [c, c, n]));
+  panel.innerHTML = opts.map(([val, label, n]) =>
+    `<button class="ks-mini-opt" type="button" role="option" data-val="${escHtml(val)}" aria-selected="${val === topicFilter}"><span>${escHtml(label)}</span><span class="c">${n}</span></button>`
+  ).join('');
+  panel.querySelectorAll('.ks-mini-opt').forEach(b => {
+    b.addEventListener('click', () => {
+      topicFilter = b.dataset.val;
+      panel.querySelectorAll('.ks-mini-opt').forEach(x => x.setAttribute('aria-selected', String(x.dataset.val === topicFilter)));
+      document.getElementById('ks-topic-current').textContent = topicFilter || 'All topics';
+      document.getElementById('ks-topic-wrap').classList.remove('open');
+      document.getElementById('ks-topic-btn').setAttribute('aria-expanded', 'false');
+      applyView(view[current] && view[current].label);
+    });
+  });
+}
+
+document.querySelectorAll('#ks-sort button').forEach(b => {
+  b.addEventListener('click', () => {
+    if (b.dataset.sort === sortMode) return;
+    sortMode = b.dataset.sort;
+    syncSortButtons();
+    applyView(view[current] && view[current].label);
+  });
+});
+
+(() => {
+  const wrap = document.getElementById('ks-topic-wrap');
+  const tbtn = document.getElementById('ks-topic-btn');
+  tbtn.addEventListener('click', () => {
+    const open = wrap.classList.toggle('open');
+    tbtn.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', e => {
+    if (!wrap.contains(e.target)) { wrap.classList.remove('open'); tbtn.setAttribute('aria-expanded', 'false'); }
+  });
+})();
+
+function buildList(term) {
+  const list = document.getElementById('ks-picker-list');
+  const q = (term || '').trim().toLowerCase();
+  const rows = view
+    .map((e, i) => ({ e, i }))
+    .filter(({ e }) => !q || e.label.toLowerCase().indexOf(q) !== -1 || (e.category || '').toLowerCase().indexOf(q) !== -1);
+
+  if (!rows.length) {
+    list.innerHTML = '<div class="ks-opt-empty">No summaries match that search.</div>';
+    return;
+  }
+  const grouped = sortMode === 'topic' && !q;
+  let html = '', lastCat = null;
+  rows.forEach(({ e, i }) => {
+    if (grouped) {
+      const c = e.category || 'Uncategorised';
+      if (c !== lastCat) { html += `<div class="ks-list-head">${escHtml(c)}</div>`; lastCat = c; }
+    }
+    html += `<button class="ks-opt" type="button" role="option" data-i="${i}" aria-selected="${i === current}"><span class="ks-opt-label">${escHtml(e.label)}</span>${(!grouped && e.category) ? `<span class="ks-opt-cat">${escHtml(e.category)}</span>` : ''}</button>`;
+  });
+  list.innerHTML = html;
+  list.querySelectorAll('.ks-opt').forEach(btn => {
+    btn.addEventListener('click', () => { closeKsPanel(); showKs(parseInt(btn.dataset.i, 10), true); });
+  });
+}
+
+function closeKsPanel() {
+  document.getElementById('ks-picker-wrap').classList.remove('open');
+  document.getElementById('ks-picker-btn').setAttribute('aria-expanded', 'false');
+}
+document.getElementById('ks-picker-btn').addEventListener('click', () => {
+  const wrap = document.getElementById('ks-picker-wrap');
+  const open = wrap.classList.toggle('open');
+  document.getElementById('ks-picker-btn').setAttribute('aria-expanded', String(open));
+  if (open) {
+    document.getElementById('ks-picker-search').value = '';
+    buildList();
+    setTimeout(() => document.getElementById('ks-picker-search').focus(), 20);
+  }
+});
+document.getElementById('ks-picker-search').addEventListener('input', e => buildList(e.target.value));
+document.getElementById('ks-picker-search').addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const first = document.querySelector('#ks-picker-list .ks-opt');
+    if (first) { closeKsPanel(); showKs(parseInt(first.dataset.i, 10), true); }
+  } else if (e.key === 'Escape') { closeKsPanel(); }
+});
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('ks-picker-wrap');
+  if (wrap.classList.contains('open') && !wrap.contains(e.target)) closeKsPanel();
+});
+
+document.getElementById('ks-prev').addEventListener('click', () => showKs(current - 1, true));
+document.getElementById('ks-next').addEventListener('click', () => showKs(current + 1, true));
+
+function showKs(i, userAction) {
+  if (!view.length) return;
+  current = (i + view.length) % view.length;
+  const entry = view[current];
+
+  document.getElementById('ks-picker-label').textContent = entry.label;
+  document.getElementById('ks-step-pos').textContent = (current + 1) + ' / ' + view.length;
+  document.getElementById('ks-prev').disabled = view.length < 2;
+  document.getElementById('ks-next').disabled = view.length < 2;
+
+  document.querySelectorAll('#ks-picker-list .ks-opt').forEach(o => {
+    o.setAttribute('aria-selected', String(parseInt(o.dataset.i, 10) === current));
+  });
+
+  const boxes = entry.boxes.map(b => {
+    const foot = b.count > 1
+      ? `<div class="ks-item-foot"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Shared across ${b.count} questions</span></div>`
+      : '';
+    return `<div><div class="ks-box">${b.html}</div>${foot}</div>`;
+  }).join('');
+
+  const reading = entry.reading || [];
+  const readingHtml = reading.length
+    ? `<div class="ks-reading"><div class="ks-reading-eyebrow">Relevant reading</div><ul class="ks-reading-list">${reading.map(it => {
+        const href = escHtml(String(it.url).replace(/["'<>\s]/g, ''));
+        return `<li><a class="rr-link" href="${href}" target="_blank" rel="noopener noreferrer">
+          <svg class="rr-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <span class="rr-body"><span class="rr-title">${escHtml(it.label)}</span>${it.source ? `<span class="rr-src">${escHtml(it.source)}</span>` : ''}</span>
+          <svg class="rr-arrow" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a></li>`;
+      }).join('')}</ul></div>`
+    : '';
+
+  document.getElementById('ks-view').innerHTML =
+    (entry.category ? `<span class="ks-view-cat">${escHtml(entry.category)}</span>` : '') +
+    `<div class="ks-boxes">${boxes}</div>${readingHtml}`;
+
+  document.querySelectorAll('#ks-view .ks-box table').forEach(tbl => {
+    const w = document.createElement('div');
+    w.className = 'ks-tablewrap';
+    tbl.replaceWith(w);
+    w.appendChild(tbl);
+  });
+
+  initLightboxTargets(document.getElementById('ks-view'));
+}
+</script>
+</body>
+</html>
