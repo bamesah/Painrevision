@@ -94,10 +94,17 @@ a{color:inherit;text-decoration:none}
 .offer-sub{font-size:14.5px;color:var(--stone);line-height:1.6;margin-bottom:26px}
 .offer-price{font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1}
 .offer-price span{font-size:16px;font-weight:600;color:var(--stone);margin-left:6px}
-.offer-until{font-size:13.5px;color:var(--stone);margin:8px 0 30px}
-.offer-features{list-style:none;text-align:left;margin:0 0 32px;display:flex;flex-direction:column;gap:13px}
+.offer-until{font-size:13.5px;color:var(--stone);margin:8px 0 6px}
+.offer-then{font-family:var(--mono);font-size:12px;color:var(--stone-light);letter-spacing:.02em;margin:0 0 30px}
+.offer-features{list-style:none;text-align:left;margin:0 0 28px;display:flex;flex-direction:column;gap:13px}
 .offer-features li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--ink-soft)}
 .offer-features svg{width:18px;height:18px;stroke:var(--correct);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.offer-dev-note{background:var(--surface-warm);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:0 0 28px;text-align:left}
+.offer-dev-status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.offer-dev-dot{width:7px;height:7px;border-radius:50%;background:var(--correct);flex-shrink:0;animation:offer-dev-pulse 2s ease-in-out infinite}
+@keyframes offer-dev-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(26,138,74,.35)}50%{opacity:.75;box-shadow:0 0 0 5px rgba(26,138,74,0)}}
+@media(prefers-reduced-motion:reduce){.offer-dev-dot{animation:none}}
+.offer-dev-note p{font-size:13.5px;line-height:1.6;color:var(--stone);margin:0}
 .btn-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px 26px;border-radius:999px;font-family:var(--san);font-size:15.5px;font-weight:700;cursor:pointer;border:2px solid var(--coral);background:var(--coral);color:#fff;letter-spacing:-.01em;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
 .btn-cta:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(240,98,60,.5)}
 .btn-cta:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
@@ -232,6 +239,7 @@ a{color:inherit;text-decoration:none}
 
         <div class="offer-price">£14.99<span>one-time</span></div>
         <p class="offer-until">Sign up today, access runs until <strong>31 October 2026</strong>.</p>
+        <p class="offer-then">Monthly &amp; annual plans launch from November 2026.</p>
 
         <ul class="offer-features">
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Unlimited practice sets and full timed mock exams</li>
@@ -240,6 +248,11 @@ a{color:inherit;text-decoration:none}
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SBA, MTF and EMQ formats across every topic</li>
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added through 31 Oct 2026</li>
         </ul>
+
+        <div class="offer-dev-note">
+          <span class="offer-dev-status"><span class="offer-dev-dot" aria-hidden="true"></span>In active development</span>
+          <p>The question bank is currently in active development. This discounted offer gives candidates a chance to start studying now at a reduced rate — while helping us shape the platform with their feedback.</p>
+        </div>
 
         <a class="btn-cta" href="signup.html">Get access — £14.99</a>
         <p class="offer-note">You'll enter your details and complete payment on the next step.</p>
