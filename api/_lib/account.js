@@ -51,7 +51,8 @@ export async function createOrReconcileAccount(supabaseAdmin, {
     // Only overwrite the password when we were given a real one — never
     // clobber a real password with a freshly-generated placeholder.
     if (password) {
-      await supabaseAdmin.auth.admin.updateUserById(userId, { password });
+      const { error: pwErr } = await supabaseAdmin.auth.admin.updateUserById(userId, { password });
+      if (pwErr) console.error('password update failed', pwErr);
     }
   }
 
