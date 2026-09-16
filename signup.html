@@ -262,7 +262,7 @@ footer{background:var(--ink);padding:52px 0}
           </div>
         </div>
 
-        <button class="btn-submit" type="submit" id="submit-btn">Continue to payment — £14.99</button>
+        <button class="btn-submit" type="submit" id="submit-btn">Continue to payment</button>
       </form>
 
     </div>
@@ -274,7 +274,7 @@ footer{background:var(--ink);padding:52px 0}
         <span class="eyebrow">Launch offer</span>
         <span class="offer-badge">Ends 31 Oct 2026</span>
       </div>
-      <h2 id="offer-heading">Why £14.99 right now?</h2>
+      <h2 id="offer-heading">Get access until 31 Oct 2026 for just £14.99</h2>
       <p class="offer-copy">The question bank is currently in active development, so we've launched a one-time discounted offer running until the end of October. It gives early candidates a chance to start studying now at a reduced rate — while helping us shape the platform with their feedback.</p>
       <span class="offer-live"><span class="offer-live-dot" aria-hidden="true"></span>New questions added daily</span>
       <div class="offer-schedule">
@@ -406,25 +406,25 @@ footer{background:var(--ink);padding:52px 0}
 
     if(usernameCheck.error || emailCheck.error){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Continue to payment — £14.99';
+      submitBtn.textContent = 'Continue to payment';
       showError('Something went wrong — please try again.');
       return;
     }
     if(usernameCheck.data === false && emailCheck.data === false){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Continue to payment — £14.99';
+      submitBtn.textContent = 'Continue to payment';
       showError('This username and email are already in use.');
       return;
     }
     if(usernameCheck.data === false){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Continue to payment — £14.99';
+      submitBtn.textContent = 'Continue to payment';
       showError('This username is already in use.');
       return;
     }
     if(emailCheck.data === false){
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Continue to payment — £14.99';
+      submitBtn.textContent = 'Continue to payment';
       showError('This email is already in use.');
       return;
     }
@@ -449,7 +449,7 @@ footer{background:var(--ink);padding:52px 0}
     }
 
     submitBtn.disabled = false;
-    submitBtn.textContent = 'Continue to payment — £14.99';
+    submitBtn.textContent = 'Continue to payment';
     showError(body.error || 'Something went wrong — please try again.');
   });
 })();
