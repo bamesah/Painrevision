@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 800" role="img" aria-labelledby="suicide-risk-title">
+<title id="suicide-risk-title">Risk and protective factors for suicide in chronic pain, grouped into pain-related, sociodemographic, personal background, psychological, and protective categories, with suicidal ideation highlighted as the strongest single predictor</title>
+
+<rect x="1" y="1" width="1098" height="798" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="550" y="42" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Suicide risk in chronic pain &#8212; risk and protective factors</text>
+  <text x="550" y="64" text-anchor="middle" font-size="13" fill="#7C7068">Suicidal ideation is the single strongest predictor; other factors compound overall risk</text>
+
+  <!-- connecting lines from centre to each satellite -->
+  <g stroke="#E7C9BC" stroke-width="2">
+    <line x1="550" y1="430" x2="550" y2="212"/>
+    <line x1="550" y1="430" x2="768" y2="322"/>
+    <line x1="550" y1="430" x2="768" y2="538"/>
+    <line x1="550" y1="430" x2="550" y2="648"/>
+    <line x1="550" y1="430" x2="332" y2="538"/>
+    <line x1="550" y1="430" x2="332" y2="322"/>
+  </g>
+
+  <!-- centre -->
+  <circle cx="550" cy="430" r="100" fill="#F0623C"/>
+  <text x="550" y="423" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">Suicide risk</text>
+  <text x="550" y="444" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">in chronic pain</text>
+
+  <!-- top: Pain-related factors -->
+  <circle cx="550" cy="212" r="122" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="550" y="156" text-anchor="middle" font-size="13.5" font-weight="700" fill="#D2491F">Pain-related</text>
+  <text x="550" y="188" text-anchor="middle" font-size="12" fill="#3A2D25">Pain intensity &amp; type</text>
+  <text x="550" y="212" text-anchor="middle" font-size="12" fill="#3A2D25">Sleep disturbance</text>
+  <text x="550" y="236" text-anchor="middle" font-size="12" fill="#3A2D25">Catastrophising &amp; opioid use</text>
+
+  <!-- top-right: Sociodemographic -->
+  <circle cx="768" cy="322" r="122" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="768" y="266" text-anchor="middle" font-size="13.5" font-weight="700" fill="#D2491F">Sociodemographic</text>
+  <text x="768" y="298" text-anchor="middle" font-size="12" fill="#3A2D25">Stressful life events</text>
+  <text x="768" y="322" text-anchor="middle" font-size="12" fill="#3A2D25">Male sex, LGBT+, minority</text>
+  <text x="768" y="346" text-anchor="middle" font-size="12" fill="#3A2D25">Lack of social support</text>
+
+  <!-- bottom-right: Personal background -->
+  <circle cx="768" cy="538" r="122" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="768" y="482" text-anchor="middle" font-size="13.5" font-weight="700" fill="#D2491F">Personal background</text>
+  <text x="768" y="514" text-anchor="middle" font-size="12" fill="#3A2D25">Substance misuse</text>
+  <text x="768" y="538" text-anchor="middle" font-size="12" fill="#3A2D25">Suicide exposure/contagion</text>
+  <text x="768" y="562" text-anchor="middle" font-size="12" fill="#3A2D25">Access to lethal means</text>
+
+  <!-- bottom: Psychological -->
+  <circle cx="550" cy="648" r="122" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="550" y="592" text-anchor="middle" font-size="13.5" font-weight="700" fill="#D2491F">Psychological</text>
+  <text x="550" y="624" text-anchor="middle" font-size="12" fill="#3A2D25">Mental illness/relapse</text>
+  <text x="550" y="648" text-anchor="middle" font-size="12" fill="#3A2D25">Impulsivity, personality disorder</text>
+  <text x="550" y="672" text-anchor="middle" font-size="12" fill="#3A2D25">Hopelessness &amp; entrapment</text>
+
+  <!-- bottom-left: Protective factors (teal accent) -->
+  <circle cx="332" cy="538" r="122" fill="#EAF3EF" stroke="#9CC3B4" stroke-width="1.5"/>
+  <text x="332" y="482" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2F6B52">Protective factors</text>
+  <text x="332" y="514" text-anchor="middle" font-size="12" fill="#2F5D4C">Problem-solving, self-control</text>
+  <text x="332" y="538" text-anchor="middle" font-size="12" fill="#2F5D4C">Connectedness &amp; faith</text>
+  <text x="332" y="562" text-anchor="middle" font-size="12" fill="#2F5D4C">Access to care, employment</text>
+
+  <!-- top-left: Suicidal ideation, strongest predictor -->
+  <circle cx="332" cy="322" r="122" fill="#FBEFE4" stroke="#D2491F" stroke-width="2.5"/>
+  <text x="332" y="266" text-anchor="middle" font-size="13.5" font-weight="700" fill="#D2491F">Suicidal ideation</text>
+  <text x="332" y="298" text-anchor="middle" font-size="12" fill="#3A2D25">Strongest single predictor</text>
+  <text x="332" y="322" text-anchor="middle" font-size="12" fill="#3A2D25">Present in prior attempts</text>
+  <text x="332" y="346" text-anchor="middle" font-size="12" fill="#3A2D25">&#8594; urgent assessment</text>
+
+</g>
+</svg>
