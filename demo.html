@@ -569,11 +569,11 @@ button{font-family:var(--san);cursor:pointer}
           <div class="ring-wrap">
             <svg class="ring-svg" viewBox="0 0 148 148" aria-hidden="true">
               <circle class="ring-track" cx="74" cy="74" r="62"/>
-              <circle class="ring-fill" cx="74" cy="74" r="62" stroke-dasharray="389.6" stroke-dashoffset="331"/>
+              <circle class="ring-fill" id="dash-ring-fill" cx="74" cy="74" r="62" stroke-dasharray="389.6" stroke-dashoffset="331"/>
             </svg>
             <div class="ring-center">
-              <span class="ring-num">84<span class="sep">/</span>560</span>
-              <span class="ring-pct">15%</span>
+              <span class="ring-num" id="dash-ring-num">84<span class="sep">/</span>560</span>
+              <span class="ring-pct" id="dash-ring-pct">15%</span>
               <span class="ring-denom">solved</span>
             </div>
           </div>
@@ -826,7 +826,7 @@ button{font-family:var(--san);cursor:pointer}
     <div class="progress-modal-body">
       <p class="progress-modal-intro">Illustrative stats — in your real account, this shows your actual progress across the whole bank.</p>
       <div class="progress-overall-row">
-        <div class="progress-stat"><div class="n">84<span>/560</span></div><div class="l">Solved</div></div>
+        <div class="progress-stat"><div class="n" id="progress-solved-n">84<span id="progress-solved-denom">/560</span></div><div class="l">Solved</div></div>
         <div class="progress-stat"><div class="n">71%</div><div class="l">Accuracy</div></div>
       </div>
       <div class="progress-cat-list" id="progress-cat-list"></div>
@@ -1084,6 +1084,27 @@ function tagRailTips() {
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tagRailTips);
 else tagRailTips();
+
+/* ===== LIVE BANK SIZE (ring + progress modal "solved" stats) =====
+   Pulls the real question count from questions.json so these demo
+   stats grow automatically as the bank grows, instead of a number
+   that goes stale the moment more questions are added. Keeps the
+   same illustrative ~15% "solved" ratio the design shipped with. */
+fetch('questions.json').then(r => r.json()).then(data => {
+  const total = data.questions.length;
+  const solved = Math.round(total * 0.15);
+  const pct = Math.round((solved / total) * 100);
+
+  document.getElementById('dash-ring-num').innerHTML = `${solved}<span class="sep">/</span>${total}`;
+  document.getElementById('dash-ring-pct').textContent = `${pct}%`;
+  const circumference = 2 * Math.PI * 62;
+  const fillEl = document.getElementById('dash-ring-fill');
+  fillEl.setAttribute('stroke-dasharray', circumference.toFixed(1));
+  fillEl.setAttribute('stroke-dashoffset', (circumference * (1 - solved / total)).toFixed(1));
+
+  document.getElementById('progress-solved-n').firstChild.textContent = solved;
+  document.getElementById('progress-solved-denom').textContent = `/${total}`;
+}).catch(() => {}); // demo stats stay at their shipped placeholder values if this fails
 
 /* ===== CONFIG VIEW ===== */
 function mockSizeChoice() {
