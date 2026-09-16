@@ -77,7 +77,12 @@ a{color:inherit;text-decoration:none}
 
 /* ===== AUTH CARD ===== */
 .auth-section{padding:8px 0 100px}
-.auth-wrap{max-width:440px;margin:0 auto;padding:0 32px}
+.auth-wrap{max-width:940px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr;gap:36px}
+.auth-col{display:flex;flex-direction:column;max-width:440px;width:100%;margin:0 auto;min-width:0}
+@media(min-width:900px){
+  .auth-wrap{grid-template-columns:440px 1fr;align-items:start;gap:40px}
+  .auth-col{margin:0}
+}
 .auth-card{background:var(--surface);border:1.5px solid var(--border);border-radius:calc(var(--r) + 4px);padding:40px;box-shadow:var(--shadow)}
 .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
 .form-group:last-of-type{margin-bottom:0}
@@ -109,6 +114,24 @@ a{color:inherit;text-decoration:none}
 .auth-switch a{color:var(--coral);font-weight:600}
 .auth-switch a:hover{text-decoration:underline}
 
+/* ===== OFFER PANEL ===== */
+.offer-panel{background:linear-gradient(175deg,var(--surface-warm),var(--cream));border:1.5px solid var(--border);border-radius:calc(var(--r) + 4px);padding:32px;max-width:440px;width:100%;margin:0 auto;min-width:0}
+@media(min-width:900px){.offer-panel{max-width:400px;margin:0;position:sticky;top:96px}}
+.offer-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.offer-badge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--coral-deep);background:var(--coral-soft);padding:5px 11px;border-radius:999px;white-space:nowrap}
+.offer-panel h2{font-size:21px;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:14px;text-wrap:balance}
+.offer-copy{font-size:14px;line-height:1.7;color:var(--ink-soft);margin-bottom:22px}
+.offer-live{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--ink-soft);letter-spacing:.02em;margin-bottom:24px}
+.offer-live-dot{width:7px;height:7px;border-radius:50%;background:#1F8A4C;flex-shrink:0;animation:offer-pulse 2s ease-in-out infinite}
+@keyframes offer-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(31,138,76,.35)}50%{opacity:.75;box-shadow:0 0 0 5px rgba(31,138,76,0)}}
+@media(prefers-reduced-motion:reduce){.offer-live-dot{animation:none}}
+.offer-schedule{border-top:1px solid var(--border-strong);padding-top:18px;display:flex;flex-direction:column;gap:14px}
+.offer-schedule-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.offer-schedule-when{font-size:13px;font-weight:600;color:var(--ink)}
+.offer-schedule-what{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--coral-deep);text-align:right}
+.offer-schedule-row.is-future .offer-schedule-when,
+.offer-schedule-row.is-future .offer-schedule-what{color:var(--stone)}
+
 /* ===== FOOTER ===== */
 footer{background:var(--ink);padding:52px 0}
 .footer-inner{display:flex;flex-direction:column;align-items:center;gap:28px}
@@ -133,6 +156,7 @@ footer{background:var(--ink);padding:52px 0}
   .nav-in{padding:14px 20px}
   .auth-wrap{padding:0 20px}
   .auth-card{padding:28px 24px}
+  .offer-panel{padding:24px}
 }
 </style>
 </head>
@@ -195,6 +219,7 @@ footer{background:var(--ink);padding:52px 0}
 <!-- ===== AUTH CARD ===== -->
 <section class="auth-section">
   <div class="auth-wrap">
+    <div class="auth-col">
     <div class="auth-card" id="auth-card">
 
       <div class="auth-error" id="auth-error"></div>
@@ -242,6 +267,27 @@ footer{background:var(--ink);padding:52px 0}
 
     </div>
     <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+
+    <aside class="offer-panel" aria-labelledby="offer-heading">
+      <div class="offer-top">
+        <span class="eyebrow">Launch offer</span>
+        <span class="offer-badge">Ends 31 Oct 2026</span>
+      </div>
+      <h2 id="offer-heading">Why £14.99 right now?</h2>
+      <p class="offer-copy">The question bank is currently in active development, so we've launched a one-time discounted offer running until the end of October. It gives early candidates a chance to start studying now at a reduced rate — while helping us shape the platform with their feedback.</p>
+      <span class="offer-live"><span class="offer-live-dot" aria-hidden="true"></span>New questions added daily</span>
+      <div class="offer-schedule">
+        <div class="offer-schedule-row">
+          <span class="offer-schedule-when">Now – 31 Oct 2026</span>
+          <span class="offer-schedule-what">£14.99 one-time</span>
+        </div>
+        <div class="offer-schedule-row is-future">
+          <span class="offer-schedule-when">From Nov 2026</span>
+          <span class="offer-schedule-what">Monthly &amp; annual plans</span>
+        </div>
+      </div>
+    </aside>
   </div>
 </section>
 
