@@ -167,14 +167,22 @@ a{color:inherit;text-decoration:none}
 .qb-cta-features{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px 32px;margin:0 0 44px;text-align:left}
 .qb-cta-features li{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:rgba(255,255,255,.82);line-height:1.4}
 .qb-cta-features svg{width:19px;height:19px;stroke:var(--amber);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+.qb-cta-note{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px 20px;margin:0 0 32px;text-align:left}
+.qb-cta-note-status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:8px}
+.qb-cta-note-dot{width:7px;height:7px;border-radius:50%;background:#4ADE80;flex-shrink:0;animation:qb-note-pulse 2s ease-in-out infinite}
+@keyframes qb-note-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,.4)}50%{opacity:.75;box-shadow:0 0 0 5px rgba(74,222,128,0)}}
+@media(prefers-reduced-motion:reduce){.qb-cta-note-dot{animation:none}}
+.qb-cta-note p{font-size:14px;line-height:1.6;color:rgba(255,255,255,.72);margin:0}
 .qb-cta-price{margin-bottom:40px}
 .qb-cta-price .amt{font-size:clamp(38px,6vw,54px);font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1}
 .qb-cta-price .amt span{font-family:var(--mono);font-size:15px;font-weight:600;color:rgba(255,255,255,.5);margin-left:8px;letter-spacing:0}
 .qb-cta-price .until{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.04em;color:var(--amber);margin-top:8px}
+.qb-cta-price .then{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.45);margin-top:6px}
 @media(max-width:900px){
   .qb-cta-grid{grid-template-columns:1fr;text-align:center;gap:40px}
   .qb-cta-main{max-width:none;margin:0 auto}
   .qb-cta-features{margin:0 auto 44px;max-width:520px}
+  .qb-cta-note{margin:0 auto 32px;max-width:520px}
 }
 @media(max-width:600px){.qb-cta-features{grid-template-columns:1fr}}
 
@@ -387,9 +395,14 @@ footer{background:var(--ink);padding:52px 0;border-top:none}
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Full access to knowledge summaries</li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Bookmark questions and write your own notes</li>
         </ul>
+        <div class="qb-cta-note">
+          <span class="qb-cta-note-status"><span class="qb-cta-note-dot" aria-hidden="true"></span>In active development</span>
+          <p>The question bank is currently in active development. This discounted offer gives candidates a chance to start studying now at a reduced rate — while helping us shape the platform with their feedback.</p>
+        </div>
         <div class="qb-cta-price">
           <div class="amt">Only £14.99<span>one-time</span></div>
           <div class="until">FULL ACCESS UNTIL 31 OCTOBER 2026</div>
+          <div class="then">Monthly &amp; annual plans launch from November 2026</div>
         </div>
         <div>
           <a href="question-bank.html" class="btn btn-primary">Start Today →</a>
