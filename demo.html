@@ -461,6 +461,10 @@ button{font-family:var(--san);cursor:pointer}
 .ks-opt[aria-selected="true"] .ks-opt-label{color:var(--ink)}
 .ks-opt-cat{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--stone-light);flex-shrink:0}
 .ks-opt-empty{padding:16px 12px;font-size:13px;color:var(--stone);text-align:center}
+.ks-opt.locked{cursor:pointer}
+.ks-opt.locked .ks-opt-label{color:var(--stone-light)}
+.ks-opt.locked:hover{background:var(--surface-warm)}
+.ks-opt-lock{width:13px;height:13px;stroke:var(--stone-light);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .ks-list-head{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);padding:11px 12px 5px}
 .ks-list-head:first-child{padding-top:4px}
 .ks-stepper{display:flex;align-items:center;gap:4px;flex-shrink:0}
@@ -806,9 +810,9 @@ button{font-family:var(--san);cursor:pointer}
     <div class="paywall-popup-icon">
       <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
     </div>
-    <h3>This requires full access</h3>
-    <p>The free preview covers the first 3 questions. Get full access to unlock the rest of the question bank.</p>
-    <a class="btn btn-primary" href="question-bank.html" style="width:100%;justify-content:center">Get access — £14.99</a>
+    <h3 id="paywall-popup-title">This requires full access</h3>
+    <p id="paywall-popup-text">The free preview covers the first 3 questions. Get full access to unlock the rest of the question bank.</p>
+    <a class="btn btn-primary" href="question-bank.html" style="width:100%;justify-content:center">Get access</a>
   </div>
 </div>
 
@@ -973,6 +977,73 @@ const KS_ENTRIES = [
     "reading": []
   }
 ];
+
+/* Every knowledge-summary title currently in the real question bank (label +
+   topic only — no box content). Auto-generated from questions.json by
+   supabase/generate-ks-topics.mjs (run automatically by migrate-questions.mjs)
+   — do not hand-edit the array between the markers below, it gets overwritten.
+   Drives the "Choose a summary" dropdown so it always shows the true,
+   up-to-date list; anything not one of the 3 free KS_ENTRIES above renders
+   locked and opens the paywall instead of the summary. */
+/* KS_LIVE_TOPICS:START */
+const KS_LIVE_TOPICS = [
+  { "label": "Acute Pain Management in the Opioid-Tolerant Patient", "category": "Clinical Pain" },
+  { "label": "Amitriptyline", "category": "Pharmacology" },
+  { "label": "Autonomic Nervous System", "category": "Pharmacology" },
+  { "label": "Back pain", "category": "Clinical Pain" },
+  { "label": "Botulinum Toxin", "category": "Pharmacology" },
+  { "label": "Cannabinoid System", "category": "Pharmacology" },
+  { "label": "Central sensitisation", "category": "Physiology" },
+  { "label": "Classification of Diabetic Neuropathy", "category": "Clinical Pain" },
+  { "label": "Coeliac Plexus and Splanchnic Nerves", "category": "Anatomy" },
+  { "label": "Comparison of Methadone and Buprenorphine", "category": "Pharmacology" },
+  { "label": "Complex Regional Pain Syndrome", "category": "Clinical Pain" },
+  { "label": "Controlled Drugs Classification", "category": "Medicolegal" },
+  { "label": "Corticosteroids in chronic pain", "category": "Pharmacology" },
+  { "label": "Dermatomes of the lower limb", "category": "Anatomy" },
+  { "label": "Dorsal horn", "category": "Physiology" },
+  { "label": "Dorsal Root Ganglion (DRG) Stimulation", "category": "Physics & Clinical Measurement" },
+  { "label": "Drug Pharmacology", "category": "Pharmacology" },
+  { "label": "DVLA and Opioids", "category": "Medicolegal" },
+  { "label": "Imaging Modalities 1", "category": "Physics & Clinical Measurement" },
+  { "label": "Inflammatory soup", "category": "Physiology" },
+  { "label": "Inhibitory Neurotransmitters", "category": "Physiology" },
+  { "label": "IRMER vs IRR", "category": "Physics & Clinical Measurement" },
+  { "label": "Ketamine Pharmacology", "category": "Pharmacology" },
+  { "label": "Legal Implications of Driving on Prescription Opioids", "category": "Medicolegal" },
+  { "label": "Local anaesthetics", "category": "Pharmacology" },
+  { "label": "Lower Limb Nerve — Key Definitions", "category": "Anatomy" },
+  { "label": "Median Nerve", "category": "Anatomy" },
+  { "label": "Migraine — Background & Diagnostic Criteria", "category": "Clinical Pain" },
+  { "label": "MRI", "category": "Physics & Clinical Measurement" },
+  { "label": "Opioid Active Metabolites", "category": "Pharmacology" },
+  { "label": "Opioid Metabolism in Renal Impairment", "category": "Pharmacology" },
+  { "label": "Opioid Pharmacology", "category": "Pharmacology" },
+  { "label": "Opioid Phenomena — Key Definitions", "category": "Pharmacology" },
+  { "label": "Opioids and Hormones", "category": "Pharmacology" },
+  { "label": "Opioids and Immunosuppression", "category": "Pharmacology" },
+  { "label": "Oral Mucositis", "category": "Clinical Pain" },
+  { "label": "Peripheral Nerve Structure", "category": "Anatomy" },
+  { "label": "Pharmacology", "category": "Pharmacology" },
+  { "label": "Polymyalgia Rheumatica", "category": "Clinical Pain" },
+  { "label": "Procedural Risk Stratification", "category": "Pharmacology" },
+  { "label": "Psychological Therapies in Chronic Pain", "category": "Psychology" },
+  { "label": "Radiation Dose Quantities", "category": "Physics & Clinical Measurement" },
+  { "label": "RF Denervation & the FAIR Test", "category": "Clinical Pain" },
+  { "label": "Seddon & Sunderland Classification", "category": "Anatomy" },
+  { "label": "Spinal Cord Stimulation — Infection Management", "category": "Clinical Pain" },
+  { "label": "Spinal Cord Stimulation — Mechanism of Action", "category": "Physics & Clinical Measurement" },
+  { "label": "STarT Back Screening Tool", "category": "Psychology" },
+  { "label": "Stellate Ganglion", "category": "Anatomy" },
+  { "label": "Steroids mechanism of action", "category": "Pharmacology" },
+  { "label": "Suicide and Chronic Pain", "category": "Psychology" },
+  { "label": "TENS", "category": "Physics & Clinical Measurement" },
+  { "label": "UK Drug Driving Legislation 2015", "category": "Medicolegal" },
+  { "label": "Unselected Options — Key Definitions", "category": "Clinical Pain" },
+  { "label": "Whiplash-Associated Disorders (WAD)", "category": "Clinical Pain" },
+  { "label": "Whole-Body Dose & Radiosensitivity", "category": "Physics & Clinical Measurement" }
+];
+/* KS_LIVE_TOPICS:END */
 
 /* ===== STATE ===== */
 let demoBookmarked = new Set();
@@ -1278,7 +1349,11 @@ function restoreSessionChrome() {
 }
 
 /* ===== PAYWALL POPUP ===== */
-function openPaywallPopup() {
+const PAYWALL_LOCKED_TEXT = 'The free preview covers the first 3 questions. Get full access to unlock the rest of the question bank.';
+const PAYWALL_DEMO_TEXT = 'Sorry, this function is not available on the demo!';
+const PAYWALL_KS_TEXT = 'The free preview covers 3 knowledge summaries. Get full access to unlock the rest of the question bank.';
+function openPaywallPopup(message) {
+  document.getElementById('paywall-popup-text').textContent = message || PAYWALL_LOCKED_TEXT;
   document.getElementById('paywall-popup-overlay').style.display = 'flex';
 }
 function closePaywallPopup() {
@@ -1346,7 +1421,7 @@ function renderAllSlides() {
 
     const bookmarkOpts = {
       isBookmarked: demoBookmarked.has(q.id),
-      onToggle: (id, next) => { if (next) demoBookmarked.add(id); else demoBookmarked.delete(id); return true; }
+      onToggle: () => { openPaywallPopup(PAYWALL_DEMO_TEXT); return false; }
     };
     const onReveal = (a) => {
       if (currentMode === 'practice' && !isNotesSession) demoAttemptHistory[q.id] = a;
@@ -1372,7 +1447,7 @@ function attachReportUI(card) {
   btn.type = 'button';
   btn.className = 'qr-btn';
   btn.innerHTML = '<svg class="qr-btn-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span>Report</span>';
-  btn.addEventListener('click', () => openPaywallPopup());
+  btn.addEventListener('click', () => openPaywallPopup(PAYWALL_DEMO_TEXT));
   const anchor = metaRow.querySelector('.bookmark-btn, .notes-toggle-btn, .flag-btn');
   if (anchor) metaRow.insertBefore(btn, anchor); else metaRow.appendChild(btn);
 }
@@ -1410,7 +1485,7 @@ function attachNotesUI(card, q) {
     if (demoNotes[q.id] && demoNotes[q.id].trim()) btn.querySelector('.qn-dot').hidden = false;
   }
 
-  btn.addEventListener('click', () => openPaywallPopup());
+  btn.addEventListener('click', () => openPaywallPopup(PAYWALL_DEMO_TEXT));
 }
 
 const LOCK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
@@ -1590,7 +1665,11 @@ function finishDemoSession() {
    sort, searchable picker, prev/next stepper) working for real against the
    free preview's 3 real knowledge boxes — same allEntries/view/current/
    sortMode/topicFilter/applyView/buildList/show architecture as the real page. */
-let allEntries = KS_ENTRIES;
+const KS_FREE_LABELS = new Set(KS_ENTRIES.map(e => e.label));
+const allEntries = KS_ENTRIES.concat(
+  KS_LIVE_TOPICS.filter(t => !KS_FREE_LABELS.has(t.label))
+    .map(t => ({ label: t.label, category: t.category, boxes: [], reading: [], locked: true }))
+);
 let view = [];
 let current = 0;
 let sortMode = 'alpha';
@@ -1599,7 +1678,7 @@ let topicFilter = '';
 function openKnowledge() {
   showView('view-knowledge');
   document.getElementById('ks-sub').innerHTML = 'The knowledge boxes from across the question bank, one at a time — <b>' +
-    allEntries.length + '</b> ' + (allEntries.length === 1 ? 'summary' : 'summaries') + ' in this free preview.';
+    KS_ENTRIES.length + '</b> ' + (KS_ENTRIES.length === 1 ? 'summary' : 'summaries') + ' in this free preview.';
   syncSortButtons();
   document.getElementById('ks-topic-current').textContent = topicFilter || 'All topics';
   buildTopicPanel();
@@ -1616,9 +1695,10 @@ function categoryList() {
 }
 
 function applyView(keepLabel) {
-  const filtered = topicFilter
+  const filtered = (topicFilter
     ? allEntries.filter(e => (e.category || 'Uncategorised') === topicFilter)
-    : allEntries.slice();
+    : allEntries.slice()
+  ).filter(e => !e.locked);
   filtered.sort(sortMode === 'topic'
     ? (a, b) => (a.category || '~').localeCompare(b.category || '~') || a.label.localeCompare(b.label)
     : (a, b) => a.label.localeCompare(b.label));
@@ -1690,9 +1770,11 @@ document.querySelectorAll('#ks-sort button').forEach(b => {
 function buildList(term) {
   const list = document.getElementById('ks-picker-list');
   const q = (term || '').trim().toLowerCase();
-  const rows = view
-    .map((e, i) => ({ e, i }))
-    .filter(({ e }) => !q || e.label.toLowerCase().indexOf(q) !== -1 || (e.category || '').toLowerCase().indexOf(q) !== -1);
+  const source = (topicFilter ? allEntries.filter(e => (e.category || 'Uncategorised') === topicFilter) : allEntries.slice());
+  source.sort(sortMode === 'topic'
+    ? (a, b) => (a.category || '~').localeCompare(b.category || '~') || a.label.localeCompare(b.label)
+    : (a, b) => a.label.localeCompare(b.label));
+  const rows = source.filter(e => !q || e.label.toLowerCase().indexOf(q) !== -1 || (e.category || '').toLowerCase().indexOf(q) !== -1);
 
   if (!rows.length) {
     list.innerHTML = '<div class="ks-opt-empty">No summaries match that search.</div>';
@@ -1700,16 +1782,24 @@ function buildList(term) {
   }
   const grouped = sortMode === 'topic' && !q;
   let html = '', lastCat = null;
-  rows.forEach(({ e, i }) => {
+  rows.forEach(e => {
     if (grouped) {
       const c = e.category || 'Uncategorised';
       if (c !== lastCat) { html += `<div class="ks-list-head">${escHtml(c)}</div>`; lastCat = c; }
     }
-    html += `<button class="ks-opt" type="button" role="option" data-i="${i}" aria-selected="${i === current}"><span class="ks-opt-label">${escHtml(e.label)}</span>${(!grouped && e.category) ? `<span class="ks-opt-cat">${escHtml(e.category)}</span>` : ''}</button>`;
+    const viewIdx = view.findIndex(v => v.label === e.label);
+    const lockIcon = '<svg class="ks-opt-lock" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+    html += `<button class="ks-opt${e.locked ? ' locked' : ''}" type="button" role="option" data-label="${escHtml(e.label)}" aria-selected="${viewIdx === current}" ${e.locked ? 'aria-disabled="true"' : ''}><span class="ks-opt-label">${escHtml(e.label)}</span>${e.locked ? lockIcon : ((!grouped && e.category) ? `<span class="ks-opt-cat">${escHtml(e.category)}</span>` : '')}</button>`;
   });
   list.innerHTML = html;
   list.querySelectorAll('.ks-opt').forEach(btn => {
-    btn.addEventListener('click', () => { closeKsPanel(); showKs(parseInt(btn.dataset.i, 10), true); });
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('locked')) { openPaywallPopup(PAYWALL_KS_TEXT); return; }
+      const idx = view.findIndex(v => v.label === btn.dataset.label);
+      if (idx === -1) return;
+      closeKsPanel();
+      showKs(idx, true);
+    });
   });
 }
 
@@ -1731,7 +1821,7 @@ document.getElementById('ks-picker-search').addEventListener('input', e => build
 document.getElementById('ks-picker-search').addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     const first = document.querySelector('#ks-picker-list .ks-opt');
-    if (first) { closeKsPanel(); showKs(parseInt(first.dataset.i, 10), true); }
+    if (first) first.click();
   } else if (e.key === 'Escape') { closeKsPanel(); }
 });
 document.addEventListener('click', e => {
@@ -1753,7 +1843,7 @@ function showKs(i, userAction) {
   document.getElementById('ks-next').disabled = view.length < 2;
 
   document.querySelectorAll('#ks-picker-list .ks-opt').forEach(o => {
-    o.setAttribute('aria-selected', String(parseInt(o.dataset.i, 10) === current));
+    o.setAttribute('aria-selected', String(o.dataset.label === entry.label));
   });
 
   const boxes = entry.boxes.map(b => {

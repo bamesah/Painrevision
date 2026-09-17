@@ -3,6 +3,7 @@
 // Run locally with: node supabase/migrate-questions.mjs
 
 import fs from 'fs';
+import { generateKsTopics } from './generate-ks-topics.mjs';
 
 const raw = JSON.parse(fs.readFileSync(new URL('../questions.json', import.meta.url), 'utf8'));
 const questions = raw.questions;
@@ -34,3 +35,5 @@ for (const q of questions) {
 
 fs.writeFileSync(new URL('./seed.sql', import.meta.url), sql, 'utf8');
 console.log(`Generated supabase/seed.sql — ${questions.length} questions across ${topics.length} categories.`);
+
+generateKsTopics();
