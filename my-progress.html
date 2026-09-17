@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>My Progress — PainRevision</title>
-<meta name="description" content="Your full FFPMRCA practice breakdown by category, with accuracy and coverage."/>
+<meta name="description" content="Your full FFPMRCA practice breakdown by category — what you've mastered, what needs review, and your percent correct."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -75,28 +75,39 @@ button{font-family:var(--san);cursor:pointer}
 .page-title{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
 .page-sub{font-size:14.5px;color:var(--stone);margin-bottom:32px}
 
-.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px}
-@media(max-width:700px){.overview-grid{grid-template-columns:1fr}}
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px}
+@media(max-width:900px){.overview-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.overview-grid{grid-template-columns:1fr}}
 .overview-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px 26px;box-shadow:var(--shadow-sm)}
 .overview-card .n{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
 .overview-card .n .unit{font-size:16px;color:var(--stone-light);font-weight:600}
-.overview-card .l{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:4px}
+.overview-card .n.mastered{color:var(--correct)}
+.overview-card .n.review{color:var(--amber)}
+.overview-card .l{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:4px;display:flex;align-items:center;gap:5px}
 
 .cat-table{background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow-sm);overflow:hidden}
-.cat-row{display:grid;grid-template-columns:1fr 110px 90px 140px;gap:16px;align-items:center;padding:16px 26px;border-bottom:1px solid var(--border)}
+.cat-row{display:grid;grid-template-columns:1fr 90px 70px 90px 130px 130px;gap:16px;align-items:center;padding:16px 26px;border-bottom:1px solid var(--border)}
 .cat-row:last-child{border-bottom:none}
 .cat-row.head{background:var(--surface-warm);font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light)}
 .cat-name{font-size:14.5px;font-weight:600;color:var(--ink-soft)}
 .cat-solved{font-family:var(--mono);font-size:13px;color:var(--stone)}
+.cat-mastered-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--correct)}
+.cat-review-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
 .cat-acc{font-family:var(--mono);font-size:13px;font-weight:700}
 .cat-acc.good{color:var(--correct)}
 .cat-acc.mid{color:var(--amber)}
 .cat-acc.low{color:var(--wrong)}
 .cat-acc.none{color:var(--stone-light);font-weight:400}
-.cat-bar-track{height:6px;border-radius:999px;background:var(--border);overflow:hidden}
-.cat-bar-fill{display:block;height:100%;background:var(--coral);border-radius:999px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.cat-bar-track{height:8px;border-radius:999px;background:var(--border);overflow:hidden;display:flex}
+.cat-bar-mastered{display:block;height:100%;background:var(--correct);transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.cat-bar-review{display:block;height:100%;background:var(--amber);transition:width .8s cubic-bezier(.2,.7,.2,1)}
+/* .cat-stats/.cat-cell are transparent wrappers on desktop (display:contents) so their children
+   slot straight into the .cat-row grid; on mobile they become real flex containers instead. */
+.cat-stats{display:contents}
+.cat-cell{display:contents}
+.cell-label{display:none}
 
-/* "Accuracy" column header — hover/focus for a plain-language definition */
+/* Column-header hover/focus for a plain-language definition */
 .acc-hint{position:relative;display:inline-block;cursor:help;border-bottom:1px dotted var(--stone-light)}
 .acc-hint::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);right:0;width:max-content;max-width:min(280px,60vw);white-space:normal;text-transform:none;letter-spacing:normal;font-family:var(--san);font-size:12px;font-weight:500;line-height:1.5;text-align:left;color:var(--cream);background:var(--ink);padding:9px 12px;border-radius:10px;box-shadow:var(--shadow-sm);opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;z-index:5}
 .acc-hint::before{content:'';position:absolute;top:calc(100% + 3px);right:14px;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:5}
@@ -104,17 +115,29 @@ button{font-family:var(--san);cursor:pointer}
 .acc-hint:hover::before,.acc-hint:focus-visible::before{opacity:1}
 @media(prefers-reduced-motion:reduce){.acc-hint::after,.acc-hint::before{transition:none}}
 @media(max-width:640px){
-  .cat-row{grid-template-columns:1fr 70px 60px;font-size:12.5px}
-  .cat-row .bar-col{display:none}
+  .cat-row.head{display:none}
+  .cat-row{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:16px 18px}
+  .cat-name{font-size:15px}
+  .cat-stats{display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px 20px;width:100%}
+  .cat-cell{display:flex;flex-direction:column;gap:3px;min-width:50px}
+  .cell-label{display:block;font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--stone-light)}
+  .cell-val{font-size:14px}
+  .bar-col{width:100%}
 }
 .empty-note{padding:40px 26px;text-align:center;color:var(--stone);font-size:14px}
 
-.reset-section{margin-bottom:24px;text-align:right}
-@media(max-width:640px){.reset-section{text-align:left}}
+.reset-section{margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){.reset-section{flex-direction:column;align-items:flex-start}}
 .btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 30px;border-radius:999px;font-family:var(--san);font-size:15px;font-weight:700;letter-spacing:-.01em;cursor:pointer;border:2px solid var(--wrong);background:var(--wrong);color:#fff;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
 .btn-danger:hover{background:#a52d21;border-color:#a52d21;transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(192,57,43,.5)}
 .btn-danger:active{transform:translateY(0);box-shadow:none}
 .btn-danger:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+
+.display-toggle{display:inline-flex;background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;padding:4px;gap:2px;box-shadow:var(--shadow-sm)}
+.toggle-opt{font-family:var(--san);font-size:13px;font-weight:700;padding:9px 18px;border-radius:999px;border:none;background:transparent;color:var(--stone);cursor:pointer;transition:background .2s,color .2s}
+.toggle-opt.active{background:var(--coral);color:#fff}
+.toggle-opt:hover:not(.active){color:var(--ink)}
+.toggle-opt:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
 
 @media(max-width:760px){
   .wrap{padding:0 20px}
@@ -179,33 +202,43 @@ button{font-family:var(--san);cursor:pointer}
     <div class="app-shell-content">
     <span class="eyebrow" style="margin-bottom:8px">My Progress</span>
     <h1 class="page-title">Your full breakdown</h1>
-    <p class="page-sub">How much of the bank you've covered, and where your accuracy is strongest and weakest.</p>
+    <p class="page-sub">What you've mastered, what still needs review, and how often you get things right.</p>
 
     <div class="reset-section">
+      <div class="display-toggle" id="display-toggle" role="group" aria-label="Display mode">
+        <button type="button" class="toggle-opt" data-mode="number">Numbers</button>
+        <button type="button" class="toggle-opt" data-mode="percent">Percentages</button>
+      </div>
       <button class="btn-danger" id="reset-progress-btn">Reset progress</button>
     </div>
 
     <div class="overview-grid">
       <div class="overview-card">
-        <div class="n" id="ov-solved">0 <span class="unit" id="ov-solved-unit">/ 0</span></div>
-        <div class="l">Questions solved</div>
+        <div class="n" id="ov-attempted">0 <span class="unit" id="ov-attempted-unit">/ 0</span></div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Questions you've submitted an answer for at least once, out of the full bank.">Attempted</span></div>
+      </div>
+      <div class="overview-card">
+        <div class="n mastered" id="ov-mastered">0</div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Questions you've answered correctly on your last 3 attempts in a row. One wrong attempt resets the streak — answer it right 3 more times in a row to re-earn it.">Mastered</span></div>
+      </div>
+      <div class="overview-card">
+        <div class="n review" id="ov-review">0</div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Questions you've attempted but haven't yet answered correctly 3 times in a row — includes ones you're close on.">Needs review</span></div>
       </div>
       <div class="overview-card">
         <div class="n" id="ov-accuracy">—</div>
-        <div class="l">Overall accuracy</div>
-      </div>
-      <div class="overview-card">
-        <div class="n" id="ov-categories">0</div>
-        <div class="l">Categories attempted</div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Attempted questions whose most recent try was correct — a straightforward read on how you'd do right now.">Questions answered correctly</span></div>
       </div>
     </div>
 
     <div class="cat-table">
       <div class="cat-row head">
         <span>Category</span>
-        <span>Solved</span>
-        <span><span class="acc-hint" tabindex="0" data-tip="Share of your submitted answers that were correct, across every attempt (re-attempts included). An SBA or MTF question counts as one answer — MTF only counts as correct when every statement is right; each EMQ sub-question counts on its own.">Accuracy</span></span>
-        <span class="bar-col"></span>
+        <span>Attempted</span>
+        <span><span class="acc-hint" tabindex="0" data-tip="Questions you've answered correctly on your last 3 attempts in a row.">Mastered</span></span>
+        <span><span class="acc-hint" tabindex="0" data-tip="Attempted questions you haven't yet answered correctly 3 times in a row.">Needs review</span></span>
+        <span class="bar-col"><span class="acc-hint" tabindex="0" data-tip="Green = mastered (correct on your last 3 attempts in a row). Amber = needs review (not yet 3 in a row). Grey = not yet attempted.">Mastery</span></span>
+        <span><span class="acc-hint" tabindex="0" data-tip="Attempted questions whose most recent try was correct.">Questions answered correctly</span></span>
       </div>
       <div id="cat-rows"></div>
     </div>
@@ -226,6 +259,9 @@ function escHtml(s) {
 }
 
 let currentUser = null;
+let statsCache = null;
+let displayMode = 'number';
+try { displayMode = localStorage.getItem('pr_progress_display_mode') || 'number'; } catch (e) {}
 
 async function init() {
   const { data: { session } } = await sb.auth.getSession();
@@ -248,10 +284,26 @@ async function init() {
     ResetProgress.open({ userId: currentUser.id, onComplete: () => { loadStats(); AppShell.refreshCounts(); } });
   });
 
+  wireDisplayToggle();
+
   const access = await Paywall.enforce(currentUser.id, document.getElementById('progress-main'));
   if (!access.active) return;
 
   loadStats();
+}
+
+function wireDisplayToggle() {
+  const toggle = document.getElementById('display-toggle');
+  toggle.querySelectorAll('.toggle-opt').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === displayMode);
+    btn.addEventListener('click', () => {
+      if (btn.dataset.mode === displayMode) return;
+      displayMode = btn.dataset.mode;
+      try { localStorage.setItem('pr_progress_display_mode', displayMode); } catch (e) {}
+      toggle.querySelectorAll('.toggle-opt').forEach(b => b.classList.toggle('active', b === btn));
+      if (statsCache) render(statsCache);
+    });
+  });
 }
 
 function wireUserMenu() {
@@ -292,57 +344,109 @@ async function loadStats() {
     totalQuestions += n;
   });
 
+  const MASTERY_STREAK = 3;
+
+  // Order by created_at so we can track each question's trailing correct streak and its latest result.
   const { data: answers } = await sb
     .from('attempt_answers')
-    .select('question_id, is_correct, attempts!inner(user_id)')
-    .eq('attempts.user_id', currentUser.id);
+    .select('question_id, is_correct, created_at, attempts!inner(user_id)')
+    .eq('attempts.user_id', currentUser.id)
+    .order('created_at', { ascending: true });
 
-  const solvedSet = new Set();
-  let totalAttempts = 0, totalCorrect = 0;
-  const catStats = {};
+  const latestCorrect = {}; // question_id -> is_correct of most recent attempt
+  const streaks = {}; // question_id -> length of current trailing run of correct answers
 
   (answers || []).forEach(a => {
-    solvedSet.add(a.question_id);
-    totalAttempts++;
-    if (a.is_correct) totalCorrect++;
-    const topic = questionTopic[a.question_id] || 'General';
-    catStats[topic] = catStats[topic] || { attempts: 0, correct: 0, solved: new Set() };
-    catStats[topic].attempts++;
-    if (a.is_correct) catStats[topic].correct++;
-    catStats[topic].solved.add(a.question_id);
+    const id = a.question_id;
+    latestCorrect[id] = !!a.is_correct;
+    streaks[id] = a.is_correct ? (streaks[id] || 0) + 1 : 0;
   });
 
-  function expandedCount(idSet) {
-    let n = 0;
-    idSet.forEach(id => { n += subCount[id] || 1; });
-    return n;
-  }
+  // Bucket every attempted question by mastery streak, and separately by latest-attempt result,
+  // expanding EMQs by sub-question count.
+  const catBuckets = {}; // per category: { mastered, review } counts (expanded), streak-based
+  const catLatest = {}; // per category: { correct, total } counts (expanded), latest-attempt-based
+  let totalMastered = 0, totalReview = 0;
+  let totalLatestCorrect = 0, totalLatestAttempted = 0;
+  Object.keys(latestCorrect).forEach(id => {
+    const topic = questionTopic[id] || 'General';
+    const n = subCount[id] || 1;
 
-  document.getElementById('ov-solved').innerHTML = `${expandedCount(solvedSet)} <span class="unit">/ ${totalQuestions}</span>`;
-  document.getElementById('ov-accuracy').textContent = totalAttempts ? Math.round((totalCorrect / totalAttempts) * 100) + '%' : '—';
-  document.getElementById('ov-categories').textContent = Object.keys(catStats).length;
+    catBuckets[topic] = catBuckets[topic] || { mastered: 0, review: 0 };
+    if ((streaks[id] || 0) >= MASTERY_STREAK) { catBuckets[topic].mastered += n; totalMastered += n; }
+    else { catBuckets[topic].review += n; totalReview += n; }
+
+    catLatest[topic] = catLatest[topic] || { correct: 0, total: 0 };
+    catLatest[topic].total += n;
+    totalLatestAttempted += n;
+    if (latestCorrect[id]) { catLatest[topic].correct += n; totalLatestCorrect += n; }
+  });
+
+  const totalAttempted = totalMastered + totalReview;
+
+  const names = Object.keys(catTotals).sort();
+  statsCache = {
+    totalQuestions, totalAttempted, totalMastered, totalReview,
+    totalLatestCorrect, totalLatestAttempted,
+    categories: names.map(name => {
+      const bucket = catBuckets[name] || { mastered: 0, review: 0 };
+      const latest = catLatest[name] || { correct: 0, total: 0 };
+      return {
+        name,
+        total: catTotals[name],
+        mastered: bucket.mastered,
+        review: bucket.review,
+        attempted: bucket.mastered + bucket.review,
+        latestCorrect: latest.correct,
+        latestTotal: latest.total
+      };
+    })
+  };
+
+  render(statsCache);
+}
+
+// Renders a fraction as either a raw count ("7 / 25") or a percentage ("28%"), depending on displayMode.
+function fmtRatio(n, total, { showTotal = false, compact = false } = {}) {
+  if (displayMode === 'percent') return total ? Math.round((n / total) * 100) + '%' : '—';
+  if (!showTotal) return String(n);
+  return compact ? `${n}/${total}` : `${n} <span class="unit">/ ${total}</span>`;
+}
+
+function render(stats) {
+  document.getElementById('ov-attempted').innerHTML = fmtRatio(stats.totalAttempted, stats.totalQuestions, { showTotal: true });
+  document.getElementById('ov-mastered').innerHTML = fmtRatio(stats.totalMastered, stats.totalQuestions);
+  document.getElementById('ov-review').innerHTML = fmtRatio(stats.totalReview, stats.totalQuestions);
+  document.getElementById('ov-accuracy').innerHTML = stats.totalLatestAttempted
+    ? fmtRatio(stats.totalLatestCorrect, stats.totalLatestAttempted, { showTotal: true })
+    : '—';
 
   const rowsEl = document.getElementById('cat-rows');
-  const names = Object.keys(catTotals).sort();
-  if (!names.length) {
+  if (!stats.categories.length) {
     rowsEl.innerHTML = '<div class="empty-note">No categories yet — questions will appear here once the bank has content.</div>';
     return;
   }
 
-  rowsEl.innerHTML = names.map(name => {
-    const s = catStats[name] || { attempts: 0, correct: 0, solved: new Set() };
-    const total = catTotals[name];
-    const solved = expandedCount(s.solved);
-    const hasAttempts = s.attempts > 0;
-    const accPct = hasAttempts ? Math.round((s.correct / s.attempts) * 100) : 0;
+  rowsEl.innerHTML = stats.categories.map(cat => {
+    const hasAttempts = cat.latestTotal > 0;
+    const accPct = hasAttempts ? Math.round((cat.latestCorrect / cat.latestTotal) * 100) : 0;
     const accClass = !hasAttempts ? 'none' : accPct >= 70 ? 'good' : accPct >= 50 ? 'mid' : 'low';
-    const accText = hasAttempts ? accPct + '%' : '—';
+    const accText = hasAttempts ? fmtRatio(cat.latestCorrect, cat.latestTotal, { showTotal: true, compact: true }) : '—';
+    const masteredPct = cat.total ? (cat.mastered / cat.total) * 100 : 0;
+    const reviewPct = cat.total ? (cat.review / cat.total) * 100 : 0;
     return `
       <div class="cat-row">
-        <span class="cat-name">${escHtml(name)}</span>
-        <span class="cat-solved">${solved}/${total}</span>
-        <span class="cat-acc ${accClass}">${accText}</span>
-        <span class="bar-col cat-bar-track"><span class="cat-bar-fill" style="width:${hasAttempts ? accPct : 0}%"></span></span>
+        <span class="cat-name">${escHtml(cat.name)}</span>
+        <div class="cat-stats">
+          <span class="cat-cell"><span class="cell-label">Attempted</span><span class="cell-val cat-solved">${fmtRatio(cat.attempted, cat.total, { showTotal: true, compact: true })}</span></span>
+          <span class="cat-cell"><span class="cell-label">Mastered</span><span class="cell-val cat-mastered-num">${fmtRatio(cat.mastered, cat.total)}</span></span>
+          <span class="cat-cell"><span class="cell-label">Needs review</span><span class="cell-val cat-review-num">${fmtRatio(cat.review, cat.total)}</span></span>
+          <span class="bar-col cat-bar-track" title="${cat.mastered} mastered, ${cat.review} needs review, ${cat.total - cat.attempted} not started">
+            <span class="cat-bar-mastered" style="width:${masteredPct}%"></span>
+            <span class="cat-bar-review" style="width:${reviewPct}%"></span>
+          </span>
+          <span class="cat-cell"><span class="cell-label">Correct</span><span class="cell-val cat-acc ${accClass}">${accText}</span></span>
+        </div>
       </div>`;
   }).join('');
 }
