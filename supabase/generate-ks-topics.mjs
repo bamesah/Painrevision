@@ -1,7 +1,7 @@
-// Regenerates the KS_LIVE_TOPICS array in demo.html from questions.json, so
-// the demo page's "Choose a summary" dropdown always lists every knowledge-
-// summary title currently in the real question bank (the free ones stay
-// interactive via KS_ENTRIES; everything else shows locked).
+// Regenerates the parts of demo.html that need to track the real question
+// bank: KS_LIVE_TOPICS (every knowledge-summary title, for the "Choose a
+// summary" dropdown) and TOTAL_QUESTIONS (the live bank size, feeding the
+// dashboard ring and the My Progress overview/category numbers).
 // Run standalone with: node supabase/generate-ks-topics.mjs
 // Also called automatically from migrate-questions.mjs during the normal
 // batch-add workflow, so it never needs to be run by hand.
@@ -14,8 +14,8 @@ const DEMO_PATH = new URL('../demo.html', import.meta.url);
 
 const NAMED_ENTITIES = {
   amp: '&', lt: '<', gt: '>', quot: '"', apos: "'",
-  mdash: '—', ndash: '–', rsquo: '’', lsquo: '‘',
-  rdquo: '”', ldquo: '“', hellip: '…', nbsp: ' '
+  mdash: '\u2014', ndash: '\u2013', rsquo: '\u2019', lsquo: '\u2018',
+  rdquo: '\u201D', ldquo: '\u201C', hellip: '\u2026', nbsp: '\u00A0'
 };
 function decodeEntities(s) {
   return s.replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (m, code) => {
@@ -61,31 +61,47 @@ export function extractAllTopics(questions) {
     .sort((a, b) => a.label.localeCompare(b.label));
 }
 
+// Mirrors dashboard.html / my-progress.html's own question-count convention:
+// every question counts as 1 EXCEPT an EMQ card, which counts as one per
+// sub-question (its `questions` array), since that's how many gradeable
+// items it actually contains.
+export function countTotalQuestions(questions) {
+  return questions.reduce((sum, q) => sum + (q.type === 'EMQ' ? (q.questions?.length || 1) : 1), 0);
+}
+
 function esc(str) {
   return String(str).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 }
 
+// Replaces the content between `/* <name>:START */` and `/* <name>:END */`
+// markers in `html` with `innerLines` (joined, re-wrapped in the same
+// markers), matching the file's existing CRLF/LF convention.
+function replaceMarkerBlock(html, name, innerLines) {
+  const markerRe = new RegExp(`/\\* ${name}:START \\*/[\\s\\S]*?/\\* ${name}:END \\*/`);
+  if (!markerRe.test(html)) {
+    throw new Error(`${name} markers not found in demo.html — check they still exist verbatim.`);
+  }
+  let block = `/* ${name}:START */\n${innerLines}\n/* ${name}:END */`;
+  if (html.includes('\r\n')) block = block.replace(/\n/g, '\r\n');
+  return html.replace(markerRe, block);
+}
+
 export function generateKsTopics() {
   const data = JSON.parse(fs.readFileSync(QUESTIONS_PATH, 'utf8'));
-  const list = extractAllTopics(data.questions);
+  const topics = extractAllTopics(data.questions);
+  const totalQuestions = countTotalQuestions(data.questions);
 
-  const arrayBody = list
+  const arrayBody = topics
     .map(({ label, category }) => `  { "label": "${esc(label)}", "category": "${esc(category)}" }`)
     .join(',\n');
-  let block = `/* KS_LIVE_TOPICS:START */\nconst KS_LIVE_TOPICS = [\n${arrayBody}\n];\n/* KS_LIVE_TOPICS:END */`;
 
-  const demoHtml = fs.readFileSync(DEMO_PATH, 'utf8');
-  const markerRe = /\/\* KS_LIVE_TOPICS:START \*\/[\s\S]*?\/\* KS_LIVE_TOPICS:END \*\//;
-  if (!markerRe.test(demoHtml)) {
-    throw new Error('KS_LIVE_TOPICS markers not found in demo.html — check they still exist verbatim.');
-  }
-  // Match the file's line-ending convention so the generated block doesn't
-  // introduce a mixed-CRLF/LF region on every regeneration.
-  if (demoHtml.includes('\r\n')) block = block.replace(/\n/g, '\r\n');
-  const updated = demoHtml.replace(markerRe, block);
-  fs.writeFileSync(DEMO_PATH, updated, 'utf8');
-  console.log(`Updated demo.html — KS_LIVE_TOPICS now lists ${list.length} knowledge summaries.`);
-  return list;
+  let demoHtml = fs.readFileSync(DEMO_PATH, 'utf8');
+  demoHtml = replaceMarkerBlock(demoHtml, 'KS_LIVE_TOPICS', `const KS_LIVE_TOPICS = [\n${arrayBody}\n];`);
+  demoHtml = replaceMarkerBlock(demoHtml, 'TOTAL_QUESTIONS', `const TOTAL_QUESTIONS = ${totalQuestions};`);
+  fs.writeFileSync(DEMO_PATH, demoHtml, 'utf8');
+
+  console.log(`Updated demo.html — KS_LIVE_TOPICS now lists ${topics.length} knowledge summaries, TOTAL_QUESTIONS = ${totalQuestions}.`);
+  return { topics, totalQuestions };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

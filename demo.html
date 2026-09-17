@@ -229,28 +229,69 @@ button{font-family:var(--san);cursor:pointer}
 .modal-card h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
 .modal-card p{font-size:14px;color:var(--stone);line-height:1.6;margin-bottom:22px}
 
-/* ===== MY PROGRESS EXAMPLE MODAL ===== */
-.progress-modal-card{background:var(--surface);border-radius:24px;max-width:600px;width:100%;max-height:82vh;overflow-y:auto;box-shadow:var(--shadow)}
-.progress-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:26px 30px 0}
-.progress-modal-head h3{font-size:22px;font-weight:800;letter-spacing:-.03em}
-.progress-modal-close{width:34px;height:34px;flex-shrink:0;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--stone);cursor:pointer;transition:background .15s,color .15s}
-.progress-modal-close:hover{background:var(--cream);color:var(--ink)}
-.progress-modal-close svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
-.progress-modal-body{padding:20px 30px 30px}
-.progress-modal-intro{font-size:13px;color:var(--stone-light);line-height:1.5;margin-bottom:22px;font-style:italic}
-.progress-overall-row{display:flex;gap:16px;margin-bottom:26px}
-.progress-stat{flex:1;background:var(--surface-warm);border:1px solid var(--border);border-radius:16px;padding:16px 20px;text-align:center}
-.progress-stat .n{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--coral)}
-.progress-stat .n span{font-size:15px;font-weight:600;color:var(--stone-light)}
-.progress-stat .l{font-family:var(--mono);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:3px}
-.progress-cat-row{padding:13px 0;border-bottom:1px solid var(--border)}
-.progress-cat-row:last-child{border-bottom:none}
-.progress-cat-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:8px}
-.progress-cat-name{font-size:14px;font-weight:700;color:var(--ink)}
-.progress-cat-nums{font-family:var(--mono);font-size:12px;color:var(--stone);white-space:nowrap}
-.progress-cat-nums strong{color:var(--coral-deep)}
-.progress-bar{height:7px;border-radius:99px;background:var(--cream);overflow:hidden}
-.progress-bar-fill{height:100%;background:var(--coral);border-radius:99px}
+/* ===== MY PROGRESS VIEW (mirrors my-progress.html exactly, layout + classes) ===== */
+.progress-wrap{max-width:1120px}
+.page-title{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.page-sub{font-size:14.5px;color:var(--stone);margin-bottom:32px}
+
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px}
+@media(max-width:900px){.overview-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.overview-grid{grid-template-columns:1fr}}
+.overview-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px 26px;box-shadow:var(--shadow-sm)}
+.overview-card .n{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.overview-card .n .unit{font-size:16px;color:var(--stone-light);font-weight:600}
+.overview-card .n.mastered{color:var(--correct)}
+.overview-card .n.review{color:var(--amber)}
+.overview-card .l{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:4px;display:flex;align-items:center;gap:5px}
+
+.cat-table{background:var(--surface);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow-sm);overflow:hidden}
+.cat-row{display:grid;grid-template-columns:1fr 90px 70px 90px 130px 130px;gap:16px;align-items:center;padding:16px 26px;border-bottom:1px solid var(--border)}
+.cat-row:last-child{border-bottom:none}
+.cat-row.head{background:var(--surface-warm);font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light)}
+.cat-name{font-size:14.5px;font-weight:600;color:var(--ink-soft)}
+.cat-solved{font-family:var(--mono);font-size:13px;color:var(--stone)}
+.cat-mastered-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--correct)}
+.cat-review-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
+.cat-acc{font-family:var(--mono);font-size:13px;font-weight:700}
+.cat-acc.good{color:var(--correct)}
+.cat-acc.mid{color:var(--amber)}
+.cat-acc.low{color:var(--wrong)}
+.cat-acc.none{color:var(--stone-light);font-weight:400}
+.cat-bar-track{height:8px;border-radius:999px;background:var(--border);overflow:hidden;display:flex}
+.cat-bar-mastered{display:block;height:100%;background:var(--correct)}
+.cat-bar-review{display:block;height:100%;background:var(--amber)}
+.cat-stats{display:contents}
+.cat-cell{display:contents}
+.cell-label{display:none}
+
+.acc-hint{position:relative;display:inline-block;cursor:help;border-bottom:1px dotted var(--stone-light)}
+.acc-hint::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);right:0;width:max-content;max-width:min(280px,60vw);white-space:normal;text-transform:none;letter-spacing:normal;font-family:var(--san);font-size:12px;font-weight:500;line-height:1.5;text-align:left;color:var(--cream);background:var(--ink);padding:9px 12px;border-radius:10px;box-shadow:var(--shadow-sm);opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .16s,transform .16s;z-index:5}
+.acc-hint::before{content:'';position:absolute;top:calc(100% + 3px);right:14px;border:5px solid transparent;border-bottom-color:var(--ink);opacity:0;transition:opacity .16s;z-index:5}
+.acc-hint:hover::after,.acc-hint:focus-visible::after{opacity:1;transform:translateY(0)}
+.acc-hint:hover::before,.acc-hint:focus-visible::before{opacity:1}
+@media(max-width:640px){
+  .cat-row.head{display:none}
+  .cat-row{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:16px 18px}
+  .cat-name{font-size:15px}
+  .cat-stats{display:flex;flex-wrap:wrap;align-items:flex-start;gap:12px 20px;width:100%}
+  .cat-cell{display:flex;flex-direction:column;gap:3px;min-width:50px}
+  .cell-label{display:block;font-family:var(--mono);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--stone-light)}
+  .cell-val{font-size:14px}
+  .bar-col{width:100%}
+}
+.empty-note{padding:40px 26px;text-align:center;color:var(--stone);font-size:14px}
+
+.reset-section{margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:640px){.reset-section{flex-direction:column;align-items:flex-start}}
+.btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 30px;border-radius:999px;font-family:var(--san);font-size:15px;font-weight:700;letter-spacing:-.01em;cursor:pointer;border:2px solid var(--wrong);background:var(--wrong);color:#fff;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
+.btn-danger:hover{background:#a52d21;border-color:#a52d21;transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(192,57,43,.5)}
+.btn-danger:active{transform:translateY(0);box-shadow:none}
+
+.display-toggle{display:inline-flex;background:var(--surface);border:1px solid var(--border-strong);border-radius:999px;padding:4px;gap:2px;box-shadow:var(--shadow-sm)}
+.toggle-opt{font-family:var(--san);font-size:13px;font-weight:700;padding:9px 18px;border-radius:999px;border:none;background:transparent;color:var(--stone);cursor:pointer;transition:background .2s,color .2s}
+.toggle-opt.active{background:var(--coral);color:#fff}
+.toggle-opt:hover:not(.active){color:var(--ink)}
+.toggle-opt:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
 
 .session-header{display:flex;align-items:center;justify-content:flex-end;max-width:1240px;margin:0 auto 16px}
 
@@ -790,6 +831,54 @@ button{font-family:var(--san);cursor:pointer}
   </div>
 </main>
 
+<!-- ===== MY PROGRESS VIEW (mirrors my-progress.html exactly) ===== -->
+<main class="demo-view" id="view-progress">
+  <div class="wrap progress-wrap">
+    <span class="eyebrow" style="margin-bottom:8px">My Progress</span>
+    <h1 class="page-title">Your full breakdown</h1>
+    <p class="page-sub">What you've mastered, what still needs review, and how often you get things right.</p>
+
+    <div class="reset-section">
+      <div class="display-toggle" id="pg-display-toggle" role="group" aria-label="Display mode">
+        <button type="button" class="toggle-opt active" data-mode="number">Numbers</button>
+        <button type="button" class="toggle-opt" data-mode="percent">Percentages</button>
+      </div>
+      <button class="btn-danger" id="pg-reset-btn">Reset progress</button>
+    </div>
+
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="n" id="pg-ov-attempted">0 <span class="unit" id="pg-ov-attempted-unit">/ 0</span></div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Questions you've submitted an answer for at least once, out of the full bank.">Attempted</span></div>
+      </div>
+      <div class="overview-card">
+        <div class="n mastered" id="pg-ov-mastered">0</div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Questions you've answered correctly on your last 3 attempts in a row. One wrong attempt resets the streak — answer it right 3 more times in a row to re-earn it.">Mastered</span></div>
+      </div>
+      <div class="overview-card">
+        <div class="n review" id="pg-ov-review">0</div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Questions you've attempted but haven't yet answered correctly 3 times in a row — includes ones you're close on.">Needs review</span></div>
+      </div>
+      <div class="overview-card">
+        <div class="n" id="pg-ov-accuracy">—</div>
+        <div class="l"><span class="acc-hint" tabindex="0" data-tip="Attempted questions whose most recent try was correct — a straightforward read on how you'd do right now.">Questions answered correctly</span></div>
+      </div>
+    </div>
+
+    <div class="cat-table">
+      <div class="cat-row head">
+        <span>Category</span>
+        <span>Attempted</span>
+        <span><span class="acc-hint" tabindex="0" data-tip="Questions you've answered correctly on your last 3 attempts in a row.">Mastered</span></span>
+        <span><span class="acc-hint" tabindex="0" data-tip="Attempted questions you haven't yet answered correctly 3 times in a row.">Needs review</span></span>
+        <span class="bar-col"><span class="acc-hint" tabindex="0" data-tip="Green = mastered (correct on your last 3 attempts in a row). Amber = needs review (not yet 3 in a row). Grey = not yet attempted.">Mastery</span></span>
+        <span><span class="acc-hint" tabindex="0" data-tip="Attempted questions whose most recent try was correct.">Questions answered correctly</span></span>
+      </div>
+      <div id="pg-cat-rows"></div>
+    </div>
+  </div>
+</main>
+
 <!-- 10-MINUTES-REMAINING WARNING -->
 <div class="modal-overlay" id="time-warning-modal" style="display:none">
   <div class="modal-card">
@@ -813,28 +902,6 @@ button{font-family:var(--san);cursor:pointer}
     <h3 id="paywall-popup-title">This requires full access</h3>
     <p id="paywall-popup-text">The free preview covers the first 3 questions. Get full access to unlock the rest of the question bank.</p>
     <a class="btn btn-primary" href="question-bank.html" style="width:100%;justify-content:center">Get access</a>
-  </div>
-</div>
-
-<div class="modal-overlay" id="progress-modal-overlay" style="display:none">
-  <div class="progress-modal-card">
-    <div class="progress-modal-head">
-      <div>
-        <span class="eyebrow" style="margin-bottom:4px">Example page</span>
-        <h3>My Progress</h3>
-      </div>
-      <button class="progress-modal-close" id="progress-modal-close" type="button" aria-label="Close">
-        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="progress-modal-body">
-      <p class="progress-modal-intro">Illustrative stats — in your real account, this shows your actual progress across the whole bank.</p>
-      <div class="progress-overall-row">
-        <div class="progress-stat"><div class="n" id="progress-solved-n">84<span id="progress-solved-denom">/560</span></div><div class="l">Solved</div></div>
-        <div class="progress-stat"><div class="n">71%</div><div class="l">Accuracy</div></div>
-      </div>
-      <div class="progress-cat-list" id="progress-cat-list"></div>
-    </div>
   </div>
 </div>
 
@@ -1061,6 +1128,22 @@ let isNotesSession = false;
 let timerInterval = null;
 let timeRemaining = 180;
 
+/* Live bank size — auto-generated from questions.json by
+   supabase/generate-ks-topics.mjs (run automatically by migrate-questions.mjs),
+   same convention as dashboard.html/my-progress.html (an EMQ card counts as
+   one per sub-question). Do not hand-edit, it gets overwritten. Feeds the
+   dashboard ring and the My Progress page so both always match the real
+   bank size instead of a number that goes stale as questions are added. */
+/* TOTAL_QUESTIONS:START */
+const TOTAL_QUESTIONS = 160;
+/* TOTAL_QUESTIONS:END */
+// Fixed illustrative proportions applied to TOTAL_QUESTIONS — the ratios the
+// design shipped with, kept as ratios (rather than baked-in counts) so the
+// dashboard ring and the My Progress page scale together as the bank grows.
+const SOLVED_RATIO = 0.15;
+const MASTERED_OF_ATTEMPTED = 52 / 84;
+const CORRECT_OF_ATTEMPTED = 60 / 84;
+
 const MOCK_SPECS = {
   full: { minutes: 180, questions: 70, marks: 400 },
   half: { minutes: 90, questions: 35, marks: 208 }
@@ -1088,38 +1171,101 @@ function showToast(msg) {
   showToast._t = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-/* ===== MY PROGRESS EXAMPLE MODAL ===== */
-const PROGRESS_CATEGORIES = [
-  { name: 'Clinical Pain', solved: 22, total: 80 },
-  { name: 'Physiology', solved: 15, total: 60 },
-  { name: 'Pharmacology', solved: 18, total: 70 },
-  { name: 'Anatomy', solved: 9, total: 50 },
-  { name: 'Regional Anaesthesia', solved: 12, total: 45 },
-  { name: 'Psychology', solved: 8, total: 40 }
+/* ===== MY PROGRESS VIEW =====
+   Same overview-cards + category-table architecture as the real
+   my-progress.html (fmtRatio/render), but fed made-up numbers instead of
+   a Supabase loadStats() call. Every number here is derived from the live
+   TOTAL_QUESTIONS + the shared ratios above, so it scales automatically as
+   the bank grows instead of quietly going stale — each category keeps its
+   fixed illustrative share of the (fictional) CAT_META breakdown and its
+   own mastered/correct split, applied against the live totals. Numbers/
+   Percentages toggle and category rows are fully interactive; Reset
+   progress is wired to the paywall like the rest of the account-only
+   actions. */
+const CAT_META_TOTAL = CAT_META.reduce((sum, c) => sum + c.count, 0);
+const CATEGORY_RATIOS = [
+  { name: 'Clinical Pain', totalShare: 80 / CAT_META_TOTAL, attemptedShare: 22 / 84, masteredOfAttempted: 14 / 22, correctOfAttempted: 17 / 22 },
+  { name: 'Physiology', totalShare: 60 / CAT_META_TOTAL, attemptedShare: 15 / 84, masteredOfAttempted: 8 / 15, correctOfAttempted: 10 / 15 },
+  { name: 'Pharmacology', totalShare: 70 / CAT_META_TOTAL, attemptedShare: 18 / 84, masteredOfAttempted: 12 / 18, correctOfAttempted: 14 / 18 },
+  { name: 'Anatomy', totalShare: 50 / CAT_META_TOTAL, attemptedShare: 9 / 84, masteredOfAttempted: 4 / 9, correctOfAttempted: 5 / 9 },
+  { name: 'Regional Anaesthesia', totalShare: 45 / CAT_META_TOTAL, attemptedShare: 12 / 84, masteredOfAttempted: 8 / 12, correctOfAttempted: 9 / 12 },
+  { name: 'Psychology', totalShare: 40 / CAT_META_TOTAL, attemptedShare: 8 / 84, masteredOfAttempted: 6 / 8, correctOfAttempted: 5 / 8 }
 ];
-function renderProgressModal() {
-  document.getElementById('progress-cat-list').innerHTML = PROGRESS_CATEGORIES.map(c => {
-    const pct = Math.round((c.solved / c.total) * 100);
-    return `<div class="progress-cat-row">
-      <div class="progress-cat-top">
-        <span class="progress-cat-name">${escHtml(c.name)}</span>
-        <span class="progress-cat-nums"><strong>${pct}%</strong> · ${c.solved}/${c.total}</span>
-      </div>
-      <div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
-    </div>`;
+
+function buildProgressStats() {
+  const totalQuestions = TOTAL_QUESTIONS;
+  const totalAttempted = Math.round(totalQuestions * SOLVED_RATIO);
+  const totalMastered = Math.round(totalAttempted * MASTERED_OF_ATTEMPTED);
+  const totalReview = totalAttempted - totalMastered;
+  const totalLatestCorrect = Math.round(totalAttempted * CORRECT_OF_ATTEMPTED);
+
+  const categories = CATEGORY_RATIOS.map(c => {
+    const total = Math.round(totalQuestions * c.totalShare);
+    const attempted = Math.round(totalAttempted * c.attemptedShare);
+    const mastered = Math.round(attempted * c.masteredOfAttempted);
+    const review = attempted - mastered;
+    const latestCorrect = Math.round(attempted * c.correctOfAttempted);
+    return { name: c.name, total, attempted, mastered, review, latestTotal: attempted, latestCorrect };
+  });
+
+  return { totalQuestions, totalAttempted, totalMastered, totalReview, totalLatestAttempted: totalAttempted, totalLatestCorrect, categories };
+}
+
+let pgDisplayMode = 'number';
+
+function pgFmtRatio(n, total, { showTotal = false, compact = false } = {}) {
+  if (pgDisplayMode === 'percent') return total ? Math.round((n / total) * 100) + '%' : '—';
+  if (!showTotal) return String(n);
+  return compact ? `${n}/${total}` : `${n} <span class="unit">/ ${total}</span>`;
+}
+
+function renderProgress() {
+  const stats = buildProgressStats();
+  document.getElementById('pg-ov-attempted').innerHTML = pgFmtRatio(stats.totalAttempted, stats.totalQuestions, { showTotal: true });
+  document.getElementById('pg-ov-mastered').innerHTML = pgFmtRatio(stats.totalMastered, stats.totalQuestions);
+  document.getElementById('pg-ov-review').innerHTML = pgFmtRatio(stats.totalReview, stats.totalQuestions);
+  document.getElementById('pg-ov-accuracy').innerHTML = stats.totalLatestAttempted
+    ? pgFmtRatio(stats.totalLatestCorrect, stats.totalLatestAttempted, { showTotal: true })
+    : '—';
+
+  document.getElementById('pg-cat-rows').innerHTML = stats.categories.map(cat => {
+    const hasAttempts = cat.latestTotal > 0;
+    const accPct = hasAttempts ? Math.round((cat.latestCorrect / cat.latestTotal) * 100) : 0;
+    const accClass = !hasAttempts ? 'none' : accPct >= 70 ? 'good' : accPct >= 50 ? 'mid' : 'low';
+    const accText = hasAttempts ? pgFmtRatio(cat.latestCorrect, cat.latestTotal, { showTotal: true, compact: true }) : '—';
+    const masteredPct = cat.total ? (cat.mastered / cat.total) * 100 : 0;
+    const reviewPct = cat.total ? (cat.review / cat.total) * 100 : 0;
+    return `
+      <div class="cat-row">
+        <span class="cat-name">${escHtml(cat.name)}</span>
+        <div class="cat-stats">
+          <span class="cat-cell"><span class="cell-label">Attempted</span><span class="cell-val cat-solved">${pgFmtRatio(cat.attempted, cat.total, { showTotal: true, compact: true })}</span></span>
+          <span class="cat-cell"><span class="cell-label">Mastered</span><span class="cell-val cat-mastered-num">${pgFmtRatio(cat.mastered, cat.total)}</span></span>
+          <span class="cat-cell"><span class="cell-label">Needs review</span><span class="cell-val cat-review-num">${pgFmtRatio(cat.review, cat.total)}</span></span>
+          <span class="bar-col cat-bar-track" title="${cat.mastered} mastered, ${cat.review} needs review, ${cat.total - cat.attempted} not started">
+            <span class="cat-bar-mastered" style="width:${masteredPct}%"></span>
+            <span class="cat-bar-review" style="width:${reviewPct}%"></span>
+          </span>
+          <span class="cat-cell"><span class="cell-label">Correct</span><span class="cell-val cat-acc ${accClass}">${accText}</span></span>
+        </div>
+      </div>`;
   }).join('');
 }
-function openProgressModal() {
-  renderProgressModal();
-  document.getElementById('progress-modal-overlay').style.display = 'flex';
+
+function openProgress() {
+  showView('view-progress');
+  renderProgress();
 }
-function closeProgressModal() {
-  document.getElementById('progress-modal-overlay').style.display = 'none';
-}
-document.getElementById('progress-modal-close').addEventListener('click', closeProgressModal);
-document.getElementById('progress-modal-overlay').addEventListener('click', e => {
-  if (e.target.id === 'progress-modal-overlay') closeProgressModal();
+
+document.getElementById('pg-display-toggle').querySelectorAll('.toggle-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.mode === pgDisplayMode) return;
+    pgDisplayMode = btn.dataset.mode;
+    document.querySelectorAll('#pg-display-toggle .toggle-opt').forEach(b => b.classList.toggle('active', b === btn));
+    renderProgress();
+  });
 });
+document.getElementById('pg-reset-btn').addEventListener('click', () => openPaywallPopup(PAYWALL_DEMO_TEXT));
 
 function shuffle(arr) { return arr.map(v => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(p => p[1]); }
 function escHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -1137,7 +1283,7 @@ document.getElementById('app-rail').addEventListener('click', e => {
   else if (href.includes('mode=bookmarks')) { e.preventDefault(); openBookmarksOrEmpty(); }
   else if (href.includes('mode=notes')) { e.preventDefault(); openNotesOrEmpty(); }
   else if (href === 'knowledge-summary.html') { e.preventDefault(); openKnowledge(); }
-  else if (href === 'my-progress.html') { e.preventDefault(); openProgressModal(); }
+  else if (href === 'my-progress.html') { e.preventDefault(); openProgress(); }
 });
 
 const RAIL_TIPS = {
@@ -1156,26 +1302,23 @@ function tagRailTips() {
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', tagRailTips);
 else tagRailTips();
 
-/* ===== LIVE BANK SIZE (ring + progress modal "solved" stats) =====
-   Pulls the real question count from questions.json so these demo
-   stats grow automatically as the bank grows, instead of a number
-   that goes stale the moment more questions are added. Keeps the
-   same illustrative ~15% "solved" ratio the design shipped with. */
-fetch('questions.json').then(r => r.json()).then(data => {
-  const total = data.questions.length;
-  const solved = Math.round(total * 0.15);
+/* ===== LIVE BANK SIZE (dashboard ring) =====
+   TOTAL_QUESTIONS (declared above, auto-generated) is the one live number;
+   this is a fixed illustrative ~15% "solved" ratio applied to it — no fetch,
+   so it can't silently fail on a hosting setup that doesn't serve
+   questions.json the same way the local dev server does. See also
+   buildProgressStats() below, which shares this same ratio. */
+(function renderDashRing() {
+  const total = TOTAL_QUESTIONS;
+  const solved = Math.round(total * SOLVED_RATIO);
   const pct = Math.round((solved / total) * 100);
-
   document.getElementById('dash-ring-num').innerHTML = `${solved}<span class="sep">/</span>${total}`;
   document.getElementById('dash-ring-pct').textContent = `${pct}%`;
   const circumference = 2 * Math.PI * 62;
   const fillEl = document.getElementById('dash-ring-fill');
   fillEl.setAttribute('stroke-dasharray', circumference.toFixed(1));
   fillEl.setAttribute('stroke-dashoffset', (circumference * (1 - solved / total)).toFixed(1));
-
-  document.getElementById('progress-solved-n').firstChild.textContent = solved;
-  document.getElementById('progress-solved-denom').textContent = `/${total}`;
-}).catch(() => {}); // demo stats stay at their shipped placeholder values if this fails
+})();
 
 /* ===== CONFIG VIEW ===== */
 function mockSizeChoice() {
