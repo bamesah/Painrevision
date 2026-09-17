@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" role="img" aria-labelledby="hpg-title">
+<title id="hpg-title">The hypothalamic-pituitary-gonadal axis and its negative feedback loop, showing the three levels at which opioids exert suppressive effects: hypothalamic GnRH, pituitary LH/FSH, and the gonads directly</title>
+
+<rect x="1" y="1" width="998" height="678" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<defs>
+  <marker id="hpg-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#3A2D25"/>
+  </marker>
+  <marker id="hpg-inhibit" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+    <path d="M0 2 L0 8" stroke="#F0623C" stroke-width="2"/>
+  </marker>
+</defs>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="500" y="42" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Hypothalamic&#8211;pituitary&#8211;gonadal axis &#8212; opioid suppression</text>
+  <text x="500" y="64" text-anchor="middle" font-size="13" fill="#7C7068">Opioids inhibit at all three levels, producing secondary (hypogonadotrophic) hypogonadism</text>
+
+  <!-- Hypothalamus -->
+  <rect x="380" y="96" width="240" height="66" rx="14" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="124" text-anchor="middle" font-size="14.5" font-weight="700" fill="#241B16">Hypothalamus</text>
+  <text x="500" y="144" text-anchor="middle" font-size="12" fill="#3A2D25">releases GnRH</text>
+
+  <path d="M500 162 L500 210" stroke="#3A2D25" stroke-width="2" fill="none" marker-end="url(#hpg-arrow)"/>
+  <text x="540" y="192" font-size="11.5" fill="#7C7068">GnRH</text>
+
+  <!-- Anterior pituitary -->
+  <rect x="380" y="212" width="240" height="66" rx="14" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="240" text-anchor="middle" font-size="14.5" font-weight="700" fill="#241B16">Anterior pituitary</text>
+  <text x="500" y="260" text-anchor="middle" font-size="12" fill="#3A2D25">releases LH (&amp; FSH)</text>
+
+  <path d="M500 278 L500 326" stroke="#3A2D25" stroke-width="2" fill="none" marker-end="url(#hpg-arrow)"/>
+  <text x="536" y="308" font-size="11.5" fill="#7C7068">LH / FSH</text>
+
+  <!-- Gonads -->
+  <rect x="380" y="328" width="240" height="66" rx="14" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="356" text-anchor="middle" font-size="14.5" font-weight="700" fill="#241B16">Testes / Ovaries</text>
+  <text x="500" y="376" text-anchor="middle" font-size="12" fill="#3A2D25">testosterone / oestradiol</text>
+
+  <!-- Sex hormone output -->
+  <rect x="410" y="440" width="180" height="54" rx="12" fill="#F7E4DA" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="472" text-anchor="middle" font-size="13" font-weight="700" fill="#D2491F">Sex hormones &#8595;</text>
+  <path d="M500 394 L500 440" stroke="#3A2D25" stroke-width="2" fill="none" marker-end="url(#hpg-arrow)"/>
+
+  <!-- negative feedback loop, dashed, curving back up -->
+  <path d="M410 460 C 180 460, 150 260, 150 180 C 150 130, 250 100, 378 118" fill="none" stroke="#B98C6A" stroke-width="2" stroke-dasharray="3 6" marker-end="url(#hpg-arrow)"/>
+  <text x="90" y="270" font-size="12" font-weight="700" fill="#B98C6A" transform="rotate(-90 90 270)" text-anchor="middle">negative feedback</text>
+
+  <!-- opioid inhibitory marks at each of the 3 levels -->
+  <g>
+    <rect x="676" y="96" width="230" height="52" rx="12" fill="#FFFFFF" stroke="#F0623C" stroke-width="1.5"/>
+    <text x="690" y="118" font-size="12.5" font-weight="700" fill="#D2491F">Opioids &#8867;</text>
+    <text x="690" y="136" font-size="11.5" fill="#3A2D25">suppress hypothalamic GnRH</text>
+    <path d="M672 122 L624 130" stroke="#F0623C" stroke-width="2.5" marker-end="url(#hpg-inhibit)"/>
+  </g>
+
+  <g>
+    <rect x="676" y="212" width="230" height="52" rx="12" fill="#FFFFFF" stroke="#F0623C" stroke-width="1.5"/>
+    <text x="690" y="234" font-size="12.5" font-weight="700" fill="#D2491F">Opioids &#8867;</text>
+    <text x="690" y="252" font-size="11.5" fill="#3A2D25">suppress pituitary LH (&#177; FSH)</text>
+    <path d="M672 245 L624 246" stroke="#F0623C" stroke-width="2.5" marker-end="url(#hpg-inhibit)"/>
+  </g>
+
+  <g>
+    <rect x="676" y="328" width="230" height="52" rx="12" fill="#FFFFFF" stroke="#F0623C" stroke-width="1.5"/>
+    <text x="690" y="350" font-size="12.5" font-weight="700" fill="#D2491F">Opioids &#8867;</text>
+    <text x="690" y="368" font-size="11.5" fill="#3A2D25">act directly at the gonads</text>
+    <path d="M672 361 L624 362" stroke="#F0623C" stroke-width="2.5" marker-end="url(#hpg-inhibit)"/>
+  </g>
+
+  <!-- result box -->
+  <rect x="130" y="560" width="740" height="94" rx="14" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="588" text-anchor="middle" font-size="13.5" font-weight="700" fill="#241B16">Net result: secondary (hypogonadotrophic) hypogonadism</text>
+  <text x="500" y="610" text-anchor="middle" font-size="12" fill="#3A2D25">Low testosterone / oestradiol with low or inappropriately normal LH and FSH</text>
+  <text x="500" y="630" text-anchor="middle" font-size="12" fill="#3A2D25">&#8212; distinguishing it from primary gonadal failure, where LH/FSH rise</text>
+
+</g>
+</svg>
