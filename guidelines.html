@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Key Guidelines — PainRevision | FFPMRCA Exam Prep</title>
-<meta name="description" content="Curated summaries of key NICE guidelines for the FFPMRCA exam — chronic primary pain (NG193), low back pain and sciatica (NG59), and more."/>
+<meta name="description" content="Curated summaries of key NICE and FPM guidelines for the FFPMRCA exam — chronic primary pain (NG193), low back pain and sciatica (NG59), opioid optimisation, and more."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -248,6 +248,23 @@ button{font-family:var(--san);cursor:pointer}
 .gl-custom-option:last-child{border-bottom:none}
 .gl-custom-option:hover{background:var(--coral-faint);color:var(--ink)}
 .gl-custom-option.active{color:var(--coral);font-weight:600;background:var(--coral-faint)}
+
+/* ===== FIGURE (clickable diagrams) ===== */
+.gl-figure{padding:6px 18px 18px}
+.gl-figure img{max-width:100%;display:block;margin:0 auto;border:1px solid var(--border);border-radius:12px;cursor:zoom-in;transition:opacity .15s,box-shadow .2s;box-shadow:var(--shadow-sm)}
+.gl-figure img:hover{opacity:.9}
+.gl-figure img:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+.gl-figure-caption{font-size:12.5px;color:var(--stone);line-height:1.5;margin-top:10px;text-align:center}
+
+/* ===== LIGHTBOX (click-to-zoom on figures) ===== */
+.lightbox-overlay{position:fixed;inset:0;z-index:200;background:rgba(36,27,22,.72);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
+.lightbox-overlay.open{opacity:1;pointer-events:all}
+.lightbox-box{position:relative;max-width:min(92vw,900px);width:100%}
+.lightbox-scroll{max-height:88vh;overflow-y:auto;background:var(--surface);border-radius:20px;box-shadow:0 4px 80px -16px rgba(36,27,22,.55);padding:20px;transform:scale(.93);transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.lightbox-overlay.open .lightbox-scroll{transform:scale(1)}
+.lightbox-close{position:absolute;top:-14px;right:-14px;z-index:1;width:34px;height:34px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--stone);transition:background .15s,color .15s;box-shadow:var(--shadow-sm)}
+.lightbox-close:hover{background:var(--cream);color:var(--ink)}
+.lightbox-content img{max-width:100%;display:block;border-radius:10px}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:768px){
@@ -1228,6 +1245,122 @@ const GUIDELINES = [
         ]
       }
     ]
+  },
+  {
+    id: 'fpm-opioid',
+    code: '',
+    org: 'FPM',
+    title: 'Opioid Optimisation',
+    published: '2024',
+    url: 'https://fpm.ac.uk/sites/fpm/files/documents/2024-11/Opioid%20Optimisation%20-%20Nov%2024_0.pdf',
+    sections: [
+      {
+        type: 'info',
+        heading: 'Scope & Purpose',
+        points: [
+          'FPM guidance (November 2024) providing <strong>educational and supportive guidance</strong> for Pain Medicine Specialists managing <strong>opioid optimisation</strong> in people with complex, chronic pain. It does not set professional standards, though standards-of-practice guidance is offered where relevant.',
+          'Core principle: use the <strong>minimal effective opioid dose</strong> while frequently reviewing and balancing benefit against harm — management must be individualised, not formulaic.',
+          'Patients who wish to reduce or stop opioids must be able to access appropriate advice and treatment, and must never be stigmatised.',
+          'Equally, patients stable on long-term opioids with a genuine, demonstrable benefit in pain, function and quality of life must <strong>not</strong> be stigmatised or have medication withdrawn inappropriately without a thorough risk&ndash;benefit assessment.',
+          'Opioid optimisation undertaken in secondary care should ideally sit within a <strong>multi-disciplinary team (MDT)</strong> framework.'
+        ]
+      },
+      {
+        type: 'avoid',
+        heading: 'Harms of Long-Term Opioid Therapy',
+        points: [
+          'There is a <strong>lack of evidence</strong> that opioid therapy beyond 3 months reduces chronic pain or improves function.',
+          '<strong>Common side effects:</strong> constipation, nausea, daytime somnolence, poor concentration and memory loss, increased falls risk.',
+          '<strong>Opioid-Induced Ventilatory Impairment (OIVI)</strong> — compounded by co-prescribed gabapentinoids, benzodiazepines and Z-drugs.',
+          '<strong>Endocrine effects:</strong> reduced testosterone in men and women, causing infertility, decreased libido, amenorrhoea, sexual dysfunction, fatigue, hot flushes, depression and osteoporosis.',
+          '<strong>Immunomodulation</strong> (increased infection risk) and <strong>Opioid-Induced Hyperalgesia (OIH)</strong> — a more diffuse, less well-defined pain, distinct from the original pain or from tolerance-related breakthrough pain.',
+          'Other harms: falls and fractures, myocardial infarction, accidental overdose and death, and problematic opioid use/dependence.',
+          '<strong>Key exam fact:</strong> mortality risk rises <strong>seven-fold</strong> when Oral Morphine Equivalence (OME) is escalated from 20&nbsp;mg/day to 100&nbsp;mg/day.'
+        ]
+      },
+      {
+        type: 'assess',
+        heading: 'Identifying Problematic Opioid Use',
+        points: [
+          '<strong>Risk factors</strong> for opioid dependence: personal or family history of substance use disorder, reluctance to acknowledge psychological contributors to pain, and significant psychiatric comorbidity.',
+          '<strong>SOAPP</strong> (Screener and Opioid Assessment for Patients with Pain): a validated <strong>24-item, 5-point scale</strong> predictive tool, typically used in clinic around initiation.',
+          '<strong>COMM</strong> (Current Opioid Misuse Measure): a <strong>17-item</strong> patient self-assessment used to identify signs of misuse in patients <em>already</em> on long-term opioid therapy.',
+          '<strong>Red flags for misuse:</strong> requests for dose increases despite reported worsening pain; psychological deterioration; reliance on medication alone with no engagement in self-management, exercise, physiotherapy or psychology; lost prescriptions, dropped bottles, or extra doses requested for trips away; continued use despite side effects.'
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Patient Engagement & Indicators for Reduction',
+        points: [
+          'A <strong>patient-centred, shared decision-making</strong> approach is central — it often takes more than one consultation to build a trusting therapeutic relationship.',
+          '<strong>Powerful indicators to consider opioid reduction:</strong> patient self-motivation after being informed; no clinically meaningful improvement in pain or function; high-dose opioids combined with benzodiazepines/sedatives without benefit (increased overdose risk); signs of substance use disorder; a prior overdose or serious adverse event, or early warning signs such as confusion, sedation, or slurred speech.',
+          'Discuss and agree a <strong>start date, timeframe and realistic endpoint</strong> for reduction, with clear documentation and communication so patient expectations are managed.',
+          '<strong>Withdrawal symptoms</strong> are flu-like (nausea/vomiting, anxiety, insomnia, hot/cold flushes, perspiration, muscle cramps, watery eye/nasal discharge, diarrhoea) and usually <strong>not life-threatening</strong>, but may need symptomatic management.',
+          'Older patients are at higher risk of excessive sedation, respiratory depression and silent (asymptomatic) aspiration — particularly during intercurrent illness (e.g. diarrhoea/vomiting, UTI, renal impairment).',
+          'Support anxious patients with reassurance, <strong>motivational interviewing</strong>, self-management strategies, and access to a <strong>rescue analgesia plan</strong>.'
+        ]
+      },
+      {
+        type: 'offer',
+        heading: 'Framework for Opioid Reduction (Shared Decision-Making)',
+        points: [
+          'Opioid optimisation should be undertaken within a comprehensive, structured shared decision-making framework:'
+        ],
+        tables: [
+          {
+            caption: 'Managing Opioid Reduction — Step by Step',
+            columns: ['Step', 'Action'],
+            rows: [
+              ['A', 'Assess chronic pain (mechanism, diagnosis, opioid responsiveness) face-to-face; provide patient information leaflets/resources.'],
+              ['B', 'Calculate current <strong>Oral Morphine Equivalence (OME)</strong> via an opioid calculator, totalling all formulations (extended/modified/immediate release, sublingual, transdermal).'],
+              ['C', 'Review concurrent sedatives — gabapentinoids, antidepressants, benzodiazepines, Z-drugs — and any supplements or non-prescribed medication.'],
+              ['D', 'Discuss side effects and risk&ndash;benefit of long-term opioids; signpost to <strong>FPM Opioids Aware</strong>; use images, analogies and web resources.'],
+              ['E', 'Reduce the long-acting opioid; allow a short-acting opioid PRN for flare-ups/activity-related pain; set a maximum daily dose.'],
+              ['F', 'Explore non-opioid options — simple analgesics, NSAIDs, anti-neuropathics. In selected cases: ketamine infusion or sublingual buprenorphine rotation.'],
+              ['G', 'Communicate the plan promptly to the GP, with an appropriate planned review.'],
+              ['H', 'Provide MDT support — nurse specialist, pharmacist, physiotherapist, psychologist.']
+            ]
+          }
+        ]
+      },
+      {
+        type: 'consider',
+        heading: 'Practical Tapering Regimens',
+        points: [
+          '<strong>Typical rate:</strong> 10% dose reduction at a time; a larger step-change may be considered for a motivated patient after a detailed risk&ndash;benefit assessment with support in place. Steps can run weekly, fortnightly, or every 4 weeks.',
+          '<strong>Oxford Model — Option 1:</strong> keep Modified Release (MR) stable, wean Immediate Release (IR) by either reducing the dose at the same frequency (20&rarr;10&rarr;5&nbsp;mg) or reducing frequency at the same dose (QDS&rarr;TDS&rarr;BD).',
+          '<strong>Oxford Model — Option 2:</strong> reduce the Modified/Sustained Release (MR/SR) dose by 10% per dose per week while keeping PRN IR unchanged.',
+          '<strong>CDC Model:</strong> reduce and stop long-acting opioids; use IR opioids only, where appropriate, for activity-related and breakthrough pain.',
+          '<strong>Transdermal fentanyl:</strong> reduce by 12&ndash;25 micrograms/hour every 2&ndash;4 weeks — there is up to a 24-hour lag between dose reduction and exhaustion of the drug reservoir. Additional short-acting opioid cover, or switching to an equivalent dose of an alternative opioid, may be needed.',
+          '<strong>Choice of opioid:</strong> oral morphine is first choice, but there is little evidence that any one opioid is more effective or better tolerated — switch if the current opioid helps but causes intolerable side effects.',
+          '<strong>Solution vs tablet:</strong> immediate-release solution and tablet forms of morphine/oxycodone have similar absorption and duration of action; switching to the tablet form can support compliance and monitoring, and reduce the risk of bottle "swigging". Note IR morphine solution contains <strong>10% alcohol</strong>.'
+        ]
+      },
+      {
+        type: 'assess',
+        heading: 'Opioid & Endocrine Insufficiency Flowchart',
+        points: [
+          'Reproduced in the guidance: a pathway from the Pain Clinic &amp; Endocrine team, Aberdeen Royal Infirmary (NHS Grampian), for assessing opioid-induced <strong>adrenal insufficiency</strong> and <strong>hypogonadism</strong> in patients on significant long-term opioid use (morphine or equivalent &gt;100&nbsp;mg/day for more than a year). Click the image to enlarge.'
+        ],
+        image: {
+          src: 'images/opioid-endocrine-flowchart.png',
+          alt: 'Flowchart for assessing and managing opioid-induced adrenal insufficiency and hypogonadism: pain clinic assessment branches into an adrenal insufficiency pathway (symptom check, early-morning cortisol, synacthen test thresholds, hydrocortisone if needed) and a hypogonadal pathway (symptom check, fasting testosterone/oestradiol and LH/FSH, endocrinology referral if persistent).',
+          caption: 'Opioid and endocrine insufficiency management flowchart — Pain Clinic &amp; Endocrine team, Aberdeen Royal Infirmary, NHS Grampian (FPM Opioid Optimisation Guidance, Nov 2024, p.14).'
+        }
+      },
+      {
+        type: 'key',
+        heading: 'Key Exam Points',
+        points: [
+          'A <strong>multi-disciplinary team</strong> is critical to decision-making — opioid reduction in patients on longstanding high-dose opioids carries a real risk of destabilisation, self-harm, or death.',
+          'When a patient does not engage despite exhausted efforts at shared decision-making, a <strong>unilateral opioid dose reduction</strong> may exceptionally be considered for patient safety, in keeping with the GMC\'s <em>Good Practice in Prescribing</em> — this is reserved as an <strong>absolute last resort</strong>.',
+          '<strong>Document</strong> the assessment, all communications, and agreed shared decisions throughout the optimisation process — essential for medicolegal protection.',
+          'Screen for opioid-induced <strong>adrenal insufficiency</strong> (postural hypotension/dizziness, unexplained weight loss, hyponatraemia) with an early-morning (8&ndash;9am) cortisol, and for <strong>hypogonadism</strong> (libido/erectile dysfunction, amenorrhoea) with fasting testosterone/oestradiol plus LH/FSH — test only if symptomatic.',
+          '<strong>Seven-fold increase in mortality risk</strong> when OME is escalated from 20&nbsp;mg to 100&nbsp;mg/day — a key quotable statistic.',
+          'Follow-up is integral to optimisation, especially early on, when positive reinforcement and reassurance help patients progress; involve local substance misuse services if needed.'
+        ]
+      }
+    ]
   }
 ];
 
@@ -1262,6 +1395,60 @@ function renderTable(t) {
     </div>
     ${t.note ? `<div class="gl-table-note">${t.note}</div>` : ''}
   </div>`;
+}
+
+function renderFigure(img) {
+  return `<div class="gl-figure">
+    <img src="${img.src}" alt="${img.alt || ''}" loading="lazy" tabindex="0" role="button" aria-label="Enlarge image">
+    ${img.caption ? `<div class="gl-figure-caption">${img.caption}</div>` : ''}
+  </div>`;
+}
+
+/* ===== Lightbox (click-to-zoom on figures) ===== */
+function ensureLightbox() {
+  if (document.getElementById('lightbox')) return;
+  const lb = document.createElement('div');
+  lb.className = 'lightbox-overlay';
+  lb.id = 'lightbox';
+  lb.innerHTML = `
+    <div class="lightbox-box">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="lightbox-scroll">
+        <div class="lightbox-content" id="lightbox-content"></div>
+      </div>
+    </div>`;
+  document.body.appendChild(lb);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+}
+function openLightbox(html) {
+  ensureLightbox();
+  document.getElementById('lightbox-content').innerHTML = html;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  if (lb) lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+function initLightboxTargets(container) {
+  if (!container) return;
+  ensureLightbox();
+  container.querySelectorAll('.gl-figure img').forEach(img => {
+    if (img.dataset.lbBound) return;
+    img.dataset.lbBound = '1';
+    const open = e => { if (e) e.preventDefault(); openLightbox(`<img src="${img.src}" alt="${img.alt.replace(/"/g, '&quot;')}">`); };
+    img.addEventListener('click', open);
+    img.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    let moved = false;
+    img.addEventListener('touchstart', () => { moved = false; }, { passive: true });
+    img.addEventListener('touchmove', () => { moved = true; }, { passive: true });
+    img.addEventListener('touchend', e => { if (!moved) open(e); });
+  });
 }
 
 function renderRiskCards(cards) {
@@ -1332,6 +1519,7 @@ function renderContent(g) {
               </div>`).join('')}
           </div>` : ''}
           ${s.riskCards ? renderRiskCards(s.riskCards) : ''}
+          ${s.image ? renderFigure(s.image) : ''}
           ${(s.tables || []).length ? `<div class="gl-tables">${s.tables.map(renderTable).join('')}</div>` : ''}
           ${(s.postPoints || []).length ? `<div class="gl-points">${s.postPoints.map(p => `
               <div class="gl-point">
@@ -1352,6 +1540,7 @@ function loadGuideline(id) {
   if (!g) return;
   renderList(id);
   document.getElementById('gl-content').innerHTML = renderContent(g);
+  initLightboxTargets(document.getElementById('gl-content'));
   document.getElementById('gl-main').scrollTo({ top: 0, behavior: 'smooth' });
   if (typeof syncCustomSelect === 'function') syncCustomSelect(id);
   history.replaceState(null, '', `#${id}`);
@@ -1463,6 +1652,7 @@ drawerOverlay.addEventListener('click', closeDrawer);
   document.getElementById('gl-custom-select').addEventListener('click', e => e.stopPropagation());
   renderList(startId);
   document.getElementById('gl-content').innerHTML = renderContent(GUIDELINES.find(x => x.id === startId));
+  initLightboxTargets(document.getElementById('gl-content'));
 })();
 </script>
 </body>
