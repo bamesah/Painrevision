@@ -52,3 +52,10 @@
 - Do not stop after one screenshot pass
 - Do not use `transition-all`
 - Do not use default Tailwind blue/indigo as primary color
+
+## Adding to the Question Bank
+- When asked to add questions to the question bank , read the document containing the questions carefully , and correct any typos , scientific inaccuracies, inconsistencies in question stem and asnwers
+-Use the highlighted yellow text as instructions to follow 
+-Look at the previous already added questions and answers as well as explanations and knowledge box, and adjust the new questions to follow exactly the same format in all aspects
+-Adjust the explanations to summarise content as necessary , create tables and pictures,diagrams when you think it adds to the explanation , and ensure any tables and diagrams are clickable as an image that pops up
+-Report any major changes you have done specially with regards to changes in scientific content or adjustment of questions correct answers or stems/choices

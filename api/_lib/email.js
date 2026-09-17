@@ -3,7 +3,7 @@
 // verified in the Resend dashboard before sending will work.
 const FROM = 'PainRevision <no-reply@painrevision.com>';
 
-async function send({ to, subject, html }) {
+async function send({ to, subject, html, replyTo }) {
   if (!process.env.RESEND_API_KEY) {
     console.error('sendWelcomeEmail skipped: RESEND_API_KEY not set');
     return;
@@ -14,7 +14,7 @@ async function send({ to, subject, html }) {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ from: FROM, to, subject, html }),
+    body: JSON.stringify({ from: FROM, to, subject, html, ...(replyTo ? { reply_to: replyTo } : {}) }),
   });
   if (!res.ok) {
     const body = await res.text();
@@ -50,4 +50,30 @@ export async function sendWelcomeEmail({ email, firstName, username }) {
 </div>`.trim();
 
   await send({ to: email, subject: 'Welcome to PainRevision', html });
+}
+
+export async function sendBroadcastEmail({ to, firstName, subject, bodyHtml }) {
+  const greeting = firstName ? `Hi ${firstName},` : 'Hi there,';
+  const html = `
+<div style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#FBF5EE;padding:32px 16px;color:#241B16;">
+  <div style="max-width:480px;margin:0 auto;background:#FFFFFF;border:1.5px solid #EDE3D7;border-radius:22px;padding:40px;">
+    <div style="font-weight:800;font-size:17px;letter-spacing:-0.03em;margin-bottom:28px;">
+      <span style="color:#241B16;">Pain</span><span style="color:#F0623C;">Revision</span>
+    </div>
+    <p style="font-size:14px;line-height:1.7;color:#3A2D25;margin:0 0 20px;">${greeting}</p>
+    <div style="font-size:14px;line-height:1.7;color:#3A2D25;margin:0 0 28px;">
+      ${bodyHtml}
+    </div>
+    <div style="margin:0 0 32px;">
+      <a href="https://www.painrevision.com/contact.html" style="display:inline-block;background:#F0623C;color:#fff;border-radius:999px;padding:12px 26px;font-weight:600;font-size:14px;text-decoration:none;">
+        Get in touch
+      </a>
+    </div>
+    <p style="font-size:12px;line-height:1.6;color:#7C7068;margin:0;padding-top:20px;border-top:1px solid #EDE3D7;">
+      You're receiving this because you have a PainRevision account. Just reply to this email or <a href="https://www.painrevision.com/contact.html" style="color:#D2491F;font-weight:600;">click here</a> to reach us.
+    </p>
+  </div>
+</div>`.trim();
+
+  await send({ to, subject, html, replyTo: 'contact@painrevision.com' });
 }
