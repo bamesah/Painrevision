@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img" aria-labelledby="trpv1-title">
+<title id="trpv1-title">TRPV1 channel activation by heat, capsaicin, protons and anandamide, causing calcium influx, nociceptor depolarisation and substance P/CGRP release, and sensitisation of the channel by inflammatory mediators via PKC/PKA</title>
+
+<rect x="1" y="1" width="998" height="618" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<defs>
+  <marker id="trpv1-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#3A2D25"/>
+  </marker>
+</defs>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="500" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">TRPV1 activation and sensitisation</text>
+  <text x="500" y="55" text-anchor="middle" font-size="12.5" fill="#7C7068">At the peripheral nociceptor terminal</text>
+
+  <!-- membrane -->
+  <rect x="60" y="240" width="880" height="16" fill="#F7E4DA" stroke="#E0D3C4" stroke-width="1"/>
+  <text x="70" y="234" font-size="10.5" fill="#A99E95">extracellular</text>
+  <text x="70" y="290" font-size="10.5" fill="#A99E95">intracellular (nociceptor terminal)</text>
+
+  <!-- TRPV1 channel -->
+  <rect x="450" y="220" width="100" height="56" rx="14" fill="#FFFFFF" stroke="#D2491F" stroke-width="2.5"/>
+  <text x="500" y="253" text-anchor="middle" font-size="13" font-weight="700" fill="#D2491F">TRPV1</text>
+
+  <!-- activators (above membrane, arrows down into channel) -->
+  <g text-anchor="middle">
+    <rect x="120" y="90" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="195" y="112" font-size="12.5" font-weight="700" fill="#241B16">Noxious heat</text>
+    <text x="195" y="129" font-size="11" fill="#3A2D25">&gt;~43&#176;C</text>
+
+    <rect x="290" y="90" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="365" y="112" font-size="12.5" font-weight="700" fill="#241B16">Capsaicin</text>
+    <text x="365" y="129" font-size="11" fill="#3A2D25">exogenous agonist</text>
+
+    <rect x="460" y="90" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="535" y="112" font-size="12.5" font-weight="700" fill="#241B16">Low pH / protons</text>
+    <text x="535" y="129" font-size="11" fill="#3A2D25">inflamed/ischaemic tissue</text>
+
+    <rect x="630" y="90" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="705" y="112" font-size="12.5" font-weight="700" fill="#241B16">Anandamide</text>
+    <text x="705" y="129" font-size="11" fill="#3A2D25">endogenous agonist</text>
+  </g>
+  <g stroke="#3A2D25" stroke-width="2" fill="none" marker-end="url(#trpv1-arrow)">
+    <path d="M195 140 C 220 175 350 195 460 220"/>
+    <path d="M365 140 C 380 170 430 195 470 220"/>
+    <path d="M535 140 C 525 170 515 195 505 218"/>
+    <path d="M705 140 C 650 175 560 200 540 220"/>
+  </g>
+
+  <!-- sensitisers (top right, dashed facilitatory arrow into channel) -->
+  <rect x="800" y="90" width="150" height="66" rx="12" fill="#FFFFFF" stroke="#F5A524" stroke-width="1.5"/>
+  <text x="875" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#B8790E">Sensitisers</text>
+  <text x="875" y="126" text-anchor="middle" font-size="10.5" fill="#3A2D25">bradykinin, NGF,</text>
+  <text x="875" y="140" text-anchor="middle" font-size="10.5" fill="#3A2D25">prostaglandins</text>
+  <path d="M840 156 C 780 190 620 210 555 224" stroke="#F5A524" stroke-width="2" stroke-dasharray="4 4" fill="none" marker-end="url(#trpv1-arrow)"/>
+  <text x="700" y="200" font-size="11" font-weight="700" fill="#B8790E">via PKC/PKA phosphorylation</text>
+  <text x="700" y="214" font-size="10.5" fill="#7C7068">lowers activation threshold</text>
+
+  <!-- Ca2+ influx -->
+  <path d="M500 276 L500 320" stroke="#3A2D25" stroke-width="2.5" fill="none" marker-end="url(#trpv1-arrow)"/>
+  <text x="536" y="305" font-size="12.5" font-weight="700" fill="#3A2D25">Ca&#178;&#8314; influx</text>
+
+  <!-- downstream effects -->
+  <rect x="350" y="330" width="300" height="56" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="354" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Nociceptor depolarisation &amp; firing</text>
+  <text x="500" y="372" text-anchor="middle" font-size="11" fill="#3A2D25">(burning pain sensation)</text>
+
+  <path d="M500 386 L500 420" stroke="#3A2D25" stroke-width="2.5" fill="none" marker-end="url(#trpv1-arrow)"/>
+
+  <!-- two outcomes -->
+  <rect x="140" y="430" width="330" height="76" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="305" y="454" text-anchor="middle" font-size="12.5" font-weight="700" fill="#D2491F">Peripheral substance P / CGRP release</text>
+  <text x="305" y="472" text-anchor="middle" font-size="11" fill="#3A2D25">Neurogenic inflammation:</text>
+  <text x="305" y="488" text-anchor="middle" font-size="11" fill="#3A2D25">local vasodilation &amp; flare</text>
+
+  <rect x="530" y="430" width="330" height="76" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="695" y="454" text-anchor="middle" font-size="12.5" font-weight="700" fill="#D2491F">Central substance P / CGRP release</text>
+  <text x="695" y="472" text-anchor="middle" font-size="11" fill="#3A2D25">At the dorsal horn synapse:</text>
+  <text x="695" y="488" text-anchor="middle" font-size="11" fill="#3A2D25">onward nociceptive transmission</text>
+
+  <path d="M470 420 C 420 425 370 428 320 430" stroke="#3A2D25" stroke-width="1.8" fill="none" marker-end="url(#trpv1-arrow)"/>
+  <path d="M530 420 C 580 425 630 428 680 430" stroke="#3A2D25" stroke-width="1.8" fill="none" marker-end="url(#trpv1-arrow)"/>
+
+  <!-- footnote on repeated exposure -->
+  <line x1="60" y1="536" x2="940" y2="536" stroke="#EDE3D7" stroke-width="1.5"/>
+  <text x="500" y="560" text-anchor="middle" font-size="12" fill="#7C7068">With repeated/sustained activation, substance P stores become depleted, and (at high concentration) sustained Ca&#178;&#8314; overload</text>
+  <text x="500" y="578" text-anchor="middle" font-size="12" fill="#7C7068">causes reversible nociceptor terminal defunctionalisation &#8212; the basis of topical capsaicin analgesia</text>
+
+</g>
+</svg>
