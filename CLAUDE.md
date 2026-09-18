@@ -58,4 +58,5 @@
 -Use the highlighted yellow text as instructions to follow 
 -Look at the previous already added questions and answers as well as explanations and knowledge box, and adjust the new questions to follow exactly the same format in all aspects
 -Adjust the explanations to summarise content as necessary , create tables and pictures,diagrams when you think it adds to the explanation , and ensure any tables and diagrams are clickable as an image that pops up
+The knowledge box portion has to be treated with extreme care , read it as it may include instructions that are not highlighted in yellow. Format it to summarise knowledge , add knowledge , or adjust its presentation using tables , images or edits to the text to make it worthy of being in a summary knowledge box of a question bank website
 -Report any major changes you have done specially with regards to changes in scientific content or adjustment of questions correct answers or stems/choices
