@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-labelledby="gaba-a2d-title">
+<title id="gaba-a2d-title">Gabapentin and pregabalin bind the alpha-2-delta subunit of presynaptic voltage-gated calcium channels, reducing calcium influx and release of glutamate, noradrenaline and substance P, without acting at GABA receptors</title>
+
+<rect x="1" y="1" width="998" height="638" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<defs>
+  <marker id="a2d-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#3A2D25"/>
+  </marker>
+  <marker id="a2d-arrow-coral" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#D2491F"/>
+  </marker>
+</defs>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="500" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Gabapentinoids: binding the &#945;2&#948; subunit</text>
+  <text x="500" y="55" text-anchor="middle" font-size="12.5" fill="#7C7068">Gabapentin and pregabalin at the presynaptic terminal in the dorsal horn</text>
+
+  <!-- ===== Presynaptic terminal ===== -->
+  <rect x="120" y="76" width="760" height="236" rx="24" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <rect x="120" y="302" width="760" height="10" fill="#F7E4DA"/>
+  <line x1="120" y1="312" x2="880" y2="312" stroke="#D2491F" stroke-width="2"/>
+  <text x="146" y="104" font-size="12" font-weight="700" letter-spacing="1" fill="#D2491F">PRESYNAPTIC TERMINAL</text>
+  <text x="146" y="121" font-size="11" fill="#7C7068">primary afferent</text>
+
+  <!-- cascade row -->
+  <rect x="150" y="140" width="210" height="60" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="255" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#241B16">&#8595; VGCC trafficking</text>
+  <text x="255" y="182" text-anchor="middle" font-size="11" fill="#3A2D25">to the terminal membrane</text>
+
+  <rect x="395" y="140" width="210" height="60" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="500" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#241B16">&#8595; Ca&#178;&#8314; influx</text>
+  <text x="500" y="182" text-anchor="middle" font-size="11" fill="#3A2D25">on depolarisation</text>
+
+  <rect x="640" y="140" width="210" height="60" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+  <text x="745" y="164" text-anchor="middle" font-size="12.5" font-weight="700" fill="#D2491F">&#8595; Transmitter release</text>
+  <text x="745" y="182" text-anchor="middle" font-size="10.5" fill="#3A2D25">glutamate, noradrenaline, SP</text>
+
+  <g stroke="#3A2D25" stroke-width="2" fill="none" marker-end="url(#a2d-arrow)">
+    <path d="M360 170 L391 170"/>
+    <path d="M605 170 L636 170"/>
+  </g>
+
+  <!-- vesicles -->
+  <g fill="#FFFFFF" stroke="#D2491F" stroke-width="1.5">
+    <circle cx="700" cy="250" r="14"/>
+    <circle cx="745" cy="236" r="14"/>
+    <circle cx="790" cy="252" r="14"/>
+    <circle cx="745" cy="274" r="14"/>
+  </g>
+  <g fill="#F0623C">
+    <circle cx="697" cy="247" r="2.5"/><circle cx="704" cy="253" r="2.5"/>
+    <circle cx="742" cy="233" r="2.5"/><circle cx="749" cy="239" r="2.5"/>
+    <circle cx="787" cy="249" r="2.5"/><circle cx="794" cy="255" r="2.5"/>
+    <circle cx="742" cy="271" r="2.5"/><circle cx="749" cy="277" r="2.5"/>
+  </g>
+
+  <!-- ===== VGCC in membrane ===== -->
+  <rect x="440" y="262" width="80" height="72" rx="12" fill="#FFFFFF" stroke="#3A2D25" stroke-width="2"/>
+  <rect x="472" y="270" width="16" height="56" rx="6" fill="#F7E4DA" stroke="#E0D3C4" stroke-width="1"/>
+  <text x="430" y="292" text-anchor="end" font-size="11" font-weight="700" fill="#3A2D25">VGCC (&#945;1 pore)</text>
+
+  <!-- alpha2delta subunit (extracellular) -->
+  <ellipse cx="572" cy="352" rx="52" ry="24" fill="#FFFFFF" stroke="#D2491F" stroke-width="2.5"/>
+  <text x="572" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#D2491F">&#945;2&#948;</text>
+  <path d="M520 326 L534 336" stroke="#D2491F" stroke-width="2"/>
+
+  <!-- the channel feeds the cascade -->
+  <path d="M470 262 C 440 230 330 225 280 202" stroke="#3A2D25" stroke-width="2" stroke-dasharray="5 4" fill="none" marker-end="url(#a2d-arrow)"/>
+  <path d="M492 262 L498 204" stroke="#3A2D25" stroke-width="2" fill="none" marker-end="url(#a2d-arrow)"/>
+
+  <!-- Ca2+ trying to enter -->
+  <path d="M480 404 L480 340" stroke="#A99E95" stroke-width="2.5" stroke-dasharray="5 4" fill="none" marker-end="url(#a2d-arrow)"/>
+  <text x="468" y="396" text-anchor="end" font-size="12" font-weight="700" fill="#3A2D25">Ca&#178;&#8314;</text>
+
+  <!-- ===== Synaptic cleft ===== -->
+  <text x="132" y="352" font-size="10.5" letter-spacing="1" fill="#A99E95">SYNAPTIC CLEFT</text>
+
+  <!-- drug -->
+  <g fill="#F0623C" stroke="#D2491F" stroke-width="1">
+    <polygon points="690,380 700,390 690,400 680,390"/>
+    <polygon points="716,398 726,408 716,418 706,408"/>
+  </g>
+  <path d="M676 386 L628 364" stroke="#D2491F" stroke-width="2.5" fill="none" marker-end="url(#a2d-arrow-coral)"/>
+  <text x="740" y="394" font-size="13" font-weight="700" fill="#D2491F">Gabapentin /</text>
+  <text x="740" y="411" font-size="13" font-weight="700" fill="#D2491F">pregabalin</text>
+  <text x="740" y="428" font-size="10.5" fill="#7C7068">bind &#945;2&#948; (extracellular)</text>
+
+  <!-- ===== Postsynaptic dorsal horn neurone ===== -->
+  <rect x="120" y="448" width="760" height="86" rx="24" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <rect x="120" y="448" width="760" height="10" fill="#F7E4DA"/>
+  <line x1="120" y1="448" x2="880" y2="448" stroke="#D2491F" stroke-width="2"/>
+  <text x="146" y="484" font-size="12" font-weight="700" letter-spacing="1" fill="#D2491F">DORSAL HORN NEURONE</text>
+  <text x="146" y="502" font-size="11" fill="#7C7068">postsynaptic</text>
+  <text x="560" y="486" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">&#8595; excitation &#8594; &#8595; neuronal hyperexcitability</text>
+  <text x="560" y="506" text-anchor="middle" font-size="11" fill="#3A2D25">analgesic, anti-epileptic and anxiolytic effects</text>
+
+  <!-- ===== Key point ===== -->
+  <rect x="120" y="558" width="760" height="56" rx="12" fill="#FFFFFF" stroke="#F5A524" stroke-width="2"/>
+  <text x="500" y="581" text-anchor="middle" font-size="13" font-weight="700" fill="#B8790E">Structurally related to GABA, but NO direct action at GABA receptors</text>
+  <text x="500" y="600" text-anchor="middle" font-size="11" fill="#3A2D25">A classic exam trap: they are &#945;2&#948; ligands, not GABA-A or GABA-B agonists</text>
+
+</g>
+</svg>
