@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" role="img" aria-labelledby="cyp-title">
+<title id="cyp-title">CYP2D6 activates the opioid prodrugs codeine, tramadol, oxycodone and hydrocodone; poor metabolisers get reduced analgesia and ultra-rapid metabolisers risk toxicity, while morphine, fentanyl, alfentanil, remifentanil, methadone and buprenorphine are not CYP2D6-dependent</title>
+
+<rect x="1" y="1" width="998" height="598" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<defs>
+  <marker id="cyp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0 0 L10 5 L0 10 z" fill="#3A2D25"/>
+  </marker>
+</defs>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="500" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">CYP2D6 and opioid prodrugs</text>
+  <text x="500" y="55" text-anchor="middle" font-size="12.5" fill="#7C7068">The effect of a prodrug depends on how much active metabolite the patient makes</text>
+
+  <!-- ===== Panel A: activation ===== -->
+  <text x="50" y="92" font-size="11" font-weight="700" letter-spacing="1" fill="#D2491F">PRODRUG ACTIVATION</text>
+
+  <g>
+    <!-- row 1 codeine -->
+    <rect x="50" y="108" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="125" y="138" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Codeine</text>
+    <rect x="340" y="108" width="200" height="50" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="440" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#D2491F">Morphine</text>
+    <text x="440" y="147" text-anchor="middle" font-size="10.5" fill="#3A2D25">active</text>
+
+    <!-- row 2 tramadol -->
+    <rect x="50" y="182" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="125" y="212" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Tramadol</text>
+    <rect x="340" y="182" width="200" height="50" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="440" y="204" text-anchor="middle" font-size="12.5" font-weight="700" fill="#D2491F">O-desmethyltramadol (M1)</text>
+    <text x="440" y="221" text-anchor="middle" font-size="10.5" fill="#3A2D25">higher &#956; affinity than parent</text>
+
+    <!-- row 3 oxycodone -->
+    <rect x="50" y="256" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="125" y="286" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Oxycodone</text>
+    <rect x="340" y="256" width="200" height="50" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="440" y="278" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Oxymorphone</text>
+    <text x="440" y="295" text-anchor="middle" font-size="10.5" fill="#3A2D25">minor pathway; active, more potent</text>
+
+    <!-- row 4 hydrocodone -->
+    <rect x="50" y="330" width="150" height="50" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="125" y="360" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Hydrocodone</text>
+    <rect x="340" y="330" width="200" height="50" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="440" y="352" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Hydromorphone</text>
+    <text x="440" y="369" text-anchor="middle" font-size="10.5" fill="#3A2D25">minor pathway; active</text>
+  </g>
+
+  <!-- arrows with CYP2D6 pills -->
+  <g stroke="#3A2D25" stroke-width="2.5" fill="none" marker-end="url(#cyp-arrow)">
+    <path d="M200 133 L336 133"/>
+    <path d="M200 207 L336 207"/>
+  </g>
+  <g stroke="#3A2D25" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#cyp-arrow)">
+    <path d="M200 281 L336 281"/>
+    <path d="M200 355 L336 355"/>
+  </g>
+  <g font-size="10.5" font-weight="700" text-anchor="middle">
+    <rect x="234" y="122" width="72" height="22" rx="11" fill="#F0623C"/>
+    <text x="270" y="137" fill="#FFFFFF">CYP2D6</text>
+    <rect x="234" y="196" width="72" height="22" rx="11" fill="#F0623C"/>
+    <text x="270" y="211" fill="#FFFFFF">CYP2D6</text>
+    <rect x="234" y="270" width="72" height="22" rx="11" fill="#FFFFFF" stroke="#F0623C" stroke-width="1.5"/>
+    <text x="270" y="285" fill="#D2491F">CYP2D6</text>
+    <rect x="234" y="344" width="72" height="22" rx="11" fill="#FFFFFF" stroke="#F0623C" stroke-width="1.5"/>
+    <text x="270" y="359" fill="#D2491F">CYP2D6</text>
+  </g>
+  <text x="50" y="404" font-size="10.5" fill="#7C7068">Solid = main route to analgesia. Dashed = minor pathway</text>
+  <text x="50" y="419" font-size="10.5" fill="#7C7068">(oxycodone is mainly CYP3A4 &#8594; weakly active noroxycodone)</text>
+
+  <!-- ===== Panel B: phenotypes ===== -->
+  <text x="600" y="92" font-size="11" font-weight="700" letter-spacing="1" fill="#D2491F">METABOLISER PHENOTYPE (CODEINE)</text>
+
+  <g>
+    <rect x="600" y="108" width="350" height="68" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="616" y="130" font-size="12.5" font-weight="700" fill="#241B16">Poor</text>
+    <text x="616" y="146" font-size="10.5" fill="#7C7068">~5&#8211;10% of Caucasians</text>
+    <text x="616" y="164" font-size="11" font-weight="700" fill="#3A2D25">Little/no morphine &#8594; reduced analgesia</text>
+
+    <rect x="600" y="184" width="350" height="56" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="616" y="206" font-size="12.5" font-weight="700" fill="#241B16">Intermediate</text>
+    <text x="616" y="226" font-size="11" fill="#3A2D25">Reduced conversion &#8594; variable, often reduced</text>
+
+    <rect x="600" y="248" width="350" height="56" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="616" y="270" font-size="12.5" font-weight="700" fill="#241B16">Extensive <tspan font-weight="400" font-size="10.5" fill="#7C7068">(majority)</tspan></text>
+    <text x="616" y="290" font-size="11" fill="#3A2D25">Normal conversion &#8594; expected analgesia</text>
+
+    <rect x="600" y="312" width="350" height="80" rx="12" fill="#FBEFE4" stroke="#D2491F" stroke-width="2"/>
+    <text x="616" y="334" font-size="12.5" font-weight="700" fill="#D2491F">Ultra-rapid</text>
+    <text x="616" y="350" font-size="10.5" fill="#7C7068">up to ~29% in some North African/Middle</text>
+    <text x="616" y="364" font-size="10.5" fill="#7C7068">Eastern/Ethiopian populations</text>
+    <text x="616" y="382" font-size="11" font-weight="700" fill="#D2491F">Excess morphine &#8594; toxicity at standard doses</text>
+  </g>
+
+  <!-- morphine "dose" dots -->
+  <g fill="#F0623C">
+    <circle cx="930" cy="128" r="5" fill="none" stroke="#F0623C" stroke-width="1.5"/>
+    <circle cx="930" cy="206" r="5"/>
+    <circle cx="916" cy="270" r="5"/><circle cx="930" cy="270" r="5"/>
+    <circle cx="888" cy="334" r="5"/><circle cx="902" cy="334" r="5"/><circle cx="916" cy="334" r="5"/><circle cx="930" cy="334" r="5"/>
+  </g>
+  <text x="950" y="412" text-anchor="end" font-size="10" fill="#7C7068">&#9679; = relative morphine produced</text>
+
+  <!-- ===== Not CYP2D6-dependent ===== -->
+  <rect x="50" y="446" width="900" height="124" rx="12" fill="#FFFFFF" stroke="#F5A524" stroke-width="2"/>
+  <text x="70" y="472" font-size="11" font-weight="700" letter-spacing="1" fill="#B8790E">NOT CYP2D6-DEPENDENT</text>
+  <g font-size="12">
+    <text x="70" y="500"><tspan font-weight="700" fill="#241B16">Morphine</tspan><tspan fill="#3A2D25"> &#8212; glucuronidation (UGT2B7)</tspan></text>
+    <text x="70" y="524"><tspan font-weight="700" fill="#241B16">Fentanyl, alfentanil</tspan><tspan fill="#3A2D25"> &#8212; CYP3A4, inactive metabolites</tspan></text>
+    <text x="70" y="548"><tspan font-weight="700" fill="#241B16">Remifentanil</tspan><tspan fill="#3A2D25"> &#8212; plasma/tissue esterases</tspan></text>
+    <text x="520" y="500"><tspan font-weight="700" fill="#241B16">Methadone</tspan><tspan fill="#3A2D25"> &#8212; CYP2B6 and CYP3A4</tspan></text>
+    <text x="520" y="524"><tspan font-weight="700" fill="#241B16">Buprenorphine</tspan><tspan fill="#3A2D25"> &#8212; CYP3A4</tspan></text>
+  </g>
+
+</g>
+</svg>
