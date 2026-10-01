@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" role="img" aria-labelledby="tn-title">
+<title id="tn-title">Trigeminal nerve: sensory root from the pons to the trigeminal ganglion in Meckel's cave, dividing into V1 (superior orbital fissure), V2 (foramen rotundum) and V3 (foramen ovale), with the motor root joining V3, and the three levels targeted by surgery for trigeminal neuralgia</title>
+
+<rect x="1" y="1" width="998" height="598" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="500" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Trigeminal nerve (CN V): divisions, exits and surgical targets</text>
+  <text x="500" y="55" text-anchor="middle" font-size="12.5" fill="#7C7068">Largest cranial nerve &#8212; mixed sensory and motor</text>
+
+  <!-- Pons -->
+  <rect x="40" y="200" width="150" height="150" rx="22" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="115" y="262" text-anchor="middle" font-size="15" font-weight="700" fill="#241B16">Pons</text>
+  <text x="115" y="281" text-anchor="middle" font-size="11" fill="#3A2D25">root entry zone</text>
+  <text x="115" y="297" text-anchor="middle" font-size="10" fill="#7C7068">(central/peripheral</text>
+  <text x="115" y="310" text-anchor="middle" font-size="10" fill="#7C7068">myelin junction)</text>
+
+  <!-- Sensory root -->
+  <line x1="190" y1="268" x2="332" y2="268" stroke="#3A2D25" stroke-width="7" stroke-linecap="round"/>
+  <text x="262" y="254" text-anchor="middle" font-size="11" font-weight="700" fill="#3A2D25">Sensory root</text>
+
+  <!-- Motor root -->
+  <path d="M190 330 C 280 420 440 445 556 432" stroke="#A99E95" stroke-width="3" stroke-dasharray="7 5" fill="none"/>
+  <text x="250" y="444" font-size="10.5" font-weight="700" fill="#7C7068">Motor root (joins V3 only)</text>
+
+  <!-- Ganglion -->
+  <ellipse cx="392" cy="268" rx="60" ry="40" fill="#FFFFFF" stroke="#D2491F" stroke-width="2.5"/>
+  <text x="392" y="264" text-anchor="middle" font-size="12.5" font-weight="700" fill="#D2491F">Trigeminal</text>
+  <text x="392" y="280" text-anchor="middle" font-size="11" fill="#3A2D25">(Gasserian) ganglion</text>
+  <text x="372" y="330" text-anchor="middle" font-size="10.5" fill="#7C7068">Meckel's cave, middle cranial fossa</text>
+
+  <!-- Branches -->
+  <g stroke="#3A2D25" stroke-width="4" fill="none" stroke-linecap="round">
+    <path d="M446 250 C 490 200 510 125 560 122"/>
+    <path d="M452 268 L560 268"/>
+    <path d="M446 286 C 490 340 510 412 560 418"/>
+  </g>
+
+  <!-- Division / foramen boxes -->
+  <g>
+    <rect x="560" y="95" width="180" height="54" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="650" y="117" text-anchor="middle" font-size="13" font-weight="700" fill="#D2491F">V1 Ophthalmic</text>
+    <text x="650" y="136" text-anchor="middle" font-size="11" fill="#3A2D25">Superior orbital fissure</text>
+
+    <rect x="560" y="241" width="180" height="54" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="650" y="263" text-anchor="middle" font-size="13" font-weight="700" fill="#D2491F">V2 Maxillary</text>
+    <text x="650" y="282" text-anchor="middle" font-size="11" fill="#3A2D25">Foramen rotundum</text>
+
+    <rect x="560" y="391" width="180" height="54" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="650" y="413" text-anchor="middle" font-size="13" font-weight="700" fill="#D2491F">V3 Mandibular</text>
+    <text x="650" y="432" text-anchor="middle" font-size="11" fill="#3A2D25">Foramen ovale</text>
+  </g>
+
+  <!-- connectors to territories -->
+  <g stroke="#3A2D25" stroke-width="2" fill="none">
+    <line x1="740" y1="122" x2="768" y2="122"/>
+    <line x1="740" y1="268" x2="768" y2="268"/>
+    <line x1="740" y1="418" x2="768" y2="418"/>
+  </g>
+
+  <!-- Territory boxes -->
+  <g>
+    <rect x="768" y="82" width="200" height="80" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="782" y="104" font-size="11" font-weight="700" fill="#241B16">Sensory</text>
+    <text x="782" y="122" font-size="10.5" fill="#3A2D25">forehead, scalp, upper eyelid,</text>
+    <text x="782" y="138" font-size="10.5" fill="#3A2D25">cornea, dorsum of nose</text>
+    <text x="782" y="154" font-size="10" fill="#7C7068">parasympathetic: lacrimal gland</text>
+
+    <rect x="768" y="228" width="200" height="80" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="782" y="250" font-size="11" font-weight="700" fill="#241B16">Sensory</text>
+    <text x="782" y="268" font-size="10.5" fill="#3A2D25">cheek, lower eyelid, side of</text>
+    <text x="782" y="284" font-size="10.5" fill="#3A2D25">nose, upper lip, upper teeth</text>
+    <text x="782" y="300" font-size="10" fill="#7C7068">parasympathetic: lacrimal, nasal</text>
+
+    <rect x="768" y="370" width="200" height="96" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="782" y="392" font-size="11" font-weight="700" fill="#241B16">Sensory</text>
+    <text x="782" y="409" font-size="10.5" fill="#3A2D25">lower lip, chin, lower teeth,</text>
+    <text x="782" y="425" font-size="10.5" fill="#3A2D25">jaw, anterior ear / temple</text>
+    <text x="782" y="442" font-size="11" font-weight="700" fill="#D2491F">Motor: muscles of mastication</text>
+    <text x="782" y="458" font-size="10" fill="#7C7068">parasympathetic: salivary glands</text>
+  </g>
+
+  <!-- Surgical target markers -->
+  <g font-size="12" font-weight="700" text-anchor="middle">
+    <circle cx="262" cy="232" r="13" fill="#F0623C"/>
+    <text x="262" y="236" fill="#FFFFFF">3</text>
+    <circle cx="392" cy="208" r="13" fill="#F0623C"/>
+    <text x="392" y="212" fill="#FFFFFF">2</text>
+    <circle cx="754" cy="184" r="13" fill="#F0623C"/>
+    <text x="754" y="188" fill="#FFFFFF">1</text>
+  </g>
+  <path d="M754 171 L754 126" stroke="#F0623C" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>
+
+  <!-- Legend -->
+  <rect x="40" y="496" width="920" height="80" rx="12" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+  <text x="60" y="518" font-size="10.5" font-weight="700" letter-spacing="1" fill="#D2491F">SURGICAL TARGETS FOR TRIGEMINAL NEURALGIA</text>
+  <g font-size="11.5">
+    <circle cx="70" cy="548" r="11" fill="#F0623C"/>
+    <text x="70" y="552" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="90" y="545" font-weight="700" fill="#241B16">Peripheral branch</text>
+    <text x="90" y="561" font-size="10.5" fill="#3A2D25">neurolysis / neurectomy</text>
+
+    <circle cx="370" cy="548" r="11" fill="#F0623C"/>
+    <text x="370" y="552" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="390" y="545" font-weight="700" fill="#241B16">Gasserian ganglion</text>
+    <text x="390" y="561" font-size="10.5" fill="#3A2D25">RF / glycerol / balloon, via foramen ovale</text>
+
+    <circle cx="690" cy="548" r="11" fill="#F0623C"/>
+    <text x="690" y="552" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="710" y="545" font-weight="700" fill="#241B16">Posterior fossa (root)</text>
+    <text x="710" y="561" font-size="10.5" fill="#3A2D25">MVD / gamma knife radiosurgery</text>
+  </g>
+
+</g>
+</svg>

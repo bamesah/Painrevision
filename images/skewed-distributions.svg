@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 330" role="img" aria-labelledby="skew-title">
+<title id="skew-title">Positive skew, symmetrical, and negative skew distributions, showing the relative positions of the mean, median and mode in each</title>
+
+<rect x="1" y="1" width="978" height="328" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+  <text x="490" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#241B16">Skewed vs symmetrical distributions</text>
+
+  <!-- ===== Panel 1: Positive skew ===== -->
+  <g transform="translate(40,50)">
+    <path d="M10,170 C25,165 35,140 55,105 C75,65 95,32 115,28 C135,32 150,55 165,90 C185,140 220,160 270,170 Z" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <line x1="10" y1="170" x2="270" y2="170" stroke="#3A2D25" stroke-width="1.5"/>
+
+    <line x1="115" y1="28" x2="115" y2="170" stroke="#F0623C" stroke-width="2" stroke-dasharray="3 4"/>
+    <line x1="145" y1="52" x2="145" y2="170" stroke="#F5A524" stroke-width="2" stroke-dasharray="3 4"/>
+    <line x1="178" y1="14" x2="178" y2="170" stroke="#3A2D25" stroke-width="2" stroke-dasharray="3 4"/>
+
+    <text x="115" y="16" text-anchor="middle" font-size="11.5" font-weight="700" fill="#D2491F">Mode</text>
+    <text x="150" y="46" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B8790E">Median</text>
+    <text x="178" y="10" text-anchor="middle" font-size="11.5" font-weight="700" fill="#241B16">Mean</text>
+
+    <text x="140" y="200" text-anchor="middle" font-size="13.5" font-weight="700" fill="#241B16">Positive skew</text>
+    <text x="140" y="218" text-anchor="middle" font-size="11.5" fill="#7C7068">Mode &lt; Median &lt; Mean</text>
+  </g>
+
+  <!-- ===== Panel 2: Symmetrical ===== -->
+  <g transform="translate(350,50)">
+    <path d="M10,170 C30,168 50,150 70,110 C95,55 115,25 140,22 C165,25 185,55 210,110 C230,150 250,168 270,170 Z" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <line x1="10" y1="170" x2="270" y2="170" stroke="#3A2D25" stroke-width="1.5"/>
+
+    <line x1="140" y1="22" x2="140" y2="170" stroke="#241B16" stroke-width="2" stroke-dasharray="3 4"/>
+    <text x="140" y="14" text-anchor="middle" font-size="11.5" font-weight="700" fill="#241B16">Mean = Median = Mode</text>
+
+    <text x="140" y="200" text-anchor="middle" font-size="13.5" font-weight="700" fill="#241B16">Symmetrical distribution</text>
+    <text x="140" y="218" text-anchor="middle" font-size="11.5" fill="#7C7068">Mean = Median = Mode</text>
+  </g>
+
+  <!-- ===== Panel 3: Negative skew ===== -->
+  <g transform="translate(660,50)">
+    <path d="M10,170 C60,160 95,140 115,90 C130,55 145,32 165,28 C185,32 205,65 225,105 C245,140 255,165 270,170 Z" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <line x1="10" y1="170" x2="270" y2="170" stroke="#3A2D25" stroke-width="1.5"/>
+
+    <line x1="165" y1="28" x2="165" y2="170" stroke="#F0623C" stroke-width="2" stroke-dasharray="3 4"/>
+    <line x1="135" y1="52" x2="135" y2="170" stroke="#F5A524" stroke-width="2" stroke-dasharray="3 4"/>
+    <line x1="102" y1="14" x2="102" y2="170" stroke="#3A2D25" stroke-width="2" stroke-dasharray="3 4"/>
+
+    <text x="165" y="16" text-anchor="middle" font-size="11.5" font-weight="700" fill="#D2491F">Mode</text>
+    <text x="130" y="46" text-anchor="middle" font-size="11.5" font-weight="700" fill="#B8790E">Median</text>
+    <text x="102" y="10" text-anchor="middle" font-size="11.5" font-weight="700" fill="#241B16">Mean</text>
+
+    <text x="140" y="200" text-anchor="middle" font-size="13.5" font-weight="700" fill="#241B16">Negative skew</text>
+    <text x="140" y="218" text-anchor="middle" font-size="11.5" fill="#7C7068">Mean &lt; Median &lt; Mode</text>
+  </g>
+
+  <text x="490" y="300" text-anchor="middle" font-size="11.5" font-style="italic" fill="#A99E95">The mean is always pulled furthest in the direction of the tail; the median sits between the mean and the mode</text>
+
+</g>
+</svg>

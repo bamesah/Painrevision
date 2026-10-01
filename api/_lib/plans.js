@@ -6,7 +6,8 @@
 // display entry) to add a price tier — nothing else needs restructuring.
 export const PLANS = {
   launch_offer_2026_oct: {
-    amountPence: 1499, // £14.99
+    amountPence: 999, // £9.99 discounted price — this is what Stripe charges
+    wasPence: 1499, // £14.99 original price, display only (shown struck through)
     currency: 'gbp',
     name: 'PainRevision — Full access until 31 Oct 2026',
     expiresAtIso: '2026-10-31T23:59:59Z',
