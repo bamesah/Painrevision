@@ -9,7 +9,7 @@
 const Paywall = (function () {
   // Mirrors api/_lib/plans.js — add a tier in both places to sell more than one.
   const CLIENT_PLANS = [
-    { id: 'launch_offer_2026_oct', label: 'Full access until 31 October 2026', priceLabel: '£14.99' },
+    { id: 'launch_offer_2026_oct', label: 'Full access until 31 October 2026', priceLabel: '£9.99', wasLabel: '£14.99' },
   ];
 
   function injectStyles() {
@@ -28,6 +28,7 @@ const Paywall = (function () {
     .paywall-plan-btn:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(240,98,60,.5)}
     .paywall-plan-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
     .paywall-plan-price{font-family:var(--mono);font-weight:600}
+    .paywall-plan-was{font-weight:500;opacity:.6;text-decoration:line-through;margin-right:6px}
     .paywall-msg{font-size:13px;color:var(--wrong,#C0392B);margin-top:14px;display:none}
     .paywall-msg.show{display:block}
     @media(max-width:600px){.paywall-card{padding:26px 22px}}`;
@@ -74,7 +75,7 @@ const Paywall = (function () {
     overlay.id = 'paywall-overlay';
 
     const plansHtml = CLIENT_PLANS.map(p =>
-      `<button class="paywall-plan-btn" data-plan="${p.id}"><span>${p.label}</span><span class="paywall-plan-price">${p.priceLabel}</span></button>`
+      `<button class="paywall-plan-btn" data-plan="${p.id}"><span>${p.label}</span><span class="paywall-plan-price">${p.wasLabel ? `<s class="paywall-plan-was">${p.wasLabel}</s>` : ''}${p.priceLabel}</span></button>`
     ).join('');
 
     overlay.innerHTML = `
