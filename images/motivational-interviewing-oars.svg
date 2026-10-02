@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 472" role="img" aria-labelledby="mi-title">
+<title id="mi-title">Motivational interviewing at a glance: the spirit (partnership, acceptance, compassion, evocation), the OARS core skills (open questions, affirmations, reflective listening, summarising) and the four processes (engaging, focusing, evoking, planning)</title>
+
+<rect x="1" y="1" width="998" height="470" rx="16" fill="#FFFFFF" stroke="#E0D3C4" stroke-width="1.5"/>
+
+<g font-family="'Plus Jakarta Sans',system-ui,sans-serif">
+
+  <text x="500" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#241B16">Motivational interviewing at a glance</text>
+  <text x="500" y="55" text-anchor="middle" font-size="12.5" fill="#7C7068">Resolve ambivalence by drawing out the patient&#8217;s own reasons for change</text>
+
+  <!-- ===== Spirit ===== -->
+  <text x="50" y="90" font-size="11" font-weight="700" letter-spacing="1" fill="#D2491F">SPIRIT</text>
+  <g text-anchor="middle">
+    <rect x="50" y="100" width="212" height="62" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="156" y="126" font-size="13.5" font-weight="700" fill="#241B16">Partnership</text>
+    <text x="156" y="146" font-size="11" fill="#7C7068">collaboration, not confrontation</text>
+
+    <rect x="276" y="100" width="212" height="62" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="382" y="126" font-size="13.5" font-weight="700" fill="#241B16">Acceptance</text>
+    <text x="382" y="146" font-size="11" fill="#7C7068">worth, autonomy, empathy</text>
+
+    <rect x="502" y="100" width="212" height="62" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="608" y="126" font-size="13.5" font-weight="700" fill="#241B16">Compassion</text>
+    <text x="608" y="146" font-size="11" fill="#7C7068">the patient&#8217;s welfare first</text>
+
+    <rect x="728" y="100" width="222" height="62" rx="12" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="839" y="126" font-size="13.5" font-weight="700" fill="#241B16">Evocation</text>
+    <text x="839" y="146" font-size="11" fill="#7C7068">draw out, don&#8217;t install</text>
+  </g>
+
+  <!-- ===== OARS ===== -->
+  <text x="50" y="196" font-size="11" font-weight="700" letter-spacing="1" fill="#D2491F">CORE SKILLS &#8212; OARS</text>
+  <g>
+    <rect x="50" y="206" width="212" height="132" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="70" y="246" font-size="34" font-weight="800" fill="#F0623C">O</text>
+    <text x="104" y="238" font-size="13" font-weight="700" fill="#241B16">Open-ended</text>
+    <text x="104" y="254" font-size="13" font-weight="700" fill="#241B16">questions</text>
+    <text x="70" y="282" font-size="10.5" fill="#3A2D25">Invite elaboration, not yes/no</text>
+    <text x="70" y="310" font-size="10.5" font-style="italic" fill="#7C7068">&#8220;What concerns you about</text>
+    <text x="70" y="324" font-size="10.5" font-style="italic" fill="#7C7068">your current dose?&#8221;</text>
+
+    <rect x="276" y="206" width="212" height="132" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="296" y="246" font-size="34" font-weight="800" fill="#F0623C">A</text>
+    <text x="330" y="246" font-size="13" font-weight="700" fill="#241B16">Affirmations</text>
+    <text x="296" y="282" font-size="10.5" fill="#3A2D25">Recognise strengths and efforts</text>
+    <text x="296" y="310" font-size="10.5" font-style="italic" fill="#7C7068">&#8220;You&#8217;ve worked hard to</text>
+    <text x="296" y="324" font-size="10.5" font-style="italic" fill="#7C7068">stay active this month.&#8221;</text>
+
+    <rect x="512" y="206" width="212" height="132" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="532" y="246" font-size="34" font-weight="800" fill="#F0623C">R</text>
+    <text x="566" y="238" font-size="13" font-weight="700" fill="#241B16">Reflective</text>
+    <text x="566" y="254" font-size="13" font-weight="700" fill="#241B16">listening</text>
+    <text x="532" y="282" font-size="10.5" fill="#3A2D25">Reflect back, incl. ambivalence</text>
+    <text x="532" y="310" font-size="10.5" font-style="italic" fill="#7C7068">&#8220;Part of you wants to cut</text>
+    <text x="532" y="324" font-size="10.5" font-style="italic" fill="#7C7068">down, part isn&#8217;t ready&#8230;&#8221;</text>
+
+    <rect x="738" y="206" width="212" height="132" rx="12" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="758" y="246" font-size="34" font-weight="800" fill="#F0623C">S</text>
+    <text x="792" y="246" font-size="13" font-weight="700" fill="#241B16">Summarising</text>
+    <text x="758" y="282" font-size="10.5" fill="#3A2D25">Pull together what&#8217;s been said</text>
+    <text x="758" y="310" font-size="10.5" font-style="italic" fill="#7C7068">&#8220;So far you&#8217;ve told me</text>
+    <text x="758" y="324" font-size="10.5" font-style="italic" fill="#7C7068">that&#8230;&#8221;</text>
+  </g>
+
+  <!-- ===== Four processes ===== -->
+  <text x="50" y="372" font-size="11" font-weight="700" letter-spacing="1" fill="#D2491F">FOUR PROCESSES</text>
+  <g>
+    <path d="M50 382 H262 L282 412 L262 442 H50 Z" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="156" y="408" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Engaging</text>
+    <text x="156" y="425" text-anchor="middle" font-size="10.5" fill="#3A2D25">build the relationship</text>
+
+    <path d="M276 382 H488 L508 412 L488 442 H276 L296 412 Z" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="392" y="408" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Focusing</text>
+    <text x="392" y="425" text-anchor="middle" font-size="10.5" fill="#3A2D25">agree the target for change</text>
+
+    <path d="M502 382 H714 L734 412 L714 442 H502 L522 412 Z" fill="#FBEFE4" stroke="#E0D3C4" stroke-width="1.5"/>
+    <text x="618" y="408" text-anchor="middle" font-size="13" font-weight="700" fill="#241B16">Evoking</text>
+    <text x="618" y="425" text-anchor="middle" font-size="10.5" fill="#3A2D25">draw out their own reasons</text>
+
+    <path d="M728 382 H950 V442 H728 L748 412 Z" fill="#FFFFFF" stroke="#D2491F" stroke-width="2"/>
+    <text x="844" y="408" text-anchor="middle" font-size="13" font-weight="700" fill="#D2491F">Planning</text>
+    <text x="844" y="425" text-anchor="middle" font-size="10.5" fill="#3A2D25">commit to a plan</text>
+  </g>
+
+</g>
+</svg>
