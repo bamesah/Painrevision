@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Question Bank Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root{--coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--amber:#F5A524;--amber-soft:#FCE6BF;--ink:#241B16;--ink-soft:#3A2D25;--stone:#7C7068;--stone-light:#A99E95;--cream:#FBF5EE;--surface-warm:#FFFAF4;--border:#EDE3D7;--border-strong:#E0D3C4;--correct:#1A8A4A}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px;overflow:hidden}
+  body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);background:
+    radial-gradient(600px 500px at 100% 0%,rgba(240,98,60,.22),transparent 70%),
+    radial-gradient(500px 500px at 0% 100%,rgba(245,165,36,.18),transparent 70%),
+    var(--cream);position:relative}
+  .orb{position:absolute;right:-120px;top:220px;width:300px;height:300px;border-radius:50%;background:rgba(36,27,22,.05)}
+  .card{position:absolute;left:40px;top:54px;width:1000px;height:1242px;background:#fff;border-radius:28px;overflow:hidden;
+    box-shadow:0 2px 4px rgba(36,27,22,.04),0 24px 60px -20px rgba(210,73,31,.22)}
+  .top{padding:56px 56px 0;position:relative}
+  .head{display:flex;justify-content:space-between;align-items:center}
+  .logo{display:flex;align-items:center;gap:14px;font-weight:800;font-size:34px;letter-spacing:-.03em}
+  .logo b{color:var(--coral);font-weight:800}
+  .pill{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.12em;color:var(--coral-deep);background:var(--coral-soft);border-radius:999px;padding:8px 16px;display:flex;align-items:center;gap:8px}
+  .pill i{width:6px;height:6px;border-radius:50%;background:var(--coral-deep)}
+  .eyebrow{margin-top:32px;display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:44px;letter-spacing:.06em;color:var(--coral-deep)}
+  .eyebrow span{width:40px;height:4px;background:var(--coral);border-radius:2px}
+  h1{margin-top:18px;font-weight:800;font-size:86px;line-height:.95;letter-spacing:-.045em}
+  h1 em{font-style:normal;color:var(--coral);display:block}
+  .lede{margin-top:24px;font-size:22px;line-height:1.6;color:var(--ink-soft);max-width:430px}
+
+  /* Sample question: the signature element */
+  .q{position:absolute;right:52px;top:166px;width:440px;background:#fff;border:1px solid var(--border-strong);border-radius:20px;padding:22px 22px 18px;transform:rotate(2.2deg);
+    box-shadow:0 2px 4px rgba(36,27,22,.05),0 30px 60px -24px rgba(36,27,22,.35),0 12px 24px -16px rgba(210,73,31,.25)}
+  .q-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--coral-deep);background:var(--coral-soft);border-radius:999px;padding:4px 10px}
+  .cat{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--stone)}
+  .q-stem{font-size:17px;font-weight:700;margin-bottom:12px}
+  .opt{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--border)}
+  .opt p{flex:1;font-size:13.5px;line-height:1.4;color:var(--ink-soft)}
+  .tf{display:flex;gap:4px;flex:none}
+  .tf span{width:30px;height:26px;border-radius:7px;border:1px solid var(--border-strong);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;display:grid;place-items:center;color:var(--stone-light)}
+  .tf span.on{background:var(--correct);border-color:var(--correct);color:#fff}
+  .tf span.off{background:var(--ink);border-color:var(--ink);color:#fff}
+  .kb{margin-top:10px;display:flex;align-items:center;gap:10px;background:var(--coral);color:#fff;border-radius:10px;padding:10px 14px;font-weight:700;font-size:13.5px}
+  .kb small{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:2px 8px}
+
+  .stats{margin-top:32px;display:flex;align-items:stretch;border:1px solid var(--border-strong);border-radius:20px;background:var(--surface-warm)}
+  .stat{flex:1;padding:18px 22px}
+  .stat+.stat{border-left:1px solid var(--border-strong)}
+  .stat b{display:block;font-size:40px;font-weight:800;letter-spacing:-.04em;line-height:1}
+  .stat b.c{color:var(--coral)}
+  .stat span{display:block;margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;letter-spacing:.12em;color:var(--stone)}
+  hr{border:0;border-top:1px solid var(--border-strong);margin:84px 0 0}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:34px 30px;padding:40px 0 0}
+  .f{display:flex;gap:16px}
+  .ic{flex:0 0 50px;height:50px;border-radius:14px;background:var(--coral-soft);display:grid;place-items:center}
+  .f h3{font-size:20px;font-weight:700;letter-spacing:-.01em}
+  .f p{margin-top:6px;font-size:15px;line-height:1.55;color:var(--stone)}
+
+  .perf{position:absolute;left:0;right:0;top:880px;height:0;border-top:2px dashed var(--border-strong);margin:0 28px}
+  .notch{position:absolute;top:858px;width:44px;height:44px;border-radius:50%;background:var(--cream)}
+  .bottom{position:absolute;left:0;right:0;top:902px;bottom:0;background:linear-gradient(180deg,#FFFAF4,#FDEBE2);padding:40px 56px;display:flex;align-items:center;gap:52px}
+  .qrwrap{text-align:center}
+  .qr{width:224px;height:224px;background:#fff;border:2px solid var(--border-strong);border-radius:18px;padding:16px;box-shadow:0 10px 24px -14px rgba(36,27,22,.35)}
+  .qr img{width:100%;height:100%;image-rendering:pixelated;display:block}
+  .cap{margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.12em;color:var(--stone)}
+  .label{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.14em;color:var(--stone)}
+  .price{margin-top:10px;display:flex;align-items:baseline;gap:16px}
+  .price s{font-size:32px;font-weight:600;color:var(--stone-light);text-decoration-thickness:2px;text-decoration-color:var(--coral)}
+  .price b{font-size:76px;font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--coral-deep)}
+  .price em{font-style:normal;font-size:18px;font-weight:600;color:var(--ink-soft)}
+  .until{margin-top:8px;font-size:17px;color:var(--ink-soft)}
+  .until strong{font-weight:700}
+  .url{margin-top:20px;display:flex;align-items:center;gap:14px;font-weight:800;font-size:34px;letter-spacing:-.03em}
+</style>
+</head>
+<body>
+<div class="orb"></div>
+<div class="card">
+  <div class="top">
+    <div class="head">
+      <div class="logo">
+        <svg width="46" height="46" viewBox="0 0 100 100"><path fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/><circle fill="#F5A524" cx="50" cy="13" r="8.5"/></svg>
+        <div>Pain<b>Revision</b></div>
+      </div>
+      <div class="pill"><i></i>LAUNCH OFFER · ENDS 31 OCT</div>
+    </div>
+    <div class="eyebrow"><span></span>FFPMRCA</div>
+    <h1>Question<em>Bank</em></h1>
+    <p class="lede">SBA, MTF and EMQ questions written for the FFPMRCA, each with a full explanation and a knowledge summary.</p>
+
+    <div class="q">
+      <div class="q-top"><span class="tag">MTF</span><span class="cat">PHYSIOLOGY</span></div>
+      <div class="q-stem">Regarding the TRPV1 receptor:</div>
+      <div class="opt"><p>TRPV1 is activated by noxious heat above approximately 43&deg;C</p><div class="tf"><span class="on">T</span><span>F</span></div></div>
+      <div class="opt"><p>TRPV1 is a ligand-gated chloride channel</p><div class="tf"><span>T</span><span class="off">F</span></div></div>
+      <div class="opt"><p>Anandamide is an endogenous agonist at TRPV1</p><div class="tf"><span class="on">T</span><span>F</span></div></div>
+      <div class="opt"><p>TRPV1 is sensitised by bradykinin</p><div class="tf"><span class="on">T</span><span>F</span></div></div>
+      <div class="kb"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>TRPV1 Receptor<small>KNOWLEDGE</small></div>
+    </div>
+
+    <hr>
+
+    <div class="grid">
+      <div class="f"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0623C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/></svg></div><div><h3>Timed Mock Exams</h3><p>Sit a full paper against the clock, then review every answer.</p></div></div>
+      <div class="f"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0623C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg></div><div><h3>Custom Practice Sets</h3><p>Pick the topics and question types you want to drill.</p></div></div>
+      <div class="f"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0623C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="14"/></svg></div><div><h3>Per-Category Stats</h3><p>See where you're strong and which topics need more work.</p></div></div>
+      <div class="f"><div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F0623C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div><div><h3>Bookmarks &amp; Notes</h3><p>Save questions to revisit and write your own notes on each.</p></div></div>
+    </div>
+  </div>
+  <div class="notch" style="left:-22px"></div>
+  <div class="notch" style="right:-22px"></div>
+  <div class="perf"></div>
+  <div class="bottom">
+    <div class="qrwrap">
+      <div class="qr" id="qr"></div>
+      <div class="cap">SCAN TO SIGN UP</div>
+    </div>
+    <div>
+      <div class="label">LAUNCH OFFER · FULL ACCESS</div>
+      <div class="price"><s>£14.99</s><b>£9.99</b><em>one-time</em></div>
+      <div class="until">Access to every question until <strong>31 October 2026</strong></div>
+      <div class="url"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F0623C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>painrevision.com/question-bank</div>
+    </div>
+  </div>
+</div>
+<script>
+  var q = qrcode(0, 'M'); q.addData('https://painrevision.com/question-bank'); q.make();
+  document.getElementById('qr').innerHTML = q.createImgTag(8, 0);
+</script>
+</body>
+</html>

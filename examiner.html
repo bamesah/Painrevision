@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SOE Examiner — PainRevision</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-soft:#FBD9CC;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --green:#2E7D4F;--green-soft:#E3F2E8;--green-border:#C3E4CE;
+  --red:#C0392B;--red-soft:#FBEAE8;
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --r:12px;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;min-height:100vh}
+::selection{background:var(--coral);color:#fff}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font-family:var(--san)}
+
+/* ===== GATE (name capture only — no password, this page is link-accessible) ===== */
+.gate{position:fixed;inset:0;background:var(--ink);display:flex;align-items:center;justify-content:center;z-index:999}
+.gate-card{background:var(--surface);border-radius:16px;padding:36px 32px;width:340px;box-shadow:var(--shadow)}
+.gate-card h1{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.gate-card p{font-size:13px;color:var(--stone);margin-bottom:18px}
+.gate-card input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;margin-bottom:10px}
+.gate-card input:focus{outline:none;border-color:var(--coral)}
+.gate-card button{width:100%;padding:11px;border-radius:10px;border:none;background:var(--coral);color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+.gate-card button:hover{background:var(--coral-deep)}
+.gate-err{color:var(--red);font-size:12.5px;margin-top:8px;min-height:16px}
+
+/* ===== TOPBAR ===== */
+.topbar{background:var(--ink);padding:0 24px;display:flex;align-items:center;gap:16px;height:56px;position:sticky;top:0;z-index:90}
+.topbar-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;letter-spacing:-.03em;color:#fff}
+.topbar-badge{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:rgba(240,98,60,.25);color:var(--coral-soft);border:1px solid rgba(240,98,60,.3);padding:3px 10px;border-radius:999px}
+.topbar-actions{margin-left:auto;display:flex;align-items:center;gap:14px}
+.tb-examiner{font-size:12.5px;color:rgba(255,255,255,.6)}
+.tb-examiner b{color:#fff;font-weight:600}
+.tb-btn-lock{background:transparent;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75);font-size:12.5px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer}
+.tb-btn-lock:hover{background:rgba(255,255,255,.08);color:#fff}
+
+/* ===== LAYOUT ===== */
+.layout{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 56px)}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:20px 14px;overflow-y:auto;position:sticky;top:56px;height:calc(100vh - 56px)}
+.main{padding:0;min-width:0}
+.main-inner{max-width:820px;margin:0 auto;padding:28px 32px 80px}
+
+/* ===== SIDEBAR TREE ===== */
+.sb-course{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--stone);padding:0 8px;margin-bottom:4px}
+.sb-course-name{font-size:14px;font-weight:700;color:var(--ink);padding:2px 8px 14px;letter-spacing:-.01em}
+.sb-section{margin-bottom:6px}
+.sb-section-label{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light);margin:18px 0 8px;padding:0 8px}
+.tree{list-style:none}
+.tree-node{margin-bottom:1px}
+.tree-row{display:flex;align-items:center;gap:6px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--ink-soft);transition:background .12s}
+.tree-row:hover{background:var(--cream)}
+.tree-row.selected{background:var(--coral-faint);color:var(--coral-deep);font-weight:600}
+.tree-row.placeholder{opacity:.55}
+.tree-caret{width:14px;height:14px;flex-shrink:0;transition:transform .15s;color:var(--stone-light)}
+.tree-caret.open{transform:rotate(90deg)}
+.tree-caret.leaf{visibility:hidden}
+.tree-children{padding-left:18px;overflow:hidden}
+.tree-children.collapsed{display:none}
+.tree-badge{margin-left:auto;font-family:var(--mono);font-size:9.5px;font-weight:600;padding:2px 6px;border-radius:999px;flex-shrink:0}
+.tree-badge-done{background:var(--green-soft);color:var(--green)}
+.tree-badge-partial{background:var(--amber-soft);color:#8a5c0f}
+.tree-badge-ph{background:var(--border);color:var(--stone)}
+
+.add-candidate-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:9px;border:1.5px dashed var(--border-strong);background:transparent;color:var(--stone);font-size:12.5px;font-weight:600;cursor:pointer;margin-bottom:8px}
+.add-candidate-btn:hover{border-color:var(--coral);color:var(--coral-deep);background:var(--coral-faint)}
+.candidate-row{display:flex;align-items:center;gap:6px}
+.candidate-del{width:20px;height:20px;border-radius:6px;border:none;background:transparent;color:var(--stone-light);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0;transition:opacity .12s,background .12s,color .12s}
+.tree-row:hover .candidate-del{opacity:1}
+.candidate-del:hover{background:var(--red-soft);color:var(--red)}
+.empty-note{font-size:12px;color:var(--stone-light);padding:6px 8px;font-style:italic}
+
+/* ===== MAIN EMPTY STATE ===== */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 40px;color:var(--stone)}
+.empty-state h2{font-size:18px;color:var(--ink);margin-bottom:8px;font-weight:700}
+.empty-state p{font-size:13.5px;max-width:380px}
+
+/* ===== BREADCRUMB ===== */
+.crumb{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--stone);margin-bottom:6px;flex-wrap:wrap}
+.crumb b{color:var(--ink)}
+.crumb-mode{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:4px}
+.crumb-mode-view{background:var(--border);color:var(--stone)}
+.crumb-mode-mark{background:var(--coral-faint);color:var(--coral-deep)}
+
+.page-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px}
+.page-sub{font-size:13.5px;color:var(--stone);margin-bottom:20px}
+
+/* ===== TIMERS ===== */
+.timer-bar{position:sticky;top:68px;z-index:40;background:var(--surface-warm);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:22px;display:flex;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow-sm)}
+.timer{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 12px}
+.timer-label{font-size:11px;font-weight:700;color:var(--stone);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.timer-clock{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--ink);min-width:64px;text-align:center}
+.timer-clock.over{color:var(--red)}
+.timer-clock.warn{color:var(--coral-deep)}
+.timer-btn{width:26px;height:26px;border-radius:7px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.timer-btn:hover{border-color:var(--coral);color:var(--coral-deep)}
+.timer-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4}
+.timer.big .timer-clock{font-size:22px;min-width:82px}
+
+/* ===== CANDIDATE INFO / CASE HISTORY ===== */
+.info-box{background:var(--amber-soft);border:1.5px solid #E9C77E;border-radius:12px;padding:16px 18px;margin-bottom:18px}
+.info-box h3{font-size:13px;font-weight:700;margin-bottom:8px}
+.info-box ul{padding-left:18px}
+.info-box li{font-size:13px;margin-bottom:4px}
+.info-box li b{font-weight:700}
+.case-history{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:22px}
+.case-history h3{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--coral-deep)}
+.case-history p{font-size:13.5px;margin-bottom:10px;color:var(--ink-soft)}
+.case-history p:last-child{margin-bottom:0}
+
+.pack-notes{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:22px}
+.pack-notes summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--stone)}
+.pack-notes ul{padding-left:18px;margin-top:10px}
+.pack-notes li{font-size:12.5px;color:var(--stone);margin-bottom:6px}
+
+/* ===== QUESTION CARDS ===== */
+.qcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.qcard-head{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.qcard-num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral-deep);background:var(--coral-faint);padding:2px 8px;border-radius:6px}
+.qcard-prompt{font-size:15px;font-weight:700;letter-spacing:-.01em;margin:6px 0 14px}
+
+.crit-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.crit-table tr{border-top:1px solid var(--border)}
+.crit-table tr:first-child{border-top:none}
+.crit-table td{padding:9px 4px;font-size:13px;vertical-align:top}
+.crit-table td.crit-text{padding-right:10px}
+.crit-table td.crit-yn{width:110px;white-space:nowrap;text-align:right}
+.crit-yn label{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--stone);cursor:pointer;margin-left:10px;padding:3px 8px;border-radius:6px;border:1.5px solid var(--border)}
+.crit-yn input{accent-color:var(--coral);width:13px;height:13px}
+.crit-yn label.checked-yes{background:var(--green-soft);border-color:var(--green-border);color:var(--green)}
+.crit-yn label.checked-no{background:var(--red-soft);border-color:#EBC5C0;color:var(--red)}
+.crit-readonly{font-size:11px;color:var(--stone-light);font-family:var(--mono)}
+.strong-pill{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E7A2B;border:1px solid #CFE3BE;background:#F3F8EE;border-radius:5px;padding:1px 6px;margin-right:7px;vertical-align:1px}
+
+.know-box{margin-top:14px;background:var(--amber-soft);border:1.5px solid #E9C77E;border-left:5px solid var(--amber);border-radius:6px 12px 12px 6px;overflow:hidden}
+.know-toggle{width:100%;display:flex;align-items:center;gap:12px;padding:12px 16px;background:transparent;border:none;cursor:pointer;text-align:left;color:var(--ink);font-family:var(--san);transition:background .15s}
+.know-toggle:hover{background:rgba(245,165,36,.18)}
+.know-toggle:focus-visible{outline:2px solid var(--coral);outline-offset:-2px}
+.know-toggle:active{background:rgba(245,165,36,.28)}
+.know-icon{width:32px;height:32px;border-radius:9px;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.know-icon svg{width:18px;height:18px}
+.know-title{display:flex;flex-direction:column;font-size:14px;font-weight:800;letter-spacing:-.01em;color:#7A5108;line-height:1.25}
+.know-sub{font-size:11.5px;font-weight:500;color:#9A6B1C;letter-spacing:0}
+.know-action{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#7A5108;background:var(--surface);border:1.5px solid #E9C77E;padding:6px 12px;border-radius:999px;flex-shrink:0}
+.know-action svg{width:13px;height:13px;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.know-toggle.open .know-action svg{transform:rotate(180deg)}
+.know-body{display:none;background:var(--surface);border-top:1.5px solid #E9C77E;padding:16px 18px}
+.know-body.open{display:block}
+
+/* ---- scoped fragment of soe-packs/pack.css, for raw knowledgeHtml in viewer mode ---- */
+.pack-embed{font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.pack-embed p{margin:0 0 8px}
+.pack-embed p:last-child{margin-bottom:0}
+.pack-embed ul{margin:0 0 8px;padding-left:18px}
+.pack-embed li{margin:0 0 4px}
+.pack-embed li::marker{color:var(--coral)}
+.pack-embed b,.pack-embed strong{color:var(--ink);font-weight:700}
+.pack-embed h5{margin:12px 0 4px;font-size:13px;font-weight:700;color:var(--coral-deep)}
+.pack-embed h5:first-child{margin-top:0}
+.pack-embed table.kt{width:100%;border-collapse:separate;border-spacing:0;margin:6px 0 10px;font-size:12.5px;line-height:1.5;background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;overflow:hidden}
+.pack-embed table.kt th{background:#F6EDE3;color:var(--ink);text-align:left;font-weight:700;padding:8px 10px;font-size:11.5px;border-bottom:1px solid var(--border-strong)}
+.pack-embed table.kt td{padding:8px 10px;border-top:1px solid var(--border);vertical-align:top}
+.pack-embed table.kt tr:first-child td{border-top:none}
+.pack-embed table.kt td.rh{font-weight:700;color:var(--ink);white-space:nowrap}
+.pack-embed table.kt tr.hi td{background:var(--surface-warm)}
+.pack-embed .flow{display:flex;align-items:stretch;gap:0;margin:8px 0}
+.pack-embed .flow .st{flex:1;background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;padding:9px 11px;font-size:12px;line-height:1.45}
+.pack-embed .flow .st .k{display:block;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:4px}
+.pack-embed .flow .st.out{background:var(--ink);color:#EFE6DC;border-color:var(--ink)}
+.pack-embed .flow .st.out .k{color:var(--amber)}
+.pack-embed .flow .st.out b{color:#fff}
+.pack-embed .flow .ar{flex:none;width:22px;display:flex;align-items:center;justify-content:center;color:var(--coral);font-weight:800;font-size:15px}
+.pack-embed .note{margin:8px 0 0;font-size:12px;color:var(--stone);font-style:italic}
+.pack-embed .note b{font-style:normal;color:var(--ink-soft)}
+.pack-embed figure.dg{margin:8px 0;text-align:center}
+.pack-embed figure.dg svg{max-width:100%;height:auto}
+.pack-embed figure.dg figcaption{font-size:11px;color:var(--stone);margin-top:4px}
+.pack-embed .mri{display:flex;gap:10px;margin:14px 0}
+.pack-embed .mri figure{flex:1;margin:0}
+.pack-embed .mri .frame{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.pack-embed .mri img{width:100%;display:block}
+
+/* ===== FOOTER: FEEDBACK + SCORE ===== */
+.mark-footer{background:var(--surface);border:1.5px solid var(--border-strong);border-radius:14px;padding:20px 22px;margin-top:8px}
+.mark-footer h4{font-size:13px;font-weight:700;margin-bottom:10px}
+.mark-footer textarea{width:100%;min-height:80px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13.5px;font-family:inherit;resize:vertical;margin-bottom:16px}
+.mark-footer textarea:focus{outline:none;border-color:var(--coral)}
+.score-row{display:flex;gap:10px;flex-wrap:wrap}
+.score-opt{flex:1;min-width:110px}
+.score-opt input{display:none}
+.score-opt label{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 8px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;text-align:center}
+.score-opt label b{font-size:13px}
+.score-opt label span{font-size:10.5px;color:var(--stone)}
+.score-opt input:checked + label{border-color:var(--coral);background:var(--coral-faint)}
+.score-opt[data-v="0"] input:checked + label{border-color:var(--red);background:var(--red-soft)}
+.score-opt[data-v="2"] input:checked + label{border-color:var(--green);background:var(--green-soft)}
+.save-status{font-size:11.5px;color:var(--stone-light);margin-top:10px;text-align:right;min-height:14px}
+
+/* ===== NAV / SUBMIT BAR ===== */
+.nav-bar{display:flex;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap}
+.nav-btn{padding:10px 18px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface);font-size:13.5px;font-weight:700;cursor:pointer;color:var(--ink)}
+.nav-btn:hover{border-color:var(--coral);color:var(--coral-deep)}
+.nav-btn:disabled{opacity:.4;cursor:not-allowed}
+.nav-btn.primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.nav-btn.primary:hover{background:var(--coral-deep)}
+.submit-btn{margin-left:auto;padding:10px 20px;border-radius:10px;border:none;background:var(--green);color:#fff;font-size:13.5px;font-weight:700;cursor:pointer}
+.submit-btn:hover{background:#256b41}
+.submitted-pill{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--green);background:var(--green-soft);padding:6px 14px;border-radius:999px;display:flex;align-items:center;gap:6px}
+.unlock-btn{background:transparent;border:1.5px solid var(--border);color:var(--stone);font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;margin-left:8px}
+
+.part-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.part-tab{padding:7px 13px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);font-size:12.5px;font-weight:600;color:var(--stone);cursor:pointer}
+.part-tab:hover{border-color:var(--coral)}
+.part-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.placeholder-banner{background:var(--amber-soft);border:1.5px solid #E9C77E;border-radius:10px;padding:12px 16px;font-size:13px;color:#7A5108;margin-bottom:18px}
+
+.readonly-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--stone);background:var(--border);padding:3px 9px;border-radius:999px;margin-left:6px}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;top:0}
+  .main-inner{padding:20px 16px 60px}
+}
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h1>SOE Examiner</h1>
+    <p>Enter your name to continue — it's saved with every score you submit so candidates' folders show who marked them.</p>
+    <input type="text" id="gate-examiner-name" placeholder="e.g. Dr Smith" autocomplete="off"/>
+    <button id="gate-submit">Continue</button>
+    <div class="gate-err" id="gate-err"></div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="topbar">
+    <div class="topbar-logo">PainRevision <span class="topbar-badge">SOE Examiner</span></div>
+    <div class="topbar-actions">
+      <div class="tb-examiner">Examiner: <b id="tb-examiner-name">—</b></div>
+      <button class="tb-btn-lock" id="btn-lock">Lock</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div class="main"><div class="main-inner" id="main"></div></div>
+  </div>
+</div>
+
+<script src="js/supabase-client.js"></script>
+<script src="js/soe-data.js"></script>
+<script>
+'use strict';
+
+const COURSE_KEY = window.SOE_DATA.courses[0].key;
+const COURSE = window.SOE_DATA.courses[0];
+
+// ---------- state ----------
+let candidates = [];          // [{id, name, ...}]
+let scoresByCandidate = {};   // candidateId -> { "mock:station:part": rowFromDb }
+let selection = null;         // { mode:'view'|'mark', mockKey, stationKey, partKey, candidateId }
+let saveTimer = null;
+
+// ---------- helpers ----------
+function bold(text){
+  return (text||'').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+function esc(s){
+  const d = document.createElement('div'); d.textContent = s||''; return d.innerHTML;
+}
+function findMock(mockKey){ return COURSE.mocks.find(m=>m.key===mockKey); }
+function findStation(mockKey, stationKey){ return findMock(mockKey).stations.find(s=>s.key===stationKey); }
+function findPart(mockKey, stationKey, partKey){ return findStation(mockKey, stationKey).parts.find(p=>p.key===partKey); }
+function scoreKey(mockKey, stationKey, partKey){ return mockKey+':'+stationKey+':'+partKey; }
+
+// ---------- gate ----------
+(function initGate(){
+  const savedName = localStorage.getItem('soe_examiner_name') || '';
+  if (savedName){ unlockApp(); return; }
+
+  document.getElementById('gate-submit').onclick = tryEnter;
+  document.getElementById('gate-examiner-name').addEventListener('keydown', e=>{ if(e.key==='Enter') tryEnter(); });
+
+  function tryEnter(){
+    const name = document.getElementById('gate-examiner-name').value.trim();
+    if (!name){
+      document.getElementById('gate-err').textContent = 'Please enter your name.';
+      return;
+    }
+    localStorage.setItem('soe_examiner_name', name);
+    unlockApp();
+  }
+})();
+
+function unlockApp(){
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('tb-examiner-name').textContent = localStorage.getItem('soe_examiner_name') || '—';
+  document.getElementById('btn-lock').onclick = ()=>{
+    if (!confirm('Switch examiner? This just changes the name attached to new scores on this device.')) return;
+    localStorage.removeItem('soe_examiner_name');
+    location.reload();
+  };
+  boot();
+}
+
+// ---------- boot / data load ----------
+async function boot(){
+  await loadCandidates();
+  renderSidebar();
+  renderMain();
+}
+
+async function loadCandidates(){
+  const { data, error } = await sb.from('soe_candidates').select('*').eq('course_key', COURSE_KEY).order('name');
+  if (error){ console.error(error); candidates = []; return; }
+  candidates = data || [];
+  let scoreRows = [];
+  const { data: scoreData, error: scoreErr } = await sb.from('soe_scores').select('*');
+  if (scoreErr){ console.error(scoreErr); } else { scoreRows = scoreData || []; }
+  scoresByCandidate = {};
+  (scoreRows||[]).forEach(row=>{
+    if (!scoresByCandidate[row.candidate_id]) scoresByCandidate[row.candidate_id] = {};
+    scoresByCandidate[row.candidate_id][scoreKey(row.mock_key, row.station_key, row.part_key)] = row;
+  });
+}
+
+async function addCandidate(){
+  const name = prompt('Candidate name:');
+  if (!name || !name.trim()) return;
+  const { data, error } = await sb.from('soe_candidates').insert({ course_key: COURSE_KEY, name: name.trim() }).select().single();
+  if (error){ alert('Could not add candidate: ' + error.message); return; }
+  candidates.push(data);
+  candidates.sort((a,b)=> a.name.localeCompare(b.name));
+  scoresByCandidate[data.id] = {};
+  renderSidebar();
+}
+
+async function deleteCandidate(id, name){
+  if (!confirm('Delete candidate "'+name+'"? This permanently removes their folder and all saved scores for both mocks.')) return;
+  const { error } = await sb.from('soe_candidates').delete().eq('id', id);
+  if (error){ alert('Could not delete: ' + error.message); return; }
+  candidates = candidates.filter(c=>c.id!==id);
+  delete scoresByCandidate[id];
+  if (selection && selection.candidateId === id){ selection = null; }
+  renderSidebar();
+  renderMain();
+}
+
+// ---------- sidebar ----------
+const openState = {}; // key -> bool, persisted only in memory for this session
+
+function toggleOpen(key){ openState[key] = !openState[key]; renderSidebar(); }
+
+function stationProgress(candidateId, mockKey, station){
+  const scores = scoresByCandidate[candidateId] || {};
+  let total = station.parts.length, submitted = 0;
+  station.parts.forEach(p=>{
+    const row = scores[scoreKey(mockKey, station.key, p.key)];
+    if (row && row.submitted) submitted++;
+  });
+  return { total, submitted };
+}
+
+function renderSidebar(){
+  const el = document.getElementById('sidebar');
+  let html = '<div class="sb-course">Course</div><div class="sb-course-name">'+esc(COURSE.name)+'</div>';
+
+  html += '<div class="sb-section"><div class="sb-section-label">Exam packs (viewer)</div><ul class="tree">';
+  COURSE.mocks.forEach(mock=>{
+    html += renderMockNode(mock, 'view', null);
+  });
+  html += '</ul></div>';
+
+  html += '<div class="sb-section"><div class="sb-section-label">Candidates</div>';
+  html += '<button class="add-candidate-btn" onclick="addCandidate()">+ Add candidate</button>';
+  if (!candidates.length) html += '<div class="empty-note">No candidates yet.</div>';
+  html += '<ul class="tree">';
+  candidates.forEach(cand=>{
+    const key = 'cand:'+cand.id;
+    const open = !!openState[key];
+    html += '<li class="tree-node">';
+    html += '<div class="candidate-row"><div class="tree-row" style="flex:1" onclick="toggleOpen(\''+key+'\')">';
+    html += '<svg class="tree-caret'+(open?' open':'')+'" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg>';
+    html += '<span>'+esc(cand.name)+'</span></div>';
+    html += '<button class="candidate-del" title="Delete candidate" onclick="event.stopPropagation();deleteCandidate(\''+cand.id+'\',\''+esc(cand.name).replace(/'/g,"\\'")+'\')">';
+    html += '<svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>';
+    html += '<div class="tree-children'+(open?'':' collapsed')+'">';
+    COURSE.mocks.forEach(mock=>{
+      html += renderMockNode(mock, 'mark', cand.id);
+    });
+    html += '</div></li>';
+  });
+  html += '</ul></div>';
+
+  el.innerHTML = html;
+}
+
+function renderMockNode(mock, mode, candidateId){
+  const key = mode+':'+(candidateId||'')+':mock:'+mock.key;
+  const open = !!openState[key];
+  let html = '<li class="tree-node">';
+  html += '<div class="tree-row'+(mock.placeholder?' placeholder':'')+'" onclick="toggleOpen(\''+key+'\')">';
+  html += caretSvg(open);
+  html += '<span>'+esc(mock.name)+'</span>';
+  if (mock.placeholder) html += '<span class="tree-badge tree-badge-ph">TBD</span>';
+  html += '</div>';
+  html += '<div class="tree-children'+(open?'':' collapsed')+'"><ul class="tree">';
+  mock.stations.forEach(station=>{
+    html += renderStationNode(mock, station, mode, candidateId);
+  });
+  html += '</ul></div></li>';
+  return html;
+}
+
+function renderStationNode(mock, station, mode, candidateId){
+  const key = mode+':'+(candidateId||'')+':station:'+mock.key+':'+station.key;
+  const open = !!openState[key];
+  let badge = '';
+  if (mode==='mark'){
+    const prog = stationProgress(candidateId, mock.key, station);
+    if (prog.submitted===prog.total && prog.total>0) badge = '<span class="tree-badge tree-badge-done">Submitted</span>';
+    else if (prog.submitted>0) badge = '<span class="tree-badge tree-badge-partial">'+prog.submitted+'/'+prog.total+'</span>';
+  }
+  let html = '<li class="tree-node">';
+  html += '<div class="tree-row'+(station.placeholder?' placeholder':'')+'" onclick="toggleOpen(\''+key+'\')">';
+  html += caretSvg(open);
+  html += '<span>'+esc(station.name)+'</span>'+badge;
+  html += '</div>';
+  html += '<div class="tree-children'+(open?'':' collapsed')+'"><ul class="tree">';
+  station.parts.forEach(part=>{
+    const leafKey = mode+':'+(candidateId||'')+':part:'+mock.key+':'+station.key+':'+part.key;
+    const isSelected = selection && selection.mode===mode && selection.mockKey===mock.key && selection.stationKey===station.key && selection.partKey===part.key && (mode==='view' || selection.candidateId===candidateId);
+    let leafBadge = '';
+    if (mode==='mark'){
+      const row = (scoresByCandidate[candidateId]||{})[scoreKey(mock.key, station.key, part.key)];
+      if (row && row.submitted) leafBadge = '<span class="tree-badge tree-badge-done">\u2713</span>';
+      else if (row && (row.score!==null && row.score!==undefined)) leafBadge = '<span class="tree-badge tree-badge-partial">\u2022</span>';
+    }
+    html += '<li class="tree-node"><div class="tree-row'+(isSelected?' selected':'')+(part.placeholder?' placeholder':'')+'" onclick="selectPart(\''+mode+'\',\''+mock.key+'\',\''+station.key+'\',\''+part.key+'\','+(candidateId?"'"+candidateId+"'":'null')+')">';
+    html += '<svg class="tree-caret leaf" viewBox="0 0 24 24"></svg>';
+    html += '<span>'+esc(part.label)+'</span>'+leafBadge;
+    html += '</div></li>';
+  });
+  html += '</ul></div></li>';
+  return html;
+}
+
+function caretSvg(open){
+  return '<svg class="tree-caret'+(open?' open':'')+'" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg>';
+}
+
+function selectPart(mode, mockKey, stationKey, partKey, candidateId){
+  selection = { mode, mockKey, stationKey, partKey, candidateId };
+  renderSidebar();
+  renderMain();
+}
+
+// ---------- timers ----------
+// localStorage-persisted, per browser. Keyed so the big station timer survives
+// navigation between parts, and each part's own timer is independent.
+function timerStorageKey(scope, mockKey, stationKey, partKey, candidateId){
+  return 'soe_timer::' + (candidateId||'view') + '::' + mockKey + '::' + stationKey + '::' + scope + (scope==='part'?(':'+partKey):'');
+}
+function getTimerState(key){
+  try{
+    const raw = localStorage.getItem(key);
+    if (!raw) return { accumulatedMs:0, running:false, startedAt:null };
+    return JSON.parse(raw);
+  }catch(e){ return { accumulatedMs:0, running:false, startedAt:null }; }
+}
+function setTimerState(key, state){
+  localStorage.setItem(key, JSON.stringify(state));
+}
+function timerElapsedMs(state){
+  return state.accumulatedMs + (state.running ? (Date.now() - state.startedAt) : 0);
+}
+function startTimer(key){
+  const st = getTimerState(key);
+  if (st.running) return;
+  st.running = true; st.startedAt = Date.now();
+  setTimerState(key, st);
+}
+function pauseTimer(key){
+  const st = getTimerState(key);
+  if (!st.running) return;
+  st.accumulatedMs += Date.now() - st.startedAt;
+  st.running = false; st.startedAt = null;
+  setTimerState(key, st);
+}
+function resetTimer(key){
+  setTimerState(key, { accumulatedMs:0, running:false, startedAt:null });
+}
+function fmtClock(ms, negativeOk){
+  const neg = ms < 0;
+  const abs = Math.abs(Math.round(ms/1000));
+  const mm = Math.floor(abs/60), ss = abs%60;
+  const s = (mm<10?'0':'')+mm+':'+(ss<10?'0':'')+ss;
+  return neg ? ('+'+s) : s;
+}
+
+let timerIntervalHandle = null;
+function ensureTimerTicking(){
+  if (timerIntervalHandle) return;
+  timerIntervalHandle = setInterval(()=>{
+    document.querySelectorAll('[data-timer-key]').forEach(el=>{
+      const key = el.getAttribute('data-timer-key');
+      const totalMs = parseFloat(el.getAttribute('data-timer-total'));
+      const st = getTimerState(key);
+      const elapsed = timerElapsedMs(st);
+      const remain = totalMs - elapsed;
+      el.textContent = fmtClock(remain, true);
+      el.classList.toggle('over', remain < 0);
+      el.classList.toggle('warn', remain >= 0 && remain < totalMs*0.15);
+    });
+  }, 500);
+}
+
+function renderTimer(labelText, key, minutes, big){
+  const totalMs = minutes*60*1000;
+  const st = getTimerState(key);
+  const remain = totalMs - timerElapsedMs(st);
+  const cls = remain<0 ? ' over' : (remain < totalMs*0.15 ? ' warn' : '');
+  return '' +
+    '<div class="timer'+(big?' big':'')+'">' +
+      '<span class="timer-label">'+esc(labelText)+'</span>' +
+      '<span class="timer-clock'+cls+'" data-timer-key="'+key+'" data-timer-total="'+totalMs+'">'+fmtClock(remain,true)+'</span>' +
+      '<button class="timer-btn" title="Start" onclick="startTimer(\''+key+'\')"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4z" fill="currentColor" stroke="none"/></svg></button>' +
+      '<button class="timer-btn" title="Pause" onclick="pauseTimer(\''+key+'\')"><svg viewBox="0 0 24 24"><path d="M7 4h3v16H7zM14 4h3v16h-3z" fill="currentColor" stroke="none"/></svg></button>' +
+      '<button class="timer-btn" title="Reset" onclick="resetTimer(\''+key+'\')"><svg viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6M4.5 15a8 8 0 0013.9 3.4M19.5 9A8 8 0 005.6 5.6"/></svg></button>' +
+    '</div>';
+}
+window.startTimer = (k)=>{ startTimer(k); renderMain(); };
+window.pauseTimer = (k)=>{ pauseTimer(k); renderMain(); };
+window.resetTimer = (k)=>{ if(confirm('Reset this timer to 00:00?')){ resetTimer(k); renderMain(); } };
+
+// ---------- main render ----------
+function renderMain(){
+  const el = document.getElementById('main');
+  if (!selection){
+    el.innerHTML = '<div class="empty-state"><h2>Select something to view</h2><p>Use the left panel to open an exam pack for reference, or open a candidate\u2019s folder to start marking a station.</p></div>';
+    return;
+  }
+  const mock = findMock(selection.mockKey);
+  const station = findStation(selection.mockKey, selection.stationKey);
+  const part = findPart(selection.mockKey, selection.stationKey, selection.partKey);
+  const isMark = selection.mode === 'mark';
+  const candidate = isMark ? candidates.find(c=>c.id===selection.candidateId) : null;
+
+  let html = '';
+
+  html += '<div class="crumb"><b>'+esc(mock.name)+'</b> / '+esc(station.name)+' / '+esc(part.label);
+  html += '<span class="crumb-mode '+(isMark?'crumb-mode-mark':'crumb-mode-view')+'">'+(isMark?'Marking':'Viewing')+'</span></div>';
+
+  const partSubtitle = part.subtitle ? (' \u2014 ' + part.subtitle) : '';
+  if (isMark){
+    html += '<div class="page-title">'+esc(candidate.name)+'</div>';
+    html += '<div class="page-sub">'+esc(station.name)+' \u2014 '+esc(part.label)+esc(partSubtitle)+'</div>';
+  } else {
+    html += '<div class="page-title">'+esc(station.name)+'</div>';
+    html += '<div class="page-sub">'+esc(station.subtitle||'')+esc(partSubtitle)+' <span class="readonly-badge">Examiner pack \u00b7 reference only</span></div>';
+  }
+
+  if (station.placeholder || part.placeholder){
+    html += '<div class="placeholder-banner">This content hasn\u2019t been added yet \u2014 this is a placeholder so the section and navigation work end to end. Swap in the real pack in <code>js/soe-data.js</code>.</div>';
+  }
+
+  // Timers — only in marking mode
+  if (isMark){
+    html += '<div class="timer-bar">';
+    html += renderTimer('Station '+station.name.replace('Station ','')+' \u00b7 '+(station.bigTimerMinutes||42)+' min', timerStorageKey('station', selection.mockKey, selection.stationKey, null, candidate.id), station.bigTimerMinutes||42, true);
+    if (part.timerMinutes){
+      html += renderTimer('This question \u00b7 '+part.timerMinutes+' min', timerStorageKey('part', selection.mockKey, selection.stationKey, selection.partKey, candidate.id), part.timerMinutes, false);
+    }
+    html += '</div>';
+  }
+
+  // Part tabs (siblings within the station)
+  html += '<div class="part-tabs">';
+  station.parts.forEach(p=>{
+    const active = p.key === selection.partKey;
+    html += '<button class="part-tab'+(active?' active':'')+'" onclick="selectPart(\''+selection.mode+'\',\''+selection.mockKey+'\',\''+selection.stationKey+'\',\''+p.key+'\','+(isMark?"'"+selection.candidateId+"'":'null')+')">'+esc(p.label)+'</button>';
+  });
+  html += '</div>';
+
+  if (!isMark && station.examinerNotes && station.examinerNotes.length){
+    html += '<details class="pack-notes"><summary>How to use this pack</summary><ul>';
+    station.examinerNotes.forEach(n=> html += '<li>'+bold(esc(n).replace(/&#39;/g,"'"))+'</li>');
+    html += '</ul></details>';
+  }
+
+  if (!isMark && part.kind === 'longcase'){
+    if (part.candidateInstructions && part.candidateInstructions.length){
+      html += '<div class="info-box"><h3>Instructions to candidate</h3><ul>';
+      part.candidateInstructions.forEach(i=> html += '<li>'+bold(esc(i))+'</li>');
+      html += '</ul></div>';
+    }
+    if (part.caseHistoryHtml){
+      html += '<div class="case-history pack-embed"><h3>Case history</h3>' + part.caseHistoryHtml + '</div>';
+    }
+  }
+
+  const savedCriteria = isMark ? getSavedRow(selection).criteria || {} : {};
+
+  (part.questions||[]).forEach((q, qi)=>{
+    html += renderQuestionCard(q, qi, isMark, savedCriteria);
+  });
+
+  if (isMark && !station.placeholder && !part.placeholder){
+    html += renderMarkFooter(selection, getSavedRow(selection));
+  }
+
+  html += '<div class="nav-bar">';
+  const idx = station.parts.findIndex(p=>p.key===selection.partKey);
+  const prevPart = idx>0 ? station.parts[idx-1] : null;
+  const nextPart = idx<station.parts.length-1 ? station.parts[idx+1] : null;
+  html += '<button class="nav-btn" '+(prevPart?'':'disabled')+' onclick="'+(prevPart?"selectPart('"+selection.mode+"','"+selection.mockKey+"','"+selection.stationKey+"','"+prevPart.key+"',"+(isMark?"'"+selection.candidateId+"'":'null')+")":'')+'">\u2190 Previous</button>';
+  html += '<button class="nav-btn primary" '+(nextPart?'':'disabled')+' onclick="'+(nextPart?"selectPart('"+selection.mode+"','"+selection.mockKey+"','"+selection.stationKey+"','"+nextPart.key+"',"+(isMark?"'"+selection.candidateId+"'":'null')+")":'')+'">Next \u2192</button>';
+
+  if (isMark && !station.placeholder){
+    const allSubmitted = station.parts.every(p=>{
+      const row = (scoresByCandidate[candidate.id]||{})[scoreKey(selection.mockKey, station.key, p.key)];
+      return row && row.submitted;
+    });
+    if (allSubmitted){
+      html += '<span class="submitted-pill">\u2713 Station submitted</span>';
+      html += '<button class="unlock-btn" onclick="unlockStation()">Edit</button>';
+    } else {
+      html += '<button class="submit-btn" onclick="submitStation()">Submit station</button>';
+    }
+  }
+  html += '</div>';
+
+  el.innerHTML = html;
+  wireMarkInputs();
+  ensureTimerTicking();
+}
+
+function getSavedRow(sel){
+  return ((scoresByCandidate[sel.candidateId]||{})[scoreKey(sel.mockKey, sel.stationKey, sel.partKey)]) || { score:null, feedback:'', criteria:{}, submitted:false };
+}
+
+function renderQuestionCard(q, qi, isMark, savedCriteria){
+  let html = '<div class="qcard">';
+  html += '<div class="qcard-head">';
+  if (q.number) html += '<span class="qcard-num">'+esc(q.number)+'</span>';
+  html += '</div>';
+  if (q.prompt) html += '<div class="qcard-prompt">'+bold(esc(q.prompt))+'</div>';
+
+  if (q.criteria && q.criteria.length){
+    html += '<table class="crit-table"><tbody>';
+    q.criteria.forEach((c, ci)=>{
+      const critId = 'q'+qi+'_c'+ci;
+      const val = savedCriteria[critId];
+      const text = typeof c === 'string' ? c : c.text;
+      const strong = typeof c === 'object' && c.strong;
+      html += '<tr><td class="crit-text">'+(strong?'<span class="strong-pill">Strong candidate</span>':'')+bold(esc(text))+'</td><td class="crit-yn">';
+      if (isMark){
+        html += critYnInputs(critId, val);
+      } else {
+        html += '<span class="crit-readonly">Yes / No</span>';
+      }
+      html += '</td></tr>';
+    });
+    html += '</tbody></table>';
+  }
+
+  // "Key knowledge" reference is for exam-pack study/prep, not live marking \u2014
+  // shown only in viewer mode, collapsed by default to keep the pack scannable.
+  if (!isMark && q.knowledgeHtml){
+    const knowId = 'know-'+qi+'-'+Math.random().toString(36).slice(2,8);
+    html += '<div class="know-box">';
+    html += '<button type="button" class="know-toggle" aria-expanded="false" aria-controls="'+knowId+'" onclick="toggleKnow(\''+knowId+'\',this)">' +
+      '<span class="know-icon"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 00-3.5 10.9V16h7v-2.1A6 6 0 0012 3zM9.5 19h5M10.5 21.5h3" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '<span class="know-title">Key knowledge<span class="know-sub">Model answer for this question</span></span>' +
+      '<span class="know-action"><span class="know-action-label">Show</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '</button>';
+    html += '<div class="know-body pack-embed" id="'+knowId+'">' + q.knowledgeHtml + '</div>';
+    html += '</div>';
+  }
+
+  html += '</div>';
+  return html;
+}
+
+function toggleKnow(id, btn){
+  const body = document.getElementById(id);
+  const open = body.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.closest('.know-box').classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open);
+  btn.querySelector('.know-action-label').textContent = open ? 'Hide' : 'Show';
+}
+window.toggleKnow = toggleKnow;
+
+function critYnInputs(critId, val){
+  return '' +
+    '<label class="'+(val==='yes'?'checked-yes':'')+'"><input type="radio" name="crit_'+critId+'" value="yes" '+(val==='yes'?'checked':'')+' data-crit="'+critId+'" class="crit-input"/>Yes</label>' +
+    '<label class="'+(val==='no'?'checked-no':'')+'"><input type="radio" name="crit_'+critId+'" value="no" '+(val==='no'?'checked':'')+' data-crit="'+critId+'" class="crit-input"/>No</label>';
+}
+
+function renderMarkFooter(sel, saved){
+  const locked = !!saved.submitted;
+  let html = '<div class="mark-footer">';
+  html += '<h4>Global score</h4><div class="score-row">';
+  const opts = [ [0,'Fail'], [1,'Borderline'], [2,'Pass'] ];
+  opts.forEach(([v,label])=>{
+    const checked = saved.score===v ? 'checked' : '';
+    html += '<div class="score-opt" data-v="'+v+'"><input type="radio" name="fb-score" id="score-'+v+'" value="'+v+'" '+checked+' '+(locked?'disabled':'')+'/><label for="score-'+v+'"><b>'+v+'</b><span>'+label+'</span></label></div>';
+  });
+  html += '</div>';
+  html += '<h4 style="margin-top:16px">Comments</h4>';
+  html += '<textarea id="fb-text" placeholder="Comments for this part…" '+(locked?'disabled':'')+'>'+esc(saved.feedback||'')+'</textarea>';
+  html += '<div class="save-status" id="save-status"></div>';
+  html += '</div>';
+  return html;
+}
+
+function wireMarkInputs(){
+  if (!(selection && selection.mode==='mark')) return;
+  const saved = getSavedRow(selection);
+  if (saved.submitted) return; // locked, nothing to wire
+
+  document.querySelectorAll('.crit-input').forEach(inp=>{
+    inp.addEventListener('change', ()=>{
+      inp.closest('td').querySelectorAll('label').forEach(l=>l.classList.remove('checked-yes','checked-no'));
+      inp.closest('label').classList.add(inp.value==='yes'?'checked-yes':'checked-no');
+      scheduleSave();
+    });
+  });
+  const fb = document.getElementById('fb-text');
+  if (fb) fb.addEventListener('input', scheduleSave);
+  document.querySelectorAll('input[name="fb-score"]').forEach(inp=> inp.addEventListener('change', scheduleSave));
+}
+
+function collectCurrentPartPayload(){
+  const criteria = {};
+  document.querySelectorAll('.crit-input:checked').forEach(inp=>{ criteria[inp.getAttribute('data-crit')] = inp.value; });
+  const fb = document.getElementById('fb-text');
+  const scoreInput = document.querySelector('input[name="fb-score"]:checked');
+  return {
+    criteria,
+    feedback: fb ? fb.value : '',
+    score: scoreInput ? parseInt(scoreInput.value,10) : null
+  };
+}
+
+function scheduleSave(){
+  const status = document.getElementById('save-status');
+  if (status) status.textContent = 'Saving\u2026';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveCurrentPart, 600);
+}
+
+async function saveCurrentPart(){
+  if (!(selection && selection.mode==='mark')) return;
+  const payload = collectCurrentPartPayload();
+  const examinerName = localStorage.getItem('soe_examiner_name') || null;
+  const row = {
+    candidate_id: selection.candidateId,
+    mock_key: selection.mockKey,
+    station_key: selection.stationKey,
+    part_key: selection.partKey,
+    score: payload.score,
+    feedback: payload.feedback,
+    criteria: payload.criteria,
+    examiner_name: examinerName,
+    updated_at: new Date().toISOString()
+  };
+  const { data, error } = await sb.from('soe_scores')
+    .upsert(row, { onConflict: 'candidate_id,mock_key,station_key,part_key' })
+    .select().single();
+  const status = document.getElementById('save-status');
+  if (error){
+    if (status) status.textContent = 'Could not save: ' + error.message;
+    return;
+  }
+  if (!scoresByCandidate[selection.candidateId]) scoresByCandidate[selection.candidateId] = {};
+  scoresByCandidate[selection.candidateId][scoreKey(selection.mockKey, selection.stationKey, selection.partKey)] = data;
+  if (status) status.textContent = 'Saved \u2713';
+  renderSidebar();
+}
+
+async function submitStation(){
+  if (!(selection && selection.mode==='mark')) return;
+  await saveCurrentPart();
+  const station = findStation(selection.mockKey, selection.stationKey);
+  const missing = station.parts.filter(p=>{
+    const row = (scoresByCandidate[selection.candidateId]||{})[scoreKey(selection.mockKey, station.key, p.key)];
+    return !row || row.score===null || row.score===undefined;
+  });
+  if (missing.length){
+    const proceed = confirm('No score has been set yet for: ' + missing.map(p=>p.label).join(', ') + '.\n\nSubmit the station anyway?');
+    if (!proceed) return;
+  } else {
+    if (!confirm('Submit final scores for this station? You can still edit afterwards via "Edit".')) return;
+  }
+  const examinerName = localStorage.getItem('soe_examiner_name') || null;
+  for (const p of station.parts){
+    const existing = (scoresByCandidate[selection.candidateId]||{})[scoreKey(selection.mockKey, station.key, p.key)];
+    const row = {
+      candidate_id: selection.candidateId,
+      mock_key: selection.mockKey,
+      station_key: station.key,
+      part_key: p.key,
+      score: existing ? existing.score : null,
+      feedback: existing ? existing.feedback : '',
+      criteria: existing ? existing.criteria : {},
+      examiner_name: examinerName,
+      submitted: true,
+      updated_at: new Date().toISOString()
+    };
+    const { data, error } = await sb.from('soe_scores')
+      .upsert(row, { onConflict: 'candidate_id,mock_key,station_key,part_key' })
+      .select().single();
+    if (!error){
+      if (!scoresByCandidate[selection.candidateId]) scoresByCandidate[selection.candidateId] = {};
+      scoresByCandidate[selection.candidateId][scoreKey(selection.mockKey, station.key, p.key)] = data;
+    }
+  }
+  renderSidebar();
+  renderMain();
+}
+
+async function unlockStation(){
+  if (!confirm('Unlock this station for editing?')) return;
+  const station = findStation(selection.mockKey, selection.stationKey);
+  for (const p of station.parts){
+    const existing = (scoresByCandidate[selection.candidateId]||{})[scoreKey(selection.mockKey, station.key, p.key)];
+    if (!existing) continue;
+    const { data, error } = await sb.from('soe_scores')
+      .update({ submitted: false })
+      .eq('id', existing.id)
+      .select().single();
+    if (!error) scoresByCandidate[selection.candidateId][scoreKey(selection.mockKey, station.key, p.key)] = data;
+  }
+  renderSidebar();
+  renderMain();
+}
+
+window.addCandidate = addCandidate;
+window.deleteCandidate = deleteCandidate;
+window.toggleOpen = toggleOpen;
+window.selectPart = selectPart;
+window.submitStation = submitStation;
+window.unlockStation = unlockStation;
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FFPMRCA SOE Practice Session 1 Summary · PainRevision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coral:#F0623C; --coral-deep:#D2491F; --coral-soft:#FBD9CC;
+    --amber:#F5A524; --amber-soft:#FCE6BF;
+    --ink:#241B16; --ink-soft:#3A2D25; --stone:#7C7068; --stone-light:#A99E95;
+    --cream:#FBF5EE; --surface:#FFFFFF; --surface-warm:#FFFAF4;
+    --border:#EDE3D7; --border-strong:#E0D3C4;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  @page{ size:A4; margin:16mm 17mm 20mm; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; background:var(--surface); }
+  body{
+    font-family:var(--sans); color:var(--ink-soft);
+    font-size:10.2pt; line-height:1.6;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .page{ max-width:176mm; margin:0 auto; }
+  @media screen{ body{ background:var(--cream); padding:32px 16px; } .page{ background:var(--surface); padding:16mm 17mm; border-radius:18px; box-shadow:0 1px 2px rgba(36,27,22,.05),0 12px 40px -12px rgba(36,27,22,.14); } }
+
+  a{ color:var(--coral-deep); text-decoration:underline; text-decoration-color:rgba(240,98,60,.4); text-underline-offset:2px; }
+  strong{ color:var(--ink); font-weight:700; }
+
+  /* ---------- masthead ---------- */
+  .mast{ display:flex; align-items:center; justify-content:space-between; padding-bottom:12px; border-bottom:1.5px solid var(--ink); }
+  .lockup{ display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .lockup svg{ width:30px; height:30px; }
+  .wordmark{ font-weight:800; font-size:17pt; letter-spacing:-0.03em; color:var(--ink); line-height:1; }
+  .wordmark span{ color:var(--coral); }
+  .mast-meta{ font-family:var(--mono); font-size:7.5pt; letter-spacing:.12em; text-transform:uppercase; color:var(--stone); text-align:right; line-height:1.5; }
+
+  .title-block{ padding:22px 0 18px; }
+  .eyebrow{ font-family:var(--mono); font-size:8pt; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--coral); margin:0 0 8px; }
+  h1{ font-size:25pt; font-weight:800; letter-spacing:-0.03em; line-height:1.1; color:var(--ink); margin:0; }
+
+  /* ---------- callouts ---------- */
+  .callout{ border-radius:12px; padding:13px 16px 14px; margin:0 0 6px; break-inside:avoid; }
+  .callout p{ margin:0; }
+  .callout .label{ font-family:var(--mono); font-size:7.5pt; font-weight:600; letter-spacing:.12em; text-transform:uppercase; margin:0 0 5px; }
+  .callout.case{ background:var(--ink); color:#EFE6DC; }
+  .callout.case .label{ color:var(--amber); }
+  .callout.case strong{ color:#fff; }
+  .callout.key{ background:var(--amber-soft); border-left:4px solid var(--amber); border-radius:4px 12px 12px 4px; }
+  .callout.key .label{ color:#9A5F00; }
+  .callout.warn{ background:#FDEDE6; border-left:4px solid var(--coral); border-radius:4px 12px 12px 4px; }
+  .callout.warn .label{ color:var(--coral-deep); }
+  .callout ul{ margin:2px 0 0; }
+
+  /* ---------- sections ---------- */
+  section{ margin-top:24px; }
+  h2{ display:flex; align-items:baseline; gap:10px; font-size:15pt; font-weight:800; letter-spacing:-0.02em; color:var(--ink); margin:0 0 12px; padding-bottom:7px; border-bottom:1px solid var(--border-strong); break-after:avoid; }
+  h2 .num{ font-family:var(--mono); font-size:9pt; font-weight:600; color:var(--coral); letter-spacing:.06em; }
+  h3{ font-size:11pt; font-weight:700; color:var(--coral-deep); margin:16px 0 5px; letter-spacing:-0.01em; break-after:avoid; }
+  ul{ margin:0; padding-left:17px; }
+  li{ margin:0 0 3.5px; padding-left:2px; }
+  li::marker{ color:var(--coral); }
+  li{ break-inside:avoid; }
+
+  /* ---------- table ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:6px 0 2px; font-size:9.4pt; line-height:1.45; border:1px solid var(--border-strong); border-radius:10px; overflow:hidden; break-inside:avoid; }
+  th{ background:var(--ink); color:#fff; text-align:left; font-weight:600; padding:8px 11px; font-size:8.8pt; }
+  td{ padding:8px 11px; border-top:1px solid var(--border); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--surface-warm); }
+  td.thr{ font-family:var(--mono); font-size:8.6pt; color:var(--ink); white-space:nowrap; }
+  td.thr b{ color:var(--coral-deep); font-weight:600; }
+
+  /* ---------- footer ---------- */
+  .foot{ margin-top:28px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:7pt; letter-spacing:.1em; text-transform:uppercase; color:var(--stone-light); border-top:1px solid var(--border); padding-top:5px; }
+  .foot b{ color:var(--coral); font-weight:600; }
+  @media print{ .foot{ display:none; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="mast">
+    <a class="lockup" href="https://www.painrevision.com">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/><circle fill="#F5A524" cx="50" cy="13" r="8.5"/></svg>
+      <span class="wordmark">Pain<span>Revision</span></span>
+    </a>
+    <div class="mast-meta">FFPMRCA SOE revision guide<br>painrevision.com</div>
+  </header>
+
+  <div class="title-block">
+    <p class="eyebrow">SOE practice session 1 &middot; Summary</p>
+    <h1>Chronic widespread pain, cannabinoids and medication overuse headache</h1>
+  </div>
+
+  <div class="callout case">
+    <p class="label">The long case in one paragraph</p>
+    <p>54-year-old woman referred by her GP with widespread pain. Rheumatoid arthritis is well controlled, but pain is affecting quality of life, work, family and mood. Daily headaches. Previous overdose and requests for opioids. Currently on morphine, an antidepressant and a gabapentinoid, and has used a friend's medication.</p>
+  </div>
+
+  <!-- ============ 1 ============ -->
+  <section>
+    <h2><span class="num">01</span>Knowledge to go over</h2>
+
+    <div class="topic">
+      <h3>Chronic widespread pain and fibromyalgia</h3>
+      <ul>
+        <li><strong>Diagnostic criteria:</strong> Royal College of Physicians fibromyalgia worksheet (WPI + SSS scoring)</li>
+        <li><strong>Pathophysiology of fibromyalgia</strong></li>
+        <li><strong>Clinical signs of central sensitisation</strong></li>
+        <li><strong>Objective assessment:</strong> quantitative sensory testing</li>
+        <li><strong>Screening tools:</strong> LANSS (Leeds Assessment of Neuropathic Symptoms and Signs) and DN4 for neuropathic features, depression and anxiety questionnaires, numerical pain scales</li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Pain classification (ICD-11)</h3>
+      <ul>
+        <li>Chronic primary pain versus chronic secondary pain</li>
+        <li>Neuropathic, nociplastic and nociceptive categories</li>
+        <li><strong>Apply it to the case, don't just describe the pain.</strong> Fibromyalgia-type pain is chronic primary (nociplastic); RA-related pain sits under chronic secondary musculoskeletal pain. Say explicitly that she may have both</li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Rheumatoid arthritis and pain</h3>
+      <ul>
+        <li>Why RA patients can still have pain when disease control is good: autoimmune/inflammatory, somatic, neuropathic and central sensitisation components</li>
+        <li>Examination: joint inspection, range of motion, reflexes, neurological examination</li>
+        <li>Guidance: <a href="https://www.nice.org.uk/guidance/ng100">NICE NG100, rheumatoid arthritis in adults</a></li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Management of chronic primary pain (NICE NG193)</h3>
+      <ul>
+        <li>Multidisciplinary, biopsychosocial approach with patient education and self-management</li>
+        <li><strong>Do not offer for chronic primary pain:</strong> opioids, NSAIDs, paracetamol, benzodiazepines, gabapentinoids and other antiepileptics, ketamine, corticosteroids, antipsychotics, local anaesthetics (outside a trial)</li>
+        <li>For people already taking these, explain the risks of continuing and any withdrawal problems, and review prescribing as shared decision-making</li>
+        <li>Guidance: <a href="https://www.painrevision.com/guidelines.html">NICE NG193</a></li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Medication safety and prescribing</h3>
+      <ul>
+        <li>Opioid risk in a patient with a previous overdose and requests for opioids, including the unsafe practice of using a friend's medication</li>
+        <li>Safe, supervised prescribing where medication is used (single prescriber, limited supplies, clear review dates). See <a href="https://fpm.ac.uk/opioids-aware">FPM Opioids Aware</a></li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Neuropathic pain guidance</h3>
+      <ul>
+        <li><a href="https://www.painrevision.com/guidelines.html">NICE CG173, neuropathic pain in adults</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section>
+    <h2><span class="num">02</span>Deep dive: cannabinoids and chronic pain</h2>
+
+    <div class="callout key">
+      <p class="label">If the examiner asks about cannabis, the headline answer</p>
+      <p>NICE NG144 advises <strong>against</strong> offering cannabis-based medicinal products for chronic pain in adults. That covers nabilone, dronabinol, THC, THC combined with CBD, and CBD outside a clinical trial. Benefits are small, adverse effects are more common, there was no opioid-sparing effect, and it was not a cost-effective use of NHS resources.</p>
+    </div>
+
+    <div class="topic">
+      <h3>What NICE NG144 says</h3>
+      <ul>
+        <li><strong>1.2.1:</strong> do not offer nabilone, dronabinol, THC, or a combination of CBD with THC to manage chronic pain in adults</li>
+        <li><strong>1.2.2:</strong> do not offer CBD to manage chronic pain in adults unless as part of a clinical trial</li>
+        <li><strong>1.2.3:</strong> adults who started cannabis-based medicinal products for chronic pain in the NHS before the guidance (November 2019) can continue until they and their NHS clinician think it appropriate to stop</li>
+        <li><strong>Don't confuse with spasticity:</strong> NG144 does support a 4-week trial of THC:CBD spray (Sativex) for moderate to severe spasticity in multiple sclerosis. That indication is separate from chronic pain</li>
+        <li>The guideline was last reviewed on 20 May 2025 with no change in practice. Link: <a href="https://www.painrevision.com/guidelines.html">NICE NG144</a></li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Why the committee decided this</h3>
+      <ul>
+        <li>Some evidence showed CBD reduced chronic pain, but the effect was modest: about 0.4 points on a 0 to 10 scale</li>
+        <li>The evidence did not show that medicinal cannabis reduced opioid use</li>
+        <li>Potential benefit was small compared with the high, ongoing cost, so it was not an effective use of NHS resources</li>
+        <li>Cannabis-based products for medicinal use were rescheduled as <strong>Schedule 2 controlled drugs</strong> on 1 November 2018</li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Professional body positions</h3>
+      <ul>
+        <li><strong>Faculty of Pain Medicine:</strong> safety and efficacy have not yet been established; anecdotal reports are not a basis for protecting public safety; only products made to pharmaceutical standards should be considered; supports robust trials and a data registry. <a href="https://fpm.ac.uk/update-faculty-position-statement-medicinal-use-cannabinoids-pain-medicine">FPM position statement</a></li>
+        <li><strong>British Pain Society:</strong> supports clinics prescribing cannabis-derived medicinal products for chronic pain only within clinical trials or a national registry; raises concerns about cognition, mental health effects and misuse. <a href="https://www.britishpainsociety.org/static/uploads/resources/files/BPS_position_statement_25_11_19.pdf">BPS position statement</a></li>
+        <li><strong>IASP (2021):</strong> cannot endorse the general use of cannabinoids for pain at this time, while acknowledging patients' lived experience and calling for better research. <a href="https://www.iasp-pain.org/publications/iasp-news/iasp-position-statement-on-the-use-of-cannabinoids-to-treat-pain/">IASP position statement</a>. Supporting review: <a href="https://journals.lww.com/pain/fulltext/2021/07001/cannabinoids,_cannabis,_and_cannabis_based.5.aspx">IASP systematic review, PAIN 2021</a>, which found more adverse events with cannabis, nabiximols and THC than with control</li>
+      </ul>
+    </div>
+
+    <div class="callout warn" style="margin-top:14px">
+      <p class="label">Pitfalls to avoid</p>
+      <ul>
+        <li>Saying cannabis is "illegal". It is a Schedule 2 controlled drug that specialists can prescribe; the issue is evidence and safety, not legality alone</li>
+        <li>Saying there is "no evidence". The accurate line is modest benefit, more harms, and no opioid-sparing effect</li>
+        <li>Mixing up the spasticity indication (Sativex in MS) with chronic pain</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section>
+    <h2><span class="num">03</span>Medication overuse headache (MOH)</h2>
+
+    <div class="callout key">
+      <p class="label">Headline</p>
+      <p>MOH is a secondary headache that develops in someone with a <strong>pre-existing primary headache disorder</strong> (usually migraine or tension-type) who regularly overuses acute headache medicines for <strong>more than 3 months</strong>. Overuse is defined by <strong>days per month</strong>, not the number of tablets.</p>
+    </div>
+
+    <div class="topic">
+      <h3>Diagnostic criteria (ICHD-3)</h3>
+      <ul>
+        <li><strong>A.</strong> Headache on 15 or more days per month in a person with a pre-existing headache disorder</li>
+        <li><strong>B.</strong> Regular overuse for more than 3 months of one or more drugs taken for acute or symptomatic treatment of headache</li>
+        <li><strong>C.</strong> Not better explained by another ICHD-3 diagnosis</li>
+        <li>Reference: <a href="https://ichd-3.org/8-headache-attributed-to-a-substance-or-its-withdrawal/8-2-medication-overuse-headache/">ICHD-3, 8.2 Medication-overuse headache</a></li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Overuse thresholds</h3>
+      <table>
+        <thead><tr><th style="width:36%">Drug group</th><th style="width:26%">Overuse threshold</th><th>Exam note</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Opioids</strong> (including morphine, codeine)</td><td class="thr"><b>&ge;10</b> days/month<br>for &gt;3 months</td><td>Relevant to this patient, who is on morphine. Say the number</td></tr>
+          <tr><td><strong>Triptans, ergots</strong></td><td class="thr"><b>&ge;10</b> days/month<br>for &gt;3 months</td><td>Lower threshold than simple analgesics</td></tr>
+          <tr><td><strong>Combination analgesics</strong> (for example co-codamol)</td><td class="thr"><b>&ge;10</b> days/month<br>for &gt;3 months</td><td>Combination products count at the lower threshold</td></tr>
+          <tr><td><strong>Paracetamol, aspirin, NSAIDs</strong> (alone or in any combination)</td><td class="thr"><b>&ge;15</b> days/month<br>for &gt;3 months</td><td>Simple analgesics reach the threshold later</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="topic">
+      <h3>Clinical clues</h3>
+      <ul>
+        <li>Headache that keeps the migraine or tension-type character but becomes much more frequent, often daily. This can be mistaken for progression of the underlying headache disorder</li>
+        <li>Examination is usually normal. Neuroimaging is not needed unless there are red flags for another diagnosis</li>
+        <li>Estimated to affect around 1 in 50 people, and more common in women</li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <h3>Management (NICE CG150)</h3>
+      <ul>
+        <li><strong>Be alert</strong> to MOH in people whose headache developed or worsened while taking the drugs above for 3 months or more, and <strong>explain the risk</strong> to anyone using acute treatments for a headache disorder</li>
+        <li><strong>Treatment is abrupt withdrawal:</strong> advise stopping the overused medicine(s) for at least 1 month, and stopping abruptly rather than gradually</li>
+        <li><strong>Warn that headache is likely to get worse in the short term</strong> before it improves, and offer close follow-up and support</li>
+        <li><strong>Review the diagnosis and further management 4 to 8 weeks</strong> after the start of withdrawal</li>
+        <li>Consider preventive treatment for the underlying primary headache disorder</li>
+        <li>Do not routinely offer inpatient withdrawal</li>
+        <li>Do not refer for neuroimaging solely for reassurance</li>
+        <li>Guidance: <a href="https://www.nice.org.uk/guidance/cg150/chapter/recommendations">NICE CG150 recommendations</a>, <a href="https://www.nice.org.uk/guidance/cg150">NICE CG150 overview</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="foot"><span><b>PainRevision</b> &middot; FFPMRCA SOE revision guide</span><span>painrevision.com</span></footer>
+</div>
+</body>
+</html>

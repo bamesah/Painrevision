@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FFPMRCA SOE Practice Session 3 Summary · PainRevision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coral:#F0623C; --coral-deep:#D2491F; --coral-soft:#FBD9CC;
+    --amber:#F5A524; --amber-soft:#FCE6BF;
+    --ink:#241B16; --ink-soft:#3A2D25; --stone:#7C7068; --stone-light:#A99E95;
+    --cream:#FBF5EE; --surface:#FFFFFF; --surface-warm:#FFFAF4;
+    --border:#EDE3D7; --border-strong:#E0D3C4;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --sans:'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  @page{ size:A4; margin:16mm 17mm 20mm; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; background:var(--surface); }
+  body{
+    font-family:var(--sans); color:var(--ink-soft);
+    font-size:10.2pt; line-height:1.6;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
+  }
+  .page{ max-width:176mm; margin:0 auto; }
+  @media screen{ body{ background:var(--cream); padding:32px 16px; } .page{ background:var(--surface); padding:16mm 17mm; border-radius:18px; box-shadow:0 1px 2px rgba(36,27,22,.05),0 12px 40px -12px rgba(36,27,22,.14); } }
+
+  a{ color:var(--coral-deep); text-decoration:underline; text-decoration-color:rgba(240,98,60,.4); text-underline-offset:2px; }
+  strong{ color:var(--ink); font-weight:700; }
+
+  /* ---------- masthead ---------- */
+  .mast{ display:flex; align-items:center; justify-content:space-between; padding-bottom:12px; border-bottom:1.5px solid var(--ink); }
+  .lockup{ display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .lockup svg{ width:30px; height:30px; }
+  .wordmark{ font-weight:800; font-size:17pt; letter-spacing:-0.03em; color:var(--ink); line-height:1; }
+  .wordmark span{ color:var(--coral); }
+  .mast-meta{ font-family:var(--mono); font-size:7.5pt; letter-spacing:.12em; text-transform:uppercase; color:var(--stone); text-align:right; line-height:1.5; }
+
+  .title-block{ padding:22px 0 18px; }
+  .eyebrow{ font-family:var(--mono); font-size:8pt; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--coral); margin:0 0 8px; }
+  h1{ font-size:25pt; font-weight:800; letter-spacing:-0.03em; line-height:1.1; color:var(--ink); margin:0; }
+
+  /* ---------- callouts ---------- */
+  .callout{ border-radius:12px; padding:13px 16px 14px; margin:0 0 6px; break-inside:avoid; }
+  .callout p{ margin:0; }
+  .callout .label{ font-family:var(--mono); font-size:7.5pt; font-weight:600; letter-spacing:.12em; text-transform:uppercase; margin:0 0 5px; }
+  .callout.case{ background:var(--ink); color:#EFE6DC; }
+  .callout.case .label{ color:var(--amber); }
+  .callout.case strong{ color:#fff; }
+  .callout.key{ background:var(--amber-soft); border-left:4px solid var(--amber); border-radius:4px 12px 12px 4px; }
+  .callout.key .label{ color:#9A5F00; }
+  .callout.warn{ background:#FDEDE6; border-left:4px solid var(--coral); border-radius:4px 12px 12px 4px; }
+  .callout.warn .label{ color:var(--coral-deep); }
+  .callout ul{ margin:2px 0 0; }
+
+  /* ---------- sections ---------- */
+  section{ margin-top:24px; }
+  h2{ display:flex; align-items:baseline; gap:10px; font-size:15pt; font-weight:800; letter-spacing:-0.02em; color:var(--ink); margin:0 0 12px; padding-bottom:7px; border-bottom:1px solid var(--border-strong); break-after:avoid; }
+  h2 .num{ font-family:var(--mono); font-size:9pt; font-weight:600; color:var(--coral); letter-spacing:.06em; }
+  h3{ font-size:11pt; font-weight:700; color:var(--coral-deep); margin:16px 0 5px; letter-spacing:-0.01em; break-after:avoid; }
+  ul{ margin:0; padding-left:17px; }
+  li{ margin:0 0 3.5px; padding-left:2px; }
+  li::marker{ color:var(--coral); }
+  li{ break-inside:avoid; }
+
+  /* ---------- table ---------- */
+  table{ width:100%; border-collapse:separate; border-spacing:0; margin:6px 0 2px; font-size:9.4pt; line-height:1.45; border:1px solid var(--border-strong); border-radius:10px; overflow:hidden; break-inside:avoid; }
+  th{ background:var(--ink); color:#fff; text-align:left; font-weight:600; padding:8px 11px; font-size:8.8pt; }
+  td{ padding:8px 11px; border-top:1px solid var(--border); vertical-align:top; }
+  tbody tr:nth-child(even) td{ background:var(--surface-warm); }
+  td.thr{ font-family:var(--mono); font-size:8.6pt; color:var(--ink); white-space:nowrap; }
+  td.thr b{ color:var(--coral-deep); font-weight:600; }
+
+  /* ---------- footer ---------- */
+  .foot{ margin-top:28px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:7pt; letter-spacing:.1em; text-transform:uppercase; color:var(--stone-light); border-top:1px solid var(--border); padding-top:5px; }
+  .foot b{ color:var(--coral); font-weight:600; }
+  @media print{ .foot{ display:none; } }
+  /* ---------- session 3 additions ---------- */
+  h3 .q{ font-family:var(--mono); font-size:8.6pt; font-weight:600; color:var(--coral); margin-right:7px; letter-spacing:.04em; }
+  section.scq{ margin-top:30px; }
+  ul ul{ margin:4px 0 2px; padding-left:16px; }
+  ul ul li::marker{ content:"– "; color:var(--stone-light); }
+  td.rowhead{ font-weight:700; color:var(--ink); }
+  .tnote{ font-size:8.6pt; color:var(--stone); margin:5px 0 0; }
+  table{ break-inside:auto; border:none; border-radius:0; overflow:visible; } tr{ break-inside:avoid; }
+  th:first-child{ border-radius:8px 0 0 0; } th:last-child{ border-radius:0 8px 0 0; }
+  td{ border-top:none; border-bottom:1px solid var(--border-strong); }
+  .scq-list{ list-style:none; padding:0; margin:2px 0 0; }
+  .scq-list li{ margin:0 0 2px; padding:0; }
+  .scq-list li::marker{ content:none; }
+  .scq-list .n{ font-family:var(--mono); font-size:8.5pt; font-weight:600; color:var(--amber); display:inline-block; width:52px; }
+  figure{ margin:10px 0 4px; break-inside:avoid; }
+  figure img{ width:70%; display:block; margin:0 auto; }
+  figcaption{ text-align:center; }
+  figcaption{ font-size:8.4pt; color:var(--stone); margin-top:5px; }
+  .eq{ font-family:var(--mono); font-size:9pt; color:var(--ink); background:var(--surface-warm); border:1px solid var(--border); border-radius:6px; padding:1px 6px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="mast">
+    <a class="lockup" href="https://www.painrevision.com">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/><circle fill="#F5A524" cx="50" cy="13" r="8.5"/></svg>
+      <span class="wordmark">Pain<span>Revision</span></span>
+    </a>
+    <div class="mast-meta">FFPMRCA SOE revision guide<br>painrevision.com</div>
+  </header>
+
+  <div class="title-block">
+    <p class="eyebrow">SOE practice session 3 &middot; Basic science questions</p>
+    <h1>The intervertebral disc, placebo and nocebo, gabapentinoids and MRI physics</h1>
+  </div>
+
+  <div class="callout case">
+    <p class="label">Four 30-minute basic science questions</p>
+    <ul class="scq-list">
+      <li><span class="n">BSQ 1</span>Intervertebral disc: anatomy, function and degeneration</li>
+      <li><span class="n">BSQ 2</span>Placebo and nocebo effects</li>
+      <li><span class="n">BSQ 3</span>Gabapentinoids: mechanism and pharmacology</li>
+      <li><span class="n">BSQ 4</span>MRI physics and safety</li>
+    </ul>
+  </div>
+
+  <div class="callout key" style="margin-top:12px">
+    <p class="label">Session feedback</p>
+    <p>Structure scored the marks. Answers that moved in a clear order (definition, then mechanism, then clinical relevance) did well even where details were missing. Keep practising out loud, and arrange extra peer sessions between the led ones.</p>
+  </div>
+
+  <!-- ============ BSQ 1 ============ -->
+  <section class="scq">
+    <h2><span class="num">BSQ 1</span>The intervertebral disc</h2>
+
+    <h3><span class="q">Q1.1</span>Structure</h3>
+    <ul>
+      <li><strong>23 discs</strong> (none at C0–C1 or C1–C2), making up roughly a quarter of the height of the vertebral column</li>
+      <li><strong>Nucleus pulposus:</strong> gelatinous centre, about 80% water in the young. Proteoglycans (mainly <strong>aggrecan</strong>) trap water, held in a loose network of <strong>type II collagen</strong>. Notochordal cells in childhood are replaced by sparse chondrocyte-like cells</li>
+      <li><strong>Annulus fibrosus:</strong> 15 to 25 concentric lamellae. <strong>Type I collagen</strong> in the outer annulus, more type II towards the nucleus. Fibres run at about 30° to the horizontal and <strong>alternate direction</strong> in adjacent lamellae, so the annulus resists torsion and tension</li>
+      <li><strong>Cartilaginous endplates:</strong> thin hyaline cartilage (about 1 mm) between disc and vertebral body. The main route for nutrient diffusion, and the weakest point under axial load</li>
+    </ul>
+
+    <h3><span class="q">Q1.2</span>Function</h3>
+    <ul>
+      <li><strong>Load transmission:</strong> the pressurised nucleus behaves hydrostatically, converting axial load into <strong>hoop stress</strong> in the annulus and spreading load evenly across the endplates</li>
+      <li><strong>Movement:</strong> allows flexion, extension, lateral flexion and rotation, working as a three-joint complex with the two facet joints</li>
+      <li><strong>Intradiscal pressure varies with posture</strong> (Nachemson): lowest lying supine, higher sitting than standing, highest when sitting and leaning forward or lifting</li>
+      <li><strong>Diurnal variation:</strong> discs lose fluid under load during the day and rehydrate overnight, so height falls by 1 to 2 cm over the day</li>
+    </ul>
+
+    <h3><span class="q">Q1.3</span>Blood supply and nutrition</h3>
+    <ul>
+      <li>The adult disc is the <strong>largest avascular structure in the body.</strong> Only the outer annulus has blood vessels, from branches of the segmental arteries</li>
+      <li>The nucleus and inner annulus rely on <strong>diffusion</strong>, mostly through the endplates from capillary beds in the vertebral body, and from the outer annulus</li>
+      <li>The centre of the nucleus is <strong>hypoxic and acidic</strong> (lactate from anaerobic glycolysis), and cell density is low, so repair capacity is poor</li>
+      <li><strong>Endplate calcification</strong> (age, smoking, vascular disease) reduces diffusion and is an early step towards degeneration</li>
+    </ul>
+
+    <h3><span class="q">Q1.4</span>Nerve supply</h3>
+    <ul>
+      <li>In the healthy disc only the <strong>outer third of the annulus</strong> is innervated</li>
+      <li><strong>Posterior:</strong> the <strong>sinuvertebral nerve</strong> (recurrent meningeal nerve), formed from the ventral ramus and a grey ramus communicans. It re-enters the spinal canal through the intervertebral foramen and also supplies the posterior longitudinal ligament and ventral dura</li>
+      <li><strong>Lateral and anterior:</strong> branches of the grey rami communicantes and the sympathetic trunk</li>
+      <li><strong>Endplates:</strong> the <strong>basivertebral nerve</strong>, the target of basivertebral nerve ablation for vertebrogenic (Modic-associated) pain</li>
+      <li><strong>In degeneration</strong> nociceptive fibres (substance P, driven by NGF) grow with blood vessels into the inner annulus and nucleus. This is the basis of <strong>discogenic pain</strong></li>
+    </ul>
+
+    <h3><span class="q">Q1.5</span>Degeneration</h3>
+    <ul>
+      <li><strong>Biochemistry:</strong> loss of proteoglycan and water, a switch from type II to type I collagen in the nucleus, matrix breakdown by <strong>MMPs and ADAMTS</strong> enzymes, inflammatory cytokines (IL-1β, TNF-α), and cell senescence</li>
+      <li><strong>Risk factors:</strong> <strong>genetics</strong> (the largest contributor in twin studies), age, smoking, abnormal loading, endplate injury and obesity</li>
+    </ul>
+    <table>
+      <thead><tr><th style="width:24%">Stage</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td class="rowhead">1. Dehydration</td><td>Proteoglycan loss, so the nucleus holds less water and loses its hydrostatic function. Disc height falls. MRI shows a <strong>"black disc"</strong> (loss of T2 signal)</td></tr>
+        <tr><td class="rowhead">2. Fissuring</td><td>Annular tears (radial, concentric or rim). <strong>Radial fissures</strong> let nuclear material track outwards, causing internal disc disruption or <strong>herniation</strong></td></tr>
+        <tr><td class="rowhead">3. Neovascularisation</td><td>Granulation tissue carrying <strong>blood vessels and nociceptive nerve fibres</strong> grows into the fissures, producing discogenic pain. It may appear as a high-intensity zone on T2</td></tr>
+        <tr><td class="rowhead">4. Sclerosis</td><td>Fibrosis and disc collapse, endplate sclerosis, osteophytes and Modic change. Load shifts to the facet joints, and the segment eventually stiffens (the stabilisation phase of the Kirkaldy-Willis cascade)</td></tr>
+      </tbody>
+    </table>
+    <ul style="margin-top:9px">
+      <li><strong>Imaging grades:</strong> <strong>Pfirrmann</strong> grades I to V describe disc degeneration on T2. <strong>Modic</strong> changes describe the adjacent endplate and marrow: type 1 is oedema or inflammation (T1 dark, T2 bright), type 2 is fatty replacement (T1 and T2 bright), and type 3 is sclerosis (T1 and T2 dark)</li>
+    </ul>
+  </section>
+
+  <!-- ============ BSQ 2 ============ -->
+  <section class="scq">
+    <h2><span class="num">BSQ 2</span>Placebo and nocebo effects</h2>
+
+    <h3><span class="q">Q2.1</span>Definitions</h3>
+    <ul>
+      <li><strong>Placebo:</strong> an inert substance or sham procedure with no specific therapeutic action for the condition being treated</li>
+      <li><strong>Placebo effect:</strong> the real improvement produced by the <strong>context of treatment</strong> (expectation, conditioning, the therapeutic relationship), not by the treatment's specific action</li>
+      <li><strong>Placebo response in a trial</strong> is wider. It also includes natural history, <strong>regression to the mean</strong> and other non-specific effects, which is why a no-treatment arm is needed to measure the true placebo effect</li>
+      <li><strong>Nocebo:</strong> negative expectations produce adverse effects or worsen symptoms. Example: in the SAMSON trial (statin intolerance), about 90% of the symptoms reported on statins also occurred on placebo</li>
+    </ul>
+
+    <h3><span class="q">Q2.2</span>Mechanisms</h3>
+    <ul>
+      <li><strong>Psychological:</strong> expectation (often from verbal suggestion), classical <strong>conditioning</strong> from previous treatment, social learning, and the clinician–patient relationship</li>
+      <li><strong>Endogenous opioids:</strong> placebo analgesia is reversed by <strong>naloxone</strong> (Levine, 1978). It engages the descending modulatory pathway: prefrontal cortex and rostral anterior cingulate cortex, then periaqueductal grey and rostral ventromedial medulla, then dorsal horn</li>
+      <li><strong>Non-opioid pathways:</strong> <strong>endocannabinoids</strong> (placebo analgesia conditioned with an NSAID is blocked by the CB1 antagonist rimonabant), and the <strong>dopaminergic reward system</strong> (nucleus accumbens activity tracks expected benefit)</li>
+      <li><strong>Imaging:</strong> reduced activity in pain-processing regions (thalamus, insula, ACC) and even at <strong>spinal cord</strong> level, so the change is in nociceptive processing, not just in how pain is reported</li>
+      <li><strong>Nocebo:</strong> mediated by <strong>cholecystokinin</strong> (blocked by proglumide) and activation of the HPA axis, with reduced dopamine and opioid activity</li>
+    </ul>
+
+    <h3><span class="q">Q2.3</span>What makes the effect larger</h3>
+    <ul>
+      <li>Strong expectation and positive framing, previous good experience, and a warm, confident clinician</li>
+      <li><strong>More invasive or elaborate interventions</strong> (injection more than tablet; sham surgery the largest), and also cost, brand and the number of tablets</li>
+      <li><strong>Open–hidden paradigm:</strong> the same dose of morphine works less well when given covertly, showing that expectation adds to the drug's effect</li>
+      <li>The placebo component is lost when prefrontal function is impaired, for example in Alzheimer's disease</li>
+    </ul>
+
+    <h3><span class="q">Q2.4</span>Relevance to pain practice, and ethics</h3>
+    <ul>
+      <li><strong>Trials:</strong> placebo responses in pain trials are large and appear to be rising, so <strong>sham-controlled trials</strong> matter for interventions. Vertebroplasty, for example, was no better than a sham procedure in blinded RCTs</li>
+      <li>Some procedures, such as <strong>trigger point injections</strong>, may work largely through non-specific (placebo) effects rather than a specific analgesic action</li>
+      <li><strong>Ethics:</strong> giving a placebo deceptively breaches honesty and consent, so it should not be used in routine practice. <strong>Open-label placebo</strong> (the patient is told it is inert) has shown benefit in small trials in chronic low back pain</li>
+      <li><strong>Use it ethically:</strong> empathic communication, positive and honest framing, and building realistic expectation of benefit from genuine treatments</li>
+      <li><strong>Limit nocebo:</strong> explain side effects honestly but in balance, and avoid language such as "this will really hurt"</li>
+    </ul>
+  </section>
+
+  <!-- ============ BSQ 3 ============ -->
+  <section class="scq">
+    <h2><span class="num">BSQ 3</span>Gabapentinoids</h2>
+
+    <h3><span class="q">Q3.1</span>Mechanism of action</h3>
+    <ul>
+      <li>Structural analogues of GABA, but they <strong>do not act at GABA receptors</strong></li>
+      <li>They bind the <strong>α2δ-1 subunit of presynaptic voltage-gated calcium channels</strong> (mainly N- and P/Q-type). This reduces trafficking of the channels to the presynaptic membrane, so less calcium enters</li>
+      <li>Reduced calcium entry means <strong>less release of glutamate, substance P and CGRP</strong> in the dorsal horn</li>
+      <li>α2δ-1 is <strong>upregulated in the dorsal root ganglion after nerve injury</strong>, which helps explain the selectivity for neuropathic pain</li>
+      <li>They also enhance <strong>descending noradrenergic inhibition</strong> (locus coeruleus, spinal α2-adrenoceptors), and may block thrombospondin-driven formation of new excitatory synapses</li>
+    </ul>
+    <figure>
+      <img src="../images/gabapentinoid-a2d-mechanism.svg" alt="Gabapentinoids bind the alpha-2-delta subunit of presynaptic voltage-gated calcium channels, reducing calcium influx and neurotransmitter release">
+      <figcaption>Gabapentinoids at the presynaptic terminal in the dorsal horn.</figcaption>
+    </figure>
+
+    <h3><span class="q">Q3.2</span>Pharmacokinetics: gabapentin versus pregabalin</h3>
+    <table>
+      <thead><tr><th style="width:24%"></th><th style="width:38%">Gabapentin</th><th>Pregabalin</th></tr></thead>
+      <tbody>
+        <tr><td class="rowhead">Absorption</td><td>Saturable <strong>L-amino acid transporter</strong> in the proximal small bowel, so absorption is <strong>non-linear</strong>: bioavailability about 60% at 900 mg/day, falling to about 33% at 3600 mg/day</td><td><strong>Linear</strong>, bioavailability ≥90% at all doses</td></tr>
+        <tr><td class="rowhead">Peak level</td><td>2 to 3 hours</td><td>About 1 hour</td></tr>
+        <tr><td class="rowhead">Potency</td><td>Lower</td><td>Higher binding affinity for α2δ, so lower doses are needed</td></tr>
+        <tr><td class="rowhead">Distribution</td><td colspan="2">Protein binding negligible; crosses the blood–brain barrier by the L-amino acid transporter</td></tr>
+        <tr><td class="rowhead">Metabolism</td><td colspan="2"><strong>Essentially none</strong>, so no CYP450 interactions</td></tr>
+        <tr><td class="rowhead">Elimination</td><td colspan="2">Excreted unchanged by the <strong>kidney</strong>, half-life about 5 to 7 hours. <strong>Reduce the dose in renal impairment</strong> (by creatinine clearance); both are removed by haemodialysis</td></tr>
+        <tr><td class="rowhead">Dosing</td><td>Three times daily, slow titration</td><td>Twice daily, faster titration</td></tr>
+      </tbody>
+    </table>
+
+    <h3><span class="q">Q3.3</span>Indications (UK)</h3>
+    <ul>
+      <li><strong>Gabapentin:</strong> focal seizures, and peripheral neuropathic pain (for example post-herpetic neuralgia, painful diabetic neuropathy)</li>
+      <li><strong>Pregabalin:</strong> peripheral and <strong>central</strong> neuropathic pain, adjunct for focal seizures, and <strong>generalised anxiety disorder</strong></li>
+      <li><strong>NICE CG173:</strong> amitriptyline, duloxetine, gabapentin or pregabalin as first-line options for neuropathic pain (carbamazepine for trigeminal neuralgia). NNT for 50% relief is about 6 to 8 (Finnerup, 2015)</li>
+      <li><strong>Where they don't work:</strong> pregabalin was no better than placebo for <strong>sciatica</strong> (PRECISE, 2017), and NICE NG193 advises against gabapentinoids for <strong>chronic primary pain</strong></li>
+    </ul>
+
+    <h3><span class="q">Q3.4</span>Adverse effects and cautions</h3>
+    <ul>
+      <li><strong>Common:</strong> dizziness, drowsiness, ataxia, peripheral oedema, weight gain, blurred vision and cognitive slowing. These are worse in older people</li>
+      <li><strong>Respiratory depression</strong>, especially <strong>combined with opioids</strong>, in older people, in respiratory disease and in renal impairment. Co-prescription with opioids raises the risk of opioid-related death (MHRA, 2017)</li>
+      <li><strong>Misuse and dependence:</strong> euphoric effects, particularly in people who use opioids. Both have been <strong>Schedule 3 controlled drugs (Class C) since April 2019</strong></li>
+      <li><strong>Pregnancy:</strong> pregabalin may slightly increase the risk of major congenital malformations (MHRA, 2022). Effective contraception is advised</li>
+      <li>Suicidal ideation (an antiepileptic class warning), and caution with pregabalin in heart failure</li>
+    </ul>
+
+    <h3><span class="q">Q3.5</span>Stopping gabapentinoids</h3>
+    <ul>
+      <li><strong>Never stop abruptly.</strong> Withdrawal causes anxiety, insomnia, nausea, sweating, rebound pain and, rarely, seizures</li>
+      <li>The product licences specify tapering over <strong>at least 1 week</strong>, but in practice the taper is usually slower and guided by symptoms</li>
+      <li><strong>Suggested maximum rate</strong> (PHE/NHS England prescribing advice): gabapentin, reduce the daily dose by no more than <strong>300 mg every 4 days</strong>; pregabalin, by no more than <strong>50 to 100 mg a week</strong></li>
+    </ul>
+  </section>
+
+  <!-- ============ BSQ 4 ============ -->
+  <section class="scq">
+    <h2><span class="num">BSQ 4</span>MRI physics and safety</h2>
+
+    <h3><span class="q">Q4.1</span>How the image is made</h3>
+    <ul>
+      <li><strong>Hydrogen nuclei</strong> (protons, mainly in water and fat) have spin and act as small magnets</li>
+      <li>In a strong static field <strong>(B0, usually 1.5 or 3 tesla)</strong> a small excess align with the field, giving net magnetisation. The protons <strong>precess</strong> at the <strong>Larmor frequency</strong>, <span class="eq">ω = γB0</span> (42.58 MHz per tesla for hydrogen, about 64 MHz at 1.5 T)</li>
+      <li>A <strong>radiofrequency (RF) pulse</strong> at the Larmor frequency causes resonance. It tips the net magnetisation into the transverse plane and brings the protons into phase</li>
+      <li>When the pulse stops, the protons <strong>relax</strong> and emit a signal that the receiver coil detects:
+        <ul>
+          <li><strong>T1 (spin–lattice):</strong> recovery of longitudinal magnetisation; T1 is the time to 63% recovery. Fat has a short T1</li>
+          <li><strong>T2 (spin–spin):</strong> loss of phase coherence, so transverse signal decays; T2 is the time to fall to 37%. Water has a long T2</li>
+        </ul>
+      </li>
+      <li><strong>Gradient coils</strong> vary the field across the patient, which allows slice selection and frequency and phase encoding. The data fill k-space and a <strong>Fourier transform</strong> turns it into the image. Rapid gradient switching makes the noise</li>
+      <li><strong>Weighting:</strong> T1-weighted uses a short TR and short TE; T2-weighted uses a long TR and long TE; proton density uses a long TR and short TE</li>
+    </ul>
+    <table>
+      <thead><tr><th style="width:30%">Tissue</th><th style="width:22%">T1-weighted</th><th style="width:22%">T2-weighted</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="rowhead">Water, CSF, oedema</td><td>Dark</td><td>Bright</td><td>STIR suppresses fat, so oedema stands out (fracture, Modic 1)</td></tr>
+        <tr><td class="rowhead">Fat, marrow</td><td>Bright</td><td>Bright (fast spin echo)</td><td>Best anatomy on T1</td></tr>
+        <tr><td class="rowhead">Healthy disc nucleus</td><td>Intermediate</td><td>Bright</td><td>Dark on T2 when degenerate</td></tr>
+        <tr><td class="rowhead">Cortical bone, air</td><td>Dark</td><td>Dark</td><td>Few mobile protons; CT is better for bone</td></tr>
+        <tr><td class="rowhead">Gadolinium</td><td>Bright</td><td>Little effect</td><td>Shortens T1. Post-operative scar enhances; recurrent disc enhances only at the rim</td></tr>
+      </tbody>
+    </table>
+
+    <h3><span class="q">Q4.2</span>Advantages and limitations</h3>
+    <ul>
+      <li><strong>Advantages:</strong> <strong>no ionising radiation</strong>, excellent soft-tissue contrast (disc, nerve roots, cord, marrow), and images in any plane</li>
+      <li><strong>Limitations:</strong> slow and noisy, claustrophobia, movement artefact, cost and access, poor cortical bone detail, artefact from metal, and device contraindications</li>
+    </ul>
+
+    <h3><span class="q">Q4.3</span>Hazards</h3>
+    <table>
+      <thead><tr><th style="width:26%">Source</th><th>Hazard</th></tr></thead>
+      <tbody>
+        <tr><td class="rowhead">Static field (B0)</td><td><strong>Projectile (missile) effect</strong> on ferromagnetic objects. Movement or torque on implants and foreign bodies (aneurysm clips, intraocular metal). The field is always on, even when the scanner is not scanning</td></tr>
+        <tr><td class="rowhead">Switched gradients</td><td><strong>Acoustic noise</strong> above 100 dB, so ear protection is mandatory. Peripheral nerve stimulation. Induced currents in leads and implants</td></tr>
+        <tr><td class="rowhead">RF field</td><td><strong>Tissue heating</strong>, limited by the specific absorption rate (SAR, W/kg). <strong>Burns</strong> from conductive loops (ECG leads, cables), tattoos and implanted leads</td></tr>
+        <tr><td class="rowhead">Cryogens</td><td><strong>Quench:</strong> liquid helium boils off rapidly. If venting fails there is a risk of asphyxia and cold injury</td></tr>
+        <tr><td class="rowhead">Contrast</td><td>Gadolinium: <strong>nephrogenic systemic fibrosis</strong> in severe renal impairment (eGFR under 30), deposition in the brain, and rare allergy. Avoid in pregnancy unless essential</td></tr>
+      </tbody>
+    </table>
+
+    <h3><span class="q">Q4.4</span>Safety management</h3>
+    <ul>
+      <li><strong>Controlled access</strong> to the MR environment, with a safety screening questionnaire for every patient and staff member. Take an orbit X-ray if there is a history of metal in the eye</li>
+      <li><strong>Equipment labels:</strong> <strong>MR Safe</strong> (no hazard in any MR environment), <strong>MR Conditional</strong> (safe only under specified conditions such as field strength, SAR and body region), and <strong>MR Unsafe</strong></li>
+      <li><strong>Anaesthesia and monitoring:</strong> MR-conditional anaesthetic machine and monitors, long circuits and lines, fibre-optic or wireless monitoring, no cable loops, and a plan to evacuate the patient from the scanner in an emergency</li>
+    </ul>
+
+    <h3><span class="q">Q4.5</span>Relevance to pain medicine: implanted devices</h3>
+    <ul>
+      <li><strong>Spinal cord stimulators</strong> are MR Conditional only within the manufacturer's conditions (full-body or head-only, field strength, SAR). Switch the device to <strong>MRI mode</strong> and <strong>check lead impedance before the scan</strong>. A fractured or high-impedance lead can heat (see session 2, Q3.6)</li>
+      <li><strong>Intrathecal drug pumps:</strong> the magnetic field can <strong>stall the pump motor</strong>, so drug delivery stops during the scan. Interrogate the pump afterwards to confirm it has restarted, and watch for withdrawal if delivery is interrupted</li>
+      <li><strong>Imaging for back pain:</strong> NICE NG59 advises against routine imaging in non-specialist settings. Consider MRI in a specialist setting only if the result is likely to change management, such as before an intervention or when red flags are present</li>
+    </ul>
+  </section>
+
+  <!-- ============ Links ============ -->
+  <section class="scq">
+    <h2><span class="num">Links</span>Key resources</h2>
+    <table>
+      <thead><tr><th style="width:36%">Topic</th><th>Resource</th></tr></thead>
+      <tbody>
+        <tr><td class="rowhead">Neuropathic pain</td><td><a href="https://www.nice.org.uk/guidance/cg173">NICE CG173</a></td></tr>
+        <tr><td class="rowhead">Low back pain and imaging</td><td><a href="https://www.nice.org.uk/guidance/ng59">NICE NG59</a></td></tr>
+        <tr><td class="rowhead">Gabapentinoids with opioids</td><td><a href="https://www.gov.uk/drug-safety-update/gabapentin-neurontin-risk-of-severe-respiratory-depression">MHRA Drug Safety Update: risk of severe respiratory depression</a></td></tr>
+        <tr><td class="rowhead">Pregabalin in pregnancy</td><td><a href="https://www.gov.uk/drug-safety-update/pregabalin-lyrica-findings-of-safety-study-on-risks-during-pregnancy">MHRA Drug Safety Update (2022)</a></td></tr>
+        <tr><td class="rowhead">Gabapentinoid misuse and tapering</td><td><a href="https://www.gov.uk/government/publications/pregabalin-and-gabapentin-advice-for-prescribers-on-the-risk-of-misuse">PHE / NHS England advice for prescribers</a></td></tr>
+        <tr><td class="rowhead">MRI safety</td><td><a href="https://www.gov.uk/government/publications/safety-guidelines-for-magnetic-resonance-imaging-equipment-in-clinical-use">MHRA safety guidelines for MRI equipment in clinical use</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+</body>
+</html>
