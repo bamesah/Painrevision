@@ -147,6 +147,13 @@ button,input,select,textarea{font-family:var(--san)}
 .crit-yn input{accent-color:var(--coral);width:13px;height:13px}
 .crit-yn label.checked-yes{background:var(--green-soft);border-color:var(--green-border);color:var(--green)}
 .crit-yn label.checked-no{background:var(--red-soft);border-color:#EBC5C0;color:var(--red)}
+.crit-yn label.locked{cursor:not-allowed;opacity:.55}
+.crit-yn label.locked.checked-yes,.crit-yn label.locked.checked-no{opacity:.85}
+.crit-yn label:not(.locked):hover{border-color:var(--coral)}
+.crit-yn label:focus-within{outline:2px solid var(--coral);outline-offset:1px}
+.mark-footer textarea:disabled{background:var(--cream);color:var(--stone);cursor:not-allowed}
+.score-opt input:disabled + label{cursor:not-allowed;opacity:.6}
+.score-opt input:disabled:checked + label{opacity:.9}
 .crit-readonly{font-size:11px;color:var(--stone-light);font-family:var(--mono)}
 .strong-pill{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4E7A2B;border:1px solid #CFE3BE;background:#F3F8EE;border-radius:5px;padding:1px 6px;margin-right:7px;vertical-align:1px}
 
@@ -471,7 +478,8 @@ function caretSvg(open){
   return '<svg class="tree-caret'+(open?' open':'')+'" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg>';
 }
 
-function selectPart(mode, mockKey, stationKey, partKey, candidateId){
+async function selectPart(mode, mockKey, stationKey, partKey, candidateId){
+  await flushPendingSave();
   selection = { mode, mockKey, stationKey, partKey, candidateId };
   renderSidebar();
   renderMain();
@@ -622,9 +630,10 @@ function renderMain(){
   }
 
   const savedCriteria = isMark ? getSavedRow(selection).criteria || {} : {};
+  const locked = isMark && !!getSavedRow(selection).submitted;
 
   (part.questions||[]).forEach((q, qi)=>{
-    html += renderQuestionCard(q, qi, isMark, savedCriteria);
+    html += renderQuestionCard(q, qi, isMark, savedCriteria, locked);
   });
 
   if (isMark && !station.placeholder && !part.placeholder){
@@ -638,16 +647,12 @@ function renderMain(){
   html += '<button class="nav-btn" '+(prevPart?'':'disabled')+' onclick="'+(prevPart?"selectPart('"+selection.mode+"','"+selection.mockKey+"','"+selection.stationKey+"','"+prevPart.key+"',"+(isMark?"'"+selection.candidateId+"'":'null')+")":'')+'">\u2190 Previous</button>';
   html += '<button class="nav-btn primary" '+(nextPart?'':'disabled')+' onclick="'+(nextPart?"selectPart('"+selection.mode+"','"+selection.mockKey+"','"+selection.stationKey+"','"+nextPart.key+"',"+(isMark?"'"+selection.candidateId+"'":'null')+")":'')+'">Next \u2192</button>';
 
-  if (isMark && !station.placeholder){
-    const allSubmitted = station.parts.every(p=>{
-      const row = (scoresByCandidate[candidate.id]||{})[scoreKey(selection.mockKey, station.key, p.key)];
-      return row && row.submitted;
-    });
-    if (allSubmitted){
-      html += '<span class="submitted-pill">\u2713 Station submitted</span>';
-      html += '<button class="unlock-btn" onclick="unlockStation()">Edit</button>';
+  if (isMark && !station.placeholder && !part.placeholder){
+    if (getSavedRow(selection).submitted){
+      html += '<span class="submitted-pill">\u2713 '+esc(part.label)+' submitted</span>';
+      html += '<button class="unlock-btn" onclick="unlockPart()">Edit</button>';
     } else {
-      html += '<button class="submit-btn" onclick="submitStation()">Submit station</button>';
+      html += '<button class="submit-btn" onclick="submitPart()">Submit question</button>';
     }
   }
   html += '</div>';
@@ -661,7 +666,7 @@ function getSavedRow(sel){
   return ((scoresByCandidate[sel.candidateId]||{})[scoreKey(sel.mockKey, sel.stationKey, sel.partKey)]) || { score:null, feedback:'', criteria:{}, submitted:false };
 }
 
-function renderQuestionCard(q, qi, isMark, savedCriteria){
+function renderQuestionCard(q, qi, isMark, savedCriteria, locked){
   let html = '<div class="qcard">';
   html += '<div class="qcard-head">';
   if (q.number) html += '<span class="qcard-num">'+esc(q.number)+'</span>';
@@ -677,7 +682,7 @@ function renderQuestionCard(q, qi, isMark, savedCriteria){
       const strong = typeof c === 'object' && c.strong;
       html += '<tr><td class="crit-text">'+(strong?'<span class="strong-pill">Strong candidate</span>':'')+bold(esc(text))+'</td><td class="crit-yn">';
       if (isMark){
-        html += critYnInputs(critId, val);
+        html += critYnInputs(critId, val, locked);
       } else {
         html += '<span class="crit-readonly">Yes / No</span>';
       }
@@ -714,10 +719,12 @@ function toggleKnow(id, btn){
 }
 window.toggleKnow = toggleKnow;
 
-function critYnInputs(critId, val){
+function critYnInputs(critId, val, locked){
+  const dis = locked ? ' disabled' : '';
+  const lk = locked ? ' locked' : '';
   return '' +
-    '<label class="'+(val==='yes'?'checked-yes':'')+'"><input type="radio" name="crit_'+critId+'" value="yes" '+(val==='yes'?'checked':'')+' data-crit="'+critId+'" class="crit-input"/>Yes</label>' +
-    '<label class="'+(val==='no'?'checked-no':'')+'"><input type="radio" name="crit_'+critId+'" value="no" '+(val==='no'?'checked':'')+' data-crit="'+critId+'" class="crit-input"/>No</label>';
+    '<label class="'+(val==='yes'?'checked-yes':'')+lk+'"><input type="radio" name="crit_'+critId+'" value="yes" '+(val==='yes'?'checked':'')+dis+' data-crit="'+critId+'" class="crit-input"/>Yes</label>' +
+    '<label class="'+(val==='no'?'checked-no':'')+lk+'"><input type="radio" name="crit_'+critId+'" value="no" '+(val==='no'?'checked':'')+dis+' data-crit="'+critId+'" class="crit-input"/>No</label>';
 }
 
 function renderMarkFooter(sel, saved){
@@ -766,95 +773,99 @@ function collectCurrentPartPayload(){
   };
 }
 
+let saveInFlight = null;
+
 function scheduleSave(){
   const status = document.getElementById('save-status');
   if (status) status.textContent = 'Saving\u2026';
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveCurrentPart, 600);
+  saveTimer = setTimeout(()=>{ saveTimer = null; saveCurrentPart(); }, 600);
 }
 
-async function saveCurrentPart(){
-  if (!(selection && selection.mode==='mark')) return;
+// Called before anything replaces the marking page, so a change made in the
+// last moment before clicking Next / another part is never dropped.
+async function flushPendingSave(){
+  if (saveTimer){
+    clearTimeout(saveTimer);
+    saveTimer = null;
+    await saveCurrentPart();
+  } else if (saveInFlight){
+    await saveInFlight;
+  }
+}
+
+window.addEventListener('beforeunload', e=>{
+  if (saveTimer || saveInFlight){ e.preventDefault(); e.returnValue = ''; }
+});
+
+function saveCurrentPart(extra){
+  if (!(selection && selection.mode==='mark')) return Promise.resolve(null);
+  // Capture the page and selection now \u2014 the user may navigate while the request is in flight.
+  const sel = { ...selection };
   const payload = collectCurrentPartPayload();
-  const examinerName = localStorage.getItem('soe_examiner_name') || null;
   const row = {
-    candidate_id: selection.candidateId,
-    mock_key: selection.mockKey,
-    station_key: selection.stationKey,
-    part_key: selection.partKey,
+    candidate_id: sel.candidateId,
+    mock_key: sel.mockKey,
+    station_key: sel.stationKey,
+    part_key: sel.partKey,
     score: payload.score,
     feedback: payload.feedback,
     criteria: payload.criteria,
-    examiner_name: examinerName,
-    updated_at: new Date().toISOString()
+    examiner_name: localStorage.getItem('soe_examiner_name') || null,
+    updated_at: new Date().toISOString(),
+    ...(extra || {})
   };
-  const { data, error } = await sb.from('soe_scores')
-    .upsert(row, { onConflict: 'candidate_id,mock_key,station_key,part_key' })
-    .select().single();
-  const status = document.getElementById('save-status');
-  if (error){
-    if (status) status.textContent = 'Could not save: ' + error.message;
-    return;
-  }
-  if (!scoresByCandidate[selection.candidateId]) scoresByCandidate[selection.candidateId] = {};
-  scoresByCandidate[selection.candidateId][scoreKey(selection.mockKey, selection.stationKey, selection.partKey)] = data;
-  if (status) status.textContent = 'Saved \u2713';
-  renderSidebar();
-}
-
-async function submitStation(){
-  if (!(selection && selection.mode==='mark')) return;
-  await saveCurrentPart();
-  const station = findStation(selection.mockKey, selection.stationKey);
-  const missing = station.parts.filter(p=>{
-    const row = (scoresByCandidate[selection.candidateId]||{})[scoreKey(selection.mockKey, station.key, p.key)];
-    return !row || row.score===null || row.score===undefined;
-  });
-  if (missing.length){
-    const proceed = confirm('No score has been set yet for: ' + missing.map(p=>p.label).join(', ') + '.\n\nSubmit the station anyway?');
-    if (!proceed) return;
-  } else {
-    if (!confirm('Submit final scores for this station? You can still edit afterwards via "Edit".')) return;
-  }
-  const examinerName = localStorage.getItem('soe_examiner_name') || null;
-  for (const p of station.parts){
-    const existing = (scoresByCandidate[selection.candidateId]||{})[scoreKey(selection.mockKey, station.key, p.key)];
-    const row = {
-      candidate_id: selection.candidateId,
-      mock_key: selection.mockKey,
-      station_key: station.key,
-      part_key: p.key,
-      score: existing ? existing.score : null,
-      feedback: existing ? existing.feedback : '',
-      criteria: existing ? existing.criteria : {},
-      examiner_name: examinerName,
-      submitted: true,
-      updated_at: new Date().toISOString()
-    };
+  const p = (async ()=>{
     const { data, error } = await sb.from('soe_scores')
       .upsert(row, { onConflict: 'candidate_id,mock_key,station_key,part_key' })
       .select().single();
-    if (!error){
-      if (!scoresByCandidate[selection.candidateId]) scoresByCandidate[selection.candidateId] = {};
-      scoresByCandidate[selection.candidateId][scoreKey(selection.mockKey, station.key, p.key)] = data;
+    const onSamePage = selection && selection.mode==='mark' && scoreKey(selection.mockKey, selection.stationKey, selection.partKey) === scoreKey(sel.mockKey, sel.stationKey, sel.partKey) && selection.candidateId === sel.candidateId;
+    const status = onSamePage ? document.getElementById('save-status') : null;
+    if (error){
+      if (status) status.textContent = 'Could not save: ' + error.message;
+      else alert('A mark could not be saved: ' + error.message);
+      return null;
     }
-  }
-  renderSidebar();
-  renderMain();
+    if (!scoresByCandidate[sel.candidateId]) scoresByCandidate[sel.candidateId] = {};
+    scoresByCandidate[sel.candidateId][scoreKey(sel.mockKey, sel.stationKey, sel.partKey)] = data;
+    if (status) status.textContent = 'Saved \u2713';
+    renderSidebar();
+    return data;
+  })();
+  saveInFlight = p;
+  p.finally(()=>{ if (saveInFlight === p) saveInFlight = null; });
+  return p;
 }
 
-async function unlockStation(){
-  if (!confirm('Unlock this station for editing?')) return;
-  const station = findStation(selection.mockKey, selection.stationKey);
-  for (const p of station.parts){
-    const existing = (scoresByCandidate[selection.candidateId]||{})[scoreKey(selection.mockKey, station.key, p.key)];
-    if (!existing) continue;
-    const { data, error } = await sb.from('soe_scores')
-      .update({ submitted: false })
-      .eq('id', existing.id)
-      .select().single();
-    if (!error) scoresByCandidate[selection.candidateId][scoreKey(selection.mockKey, station.key, p.key)] = data;
-  }
+async function submitPart(){
+  if (!(selection && selection.mode==='mark')) return;
+  clearTimeout(saveTimer); saveTimer = null;
+  if (saveInFlight) await saveInFlight;
+
+  const part = findPart(selection.mockKey, selection.stationKey, selection.partKey);
+  const payload = collectCurrentPartPayload();
+  const totalCrit = (part.questions||[]).reduce((n,q)=> n + (q.criteria||[]).length, 0);
+  const unmarked = totalCrit - Object.keys(payload.criteria).length;
+
+  const warnings = [];
+  if (payload.score === null) warnings.push('No global score has been selected.');
+  if (unmarked > 0) warnings.push(unmarked + ' of ' + totalCrit + ' checklist items have not been marked Yes or No.');
+  const msg = warnings.length
+    ? 'Submit ' + part.label + '?\n\n' + warnings.join('\n') + '\n\nYou can still edit it afterwards via "Edit".'
+    : 'Submit ' + part.label + '? You can still edit it afterwards via "Edit".';
+  if (!confirm(msg)) return;
+
+  const saved = await saveCurrentPart({ submitted: true });
+  if (saved) renderMain();
+}
+
+async function unlockPart(){
+  const existing = getSavedRow(selection);
+  if (!existing.id) return;
+  if (!confirm('Unlock this question for editing?')) return;
+  const { data, error } = await sb.from('soe_scores').update({ submitted: false }).eq('id', existing.id).select().single();
+  if (error){ alert('Could not unlock: ' + error.message); return; }
+  scoresByCandidate[selection.candidateId][scoreKey(selection.mockKey, selection.stationKey, selection.partKey)] = data;
   renderSidebar();
   renderMain();
 }
@@ -863,8 +874,8 @@ window.addCandidate = addCandidate;
 window.deleteCandidate = deleteCandidate;
 window.toggleOpen = toggleOpen;
 window.selectPart = selectPart;
-window.submitStation = submitStation;
-window.unlockStation = unlockStation;
+window.submitPart = submitPart;
+window.unlockPart = unlockPart;
 </script>
 </body>
 </html>
