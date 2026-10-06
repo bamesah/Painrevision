@@ -406,11 +406,11 @@ function renderSidebar(){
     html += '<span>'+esc(cand.name)+'</span></div>';
     html += '<button class="candidate-del" title="Delete candidate" onclick="event.stopPropagation();deleteCandidate(\''+cand.id+'\',\''+esc(cand.name).replace(/'/g,"\\'")+'\')">';
     html += '<svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button></div>';
-    html += '<div class="tree-children'+(open?'':' collapsed')+'">';
+    html += '<div class="tree-children'+(open?'':' collapsed')+'"><ul class="tree">';
     COURSE.mocks.forEach(mock=>{
       html += renderMockNode(mock, 'mark', cand.id);
     });
-    html += '</div></li>';
+    html += '</ul></div></li>';
   });
   html += '</ul></div>';
 
