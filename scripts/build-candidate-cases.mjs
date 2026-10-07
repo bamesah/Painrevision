@@ -7,7 +7,7 @@
 // password (PBKDF2-SHA256), so nothing is readable from page source without it.
 //
 // Usage:
-//   node scripts/build-candidate-cases.mjs --mock1 <password> --mock2 <password> --practice <password>
+//   node scripts/build-candidate-cases.mjs --mock1 <password> --mock2 <password>
 //
 // Pass only the cases you want to (re)encrypt: any case without a password keeps its
 // existing encrypted entry from js/soe-candidate-cases.js, so adding or editing one case
@@ -26,8 +26,7 @@ const ITERATIONS = 250000;
 // key = 'mock' + the ?mock= value on candidate.html; arg = the command-line flag.
 const MOCKS = [
   { key: 'mock1', arg: 'mock1', file: 'station1-mock1.html', title: 'Mock Exam 1 — Long case' },
-  { key: 'mock2', arg: 'mock2', file: 'station1-mock2.html', title: 'Mock Exam 2 — Long case' },
-  { key: 'mockpractice', arg: 'practice', file: 'station1-practice.html', title: 'Practice session — Long case 1' }
+  { key: 'mock2', arg: 'mock2', file: 'station1-mock2.html', title: 'Mock Exam 2 — Long case' }
 ];
 
 function arg(name){
