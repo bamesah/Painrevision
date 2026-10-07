@@ -206,6 +206,12 @@ button,input,select,textarea{font-family:var(--san)}
 .pack-embed .mri img{width:100%;display:block}
 
 /* ===== FOOTER: FEEDBACK + SCORE ===== */
+.lc-section-head{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border-strong)}
+.lc-section-head:first-of-type{margin-top:6px}
+.lc-section-head .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--coral);letter-spacing:.06em;text-transform:uppercase}
+.lc-section-head b{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.section-score{background:var(--surface);border:1.5px solid var(--border-strong);border-radius:14px;padding:16px 22px;margin:-4px 0 22px}
+.section-score h4{font-size:13px;font-weight:700;margin-bottom:10px}
 .mark-footer{background:var(--surface);border:1.5px solid var(--border-strong);border-radius:14px;padding:20px 22px;margin-top:8px}
 .mark-footer h4{font-size:13px;font-weight:700;margin-bottom:10px}
 .mark-footer textarea{width:100%;min-height:80px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13.5px;font-family:inherit;resize:vertical;margin-bottom:16px}
@@ -300,6 +306,16 @@ function findMock(mockKey){ return COURSE.mocks.find(m=>m.key===mockKey); }
 function findStation(mockKey, stationKey){ return findMock(mockKey).stations.find(s=>s.key===stationKey); }
 function findPart(mockKey, stationKey, partKey){ return findStation(mockKey, stationKey).parts.find(p=>p.key===partKey); }
 function scoreKey(mockKey, stationKey, partKey){ return mockKey+':'+stationKey+':'+partKey; }
+// Long-case parts are split into sections, each with its own 0/1/2 score. Those
+// scores are stored in criteria._sections ({"1":2,"2":1,...}) so the existing
+// soe_scores table needs no new column; the row's own score column is unused.
+function sectionScores(row){ return (row && row.criteria && row.criteria._sections) || {}; }
+function checklistMarks(criteria){ return Object.keys(criteria||{}).filter(k=>k!=='_sections'); }
+function rowHasScore(row){
+  if (!row) return false;
+  if (row.score!==null && row.score!==undefined) return true;
+  return Object.values(sectionScores(row)).some(v=>v!==null && v!==undefined);
+}
 
 // ---------- gate ----------
 (function initGate(){
@@ -463,7 +479,7 @@ function renderStationNode(mock, station, mode, candidateId){
     if (mode==='mark'){
       const row = (scoresByCandidate[candidateId]||{})[scoreKey(mock.key, station.key, part.key)];
       if (row && row.submitted) leafBadge = '<span class="tree-badge tree-badge-done">\u2713</span>';
-      else if (row && (row.score!==null && row.score!==undefined)) leafBadge = '<span class="tree-badge tree-badge-partial">\u2022</span>';
+      else if (rowHasScore(row)) leafBadge = '<span class="tree-badge tree-badge-partial">\u2022</span>';
     }
     html += '<li class="tree-node"><div class="tree-row'+(isSelected?' selected':'')+(part.placeholder?' placeholder':'')+'" onclick="selectPart(\''+mode+'\',\''+mock.key+'\',\''+station.key+'\',\''+part.key+'\','+(candidateId?"'"+candidateId+"'":'null')+')">';
     html += '<svg class="tree-caret leaf" viewBox="0 0 24 24"></svg>';
@@ -632,8 +648,16 @@ function renderMain(){
   const savedCriteria = isMark ? getSavedRow(selection).criteria || {} : {};
   const locked = isMark && !!getSavedRow(selection).submitted;
 
+  const sections = part.sections || [];
+  const savedSections = isMark ? sectionScores(getSavedRow(selection)) : {};
   (part.questions||[]).forEach((q, qi)=>{
+    const sec = sections.find(s=>s.firstIndex===qi);
+    if (sec) html += '<div class="lc-section-head"><span class="n">Question '+sec.number+'</span><b>'+esc(sec.title)+'</b></div>';
     html += renderQuestionCard(q, qi, isMark, savedCriteria, locked);
+    const endSec = sections.find(s=>s.firstIndex+s.count-1===qi);
+    if (endSec && isMark && !station.placeholder && !part.placeholder){
+      html += '<div class="section-score"><h4>Question '+endSec.number+' · global score</h4>' + scoreRowHtml('sec-score-'+endSec.number, savedSections[endSec.number], locked, 'data-section="'+endSec.number+'"') + '</div>';
+    }
   });
 
   if (isMark && !station.placeholder && !part.placeholder){
@@ -727,18 +751,30 @@ function critYnInputs(critId, val, locked){
     '<label class="'+(val==='no'?'checked-no':'')+lk+'"><input type="radio" name="crit_'+critId+'" value="no" '+(val==='no'?'checked':'')+dis+' data-crit="'+critId+'" class="crit-input"/>No</label>';
 }
 
+function scoreRowHtml(name, value, locked, extraAttr){
+  let html = '<div class="score-row">';
+  [ [0,'Fail'], [1,'Borderline'], [2,'Pass'] ].forEach(([v,label])=>{
+    const id = name+'-'+v;
+    html += '<div class="score-opt" data-v="'+v+'"><input type="radio" name="'+name+'" id="'+id+'" value="'+v+'" '+(value===v?'checked':'')+' '+(locked?'disabled':'')+' '+(extraAttr||'')+'/><label for="'+id+'"><b>'+v+'</b><span>'+label+'</span></label></div>';
+  });
+  return html + '</div>';
+}
+
 function renderMarkFooter(sel, saved){
   const locked = !!saved.submitted;
+  const part = findPart(sel.mockKey, sel.stationKey, sel.partKey);
+  const hasSections = !!(part.sections && part.sections.length);
   let html = '<div class="mark-footer">';
-  html += '<h4>Global score</h4><div class="score-row">';
-  const opts = [ [0,'Fail'], [1,'Borderline'], [2,'Pass'] ];
-  opts.forEach(([v,label])=>{
-    const checked = saved.score===v ? 'checked' : '';
-    html += '<div class="score-opt" data-v="'+v+'"><input type="radio" name="fb-score" id="score-'+v+'" value="'+v+'" '+checked+' '+(locked?'disabled':'')+'/><label for="score-'+v+'"><b>'+v+'</b><span>'+label+'</span></label></div>';
-  });
-  html += '</div>';
-  html += '<h4 style="margin-top:16px">Comments</h4>';
-  html += '<textarea id="fb-text" placeholder="Comments for this part…" '+(locked?'disabled':'')+'>'+esc(saved.feedback||'')+'</textarea>';
+  if (hasSections){
+    html += '<h4>Long case comments</h4>';
+    if (saved.score!==null && saved.score!==undefined){
+      html += '<p style="font-size:12px;color:var(--stone);margin:-4px 0 10px">Earlier single long-case score (before the long case was split into three questions): <b>'+saved.score+'</b></p>';
+    }
+  } else {
+    html += '<h4>Global score</h4>' + scoreRowHtml('fb-score', saved.score, locked);
+    html += '<h4 style="margin-top:16px">Comments</h4>';
+  }
+  html += '<textarea id="fb-text" placeholder="'+(hasSections?'Comments on the whole long case…':'Comments for this part…')+'" '+(locked?'disabled':'')+'>'+esc(saved.feedback||'')+'</textarea>';
   html += '<div class="save-status" id="save-status"></div>';
   html += '</div>';
   return html;
@@ -758,7 +794,7 @@ function wireMarkInputs(){
   });
   const fb = document.getElementById('fb-text');
   if (fb) fb.addEventListener('input', scheduleSave);
-  document.querySelectorAll('input[name="fb-score"]').forEach(inp=> inp.addEventListener('change', scheduleSave));
+  document.querySelectorAll('input[name="fb-score"], input[data-section]').forEach(inp=> inp.addEventListener('change', scheduleSave));
 }
 
 function collectCurrentPartPayload(){
@@ -766,6 +802,16 @@ function collectCurrentPartPayload(){
   document.querySelectorAll('.crit-input:checked').forEach(inp=>{ criteria[inp.getAttribute('data-crit')] = inp.value; });
   const fb = document.getElementById('fb-text');
   const scoreInput = document.querySelector('input[name="fb-score"]:checked');
+  const secInputs = document.querySelectorAll('input[data-section]');
+  if (secInputs.length){
+    const secs = {};
+    secInputs.forEach(inp=>{ if (inp.checked) secs[inp.getAttribute('data-section')] = parseInt(inp.value,10); });
+    criteria._sections = secs;
+  }
+  if (!scoreInput && secInputs.length){
+    // long case: keep any earlier single score rather than wiping it
+    return { criteria, feedback: fb ? fb.value : '', score: getSavedRow(selection).score ?? null };
+  }
   return {
     criteria,
     feedback: fb ? fb.value : '',
@@ -845,10 +891,14 @@ async function submitPart(){
   const part = findPart(selection.mockKey, selection.stationKey, selection.partKey);
   const payload = collectCurrentPartPayload();
   const totalCrit = (part.questions||[]).reduce((n,q)=> n + (q.criteria||[]).length, 0);
-  const unmarked = totalCrit - Object.keys(payload.criteria).length;
+  const unmarked = totalCrit - checklistMarks(payload.criteria).length;
 
   const warnings = [];
-  if (payload.score === null) warnings.push('No global score has been selected.');
+  if (part.sections && part.sections.length){
+    const secs = payload.criteria._sections || {};
+    const missing = part.sections.filter(s=> secs[s.number]===undefined).map(s=>'Question '+s.number);
+    if (missing.length) warnings.push('No global score for ' + missing.join(', ') + '.');
+  } else if (payload.score === null) warnings.push('No global score has been selected.');
   if (unmarked > 0) warnings.push(unmarked + ' of ' + totalCrit + ' checklist items have not been marked Yes or No.');
   const msg = warnings.length
     ? 'Submit ' + part.label + '?\n\n' + warnings.join('\n') + '\n\nYou can still edit it afterwards via "Edit".'

@@ -42,6 +42,26 @@ window.SOE_DATA = {
                   "label": "Long case",
                   "kind": "longcase",
                   "timerMinutes": 21,
+                  "sections": [
+                    {
+                      "number": 1,
+                      "title": "Assessment and diagnosis",
+                      "firstIndex": 0,
+                      "count": 7
+                    },
+                    {
+                      "number": 2,
+                      "title": "Pharmacological management",
+                      "firstIndex": 7,
+                      "count": 5
+                    },
+                    {
+                      "number": 3,
+                      "title": "Psychological, MDT and neuromodulation",
+                      "firstIndex": 12,
+                      "count": 6
+                    }
+                  ],
                   "candidateInstructions": [
                     "You have 10 minutes to read this case history.",
                     "You may make notes on the paper provided, and take your notes and this sheet into the examination.",
@@ -50,7 +70,7 @@ window.SOE_DATA = {
                   "caseHistoryHtml": "<p>A 56-year-old man attends the chronic pain clinic with his wife.</p>\n    <p>Eighteen months ago he was involved in a multi-vehicle road traffic collision while riding his motorcycle. He was trapped under a car, and extrication took about 4 hours.</p>\n    <p>His injuries included a crush injury to the right lower limb, multi-level right-sided rib fractures with a haemopneumothorax, and multiple facial and back soft-tissue injuries.</p>\n    <p>He was intubated and ventilated in intensive care for respiratory compromise and returned to theatre several times for debridement and washout of the right lower limb. This ended in a right above-knee amputation. He was discharged after a prolonged hospital stay.</p>\n    <p>Since discharge he has had constant, severe burning and electric-shock-like pain in the stump that shoots into the missing limb. He also has episodes in which his missing leg feels as if it is being crushed, severe enough to stop him sleeping. He finds his prosthesis very painful to wear and has chosen not to use it; he mobilises with crutches and a wheelchair.</p>\n    <p>Since the accident he has had recurrent seizure-like episodes leading to several hospital admissions. Neurology investigated and diagnosed non-epileptic seizures.</p>\n    <p>He also reports pain across his lower back since the accident.</p>\n    <p>He takes amlodipine for hypertension, and co-codamol and pregabalin regularly for pain.</p>\n    <p>He is married with three children aged 9, 13 and 16. He owned a construction company but has been unable to run it because of intrusive, recurrent flashbacks of the collision and a fear of driving to clients and building sites. He has had to declare bankruptcy. He has not driven since the accident.</p>\n    <p>He was told the collision was caused by a driver under the influence of drugs. That driver was imprisoned but was released 2 months ago. He is very angry and says the driver has \"ruined his life\". A personal injury claim against the other driver's insurer is ongoing.</p>\n    <p>His wife says he has become very angry, with outbursts at the children over minor things. He has started drinking several cans of beer every night. He sleeps 3 to 4 hours a night and has nightmares.</p>",
                   "questions": [
                     {
-                      "number": "Q1",
+                      "number": "1.1",
                       "prompt": "Please summarise this case for us.",
                       "criteria": [
                         {
@@ -89,7 +109,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:30%\">Problem</th><th>Detail</th></tr>\n        <tr><td class=\"rh\">Background</td><td>56-year-old man, 18 months after major polytrauma (motorcycle collision, 4-hour entrapment, ICU, multiple operations) ending in a right above-knee amputation</td></tr>\n        <tr><td class=\"rh\">Neuropathic pain</td><td>Burning, electric-shock stump pain, and phantom limb pain with crushing episodes that disturb sleep</td></tr>\n        <tr><td class=\"rh\">Low back pain</td><td>Since the accident. Possible nociceptive or nociplastic (sensitisation) component; needs examination</td></tr>\n        <tr><td class=\"rh\">Functional neurological disorder</td><td>Non-epileptic (dissociative) seizures diagnosed by neurology</td></tr>\n        <tr><td class=\"rh\">Prosthesis intolerance</td><td>A major barrier to rehabilitation and mobility</td></tr>\n        <tr><td class=\"rh\">Mental health</td><td>Probable PTSD (flashbacks, nightmares, avoidance of driving), possible low mood, anger and irritability</td></tr>\n        <tr><td class=\"rh\">Social</td><td>Nightly drinking, poor sleep, loss of business and bankruptcy, perceived injustice, ongoing litigation, strain on the family</td></tr>\n        <tr><td class=\"rh\">Medication</td><td>Co-codamol and pregabalin are ineffective, and combining them with alcohol is a safety concern</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q2",
+                      "number": "1.2",
                       "prompt": "What types of pain does this man have?",
                       "criteria": [
                         {
@@ -108,7 +128,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:22%\">Mechanism</th><th style=\"width:34%\">Where in this patient</th><th>Supporting features</th></tr>\n        <tr><td class=\"rh\">Neuropathic</td><td>Stump pain and phantom limb pain</td><td>Lesion of peripheral nerves at the amputation site; burning, shooting, electric-shock quality</td></tr>\n        <tr><td class=\"rh\">Nociplastic</td><td>Possibly the low back pain</td><td>Hypersensitivity on examination without a structural cause; poor sleep, distress</td></tr>\n        <tr><td class=\"rh\">Nociceptive</td><td>Back, chest wall, stump</td><td>Rib fractures, back soft-tissue injury, socket pressure on the stump</td></tr>\n      </table>\n      <p class=\"note\">These mechanisms often coexist; a candidate who says so should be credited.</p>"
                     },
                     {
-                      "number": "Q3",
+                      "number": "1.3",
                       "prompt": "Define nociplastic pain. How would you decide whether a patient has it?",
                       "criteria": [
                         {
@@ -123,7 +143,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<p><b>IASP definition (2017):</b> pain that arises from altered nociception, despite no clear evidence of actual or threatened tissue damage activating peripheral nociceptors, and no evidence of disease or lesion of the somatosensory system causing the pain.</p>\n      <h5>IASP clinical criteria (Kosek et al., 2021)</h5>\n      <div class=\"flow\">\n        <div class=\"st\"><span class=\"k\">Entry criteria</span>Pain for more than <b>3 months</b>; regional, multifocal or widespread distribution; <b>not entirely explained</b> by nociceptive or neuropathic mechanisms</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st\"><span class=\"k\">Add</span><b>Clinical signs</b> of pain hypersensitivity in the painful area (dynamic mechanical allodynia, heat or cold allodynia, painful after-sensations)</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st out\"><span class=\"k\">Grade</span><b>Possible</b> nociplastic pain</div>\n      </div>\n      <div class=\"flow\">\n        <div class=\"st\"><span class=\"k\">Possible, plus</span>A <b>history</b> of pain hypersensitivity in the painful area (to touch, pressure, movement, heat or cold)</div>\n        <div class=\"ar\">+</div>\n        <div class=\"st\"><span class=\"k\">And at least one</span>Sensitivity to sound, light or odours; sleep disturbance with frequent waking; fatigue; cognitive problems</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st out\"><span class=\"k\">Grade</span><b>Probable</b> nociplastic pain</div>\n      </div>"
                     },
                     {
-                      "number": "Q4",
+                      "number": "1.4",
                       "prompt": "How is chronic neuropathic pain classified in ICD-11? Where does this patient fit?",
                       "criteria": [
                         {
@@ -142,7 +162,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:50%\">Chronic peripheral neuropathic pain</th><th>Chronic central neuropathic pain</th></tr>\n        <tr><td>Trigeminal neuralgia<br>Chronic neuropathic pain after peripheral nerve injury<br>Painful polyneuropathy<br>Post-herpetic neuralgia<br>Painful radiculopathy</td><td>After spinal cord injury<br>After brain injury<br>Post-stroke pain<br>Associated with multiple sclerosis</td></tr>\n      </table>\n      <p><b>This patient:</b> chronic peripheral neuropathic pain after peripheral nerve injury (stump and phantom limb pain). Phantom pain also has well-described central mechanisms (spinal and cortical), so an argument for features of both is acceptable if justified.</p>"
                     },
                     {
-                      "number": "Q5",
+                      "number": "1.5",
                       "prompt": "How would you examine him, and what investigations would you request?",
                       "criteria": [
                         {
@@ -169,7 +189,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:24%\">Area</th><th>What to look for or request</th></tr>\n        <tr><td class=\"rh\">Stump</td><td>Skin and wound healing, pressure areas from the socket, palpation and <b>Tinel's sign</b> for a neuroma, sensory mapping (allodynia, hyperalgesia, numbness), temperature and colour</td></tr>\n        <tr><td class=\"rh\">Back and general</td><td>Spinal examination, tenderness, areas of allodynia; neurological examination of the upper limbs and left lower limb</td></tr>\n        <tr><td class=\"rh\">Bloods</td><td>FBC, U&amp;E (renal function for pregabalin dosing), LFTs, GGT and MCV (alcohol), HbA1c, B12, folate, TFTs</td></tr>\n        <tr><td class=\"rh\">Stump imaging</td><td>Ultrasound for neuroma; plain X-ray for heterotopic ossification or bone spur</td></tr>\n        <tr><td class=\"rh\">Prosthetics</td><td>Prosthetist or limb fitting centre review of socket fit</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q6",
+                      "number": "1.6",
                       "prompt": "What mechanisms explain phantom limb pain?",
                       "criteria": [
                         {
@@ -192,7 +212,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:20%\">Level</th><th>Mechanism</th></tr>\n        <tr><td class=\"rh\">Peripheral</td><td><b>Neuroma</b> with ectopic discharge (upregulated sodium channels such as Nav1.3, Nav1.7, Nav1.8), mechanosensitivity, ephaptic transmission, sympathetic–sensory coupling</td></tr>\n        <tr><td class=\"rh\">Dorsal root ganglion</td><td>Ectopic firing; sympathetic sprouting around DRG cell bodies</td></tr>\n        <tr><td class=\"rh\">Spinal</td><td><b>Central sensitisation</b> (NMDA receptor activation, wind-up), loss of inhibitory GABA and glycine interneurones, microglial activation, deafferentation with Aβ-fibre sprouting into superficial laminae</td></tr>\n        <tr><td class=\"rh\">Supraspinal</td><td><b>Cortical reorganisation</b> of somatosensory and motor cortex: neighbouring areas (such as the face) invade the deafferented limb area, and the degree of reorganisation correlates with pain intensity. Mismatch between motor intention and absent sensory and visual feedback</td></tr>\n        <tr><td class=\"rh\">Psychological</td><td>Stress, anxiety and PTSD amplify phantom pain. Pain before amputation is a risk factor (\"pain memory\")</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q7",
+                      "number": "1.7",
                       "prompt": "What is the current understanding of the pathophysiology of functional neurological disorder?",
                       "criteria": [
                         {
@@ -211,7 +231,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<p>A disorder of brain <b>function</b> rather than structure (\"software, not hardware\"). Diagnosis is <b>positive</b>, based on typical clinical features, not made by exclusion.</p>\n      <h5>Proposed mechanisms</h5>\n      <ul>\n        <li><b>Abnormal attention</b> and symptom monitoring: excessive focus on bodily sensations disrupts automatic control of movement</li>\n        <li><b>Abnormal prediction:</b> expectations about movement or sensation override normal motor output and sensory input</li>\n        <li><b>Abnormal threat processing:</b> bodily sensations are amplified when interpreted as dangerous</li>\n        <li><b>Altered sense of agency:</b> reduced activity in the right temporoparietal junction, so movements feel involuntary</li>\n        <li><b>Increased limbic–motor connectivity</b> (amygdala, cingulate, insula): emotional arousal influences motor control</li>\n        <li>Overlap with central sensitisation, fatigue, sleep disturbance and cognitive symptoms</li>\n      </ul>\n      <table class=\"kt\">\n        <tr><th style=\"width:24%\">Factor</th><th>Examples (relevant to this patient)</th></tr>\n        <tr><td class=\"rh\">Predisposing</td><td>Previous trauma, PTSD, other functional disorders</td></tr>\n        <tr><td class=\"rh\">Precipitating</td><td>Physical injury, panic, dissociation</td></tr>\n        <tr><td class=\"rh\">Perpetuating</td><td>Illness beliefs, avoidance, deconditioning, ongoing stress</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q8",
+                      "number": "2.1",
                       "prompt": "Outline your overall approach to managing this man.",
                       "criteria": [
                         {
@@ -230,7 +250,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:33%\">Biological</th><th style=\"width:34%\">Psychological</th><th>Social</th></tr>\n        <tr><td>Rationalise medication; optimise anti-neuropathic agent; topical treatments; stump and prosthesis review; interventions</td><td>PTSD treatment; mood, anger and alcohol; pain-focused psychology (ACT or CBT); pain management programme</td><td>Finances, work, family support, driving, litigation</td></tr>\n      </table>\n      <p class=\"note\"><b>Examiner note:</b> keep this brief; the next questions explore each area.</p>"
                     },
                     {
-                      "number": "Q9",
+                      "number": "2.2",
                       "prompt": "He is already taking pregabalin. How would you optimise his anti-neuropathic medication?",
                       "criteria": [
                         {
@@ -253,7 +273,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<p><b>Is this an adequate trial?</b> Review dose, titration, adherence and side effects. An adequate trial is the maximum tolerated dose (up to 600 mg/day with normal renal function) for at least 2 to 4 weeks.</p>\n      <p><b>NICE CG173:</b> choose from amitriptyline, duloxetine, gabapentin or pregabalin. If the first is ineffective or not tolerated, switch to one of the remaining three.</p>\n      <table class=\"kt\">\n        <tr><th style=\"width:18%\">Agent</th><th style=\"width:38%\">In his favour</th><th>Concerns in him</th></tr>\n        <tr><td class=\"rh\">Pregabalin</td><td>Already established</td><td>Schedule 3 controlled drug with misuse potential; MHRA warning of respiratory depression with opioids and alcohol (he takes co-codamol and drinks nightly)</td></tr>\n        <tr><td class=\"rh\">Amitriptyline</td><td>Helps sleep; lowest NNT</td><td>Dangerous in overdose; sedating with alcohol; anticholinergic</td></tr>\n        <tr><td class=\"rh\">Duloxetine</td><td>May help mood and anxiety</td><td>Avoid with heavy alcohol use or hepatic impairment</td></tr>\n      </table>\n      <p><b>Combination therapy:</b> adding an antidepressant to a gabapentinoid (or the reverse) when monotherapy gives only a partial response. In OPTION-DM (2022) the three first-line pathways worked about equally well, and combination therapy helped people with a poor response to monotherapy.</p>\n      <p><b>Switching:</b> taper pregabalin over at least 1 week and cross-taper to the new agent; review at 2 to 4 weeks.</p>"
                     },
                     {
-                      "number": "Q10",
+                      "number": "2.3",
                       "prompt": "Is any one agent more efficacious than the others?",
                       "criteria": [
                         {
@@ -272,7 +292,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:34%\">Drug class</th><th style=\"width:22%\">NNT (50% relief)</th><th>NNH (withdrawal due to adverse effects)</th></tr>\n        <tr class=\"hi\"><td class=\"rh\">Tricyclic antidepressants</td><td class=\"num\"><b>3.6</b></td><td class=\"num\">13.4</td></tr>\n        <tr><td class=\"rh\">SNRIs (duloxetine)</td><td class=\"num\">6.4</td><td class=\"num\">11.8</td></tr>\n        <tr><td class=\"rh\">Gabapentin</td><td class=\"num\">6.3</td><td class=\"num\">25.6</td></tr>\n        <tr><td class=\"rh\">Pregabalin</td><td class=\"num\">7.7</td><td class=\"num\">13.9</td></tr>\n      </table>\n      <p class=\"note\">Finnerup et al., Lancet Neurology 2015 (NeuPSIG meta-analysis). <b>Examiner note:</b> the aim is for the candidate to say amitriptyline (a TCA) has the lowest NNT. Credit approximate figures.</p>"
                     },
                     {
-                      "number": "Q11",
+                      "number": "2.4",
                       "prompt": "Are there any topical agents you would consider?",
                       "criteria": [
                         {
@@ -283,7 +303,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:26%\">Agent</th><th>Notes</th></tr>\n        <tr><td class=\"rh\">Capsaicin 8% patch (Qutenza)</td><td>Licensed for peripheral neuropathic pain in adults. Skin must be intact. Specialist use: NICE CG173 advises against starting it in non-specialist settings</td></tr>\n        <tr><td class=\"rh\">Capsaicin 0.075% cream</td><td>Licensed for post-herpetic neuralgia and painful diabetic neuropathy. NICE CG173: consider for localised neuropathic pain if the person wishes to avoid oral treatment</td></tr>\n        <tr><td class=\"rh\">Lidocaine 5% plaster</td><td>Licensed only for post-herpetic neuralgia (off-label here). Useful for localised allodynia, but may be impractical under a prosthetic socket</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q12",
+                      "number": "2.5",
                       "prompt": "Would you consider opioids for him?",
                       "criteria": [
                         {
@@ -306,7 +326,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<ul>\n        <li><b>Limited long-term benefit</b> in chronic non-cancer pain. Harms include dependence, opioid-induced hyperalgesia, hypogonadism, falls and overdose</li>\n        <li><b>NICE CG173:</b> tramadol only as acute rescue therapy, not for long-term use</li>\n        <li><b>Opioids Aware (FPM):</b> threshold of <b>90 mg/day oral morphine equivalent</b>, with an ideal target of <b>50 mg/day</b>. If a patient is still in pain on opioids, the opioid is not working and should be reduced and stopped</li>\n        <li><b>His risks:</b> nightly alcohol, pregabalin co-prescription and mood or PTSD increase the risk of sedation, respiratory depression and misuse. Tramadol also lowers the seizure threshold</li>\n        <li>Review the benefit of his existing co-codamol and consider tapering it</li>\n      </ul>"
                     },
                     {
-                      "number": "Q13",
+                      "number": "3.1",
                       "prompt": "How would you address his psychological needs?",
                       "criteria": [
                         {
@@ -333,7 +353,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:22%\">Need</th><th>Approach</th></tr>\n        <tr><td class=\"rh\">PTSD</td><td>Refer for assessment and treatment (trauma psychology service or community mental health team), managing depression and risk alongside. <b>NICE NG116:</b> offer <b>trauma-focused CBT</b>; offer <b>EMDR</b> to adults presenting more than 3 months after a non-combat trauma, which applies to him</td></tr>\n        <tr><td class=\"rh\">Pain</td><td>Pain-focused psychology: ACT or CBT; pain management programme once PTSD treatment is under way</td></tr>\n        <tr><td class=\"rh\">Anger</td><td>Psychoeducation, CBT-based anger management, identifying triggers, family involvement</td></tr>\n        <tr><td class=\"rh\">Alcohol</td><td>Screen (AUDIT), brief intervention, referral to alcohol services. Assess dependence before advising abrupt cessation (withdrawal and seizure risk); thiamine if dependent</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q14",
+                      "number": "3.2",
                       "prompt": "What is ACT, and what are its core processes?",
                       "criteria": [
                         {
@@ -348,7 +368,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<p><b>Acceptance and Commitment Therapy</b> is a \"third-wave\" behavioural therapy. It aims to increase <b>psychological flexibility</b>: living a values-based life while pain and distress are present, rather than trying to control or eliminate them. Unlike traditional CBT, it does not try to change the content of thoughts.</p>\n      <figure class=\"dg\">\n        <svg viewBox=\"0 0 520 252\" width=\"440\" role=\"img\" aria-label=\"ACT hexaflex: six core processes around psychological flexibility\">\n          <g stroke=\"#E0D3C4\" stroke-width=\"1.5\" fill=\"none\">\n            <polygon points=\"260,26 381,76 381,176 260,226 139,176 139,76\"/>\n            <line x1=\"260\" y1=\"26\" x2=\"260\" y2=\"226\"/><line x1=\"139\" y1=\"76\" x2=\"381\" y2=\"176\"/><line x1=\"381\" y1=\"76\" x2=\"139\" y2=\"176\"/>\n          </g>\n          <g font-family=\"'Plus Jakarta Sans',sans-serif\" font-size=\"12.5\" font-weight=\"700\" text-anchor=\"middle\">\n            <rect x=\"190\" y=\"104\" width=\"140\" height=\"44\" rx=\"22\" fill=\"#241B16\"/>\n            <text x=\"260\" y=\"122\" fill=\"#F5A524\" font-size=\"9\" font-family=\"'IBM Plex Mono',monospace\" letter-spacing=\"1\">CENTRE</text>\n            <text x=\"260\" y=\"138\" fill=\"#fff\" font-size=\"11.5\">Psychological flexibility</text>\n            <rect x=\"196\" y=\"10\" width=\"128\" height=\"32\" rx=\"16\" fill=\"#fff\" stroke=\"#F0623C\" stroke-width=\"1.5\"/><text x=\"260\" y=\"31\" fill=\"#241B16\">Present moment</text>\n            <rect x=\"317\" y=\"60\" width=\"128\" height=\"32\" rx=\"16\" fill=\"#fff\" stroke=\"#F0623C\" stroke-width=\"1.5\"/><text x=\"381\" y=\"81\" fill=\"#241B16\">Values</text>\n            <rect x=\"317\" y=\"160\" width=\"128\" height=\"32\" rx=\"16\" fill=\"#fff\" stroke=\"#F0623C\" stroke-width=\"1.5\"/><text x=\"381\" y=\"181\" fill=\"#241B16\">Committed action</text>\n            <rect x=\"196\" y=\"210\" width=\"128\" height=\"32\" rx=\"16\" fill=\"#fff\" stroke=\"#F0623C\" stroke-width=\"1.5\"/><text x=\"260\" y=\"231\" fill=\"#241B16\">Self-as-context</text>\n            <rect x=\"75\" y=\"160\" width=\"128\" height=\"32\" rx=\"16\" fill=\"#fff\" stroke=\"#F0623C\" stroke-width=\"1.5\"/><text x=\"139\" y=\"181\" fill=\"#241B16\">Cognitive defusion</text>\n            <rect x=\"75\" y=\"60\" width=\"128\" height=\"32\" rx=\"16\" fill=\"#fff\" stroke=\"#F0623C\" stroke-width=\"1.5\"/><text x=\"139\" y=\"81\" fill=\"#241B16\">Acceptance</text>\n          </g>\n          <g font-family=\"'IBM Plex Mono',monospace\" font-size=\"9\" fill=\"#7C7068\" letter-spacing=\"1\">\n            <text x=\"20\" y=\"130\">OPEN</text><text x=\"468\" y=\"130\">ENGAGED</text>\n          </g>\n        </svg>\n        <figcaption>The ACT \"hexaflex\". Acceptance and defusion keep the person open; values and committed action keep them engaged; present moment and self-as-context keep them centred.</figcaption>\n      </figure>\n      <table class=\"kt\">\n        <tr><th style=\"width:26%\">Process</th><th>In plain terms</th></tr>\n        <tr><td class=\"rh\">Acceptance</td><td>Making room for pain and distress instead of struggling against them</td></tr>\n        <tr><td class=\"rh\">Cognitive defusion</td><td>Seeing thoughts as thoughts, not facts (\"I'm having the thought that…\")</td></tr>\n        <tr><td class=\"rh\">Present moment</td><td>Mindful attention to the here and now</td></tr>\n        <tr><td class=\"rh\">Self-as-context</td><td>A stable sense of self that observes experiences without being defined by them</td></tr>\n        <tr><td class=\"rh\">Values</td><td>Clarifying what matters to the person (family, work, roles)</td></tr>\n        <tr><td class=\"rh\">Committed action</td><td>Taking steps towards those values, even with pain present</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q15",
+                      "number": "3.3",
                       "prompt": "What would physiotherapy offer him?",
                       "criteria": [
                         {
@@ -363,7 +383,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<p><b>Mirror therapy:</b> a mirror shows the reflection of the intact limb moving in place of the missing limb. This is thought to reduce the motor–sensory mismatch and reverse cortical reorganisation.</p>\n      <h5>Graded motor imagery: three stages, in order</h5>\n      <div class=\"flow\">\n        <div class=\"st\"><span class=\"k\">1 · Laterality recognition</span>Look at pictures of limbs and decide quickly whether each is left or right</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st\"><span class=\"k\">2 · Explicit motor imagery</span>Eyes closed, vividly imagine moving the painful or missing limb without moving it</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st out\"><span class=\"k\">3 · Mirror therapy</span>Watch the reflection of the healthy limb acting as the missing limb</div>\n      </div>\n      <p><b>Also:</b> a stump desensitisation programme for allodynia (graded textures, tapping, massage), gait and prosthetic training, and graded activity.</p>"
                     },
                     {
-                      "number": "Q16",
+                      "number": "3.4",
                       "prompt": "Which other professionals and services would you involve?",
                       "criteria": [
                         {
@@ -390,7 +410,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:30%\">Professional or service</th><th>Role for him</th></tr>\n        <tr><td class=\"rh\">Occupational therapy</td><td>Home adaptations, activities of daily living, vocational rehabilitation</td></tr>\n        <tr><td class=\"rh\">Prosthetist / limb fitting centre</td><td>Socket review and prosthetic rehabilitation</td></tr>\n        <tr><td class=\"rh\">Social worker / welfare advice</td><td>Benefits (such as Universal Credit and Personal Independence Payment), debt and bankruptcy advice, carer support for his wife</td></tr>\n        <tr><td class=\"rh\">Neurology FND service</td><td>Specialist FND therapy (physiotherapy and psychology)</td></tr>\n        <tr><td class=\"rh\">GP, pharmacist, employment support</td><td>Continuity and single prescriber; medication review; Access to Work</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q17",
+                      "number": "3.5",
                       "prompt": "What neuromodulation options would be available for him?",
                       "criteria": [
                         {
@@ -409,7 +429,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<ul>\n        <li><b>SCS (NICE TA159):</b> chronic neuropathic pain of at least 50 mm on a 0 to 100 mm VAS, for at least 6 months despite appropriate conventional medical management, after assessment by an experienced MDT and a successful trial of stimulation</li>\n        <li><b>DRG stimulation:</b> may suit focal pain such as stump pain</li>\n        <li>An online <b>e-health referral tool</b> developed by European consensus can help identify suitable SCS candidates</li>\n        <li><b>Not suitable now:</b> untreated PTSD, depression with possible suicidal ideation, harmful drinking, unresolved prosthesis problems and ongoing litigation are relative contraindications, or at least reasons to delay</li>\n      </ul>"
                     },
                     {
-                      "number": "Q18",
+                      "number": "3.6",
                       "prompt": "Are there any central neuromodulation techniques for pain with a central component? What is the evidence?",
                       "criteria": [
                         {
@@ -1536,6 +1556,26 @@ window.SOE_DATA = {
                   "label": "Long case",
                   "kind": "longcase",
                   "timerMinutes": 21,
+                  "sections": [
+                    {
+                      "number": 1,
+                      "title": "Assessment, imaging and diagnosis",
+                      "firstIndex": 0,
+                      "count": 9
+                    },
+                    {
+                      "number": 2,
+                      "title": "Pathophysiology and treatment",
+                      "firstIndex": 9,
+                      "count": 6
+                    },
+                    {
+                      "number": 3,
+                      "title": "Psychological, mood and work",
+                      "firstIndex": 15,
+                      "count": 7
+                    }
+                  ],
                   "candidateInstructions": [
                     "You have 10 minutes to read this case history.",
                     "You may make notes on the paper provided, and take your notes and this sheet into the examination.",
@@ -1544,7 +1584,7 @@ window.SOE_DATA = {
                   "caseHistoryHtml": "<p>A 35-year-old woman attends the chronic pain clinic with chronic low back pain.</p>\n    <p>The pain started 16 years ago after a fall in her garden. She was seen in the emergency department and discharged with simple analgesia and advice to keep active.</p>\n    <p>The pain improved slightly but has never gone away. She now describes a constant, severe, dull pain in her back that can make her back \"lock up\", leaving her in severe agony.</p>\n    <p>She gets sharp, electric pains down the right thigh to the knee, and sometimes on the left. Sitting or standing for long periods makes it worse, and bending is impossible.</p>\n    <p>She has seen a chiropractor and tried massage; both helped for a couple of days before the pain returned. Her GP started morphine: she now takes Zomorph 30 mg twice daily and Oramorph for flares.</p>\n    <p>For the last 2 years she has also had ongoing severe abdominal pain that fluctuates in intensity and causes her a lot of distress. Her GP has excluded coeliac disease, and an OGD and laparoscopy were both normal.</p>\n    <p>Her past medical history includes obesity (BMI 42) and polycystic ovary syndrome. She was seen in the lumbar spine pathway 6 months ago and had an MRI (images below).</p>\n    <p>Her mobility has deteriorated: she uses a crutch indoors and a mobility scooter outside.</p>\n    <p>She works as an accountant but often takes sick leave because of flare-ups. Her employer has not been understanding and has refused to modify her duties. She feels anxious about her future and feels there is no life for her, as she struggles to socialise or do anything that brings her joy. She spends most of the day watching TV and sleeps only a few hours, on the couch.</p>\n    <p>She says she feels depressed and has occasionally felt hopeless. She smokes cannabis to help her symptoms but does not drink alcohol.</p>\n<div class=\"mri\">\n    <figure><div class=\"frame\"><img src=\"soe-packs/img/m2s1-mri-sagittal.png\" alt=\"Sagittal lumbar spine MRI\"></div></figure>\n    <figure><div class=\"frame crop-top\"><img src=\"soe-packs/img/m2s1-mri-axial.png\" alt=\"Axial lumbar spine MRI\"></div></figure>\n  </div>",
                   "questions": [
                     {
-                      "number": "Q1",
+                      "number": "1.1",
                       "prompt": "Please summarise this case for us.",
                       "criteria": [
                         {
@@ -1571,7 +1611,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:26%\">Problem</th><th>Detail</th></tr>\n        <tr><td class=\"rh\">Background</td><td>35-year-old woman, BMI 42, polycystic ovary syndrome</td></tr>\n        <tr><td class=\"rh\">Back pain</td><td>16 years after a fall; intermittent electric pain to the thighs (not below the knee); episodes of the back \"locking\"</td></tr>\n        <tr><td class=\"rh\">MRI</td><td>Degenerative changes: spondylolisthesis, disc bulges, Modic changes, multifidus changes; no nerve root compression</td></tr>\n        <tr><td class=\"rh\">Abdominal pain</td><td>Two years, normal investigations: possible visceral hypersensitivity or chronic primary visceral pain</td></tr>\n        <tr><td class=\"rh\">Psychosocial</td><td>Depression, anxiety, hopelessness, social isolation, poor sleep, threatened employment with an unsupportive employer</td></tr>\n        <tr><td class=\"rh\">Drugs</td><td>Regular opioids (Zomorph 30 mg twice daily plus Oramorph) without clear benefit; cannabis use</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q2",
+                      "number": "1.2",
                       "prompt": "What is your differential diagnosis for her back pain?",
                       "criteria": [
                         {
@@ -1594,7 +1634,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:26%\">Category</th><th>Detail</th></tr>\n        <tr><td class=\"rh\">Non-specific</td><td>Mechanical low back pain</td></tr>\n        <tr><td class=\"rh\">Possible pain generators</td><td>Facet joint, discogenic, vertebrogenic (Modic type 1 or 2 endplate change), instability from spondylolisthesis, sacroiliac joint, myofascial; hip pathology</td></tr>\n        <tr><td class=\"rh\">Leg pain</td><td>Pain to the knee without root compression fits <b>somatic referred pain</b> better than radicular pain</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Exclude</td><td>Inflammatory axial spondyloarthritis (young; morning stiffness over 30 minutes; better with exercise), infection, malignancy, fracture</td></tr>\n        <tr><td class=\"rh\">Nociplastic</td><td>Long duration, widespread distress and multiple pain sites suggest central sensitisation</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q3",
+                      "number": "1.3",
                       "prompt": "What types of pain does she have?",
                       "criteria": [
                         {
@@ -1617,7 +1657,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:24%\">Pain</th><th>Detail</th></tr>\n        <tr><td class=\"rh\">Back</td><td>Nociceptive musculoskeletal pain (possible facet, disc, endplate and instability components)</td></tr>\n        <tr><td class=\"rh\">Leg</td><td><b>Somatic referred pain</b> (deep, poorly localised, not dermatomal) rather than radicular pain (lancinating, dermatomal, below the knee). No root compression on MRI, so neuropathic pain is less likely</td></tr>\n        <tr><td class=\"rh\">Abdomen</td><td>Chronic primary visceral pain (functional abdominal pain), or abdominal wall pain such as anterior cutaneous nerve entrapment (check Carnett's sign)</td></tr>\n        <tr><td class=\"rh\">Drug-related</td><td>Opioid-induced hyperalgesia; narcotic bowel syndrome (abdominal pain worsening with escalating opioids); cannabinoid hyperemesis syndrome</td></tr>\n        <tr><td class=\"rh\">Overall</td><td>Nociplastic features</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q4",
+                      "number": "1.4",
                       "prompt": "Look at her MRI. What can you see?",
                       "criteria": [
                         {
@@ -1640,7 +1680,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:24%\">Feature</th><th>What to look for</th></tr>\n        <tr><td class=\"rh\">Sequence</td><td><b>T2-weighted</b>: CSF in the thecal sac is bright</td></tr>\n        <tr><td class=\"rh\">Alignment</td><td>Low-grade <b>anterolisthesis</b> in the lower lumbar spine</td></tr>\n        <tr><td class=\"rh\">Discs</td><td>Loss of T2 signal (\"dark\", desiccated discs) and loss of height at the lower lumbar levels; bulges or protrusion on the axial image</td></tr>\n        <tr><td class=\"rh\">Endplates</td><td>Modic signal change adjacent to degenerate discs</td></tr>\n        <tr><td class=\"rh\">Canal and roots</td><td>No significant nerve root compression</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Paraspinal muscles</td><td><b>Multifidus</b> atrophy with bright fatty infiltration on the axial image, consistent with multifidus dysfunction</td></tr>\n      </table>\n      <p class=\"note\"><b>Examiner note:</b> credit a systematic approach: sequence and plane, level, alignment, discs, endplates, canal and foramina, then paraspinal muscles.</p>"
                     },
                     {
-                      "number": "Q5",
+                      "number": "1.5",
                       "prompt": "How can you classify or grade spondylolisthesis?",
                       "criteria": [
                         {
@@ -1651,7 +1691,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:30%\">Meyerding grade</th><th>Slip (% of the vertebral body width below)</th></tr>\n        <tr><td class=\"rh\">I</td><td class=\"num\">under 25%</td></tr>\n        <tr><td class=\"rh\">II</td><td class=\"num\">25–50%</td></tr>\n        <tr><td class=\"rh\">III</td><td class=\"num\">50–75%</td></tr>\n        <tr><td class=\"rh\">IV</td><td class=\"num\">75–100%</td></tr>\n        <tr><td class=\"rh\">V</td><td>Spondyloptosis (complete slip)</td></tr>\n      </table>\n      <table class=\"kt\">\n        <tr><th style=\"width:30%\">Wiltse type (cause)</th><th>Detail</th></tr>\n        <tr><td class=\"rh\">Dysplastic (congenital)</td><td>Rare. Abnormal formation of the facets or upper sacrum, present from birth</td></tr>\n        <tr><td class=\"rh\">Isthmic</td><td>Defect or stress fracture of the <b>pars interarticularis</b> (spondylolysis); common in adolescents and young athletes</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Degenerative</td><td><b>Most common</b>. Facet arthritis and disc degeneration in older adults, usually at L4/5</td></tr>\n        <tr><td class=\"rh\">Traumatic</td><td>Acute fracture of the posterior elements other than the pars</td></tr>\n        <tr><td class=\"rh\">Pathological</td><td>Weakened bone from tumour, infection or severe osteoporosis</td></tr>\n      </table>\n      <p class=\"note\">A sixth, iatrogenic (post-surgical) type follows decompression that removes stabilising structures.</p>"
                     },
                     {
-                      "number": "Q6",
+                      "number": "1.6",
                       "prompt": "How would you distinguish somatic referred pain from radicular pain?",
                       "criteria": [
                         {
@@ -1670,7 +1710,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:20%\"></th><th style=\"width:40%\">Radicular pain</th><th>Somatic referred pain</th></tr>\n        <tr><td class=\"rh\">Mechanism</td><td>Ectopic discharge from an inflamed or compressed nerve root</td><td>Convergence in the dorsal horn of input from facets, disc, sacroiliac joint or muscle</td></tr>\n        <tr><td class=\"rh\">Quality</td><td>Shooting, lancinating, band-like</td><td>Deep, dull, aching, poorly localised</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Distribution</td><td>Dermatomal, often <b>below the knee</b></td><td>Buttock and thigh, rarely below the knee</td></tr>\n        <tr><td class=\"rh\">Examination</td><td>May have dermatomal sensory loss, weakness, reflex change, positive straight leg raise</td><td>Normal neurology</td></tr>\n      </table>\n      <p><b>Radiculopathy</b> is the objective neurological loss. <b>In her:</b> thigh pain to the knee, varying sides, no root compression on MRI, so somatic referred pain is more likely.</p>"
                     },
                     {
-                      "number": "Q7",
+                      "number": "1.7",
                       "prompt": "How would you assess this patient in clinic?",
                       "criteria": [
                         {
@@ -1693,7 +1733,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:20%\"></th><th>Detail</th></tr>\n        <tr><td class=\"rh\">History</td><td>Site, character, radiation, aggravating and relieving factors, flares; effect on function, work, sleep, mood and relationships; beliefs and expectations; previous treatments; medication, cannabis and alcohol; flags</td></tr>\n        <tr><td class=\"rh\">Examination</td><td>Gait and mobility, spinal range of movement, palpation, straight leg raise and femoral stretch, full lower limb neurology, sacroiliac joint provocation tests, hip examination, abdominal examination including Carnett's sign, BMI</td></tr>\n        <tr><td class=\"rh\">Questionnaires</td><td>Oswestry Disability Index, Brief Pain Inventory, PHQ-9, GAD-7, Pain Self-Efficacy Questionnaire, Pain Catastrophising Scale, Tampa Scale of Kinesiophobia</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q8",
+                      "number": "1.8",
                       "prompt": "Do you know any risk stratification tools for back pain? When are they used?",
                       "criteria": [
                         {
@@ -1712,7 +1752,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<p><b>STarT Back Screening Tool:</b> 9 items, including a 5-item psychosocial subscale (fear, worry, catastrophising, low mood, bothersomeness). <b>NICE NG59:</b> consider it at first contact for each new episode of low back pain, to inform shared decisions.</p>\n      <table class=\"kt\">\n        <tr><th style=\"width:18%\">Risk</th><th style=\"width:40%\">Score</th><th>Matched care</th></tr>\n        <tr><td class=\"rh\">Low</td><td>Total 0–3</td><td>Advice and self-management</td></tr>\n        <tr><td class=\"rh\">Medium</td><td>Total 4 or more, psychosocial subscale 3 or less</td><td>Physiotherapy</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">High</td><td>Psychosocial subscale 4 or more</td><td>Psychologically informed physiotherapy, or combined physical and psychological approach</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q9",
+                      "number": "1.9",
                       "prompt": "What are red, yellow and blue flags? Which does she have?",
                       "criteria": [
                         {
@@ -1735,7 +1775,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:15%\">Flag</th><th style=\"width:44%\">Meaning and examples</th><th>In her</th></tr>\n        <tr><td class=\"rh\">Red</td><td>Serious pathology: cauda equina (saddle anaesthesia, bladder or bowel dysfunction, bilateral sciatica, sexual dysfunction); malignancy (history of cancer, weight loss, night pain); infection (fever, immunosuppression, IV drug use); fracture (trauma, osteoporosis, steroids); progressive neurological deficit</td><td>None reported</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Yellow</td><td>Psychosocial predictors of chronicity: belief that pain is harmful, fear-avoidance, catastrophising, low mood, passive coping, reliance on passive treatments</td><td>Depression, anxiety, hopelessness, avoidance, reliance on chiropractic and massage</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Blue</td><td>Perceptions about work: unsupportive workplace, belief that work is harmful</td><td>Unsupportive employer, frequent sick leave</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Black</td><td>System or organisational factors: employer policies, compensation, sickness systems</td><td>Employer refusing adjustments</td></tr>\n        <tr><td class=\"rh\">Orange</td><td>Psychiatric disorder</td><td>Consider with depression and hopelessness</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q10",
+                      "number": "2.1",
                       "prompt": "What is the pathophysiology of degenerative spine disease?",
                       "criteria": [
                         {
@@ -1754,7 +1794,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<div class=\"flow\">\n        <div class=\"st\"><span class=\"k\">1 · Dehydration</span>Reduced proteoglycan synthesis; the nucleus loses water and height</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st\"><span class=\"k\">2 · Fissuring</span>Annulus thickens and develops radial fissures; endplates fracture under repeated load; nuclear material leaks into annulus or endplate</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st\"><span class=\"k\">3 · Neovascularisation</span>Cytokines (TNF-α, IL-1, IL-6) drive inflammation; new vessels and <b>sensory nerve fibres</b> grow into the inner annulus, endplate and even nucleus</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st out\"><span class=\"k\">4 · Bony change</span>Facet loading, osteophytes, Modic change</div>\n      </div>\n      <p><b>Degenerative cascade:</b> loss of disc height loads the facet joints (osteoarthritis), the ligamentum flavum thickens and osteophytes form, leading to stenosis and degenerative spondylolisthesis. Endplate damage leads to Modic changes.</p>"
                     },
                     {
-                      "number": "Q11",
+                      "number": "2.2",
                       "prompt": "What are Modic changes, and what is their significance?",
                       "criteria": [
                         {
@@ -1769,7 +1809,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<p><b>Modic changes</b> are signal changes in the vertebral endplate and adjacent bone marrow on MRI, usually with degenerative disc disease.</p>\n      <table class=\"kt\">\n        <tr><th style=\"width:14%\">Type</th><th style=\"width:34%\">Pathology</th><th style=\"width:13%\">T1</th><th style=\"width:13%\">T2</th><th>Note</th></tr>\n        <tr class=\"hi\"><td class=\"rh\">1</td><td>Marrow oedema, inflammation</td><td>Dark</td><td>Bright</td><td>Most strongly linked with low back pain; can convert to type 2</td></tr>\n        <tr><td class=\"rh\">2</td><td>Fatty marrow replacement</td><td>Bright</td><td>Bright</td><td>More stable</td></tr>\n        <tr><td class=\"rh\">3</td><td>Subchondral sclerosis</td><td>Dark</td><td>Dark</td><td>End stage</td></tr>\n      </table>\n      <ul>\n        <li><b>Vertebrogenic pain</b> is carried by the <b>basivertebral nerve</b>. <b>Basivertebral nerve ablation</b> is an option for chronic axial low back pain with type 1 or 2 changes</li>\n        <li>Low-grade infection (<i>Cutibacterium acnes</i>) has been proposed, but the <b>AIM trial</b> of amoxicillin showed no clinically important benefit, so antibiotics are not recommended</li>\n      </ul>"
                     },
                     {
-                      "number": "Q12",
+                      "number": "2.3",
                       "prompt": "How would you manage her opioids?",
                       "criteria": [
                         {
@@ -1788,7 +1828,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<ul>\n        <li><b>NICE NG59:</b> do not offer opioids for chronic low back pain. <b>FPM Opioids Aware:</b> if opioids are not helping, taper even at modest doses. Her dose is <b>60 mg/day oral morphine equivalent</b> plus Oramorph</li>\n        <li><b>Harms in her:</b> sedation and respiratory depression with cannabis and obesity (possible sleep apnoea); constipation; narcotic bowel syndrome (may explain the abdominal pain); hypogonadism and menstrual effects; opioid-induced hyperalgesia; dependence; overdose risk with hopelessness</li>\n      </ul>\n      <div class=\"flow\">\n        <div class=\"st\"><span class=\"k\">Agree</span>Shared plan with her and her GP</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st\"><span class=\"k\">Stop first</span>Reduce or stop as-needed Oramorph</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st\"><span class=\"k\">Taper</span>Modified-release morphine by about <b>10% every 2 to 4 weeks</b>, with review; single prescriber, limited supplies</div>\n        <div class=\"ar\">→</div>\n        <div class=\"st out\"><span class=\"k\">Support</span>Non-drug strategies and psychology; monitor mood and withdrawal</div>\n      </div>"
                     },
                     {
-                      "number": "Q13",
+                      "number": "2.4",
                       "prompt": "What is the role of paracetamol? What is the NNT for paracetamol with and without an NSAID?",
                       "criteria": [
                         {
@@ -1811,7 +1851,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<ul>\n        <li><b>NICE NG59:</b> do not offer paracetamol alone for low back pain. Consider an oral NSAID at the lowest effective dose for the shortest time, with gastroprotection where needed</li>\n        <li><b>PACE trial</b> (Lancet, 2014): paracetamol was no better than placebo for acute low back pain. Cochrane reviews show no meaningful benefit in back pain</li>\n      </ul>\n      <table class=\"kt\">\n        <tr><th style=\"width:60%\">Oxford league table (acute postoperative pain, at least 50% relief)</th><th>NNT</th></tr>\n        <tr><td class=\"rh\">Paracetamol 1 g</td><td class=\"num\">≈ 3.6–3.8</td></tr>\n        <tr><td class=\"rh\">Ibuprofen 400 mg</td><td class=\"num\">≈ 2.5</td></tr>\n        <tr><td class=\"rh\">Ibuprofen 200 mg + paracetamol 500 mg</td><td class=\"num\">≈ 1.6</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Ibuprofen 400 mg + paracetamol 1 g</td><td class=\"num\"><b>≈ 1.5</b></td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q14",
+                      "number": "2.5",
                       "prompt": "What is the role of TENS and other physical therapies in her back pain?",
                       "criteria": [
                         {
@@ -1822,7 +1862,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:22%\">NICE NG59</th><th>Detail</th></tr>\n        <tr><td class=\"rh\">Do not offer</td><td>TENS, interferential therapy, ultrasound, traction, belts, corsets or orthotics</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Offer</td><td>Exercise, such as a group exercise programme (biomechanical, aerobic, mind–body)</td></tr>\n        <tr><td class=\"rh\">Consider</td><td>Manual therapy (manipulation, mobilisation, massage) only as part of a package including exercise, which explains why chiropractic and massage alone gave only brief relief</td></tr>\n        <tr><td class=\"rh\">Consider</td><td>Combined physical and psychological programme (CBT-informed) for significant psychosocial obstacles; weight management</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q15",
+                      "number": "2.6",
                       "prompt": "Are there any interventions you would consider for her back pain?",
                       "criteria": [
                         {
@@ -1841,7 +1881,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:28%\">Intervention</th><th>When</th></tr>\n        <tr><td class=\"rh\">RF denervation</td><td>NICE NG59: if the main source is thought to be the facet joints, pain is moderate to severe (5 or more out of 10) and a diagnostic medial branch block is positive. Do not offer spinal injections</td></tr>\n        <tr><td class=\"rh\">Restorative neurostimulation</td><td>Implanted medial branch stimulation to activate multifidus (such as ReActiv8) for refractory mechanical low back pain with multifidus dysfunction</td></tr>\n        <tr><td class=\"rh\">Basivertebral nerve ablation</td><td>Vertebrogenic pain with Modic type 1 or 2 changes</td></tr>\n        <tr><td class=\"rh\">Spinal surgery</td><td>Opinion only if instability or progressive slip. NICE advises against spinal fusion except within a randomised trial</td></tr>\n      </table>\n      <p class=\"note\"><b>Examiner note:</b> credit candidates who say interventions are likely to fail unless mood, opioids and cannabis are addressed first.</p>"
                     },
                     {
-                      "number": "Q16",
+                      "number": "3.1",
                       "prompt": "What psychological approaches would you use?",
                       "criteria": [
                         {
@@ -1856,7 +1896,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<ul>\n        <li><b>NICE NG59:</b> consider a combined physical and psychological programme (CBT-informed) for persistent low back pain with significant psychosocial obstacles to recovery</li>\n        <li><b>Pain management programme:</b> group programme with psychologist, physiotherapist and pain clinician. Pain education, pacing, graded activity and exercise, goal setting, sleep, relaxation, flare-up planning and return to work; CBT or ACT-based</li>\n        <li><b>For her:</b> suitable in principle given high impact and distress, but depression, hopelessness, opioid tapering and cannabis use should be addressed first so she can engage. Treat depression through NHS Talking Therapies or psychology</li>\n      </ul>"
                     },
                     {
-                      "number": "Q17",
+                      "number": "3.2",
                       "prompt": "How does her weight contribute to her clinical presentation?",
                       "criteria": [
                         {
@@ -1867,7 +1907,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:24%\">Effect</th><th>Detail</th></tr>\n        <tr><td class=\"rh\">Mechanical</td><td>Increased spinal and joint load; accelerated disc and facet degeneration</td></tr>\n        <tr><td class=\"rh\">Inflammatory</td><td>Adipokines (such as leptin, IL-6, TNF-α) promote low-grade systemic inflammation and sensitisation</td></tr>\n        <tr><td class=\"rh\">Function and mood</td><td>Worsens deconditioning, sleep (obstructive sleep apnoea) and mood</td></tr>\n        <tr><td class=\"rh\">Treatment risk</td><td>Positioning, imaging quality and sedation risk for procedures and surgery; opioid respiratory risk</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q18",
+                      "number": "3.3",
                       "prompt": "What do you think about her abdominal pain?",
                       "criteria": [
                         {
@@ -1882,7 +1922,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:28%\">Cause</th><th>Features</th></tr>\n        <tr><td class=\"rh\">Chronic primary visceral pain (ICD-11)</td><td>After normal investigations: irritable bowel syndrome or centrally mediated abdominal pain syndrome (Rome IV)</td></tr>\n        <tr class=\"hi\"><td class=\"rh\">Narcotic bowel syndrome</td><td>Paradoxical worsening of abdominal pain with continued or escalating opioids; improves with opioid withdrawal</td></tr>\n        <tr><td class=\"rh\">Cannabinoid hyperemesis syndrome</td><td>Cyclical nausea, vomiting and abdominal pain, relieved by hot showers</td></tr>\n        <tr><td class=\"rh\">Abdominal wall pain</td><td>Anterior cutaneous nerve entrapment: positive Carnett's sign</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q19",
+                      "number": "3.4",
                       "prompt": "What are you worried about with regards to her mental health?",
                       "criteria": [
                         {
@@ -1901,7 +1941,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:24%\"></th><th>Detail</th></tr>\n        <tr class=\"hi\"><td class=\"rh\">Her risk factors</td><td>Depression, anxiety, hopelessness, social isolation, sleep disturbance, threatened employment and finances, chronic pain, access to opioids, cannabis use</td></tr>\n        <tr><td class=\"rh\">Protective factors</td><td>Family, reasons for living, engagement with services</td></tr>\n      </table>\n      <p>Chronic pain roughly <b>doubles</b> the risk of death by suicide.</p>"
                     },
                     {
-                      "number": "Q20",
+                      "number": "3.5",
                       "prompt": "What are the risk factors for suicide?",
                       "criteria": [
                         {
@@ -1916,7 +1956,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<table class=\"kt\">\n        <tr><th style=\"width:24%\">Domain</th><th>Risk factors</th></tr>\n        <tr class=\"hi\"><td class=\"rh\">Pain-related</td><td>Pain intensity and type, sleep disturbance, pain catastrophising, opioid use</td></tr>\n        <tr><td class=\"rh\">Sociodemographic</td><td>Male sex, LGBT, ethnic minority; stressful life events (job loss, relationship instability); lack of social support</td></tr>\n        <tr><td class=\"rh\">Personal background</td><td>Substance misuse; bereavement by suicide or exposure to others' suicidal behaviour; suicide-promoting websites or social media; access to lethal means</td></tr>\n        <tr><td class=\"rh\">Psychological</td><td>Previous self-harm or suicide attempt; mental illness (especially recent relapse or discharge from inpatient care); impulsivity or personality disorder; disengagement from services; hopelessness, helplessness, guilt; entrapment or shame; psychotic phenomena</td></tr>\n      </table>\n      <p>The risk of death by suicide is about <b>twice as high</b> in people with chronic pain.</p>"
                     },
                     {
-                      "number": "Q21",
+                      "number": "3.6",
                       "prompt": "How would you screen for anxiety and depression, and what would you do if you were worried about suicide?",
                       "criteria": [
                         {
@@ -1935,7 +1975,7 @@ window.SOE_DATA = {
                       "knowledgeHtml": "<ul>\n        <li><b>Screening:</b> PHQ-9 (depression; item 9 asks about thoughts of self-harm), GAD-7 (anxiety), HADS; PHQ-2 and GAD-2 as brief screens</li>\n        <li><b>Ask directly</b> about thoughts of death, suicidal ideation, plans, intent, preparations and access to means. Asking does not increase risk</li>\n        <li><b>NICE NG225:</b> do not use risk assessment tools or scales to predict suicide or decide treatment; use a psychosocial assessment</li>\n      </ul>\n      <table class=\"kt\">\n        <tr><th style=\"width:24%\">Situation</th><th>Action</th></tr>\n        <tr class=\"hi\"><td class=\"rh\">Immediate risk</td><td>Do not leave her alone; urgent referral to the crisis or liaison mental health team</td></tr>\n        <tr><td class=\"rh\">Otherwise</td><td>Collaborative safety plan; reduce access to means (limited opioid supplies); inform the GP; refer to NHS Talking Therapies or psychology; document and communicate</td></tr>\n      </table>"
                     },
                     {
-                      "number": "Q22",
+                      "number": "3.7",
                       "prompt": "How would you address her work situation?",
                       "criteria": [
                         {
