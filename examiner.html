@@ -114,6 +114,12 @@ button,input,select,textarea{font-family:var(--san)}
 .timer-btn:hover{border-color:var(--coral);color:var(--coral-deep)}
 .timer-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4}
 .timer.big .timer-clock{font-size:22px;min-width:82px}
+.timer.running{border-color:var(--green);background:var(--green-soft);box-shadow:0 0 0 3px rgba(46,125,79,.15)}
+.timer.paused{border-color:var(--amber);background:var(--amber-soft);box-shadow:0 0 0 3px rgba(245,165,36,.18)}
+.timer.running .timer-btn[title="Start"]{background:var(--green);border-color:var(--green);color:#fff}
+.timer.paused .timer-btn[title="Pause"]{background:var(--amber);border-color:var(--amber);color:#fff}
+.timer-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.timer-btn:active{transform:scale(.92)}
 
 /* ===== CANDIDATE INFO / CASE HISTORY ===== */
 .info-box{background:var(--amber-soft);border:1.5px solid #E9C77E;border-radius:12px;padding:16px 18px;margin-bottom:18px}
@@ -626,8 +632,9 @@ function renderTimer(labelText, key, minutes, big){
   const st = getTimerState(key);
   const remain = totalMs - timerElapsedMs(st);
   const cls = remain<0 ? ' over' : (remain < totalMs*0.15 ? ' warn' : '');
+  const state = st.running ? ' running' : (st.accumulatedMs>0 ? ' paused' : '');
   return '' +
-    '<div class="timer'+(big?' big':'')+'">' +
+    '<div class="timer'+(big?' big':'')+state+'">' +
       '<span class="timer-label">'+esc(labelText)+'</span>' +
       '<span class="timer-clock'+cls+'" data-timer-key="'+key+'" data-timer-total="'+totalMs+'">'+fmtClock(remain,true)+'</span>' +
       '<button class="timer-btn" title="Start" onclick="startTimer(\''+key+'\')"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4z" fill="currentColor" stroke="none"/></svg></button>' +
