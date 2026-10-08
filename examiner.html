@@ -248,10 +248,53 @@ button,input,select,textarea{font-family:var(--san)}
 
 .readonly-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--stone);background:var(--border);padding:3px 9px;border-radius:999px;margin-left:6px}
 
+.tb-menu{display:none;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);color:#fff;font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;flex-shrink:0}
+.tb-menu:hover{background:rgba(255,255,255,.14)}
+.tb-menu:focus-visible,.tb-btn-lock:focus-visible,.nav-btn:focus-visible,.submit-btn:focus-visible,.part-tab:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.tb-menu:active,.tb-btn-lock:active,.nav-btn:active,.submit-btn:active,.part-tab:active{transform:scale(.97)}
+.sb-scrim{display:none}
+
 @media (max-width:900px){
   .layout{grid-template-columns:1fr}
-  .sidebar{position:relative;height:auto;top:0}
-  .main-inner{padding:20px 16px 60px}
+  .tb-menu{display:inline-flex}
+  .sidebar{position:fixed;top:56px;left:0;bottom:0;width:min(86vw,340px);height:auto;z-index:100;transform:translateX(-102%);transition:transform .28s cubic-bezier(.32,.72,0,1);box-shadow:none;overscroll-behavior:contain}
+  body.sb-open .sidebar{transform:none;box-shadow:0 0 0 1px var(--border),24px 0 48px -20px rgba(36,27,22,.35)}
+  .sb-scrim{display:block;position:fixed;inset:56px 0 0 0;z-index:95;background:rgba(36,27,22,.45);opacity:0;pointer-events:none;transition:opacity .2s}
+  body.sb-open .sb-scrim{opacity:1;pointer-events:auto}
+  body.sb-open{overflow:hidden}
+  .tree-row{padding:11px 8px;font-size:14px}
+  .candidate-del{opacity:1;width:32px;height:32px}
+  .main-inner{padding:18px 14px 60px}
+  .topbar{padding:0 12px;gap:10px}
+  .tb-examiner{display:none}
+  .page-title{font-size:20px}
+  .timer-bar{top:60px;padding:8px;gap:8px;border-radius:12px;margin-bottom:16px}
+  .timer{flex:1 1 150px;padding:6px 8px;gap:6px;justify-content:space-between}
+  .timer-label{white-space:normal;font-size:10px;line-height:1.2}
+  .timer-clock,.timer.big .timer-clock{font-size:17px;min-width:0}
+  .timer-btn{width:32px;height:32px}
+  .qcard{padding:16px 14px}
+  .crit-table,.crit-table tbody,.crit-table tr,.crit-table td{display:block;width:100%}
+  .crit-table td.crit-text{padding:10px 0 6px}
+  .crit-table td.crit-yn{width:100%;text-align:left;padding:0 0 10px}
+  .crit-yn label{margin:0 8px 0 0;padding:8px 18px;font-size:12.5px}
+  .crit-yn input{width:16px;height:16px}
+  .know-toggle{padding:10px 12px;gap:10px}
+  .know-sub{display:none}
+  .know-body{padding:14px 12px}
+  .pack-embed .flow{flex-direction:column}
+  .pack-embed .flow .ar{width:auto;height:22px;transform:rotate(90deg)}
+  .pack-embed .mri{flex-direction:column}
+  .pack-embed table.kt{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .section-score,.mark-footer{padding:16px 14px}
+  .score-opt{min-width:calc(50% - 5px)}
+  .nav-bar .nav-btn{flex:1 1 40%;padding:12px 14px}
+  .submit-btn,.submitted-pill{margin-left:0;flex:1 1 100%;text-align:center;justify-content:center;padding:13px 20px}
+  .unlock-btn{margin-left:0}
+  .part-tabs{flex-wrap:nowrap;overflow-x:auto;margin-right:-14px;padding-right:14px;scrollbar-width:none}
+  .part-tab{white-space:nowrap;flex-shrink:0;padding:9px 14px}
+  .gate-card{width:calc(100vw - 32px);max-width:340px;padding:28px 22px}
+  .empty-state{padding:60px 20px}
 }
 </style>
 </head>
@@ -269,6 +312,7 @@ button,input,select,textarea{font-family:var(--san)}
 
 <div id="app" style="display:none">
   <div class="topbar">
+    <button class="tb-menu" id="btn-menu" aria-label="Open candidates and packs menu" aria-controls="sidebar" aria-expanded="false"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Menu</button>
     <div class="topbar-logo">PainRevision <span class="topbar-badge">SOE Examiner</span></div>
     <div class="topbar-actions">
       <div class="tb-examiner">Examiner: <b id="tb-examiner-name">—</b></div>
@@ -276,6 +320,7 @@ button,input,select,textarea{font-family:var(--san)}
     </div>
   </div>
   <div class="layout">
+    <div class="sb-scrim" id="sb-scrim"></div>
     <div class="sidebar" id="sidebar"></div>
     <div class="main"><div class="main-inner" id="main"></div></div>
   </div>
@@ -499,7 +544,20 @@ async function selectPart(mode, mockKey, stationKey, partKey, candidateId){
   selection = { mode, mockKey, stationKey, partKey, candidateId };
   renderSidebar();
   renderMain();
+  setSidebarOpen(false);
+  window.scrollTo(0, 0);
 }
+
+// Mobile: sidebar is an off-canvas drawer opened from the topbar Menu button.
+function setSidebarOpen(open){
+  document.body.classList.toggle('sb-open', open);
+  const b = document.getElementById('btn-menu');
+  if (b) b.setAttribute('aria-expanded', open);
+}
+document.getElementById('btn-menu').onclick = ()=> setSidebarOpen(!document.body.classList.contains('sb-open'));
+document.getElementById('sb-scrim').onclick = ()=> setSidebarOpen(false);
+document.addEventListener('keydown', e=>{ if (e.key==='Escape') setSidebarOpen(false); });
+window.addEventListener('resize', ()=>{ if (window.innerWidth>900) setSidebarOpen(false); });
 
 // ---------- timers ----------
 // localStorage-persisted, per browser. Keyed so the big station timer survives
