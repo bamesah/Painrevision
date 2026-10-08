@@ -565,33 +565,35 @@ window.addEventListener('resize', ()=>{ if (window.innerWidth>900) setSidebarOpe
 function timerStorageKey(scope, mockKey, stationKey, partKey, candidateId){
   return 'soe_timer::' + (candidateId||'view') + '::' + mockKey + '::' + stationKey + '::' + scope + (scope==='part'?(':'+partKey):'');
 }
+const memTimers = {}; // fallback when localStorage is blocked (e.g. private mode on phones)
 function getTimerState(key){
   try{
+    if (memTimers[key]) return memTimers[key];
     const raw = localStorage.getItem(key);
     if (!raw) return { accumulatedMs:0, running:false, startedAt:null };
     return JSON.parse(raw);
   }catch(e){ return { accumulatedMs:0, running:false, startedAt:null }; }
 }
 function setTimerState(key, state){
-  localStorage.setItem(key, JSON.stringify(state));
+  try{ localStorage.setItem(key, JSON.stringify(state)); }catch(e){ memTimers[key] = state; }
 }
 function timerElapsedMs(state){
   return state.accumulatedMs + (state.running ? (Date.now() - state.startedAt) : 0);
 }
-function startTimer(key){
+function startTimerState(key){
   const st = getTimerState(key);
   if (st.running) return;
   st.running = true; st.startedAt = Date.now();
   setTimerState(key, st);
 }
-function pauseTimer(key){
+function pauseTimerState(key){
   const st = getTimerState(key);
   if (!st.running) return;
   st.accumulatedMs += Date.now() - st.startedAt;
   st.running = false; st.startedAt = null;
   setTimerState(key, st);
 }
-function resetTimer(key){
+function resetTimerState(key){
   setTimerState(key, { accumulatedMs:0, running:false, startedAt:null });
 }
 function fmtClock(ms, negativeOk){
@@ -633,9 +635,9 @@ function renderTimer(labelText, key, minutes, big){
       '<button class="timer-btn" title="Reset" onclick="resetTimer(\''+key+'\')"><svg viewBox="0 0 24 24"><path d="M4 4v6h6M20 20v-6h-6M4.5 15a8 8 0 0013.9 3.4M19.5 9A8 8 0 005.6 5.6"/></svg></button>' +
     '</div>';
 }
-window.startTimer = (k)=>{ startTimer(k); renderMain(); };
-window.pauseTimer = (k)=>{ pauseTimer(k); renderMain(); };
-window.resetTimer = (k)=>{ if(confirm('Reset this timer to 00:00?')){ resetTimer(k); renderMain(); } };
+window.startTimer = (k)=>{ startTimerState(k); renderMain(); };
+window.pauseTimer = (k)=>{ pauseTimerState(k); renderMain(); };
+window.resetTimer = (k)=>{ if(confirm('Reset this timer to 00:00?')){ resetTimerState(k); renderMain(); } };
 
 // ---------- main render ----------
 function renderMain(){
