@@ -1056,6 +1056,7 @@ const KS_ENTRIES = [
 const KS_LIVE_TOPICS = [
   { "label": "Acute Pain Management in the Opioid-Tolerant Patient", "category": "Clinical Pain" },
   { "label": "Amitriptyline", "category": "Pharmacology" },
+  { "label": "Ascending Pain Pathways", "category": "Physiology" },
   { "label": "Autonomic Nervous System", "category": "Pharmacology" },
   { "label": "Back pain", "category": "Clinical Pain" },
   { "label": "Baclofen", "category": "Pharmacology" },
@@ -1063,6 +1064,7 @@ const KS_LIVE_TOPICS = [
   { "label": "Cannabinoid System", "category": "Pharmacology" },
   { "label": "Capsaicin", "category": "Physiology" },
   { "label": "Central sensitisation", "category": "Physiology" },
+  { "label": "Cerebrospinal Fluid Physiology", "category": "Physiology" },
   { "label": "Cervical Facet Joints and Occipital Nerves", "category": "Anatomy" },
   { "label": "Classification of Diabetic Neuropathy", "category": "Clinical Pain" },
   { "label": "Coeliac Plexus and Splanchnic Nerves", "category": "Anatomy" },
@@ -1072,7 +1074,7 @@ const KS_LIVE_TOPICS = [
   { "label": "Corticosteroids in chronic pain", "category": "Pharmacology" },
   { "label": "CYP2D6 and Opioids", "category": "Pharmacology" },
   { "label": "Dermatomes of the lower limb", "category": "Anatomy" },
-  { "label": "Dorsal horn", "category": "Physiology" },
+  { "label": "Dorsal Horn, Visceral and Referred Pain", "category": "Physiology" },
   { "label": "Dorsal Root Ganglion (DRG) Stimulation", "category": "Physics & Clinical Measurement" },
   { "label": "Drug Pharmacology", "category": "Pharmacology" },
   { "label": "DVLA and Opioids", "category": "Medicolegal" },
@@ -1082,11 +1084,11 @@ const KS_LIVE_TOPICS = [
   { "label": "Headache", "category": "Clinical Pain" },
   { "label": "Imaging Modalities 1", "category": "Physics & Clinical Measurement" },
   { "label": "Inflammatory soup", "category": "Physiology" },
-  { "label": "Inhibitory Neurotransmitters", "category": "Physiology" },
+  { "label": "Inhibitory Neurotransmitters and Endogenous Opioid Peptides", "category": "Physiology" },
   { "label": "IRMER vs IRR", "category": "Physics & Clinical Measurement" },
   { "label": "Ketamine Pharmacology", "category": "Pharmacology" },
   { "label": "Legal Implications of Driving on Prescription Opioids", "category": "Medicolegal" },
-  { "label": "Local anaesthetics", "category": "Pharmacology" },
+  { "label": "Local Anaesthetics", "category": "Pharmacology" },
   { "label": "Lower Limb Nerve — Key Definitions", "category": "Anatomy" },
   { "label": "Lumbar Facet Joint Innervation", "category": "Anatomy" },
   { "label": "Lumbar Plexus", "category": "Anatomy" },
@@ -1101,9 +1103,11 @@ const KS_LIVE_TOPICS = [
   { "label": "Opioid Metabolism in Renal Impairment", "category": "Pharmacology" },
   { "label": "Opioid Pharmacology", "category": "Pharmacology" },
   { "label": "Opioid Phenomena — Key Definitions", "category": "Pharmacology" },
+  { "label": "Opioid Receptor Physiology", "category": "Pharmacology" },
   { "label": "Opioids and Hormones", "category": "Pharmacology" },
   { "label": "Opioids and Immunosuppression", "category": "Pharmacology" },
   { "label": "Oral Mucositis", "category": "Clinical Pain" },
+  { "label": "Peripheral Nerve Fibre Types", "category": "Physiology" },
   { "label": "Peripheral Nerve Structure", "category": "Anatomy" },
   { "label": "Pharmacology", "category": "Pharmacology" },
   { "label": "Polymyalgia Rheumatica", "category": "Clinical Pain" },
@@ -1120,12 +1124,13 @@ const KS_LIVE_TOPICS = [
   { "label": "Stellate Ganglion", "category": "Anatomy" },
   { "label": "Steroids mechanism of action", "category": "Pharmacology" },
   { "label": "Suicide and Chronic Pain", "category": "Psychology" },
-  { "label": "TENS", "category": "Physics & Clinical Measurement" },
+  { "label": "TENS and Gate Control Theory", "category": "Physics & Clinical Measurement" },
   { "label": "Trigeminal Neuralgia", "category": "Clinical Pain" },
   { "label": "TRPV1 Receptor", "category": "Physiology" },
   { "label": "Types of Data and Statistical Distributions", "category": "Physics & Clinical Measurement" },
   { "label": "UK Drug Driving Legislation 2015", "category": "Medicolegal" },
   { "label": "Unselected Options — Key Definitions", "category": "Clinical Pain" },
+  { "label": "Voltage-Gated Sodium Channels in Nociception", "category": "Physiology" },
   { "label": "Whiplash-Associated Disorders (WAD)", "category": "Clinical Pain" },
   { "label": "Whole-Body Dose & Radiosensitivity", "category": "Physics & Clinical Measurement" }
 ];
@@ -1154,7 +1159,7 @@ let timeRemaining = 180;
    dashboard ring and the My Progress page so both always match the real
    bank size instead of a number that goes stale as questions are added. */
 /* TOTAL_QUESTIONS:START */
-const TOTAL_QUESTIONS = 194;
+const TOTAL_QUESTIONS = 204;
 /* TOTAL_QUESTIONS:END */
 // Fixed illustrative proportions applied to TOTAL_QUESTIONS — the ratios the
 // design shipped with, kept as ratios (rather than baked-in counts) so the
