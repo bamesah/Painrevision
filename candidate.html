@@ -45,6 +45,17 @@ h1{font-size:clamp(24px,5vw,32px);font-weight:800;letter-spacing:-.03em;line-hei
 .btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
 .btn:disabled{opacity:.6;cursor:wait}
 
+/* password modal */
+.modal-bg{position:fixed;inset:0;background:rgba(36,27,22,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);border-radius:18px;padding:28px 24px;width:100%;max-width:380px;box-shadow:var(--shadow)}
+.modal h3{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.modal p{font-size:13.5px;color:var(--stone);margin-bottom:16px}
+.modal input{width:100%;padding:12px 14px;border:1.5px solid var(--border-strong);border-radius:10px;font-size:15px;margin-bottom:8px}
+.modal input:focus{outline:none;border-color:var(--coral)}
+.modal .err{color:var(--red);font-size:13px;min-height:20px;margin-bottom:8px}
+.modal .row{display:flex;gap:10px}
+.modal .row .btn{flex:1;padding:12px}
 .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border-strong)}
 .btn.ghost:hover{background:var(--cream)}
 
@@ -182,6 +193,19 @@ b,strong{color:var(--ink);font-weight:700}
   </div>
 </div>
 
+<div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <form class="modal" id="pw-form">
+    <h3 id="modal-title">Enter password</h3>
+    <p>Your examiner will give you the password. Your 10-minute reading time starts as soon as the case is revealed.</p>
+    <input type="password" id="pw" autocomplete="off" placeholder="Password" aria-label="Password"/>
+    <div class="err" id="err"></div>
+    <div class="row">
+      <button type="button" class="btn ghost" id="cancel">Cancel</button>
+      <button type="submit" class="btn" id="go">Reveal</button>
+    </div>
+  </form>
+</div>
+
 <script src="js/soe-candidate-cases.js"></script>
 <script>
 'use strict';
@@ -193,6 +217,7 @@ const startKey = 'soe_cand_start::' + mockKey;
 const notesKey = 'soe_cand_notes::' + mockKey;
 
 const $ = id => document.getElementById(id);
+const ICON_LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>';
 const ICON_DONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
 function getStart(){ try { return parseInt(localStorage.getItem(startKey), 10) || null; } catch(e){ return null; } }
@@ -203,6 +228,22 @@ if (params.has('reset')){
   try { localStorage.removeItem(startKey); localStorage.removeItem(notesKey); } catch(e){}
   params.delete('reset');
   history.replaceState(null, '', location.pathname + '?' + params.toString());
+}
+
+function showLocked(){
+  $('state').innerHTML = '<div class="panel"><div class="icon">'+ICON_LOCK+'</div>' +
+    '<h2>Case information is hidden</h2>' +
+    '<p>When your examiner tells you to start, press Reveal and enter the password. You will then have <b>10 minutes</b> to read the case before it is hidden again.</p>' +
+    '<button class="btn" id="reveal">Reveal case</button></div>';
+  $('reveal').onclick = openModal;
+}
+
+function showResume(){
+  $('state').innerHTML = '<div class="panel"><div class="icon">'+ICON_LOCK+'</div>' +
+    '<h2>Reading time is running</h2>' +
+    '<p>The page was reloaded. Enter the password again to continue reading — the timer has not restarted.</p>' +
+    '<button class="btn" id="reveal">Continue reading</button></div>';
+  $('reveal').onclick = openModal;
 }
 
 function showSplit(){
@@ -285,7 +326,6 @@ function openLightbox(img){
 }
 function closeLightbox(){ $('lightbox').classList.remove('show'); $('lb-img').removeAttribute('src'); }
 $('lb-close').onclick = closeLightbox;
-document.addEventListener('keydown', e=>{ if (e.key === 'Escape') closeLightbox(); });
 $('lightbox').addEventListener('click', e=>{ if (e.target === $('lightbox') || e.target === $('lb-stage')) closeLightbox(); });
 $('lb-img').addEventListener('click', e=>{
   const img = $('lb-img'), stage = $('lb-stage');
@@ -312,18 +352,50 @@ function wireImages(){
   if (mri) mri.insertAdjacentHTML('afterend', '<p class="zoom-hint">Click an image to enlarge it</p>');
 }
 
-// No password: the case shows as soon as the link is opened, and the 10-minute
-// reading time starts then. Reloading continues the same timer.
-const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-function reveal(){
-  if (!getStart()) setStart(Date.now());
-  if (Date.now() - getStart() >= READING_MS){ showEnded(); return; }
-  showSplit();
-  $('content').innerHTML = new TextDecoder().decode(b64(pack.html));
-  $('content').classList.add('show');
-  wireImages();
-  startTimer();
+function openModal(){
+  $('err').textContent = '';
+  $('pw').value = '';
+  $('modal').classList.add('show');
+  setTimeout(()=>$('pw').focus(), 30);
 }
+function closeModal(){ $('modal').classList.remove('show'); }
+$('cancel').onclick = closeModal;
+$('modal').addEventListener('click', e=>{ if (e.target === $('modal')) closeModal(); });
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape'){ closeModal(); closeLightbox(); } });
+
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function decrypt(password){
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt:b64(pack.salt), iterations:pack.iterations, hash:'SHA-256' },
+    baseKey, { name:'AES-GCM', length:256 }, false, ['decrypt']);
+  const pt = await crypto.subtle.decrypt({ name:'AES-GCM', iv:b64(pack.iv) }, key, b64(pack.data));
+  return new TextDecoder().decode(pt);
+}
+
+$('pw-form').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const pw = $('pw').value;
+  if (!pw){ $('err').textContent = 'Please enter the password.'; return; }
+  $('go').disabled = true; $('go').textContent = 'Checking…';
+  try {
+    const html = await decrypt(pw);
+    if (!getStart()) setStart(Date.now());
+    if (Date.now() - getStart() >= READING_MS){ closeModal(); showEnded(); return; }
+    closeModal();
+    showSplit();
+    $('content').innerHTML = html;
+    $('content').classList.add('show');
+    wireImages();
+    startTimer();
+  } catch(err){
+    $('err').textContent = 'Incorrect password.';
+    $('pw').select();
+  } finally {
+    $('go').disabled = false; $('go').textContent = 'Reveal';
+  }
+});
 
 let tick = null;
 function startTimer(){
@@ -349,7 +421,10 @@ if (!pack){
   $('eyebrow').textContent = pack.title;
   $('title').textContent = 'Long case: candidate information';
   loadNotes();
-  reveal();
+  const start = getStart();
+  if (!start) showLocked();
+  else if (Date.now() - start >= READING_MS) showEnded();
+  else showResume();
 }
 </script>
 </body>
