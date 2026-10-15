@@ -13,12 +13,12 @@
     var from = 'from ' + money(min.amountPence);
     var copy = {
       promo: 'Plans ' + from + '.' + introTxt,
-      'index-amt': 'Plans <span style="font-size:.6em">' + from + '</span>',
-      'index-until': '1-MONTH, 3-MONTH, 6-MONTH &amp; 12-MONTH ACCESS',
-      'index-then': intro ? ('3-MONTH INTRO OFFER: ACCESS UNTIL ' + intro.intro.untilLabel.toUpperCase()) : 'ONE-TIME PAYMENT, NO AUTO-RENEWAL',
       'demo-p': 'Get full access to every question, mock exam, and feature you just tried — plans ' + from + '.',
       'demo-btn': 'See plans'
     };
+    // index.html: in tier mode the price block is dropped; the "Start Today"
+    // button (link to signup.html) is the call to action.
+    document.querySelectorAll('[data-tier-hide]').forEach(function (el) { el.style.display = 'none'; });
     document.querySelectorAll('[data-tier-swap]').forEach(function (el) {
       var v = copy[el.getAttribute('data-tier-swap')];
       if (v !== undefined) el.innerHTML = v;
