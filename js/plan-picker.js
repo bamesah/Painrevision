@@ -24,6 +24,18 @@ const PlanPicker = (function () {
     s.textContent = `
     .pp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .pp-list{display:flex;flex-direction:column;gap:10px}
+    .pp-row{display:grid;grid-template-columns:repeat(var(--pp-cols,4),minmax(0,1fr));gap:16px;padding-top:12px}
+    .pp-row.pp-single{max-width:340px;margin:0 auto}
+    @media(max-width:899px){.pp-row:not(.pp-single){grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:520px){.pp-row:not(.pp-single){grid-template-columns:minmax(0,1fr)}}
+    .pp-row .pp-card{padding:26px 20px 20px;gap:6px;min-height:280px}
+    .pp-row .pp-main{display:flex;flex-direction:column;gap:6px}
+    .pp-row .pp-label{font-size:16px}
+    .pp-row .pp-price{font-size:34px}
+    .pp-row .pp-intro{margin-top:10px}
+    .pp-row .pp-pick{margin-top:auto;padding-top:14px;font-size:13.5px;font-weight:700;color:var(--coral-deep);display:flex;align-items:center;gap:8px}
+    .pp-row .pp-pick::before{content:'';width:18px;height:18px;border-radius:50%;border:2px solid var(--border-strong,#E0D3C4);background:var(--surface,#fff);flex-shrink:0;transition:background .15s,border-color .15s,box-shadow .15s}
+    .pp-row .pp-card.is-selected .pp-pick::before{border-color:var(--coral,#F0623C);background:var(--coral,#F0623C);box-shadow:inset 0 0 0 3px var(--coral-soft,#FBD9CC)}
     .pp-grid.pp-single{grid-template-columns:minmax(0,1fr)}
     @media(max-width:520px){.pp-grid{grid-template-columns:minmax(0,1fr)}}
     .pp-card{position:relative;display:flex;flex-direction:column;gap:4px;text-align:left;background:var(--surface,#fff);border:1.5px solid var(--border,#EDE3D7);border-radius:16px;padding:18px 18px 16px;color:var(--ink,#241B16);font-family:inherit;cursor:pointer;text-decoration:none;box-shadow:0 1px 2px rgba(36,27,22,.04),0 8px 22px -14px rgba(36,27,22,.18);transition:transform .2s cubic-bezier(.2,.7,.2,1),border-color .15s,box-shadow .2s,background .15s}
@@ -78,15 +90,17 @@ const PlanPicker = (function () {
       }
       return `<div class="${cls}" data-plan="${p.id}">${body}<button type="button" class="pp-cta">${opts.ctaLabel || 'Choose plan'}</button></div>`;
     }
-    return `<label class="${cls}" data-plan="${p.id}"><input class="pp-radio" type="radio" name="plan" value="${p.id}">${body}</label>`;
+    return `<label class="${cls}" data-plan="${p.id}"><input class="pp-radio" type="radio" name="plan" value="${p.id}">${body}<span class="pp-pick">${opts.layout === 'row' ? 'Select this plan' : ''}</span></label>`;
   }
 
   function render(el, data, opts) {
     opts = opts || {};
     injectStyles();
     const plans = data.plans;
-    const layout = opts.layout === 'list' ? 'pp-list' : 'pp-grid' + (plans.length === 1 ? ' pp-single' : '');
-    el.innerHTML = `<div class="${layout}">${plans.map(p => cardHtml(p, opts)).join('')}</div>`;
+    const layout = opts.layout === 'list' ? 'pp-list'
+      : opts.layout === 'row' ? 'pp-row' + (plans.length === 1 ? ' pp-single' : '')
+      : 'pp-grid' + (plans.length === 1 ? ' pp-single' : '');
+    el.innerHTML = `<div class="${layout}" style="--pp-cols:${plans.length}">${plans.map(p => cardHtml(p, opts)).join('')}</div>`;
 
     if (opts.mode === 'buy') {
       if (!opts.linkBase) {
