@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Long Case — Candidate Information · PainRevision</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;--stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;--red:#C0392B;
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.6;min-height:100vh}
+button,input{font-family:inherit}
+
+.top{background:var(--ink);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:9px;color:#fff;font-weight:800;font-size:16px;letter-spacing:-.03em}
+.brand svg{width:24px;height:24px}
+.brand .wm span{color:var(--amber)}
+.top-meta{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+
+.wrap{max-width:760px;margin:0 auto;padding:28px 16px 80px}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--coral)}
+h1{font-size:clamp(24px,5vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin:6px 0 22px}
+
+/* locked / ended state */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:36px 26px;text-align:center;box-shadow:var(--shadow)}
+.panel .icon{width:56px;height:56px;border-radius:16px;background:var(--amber-soft);color:#9A5F00;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.panel .icon svg{width:26px;height:26px}
+.panel h2{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.panel p{color:var(--stone);font-size:14.5px;max-width:420px;margin:0 auto 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:12px;border:none;background:var(--coral);color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:transform .15s cubic-bezier(.34,1.56,.64,1),background .15s}
+.btn:hover{background:var(--coral-deep)}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.btn:disabled{opacity:.6;cursor:wait}
+
+/* password modal */
+.modal-bg{position:fixed;inset:0;background:rgba(36,27,22,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);border-radius:18px;padding:28px 24px;width:100%;max-width:380px;box-shadow:var(--shadow)}
+.modal h3{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.modal p{font-size:13.5px;color:var(--stone);margin-bottom:16px}
+.modal input{width:100%;padding:12px 14px;border:1.5px solid var(--border-strong);border-radius:10px;font-size:15px;margin-bottom:8px}
+.modal input:focus{outline:none;border-color:var(--coral)}
+.modal .err{color:var(--red);font-size:13px;min-height:20px;margin-bottom:8px}
+.modal .row{display:flex;gap:10px}
+.modal .row .btn{flex:1;padding:12px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--border-strong)}
+.btn.ghost:hover{background:var(--cream)}
+
+/* timer */
+.timer{position:sticky;top:64px;z-index:10;display:none;align-items:center;justify-content:space-between;gap:12px;background:var(--ink);color:#fff;border-radius:14px;padding:12px 18px;margin-bottom:20px;box-shadow:var(--shadow)}
+.timer.show{display:flex}
+.timer-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.timer-clock{font-family:var(--mono);font-size:26px;font-weight:600;letter-spacing:.02em}
+.timer.warn{background:var(--coral-deep)}
+.timer-bar{position:absolute;left:0;bottom:0;height:3px;background:var(--amber);border-radius:0 0 0 14px;transition:width 1s linear}
+
+/* split layout: notes left, case right */
+.wrap.split{max-width:1280px}
+.split-grid{display:none}
+.split-grid.show{display:grid;grid-template-columns:minmax(280px,5fr) 7fr;gap:22px;align-items:start}
+.notes{position:sticky;top:150px;background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;height:calc(100vh - 170px);min-height:360px;overflow:hidden}
+.notes-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-warm)}
+.notes-head .label{margin:0;color:var(--coral)}
+.notes-status{font-size:11.5px;color:var(--stone-light)}
+.notes textarea{flex:1;width:100%;border:none;resize:none;padding:16px;font-family:var(--san);font-size:15px;line-height:1.65;color:var(--ink);background:transparent}
+.notes textarea:focus{outline:none}
+.notes textarea::placeholder{color:var(--stone-light)}
+.notes-foot{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--border);background:var(--surface-warm)}
+.mini-btn{padding:7px 12px;border-radius:8px;border:1.5px solid var(--border-strong);background:var(--surface);font-size:12.5px;font-weight:700;color:var(--ink);cursor:pointer;transition:transform .15s cubic-bezier(.34,1.56,.64,1),border-color .15s}
+.mini-btn:hover{border-color:var(--coral);color:var(--coral-deep)}
+.mini-btn:active{transform:scale(.96)}
+.mini-btn:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.case-col{min-width:0}
+.mobile-tabs{display:none}
+@media (max-width:860px){
+  .split-grid.show{grid-template-columns:1fr;gap:14px}
+  .mobile-tabs{display:flex;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px;position:sticky;top:142px;z-index:9;box-shadow:0 -14px 0 var(--cream),var(--shadow)}
+  .mtab{flex:1;padding:10px;border:none;border-radius:9px;background:transparent;font-size:14px;font-weight:700;color:var(--stone);cursor:pointer;transition:background .15s,color .15s}
+  .mtab.active{background:var(--ink);color:#fff}
+  .mtab:focus-visible{outline:2px solid var(--coral);outline-offset:1px}
+  .mtab:active{transform:scale(.98)}
+  .split-grid[data-view="case"] .notes{display:none}
+  .split-grid[data-view="notes"] .case-col{display:none}
+  .notes{position:static;height:auto;min-height:0}
+  .notes textarea{min-height:55vh}
+}
+
+/* after reading time: banner on top, notes full width below */
+.ended-banner{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-left:5px solid var(--amber);border-radius:6px 16px 16px 6px;padding:16px 20px;margin-bottom:18px;box-shadow:var(--shadow)}
+.ended-banner .icon{width:46px;height:46px;border-radius:13px;background:var(--amber-soft);color:#9A5F00;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ended-banner .icon svg{width:22px;height:22px}
+.ended-banner h2{font-size:17px;font-weight:800;letter-spacing:-.02em;margin-bottom:2px}
+.ended-banner p{font-size:14px;color:var(--stone)}
+.split-grid.show.ended{grid-template-columns:1fr}
+.split-grid.ended .case-col,.split-grid.ended .mobile-tabs{display:none}
+.split-grid.ended .notes{display:flex;position:static;height:calc(100vh - 290px);min-height:380px}
+.split-grid.ended .notes textarea{min-height:0}
+
+/* revealed content */
+#content{display:none}
+#content.show{display:block}
+
+/* image zoom */
+.mri img{cursor:zoom-in;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.mri .frame:hover img{transform:scale(1.02)}
+.zoom-hint{font-size:12px;color:var(--stone);margin-top:6px;text-align:center}
+.lightbox{position:fixed;inset:0;background:rgba(36,27,22,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}
+.lightbox.show{display:flex}
+.lb-window{display:flex;flex-direction:column;width:min(860px,100%);height:min(78vh,820px);background:#16100D;border-radius:16px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.2),0 30px 70px -20px rgba(0,0,0,.55);animation:lb-in .22s cubic-bezier(.34,1.56,.64,1)}
+@keyframes lb-in{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.lb-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 16px;background:var(--ink);color:#fff;font-size:13px}
+.lb-bar span{color:rgba(255,255,255,.75)}
+.lb-close{flex-shrink:0;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:13px;font-weight:700;padding:7px 12px;border-radius:9px;cursor:pointer;transition:background .15s}
+.lb-close:hover{background:rgba(255,255,255,.22)}
+.lb-close:active{background:rgba(255,255,255,.3)}
+.lb-close:focus-visible{outline:2px solid var(--amber)}
+.lb-stage{flex:1;min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center;padding:12px}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in;border-radius:6px}
+.lb-stage.zoomed{align-items:flex-start;justify-content:flex-start}
+.lb-stage.zoomed img{max-width:none;max-height:none;width:200%;cursor:zoom-out}
+.instr{background:var(--amber-soft);border-left:4px solid var(--amber);border-radius:4px 14px 14px 4px;padding:16px 18px;margin-bottom:22px}
+.label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.instr .label{color:#9A5F00}
+.instr ul{padding-left:18px}
+.instr li{font-size:14.5px;margin-bottom:4px}
+.instr li::marker{color:var(--coral)}
+.case{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 22px 18px;box-shadow:var(--shadow)}
+.case .label{color:var(--coral)}
+.case p{font-size:16px;line-height:1.7;margin-bottom:12px;color:var(--ink-soft)}
+.mri{display:flex;gap:10px;margin-top:14px}
+.mri figure{flex:1;margin:0}
+.mri .frame{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.mri img{width:100%;display:block}
+.mri .frame{background:#111}
+.mri .crop-top{aspect-ratio:744/830}
+.mri .crop-top img{margin-top:-17%}
+b,strong{color:var(--ink);font-weight:700}
+@media (max-width:520px){.mri{flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 100 100" aria-hidden="true"><path fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/><circle fill="#F5A524" cx="50" cy="13" r="8.5"/></svg><span class="wm">Pain<span>Revision</span></span></div>
+  <div class="top-meta">Mock SOE · Station 1</div>
+</header>
+
+<main class="wrap" id="main">
+  <p class="eyebrow" id="eyebrow">Long case</p>
+  <h1 id="title">Candidate information</h1>
+
+  <div class="timer" id="timer" role="timer" aria-live="off">
+    <span class="timer-label">Reading time remaining</span>
+    <span class="timer-clock" id="clock">10:00</span>
+    <span class="timer-bar" id="timer-bar"></span>
+  </div>
+
+  <div id="state"></div>
+
+  <div class="split-grid" id="split" data-view="case">
+    <div class="mobile-tabs" role="tablist">
+      <button type="button" role="tab" class="mtab active" data-view="case" aria-selected="true">Case</button>
+      <button type="button" role="tab" class="mtab" data-view="notes" aria-selected="false">My notes</button>
+    </div>
+    <aside class="notes" aria-label="Your notes">
+      <div class="notes-head"><p class="label">Your notes</p><span class="notes-status" id="notes-status">Saved on this device</span></div>
+      <textarea id="notes" placeholder="Make notes here while you read. They stay available after the reading time ends." spellcheck="true"></textarea>
+      <div class="notes-foot">
+        <button type="button" class="mini-btn" id="notes-copy">Copy</button>
+        <button type="button" class="mini-btn" id="notes-download">Download .txt</button>
+      </div>
+    </aside>
+    <div class="case-col"><div id="content"></div></div>
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image">
+  <div class="lb-window">
+    <div class="lb-bar"><span id="lb-hint">Click the image to zoom in</span><button type="button" class="lb-close" id="lb-close">Close ✕</button></div>
+    <div class="lb-stage" id="lb-stage"><img id="lb-img" alt=""/></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <form class="modal" id="pw-form">
+    <h3 id="modal-title">Enter password</h3>
+    <p>Your examiner will give you the password. Your 10-minute reading time starts as soon as the case is revealed.</p>
+    <input type="password" id="pw" autocomplete="off" placeholder="Password" aria-label="Password"/>
+    <div class="err" id="err"></div>
+    <div class="row">
+      <button type="button" class="btn ghost" id="cancel">Cancel</button>
+      <button type="submit" class="btn" id="go">Reveal</button>
+    </div>
+  </form>
+</div>
+
+<script src="js/soe-candidate-cases.js"></script>
+<script>
+'use strict';
+const READING_MS = 10 * 60 * 1000;
+const params = new URLSearchParams(location.search);
+const mockKey = 'mock' + (params.get('mock') || '');
+const pack = (window.SOE_CANDIDATE_CASES || {})[mockKey];
+const startKey = 'soe_cand_start::' + mockKey;
+const notesKey = 'soe_cand_notes::' + mockKey;
+
+const $ = id => document.getElementById(id);
+const ICON_LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>';
+const ICON_DONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+
+function getStart(){ try { return parseInt(localStorage.getItem(startKey), 10) || null; } catch(e){ return null; } }
+function setStart(t){ try { localStorage.setItem(startKey, String(t)); } catch(e){} }
+
+// Examiner-only: candidate.html?mock=N&reset clears the reading-time lock and notes on this device.
+if (params.has('reset')){
+  try { localStorage.removeItem(startKey); localStorage.removeItem(notesKey); } catch(e){}
+  params.delete('reset');
+  history.replaceState(null, '', location.pathname + '?' + params.toString());
+}
+
+function showLocked(){
+  $('state').innerHTML = '<div class="panel"><div class="icon">'+ICON_LOCK+'</div>' +
+    '<h2>Case information is hidden</h2>' +
+    '<p>When your examiner tells you to start, press Reveal and enter the password. You will then have <b>10 minutes</b> to read the case before it is hidden again.</p>' +
+    '<button class="btn" id="reveal">Reveal case</button></div>';
+  $('reveal').onclick = openModal;
+}
+
+function showResume(){
+  $('state').innerHTML = '<div class="panel"><div class="icon">'+ICON_LOCK+'</div>' +
+    '<h2>Reading time is running</h2>' +
+    '<p>The page was reloaded. Enter the password again to continue reading — the timer has not restarted.</p>' +
+    '<button class="btn" id="reveal">Continue reading</button></div>';
+  $('reveal').onclick = openModal;
+}
+
+function showSplit(){
+  $('state').innerHTML = '';
+  $('split').classList.remove('ended');
+  $('main').classList.add('split');
+  $('split').classList.add('show');
+}
+
+function showEnded(){
+  closeLightbox();
+  $('timer').classList.remove('show');
+  showSplit();
+  $('content').innerHTML = '';
+  $('content').classList.remove('show');
+  $('split').classList.add('ended');
+  $('split').dataset.view = 'notes';
+  $('state').innerHTML = '<div class="ended-banner"><div class="icon">'+ICON_DONE+'</div>' +
+    '<div><h2>Reading time has ended</h2>' +
+    '<p>The case information is now hidden. Your notes are below. Please wait for your examiners to begin the discussion.</p></div></div>';
+}
+
+document.querySelectorAll('.mtab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    $('split').dataset.view = tab.dataset.view;
+    document.querySelectorAll('.mtab').forEach(t=>{
+      const on = t === tab;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on);
+    });
+    if (tab.dataset.view === 'notes') $('notes').focus();
+  });
+});
+
+// ---- notes (saved per mock on this device; kept after reading time ends) ----
+function loadNotes(){ try { $('notes').value = localStorage.getItem(notesKey) || ''; } catch(e){} }
+let notesTimer = null;
+$('notes').addEventListener('input', ()=>{
+  $('notes-status').textContent = 'Saving…';
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(()=>{
+    try { localStorage.setItem(notesKey, $('notes').value); $('notes-status').textContent = 'Saved on this device'; }
+    catch(e){ $('notes-status').textContent = 'Could not save — copy your notes'; }
+  }, 400);
+});
+$('notes-copy').onclick = async ()=>{
+  try { await navigator.clipboard.writeText($('notes').value); $('notes-status').textContent = 'Copied'; }
+  catch(e){ $('notes').select(); document.execCommand('copy'); $('notes-status').textContent = 'Copied'; }
+};
+$('notes-download').onclick = ()=>{
+  const blob = new Blob([$('notes').value], { type:'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (pack ? pack.title.replace(/[^\w]+/g,'-') : 'notes') + '-notes.txt';
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+};
+
+// ---- image zoom ----
+// Same crop as the printed pack's `.crop-top` frame: drop the top 17% of the image
+// width (a scanner label strip) and keep a 744:830 window below it.
+function croppedSrc(img){
+  if (!img.closest('.crop-top')) return img.src;
+  const w = img.naturalWidth, top = Math.round(w * 0.17);
+  const h = Math.min(Math.round(w * 830 / 744), img.naturalHeight - top);
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  c.getContext('2d').drawImage(img, 0, top, w, h, 0, 0, w, h);
+  return c.toDataURL('image/png');
+}
+
+function openLightbox(img){
+  $('lb-img').src = croppedSrc(img);
+  $('lb-img').alt = img.alt;
+  $('lb-img').style.width = '';
+  $('lb-stage').classList.remove('zoomed');
+  $('lb-hint').textContent = img.alt ? img.alt + ' · click to zoom' : 'Click the image to zoom in';
+  $('lightbox').classList.add('show');
+  $('lb-close').focus();
+}
+function closeLightbox(){ $('lightbox').classList.remove('show'); $('lb-img').removeAttribute('src'); }
+$('lb-close').onclick = closeLightbox;
+$('lightbox').addEventListener('click', e=>{ if (e.target === $('lightbox') || e.target === $('lb-stage')) closeLightbox(); });
+$('lb-img').addEventListener('click', e=>{
+  const img = $('lb-img'), stage = $('lb-stage');
+  if (stage.classList.contains('zoomed')){
+    stage.classList.remove('zoomed'); img.style.width = '';
+    return;
+  }
+  const rect = img.getBoundingClientRect();
+  const fx = (e.clientX - rect.left) / rect.width, fy = (e.clientY - rect.top) / rect.height;
+  img.style.width = Math.max(rect.width * 2.5, img.naturalWidth) + 'px';
+  stage.classList.add('zoomed');
+  stage.scrollLeft = img.offsetWidth * fx - stage.clientWidth / 2;
+  stage.scrollTop = img.offsetHeight * fy - stage.clientHeight / 2;
+});
+function wireImages(){
+  const imgs = $('content').querySelectorAll('.mri img');
+  imgs.forEach(img=>{
+    img.tabIndex = 0;
+    img.setAttribute('role','button');
+    img.addEventListener('click', ()=>openLightbox(img));
+    img.addEventListener('keydown', e=>{ if (e.key==='Enter' || e.key===' '){ e.preventDefault(); openLightbox(img); } });
+  });
+  const mri = $('content').querySelector('.mri');
+  if (mri) mri.insertAdjacentHTML('afterend', '<p class="zoom-hint">Click an image to enlarge it</p>');
+}
+
+function openModal(){
+  $('err').textContent = '';
+  $('pw').value = '';
+  $('modal').classList.add('show');
+  setTimeout(()=>$('pw').focus(), 30);
+}
+function closeModal(){ $('modal').classList.remove('show'); }
+$('cancel').onclick = closeModal;
+$('modal').addEventListener('click', e=>{ if (e.target === $('modal')) closeModal(); });
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape'){ closeModal(); closeLightbox(); } });
+
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function decrypt(password){
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt:b64(pack.salt), iterations:pack.iterations, hash:'SHA-256' },
+    baseKey, { name:'AES-GCM', length:256 }, false, ['decrypt']);
+  const pt = await crypto.subtle.decrypt({ name:'AES-GCM', iv:b64(pack.iv) }, key, b64(pack.data));
+  return new TextDecoder().decode(pt);
+}
+
+$('pw-form').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const pw = $('pw').value;
+  if (!pw){ $('err').textContent = 'Please enter the password.'; return; }
+  $('go').disabled = true; $('go').textContent = 'Checking…';
+  try {
+    const html = await decrypt(pw);
+    if (!getStart()) setStart(Date.now());
+    if (Date.now() - getStart() >= READING_MS){ closeModal(); showEnded(); return; }
+    closeModal();
+    showSplit();
+    $('content').innerHTML = html;
+    $('content').classList.add('show');
+    wireImages();
+    startTimer();
+  } catch(err){
+    $('err').textContent = 'Incorrect password.';
+    $('pw').select();
+  } finally {
+    $('go').disabled = false; $('go').textContent = 'Reveal';
+  }
+});
+
+let tick = null;
+function startTimer(){
+  $('timer').classList.add('show');
+  const update = ()=>{
+    const left = READING_MS - (Date.now() - getStart());
+    if (left <= 0){ clearInterval(tick); showEnded(); return; }
+    const s = Math.ceil(left / 1000);
+    $('clock').textContent = String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+    $('timer-bar').style.width = (100 * left / READING_MS) + '%';
+    $('timer').classList.toggle('warn', left <= 60000);
+  };
+  update();
+  clearInterval(tick);
+  tick = setInterval(update, 250);
+}
+
+// ---- init ----
+if (!pack){
+  $('title').textContent = 'Case not found';
+  $('state').innerHTML = '<div class="panel"><h2>This link is not valid</h2><p>Please check the link with your examiner.</p></div>';
+} else {
+  $('eyebrow').textContent = pack.title;
+  $('title').textContent = 'Long case: candidate information';
+  loadNotes();
+  const start = getStart();
+  if (!start) showLocked();
+  else if (Date.now() - start >= READING_MS) showEnded();
+  else showResume();
+}
+</script>
+</body>
+</html>

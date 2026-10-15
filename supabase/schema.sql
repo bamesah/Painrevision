@@ -174,3 +174,48 @@ create policy "question_reports_insert" on question_reports for insert to anon, 
 create policy "question_reports_select" on question_reports for select to authenticated using (user_id = auth.uid() or is_admin());
 create policy "question_reports_update" on question_reports for update to authenticated using (is_admin()) with check (is_admin());
 create policy "question_reports_delete" on question_reports for delete to authenticated using (is_admin());
+
+-- ===== SOE examiner section (candidate folders + per-station scoring) =====
+-- Exam content (long case / SCQ / clinical science text) lives in js/soe-data.js,
+-- not the database. See migration_025_soe_examiner.sql.
+create table soe_candidates (
+  id uuid primary key default gen_random_uuid(),
+  course_key text not null,
+  name text not null,
+  created_at timestamptz not null default now()
+);
+
+create table soe_scores (
+  id uuid primary key default gen_random_uuid(),
+  candidate_id uuid not null references soe_candidates(id) on delete cascade,
+  mock_key text not null,
+  station_key text not null,
+  part_key text not null,
+  score smallint check (score in (0,1,2)),
+  feedback text,
+  criteria jsonb not null default '{}'::jsonb,
+  examiner_name text,
+  submitted boolean not null default false,
+  updated_at timestamptz not null default now(),
+  unique (candidate_id, mock_key, station_key, part_key)
+);
+
+create index soe_scores_candidate_idx on soe_scores (candidate_id);
+
+alter table soe_candidates enable row level security;
+alter table soe_scores enable row level security;
+
+-- No login or password on examiner.html at all (link-accessible only), so these are
+-- open to anon — same trust model as question_reports above.
+create policy "soe_candidates_all" on soe_candidates for all to anon, authenticated using (true) with check (true);
+create policy "soe_scores_all" on soe_scores for all to anon, authenticated using (true) with check (true);
+
+insert into soe_candidates (course_key, name)
+select 'oct14-nov-soe', name from (values
+  ('Aashish Koirala'), ('Ahsan Kamran'), ('Benjamin Griffiths'), ('Gabrielle Scarlett'),
+  ('James Smith'), ('Katie Ramm'), ('Mohammed Metwally'), ('Mostafa Kodous'),
+  ('Mrida Jhingan'), ('Samriti Sharma'), ('Satish Singh'), ('Zhi Jiun Yap')
+) as seed(name)
+where not exists (
+  select 1 from soe_candidates c where c.course_key = 'oct14-nov-soe' and c.name = seed.name
+);
