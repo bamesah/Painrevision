@@ -66,7 +66,7 @@ const PlanPicker = (function () {
       : (p.termMonths === 1 ? 'one month, pay as you go' : 'one-time payment');
     const was = p.wasPence ? `<s class="pp-was">${money(p.wasPence)}</s>` : '';
     const intro = p.intro
-      ? `<div class="pp-intro">Intro offer: access extended until the exam, ${p.intro.untilLabel}<small>Available until ${p.intro.offerEndsLabel}. Instead of a plain 3 months.</small></div>`
+      ? `<div class="pp-intro">Intro offer: access extended until the exam, ${p.intro.untilLabel}<small>Instead of a plain 3 months.</small></div>`
       : '';
     const sub = p.accessUntilLabel ? `Access until ${p.accessUntilLabel}` : perMonth;
     const badge = p.intro ? '<span class="pp-badge">Intro offer</span>' : (p.featured ? '<span class="pp-badge">Popular</span>' : '');

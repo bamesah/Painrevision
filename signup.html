@@ -373,7 +373,7 @@ footer{background:var(--ink);padding:52px 0}
         '<h2 id="offer-heading">Full access to the PainRevision question bank</h2>' +
         '<p class="offer-copy">Every SBA, MTF and EMQ, timed mock exams, custom practice sets and stats. Pick the length of access that suits your revision timeline — each plan is a one-time payment, with no automatic renewal.</p>' +
         '<span class="offer-live"><span class="offer-live-dot" aria-hidden="true"></span>New questions added daily</span>' +
-        (intro ? '<div class="offer-schedule"><div class="offer-schedule-row"><span class="offer-schedule-when">3 months — intro offer</span><span class="offer-schedule-what">Access until ' + intro.intro.untilLabel + '</span></div><div class="offer-schedule-row is-future"><span class="offer-schedule-when">Offer ends</span><span class="offer-schedule-what">' + intro.intro.offerEndsLabel + '</span></div></div>' : '');
+        (intro ? '<div class="offer-schedule"><div class="offer-schedule-row"><span class="offer-schedule-when">3 months — intro offer</span><span class="offer-schedule-what">Access until ' + intro.intro.untilLabel + '</span></div></div>' : '');
     }
   }).catch(function(){
     planSelectEl.innerHTML = '<p class="form-hint">Could not load plans — please refresh the page.</p>';

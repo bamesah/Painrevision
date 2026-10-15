@@ -35,7 +35,8 @@ export default async function handler(req, res) {
   // Renewing before expiry extends from the current expiry, never shortens it.
   const { data: existingSub } = await supabase
     .from('subscriptions').select('expires_at').eq('user_id', user.id).maybeSingle();
-  const expiresAt = computeExpiryIso(plan, now, existingSub?.expires_at || null);
+  const currentExpiry = existingSub?.expires_at || null;
+  const expiresAt = computeExpiryIso(plan, now, currentExpiry);
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const origin = req.headers.origin || `https://${req.headers.host}`;
@@ -48,7 +49,7 @@ export default async function handler(req, res) {
         price_data: {
           currency: plan.currency,
           unit_amount: plan.amountPence,
-          product_data: { name: checkoutName(plan, now) },
+          product_data: { name: checkoutName(plan, now, currentExpiry) },
         },
         quantity: 1,
       }],

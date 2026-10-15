@@ -20,9 +20,10 @@ export const TIERS_LIVE_FROM_ISO = '2026-11-01T00:00:00Z';
 // until the END of this day (UTC) instead of a plain 3 months.
 export const EXAM_DATE_ISO = '2027-02-09T23:59:59Z';
 
-// Last moment the 3-month intro offer can be bought. NOT SPECIFIED BY THE
-// USER — placeholder, confirm before going live.
-export const INTRO_OFFER_ENDS_ISO = '2026-11-30T23:59:59Z';
+// The 3-month intro offer has no configured end date: it is derived. The
+// buyer gets max(start + 3 calendar months, EXAM_DATE_ISO), so the extension
+// applies only while a plain 3 months would fall short of the exam day, i.e.
+// it disappears automatically for purchases made on/after 9 Nov 2026 (UTC).
 
 // Go-live switch for the tiers (env var FORCE_TIERS):
 //   '1'  -> tiers on regardless of date
@@ -111,8 +112,24 @@ export function getActivePlan(planId, now = new Date()) {
   return getActivePlanIds(now).includes(planId) ? PLANS[planId] : null;
 }
 
-function introActive(plan, now) {
-  return !!plan.introUntilExam && now.getTime() <= Date.parse(INTRO_OFFER_ENDS_ISO);
+// Start of the term: now, or the current expiry if renewing early.
+function startDate(now, currentExpiryIso) {
+  if (currentExpiryIso) {
+    const cur = new Date(currentExpiryIso);
+    if (!isNaN(cur) && cur > now) return cur;
+  }
+  return now;
+}
+
+// True only while the extension is actually in effect: a plain term would end
+// before the START of exam day (9 Feb 00:00 UTC). A purchase on 9 Nov 2026 (any
+// time) plain-ends on 9 Feb, so 9 Nov is NOT intro; 8 Nov (any time) is.
+function introActive(plan, now, currentExpiryIso = null) {
+  if (!plan.introUntilExam) return false;
+  const plain = addMonthsUtc(startDate(now, currentExpiryIso), plan.termMonths);
+  const examDayStart = new Date(EXAM_DATE_ISO);
+  examDayStart.setUTCHours(0, 0, 0, 0);
+  return plain < examDayStart;
 }
 
 function addMonthsUtc(date, months) {
@@ -130,16 +147,8 @@ function addMonthsUtc(date, months) {
 // future, so renewing early never shortens access.
 export function computeExpiryIso(plan, now = new Date(), currentExpiryIso = null) {
   if (plan.expiresAtIso) return plan.expiresAtIso;
-  let base = now;
-  if (currentExpiryIso) {
-    const cur = new Date(currentExpiryIso);
-    if (!isNaN(cur) && cur > now) base = cur;
-  }
-  let expiry = addMonthsUtc(base, plan.termMonths);
-  if (introActive(plan, now)) {
-    const exam = new Date(EXAM_DATE_ISO);
-    if (exam > expiry) expiry = exam;
-  }
+  let expiry = addMonthsUtc(startDate(now, currentExpiryIso), plan.termMonths);
+  if (introActive(plan, now, currentExpiryIso)) expiry = new Date(EXAM_DATE_ISO);
   return expiry.toISOString();
 }
 
@@ -148,8 +157,8 @@ function fmtDate(iso) {
 }
 
 // Stripe line-item name (shown on the Checkout page and the invoice).
-export function checkoutName(plan, now = new Date()) {
-  if (introActive(plan, now)) return `${plan.name} — extended until the exam, ${fmtDate(EXAM_DATE_ISO)}`;
+export function checkoutName(plan, now = new Date(), currentExpiryIso = null) {
+  if (introActive(plan, now, currentExpiryIso)) return `${plan.name} — extended until the exam, ${fmtDate(EXAM_DATE_ISO)}`;
   return plan.name;
 }
 
@@ -166,7 +175,7 @@ export function publicPlans(now = new Date()) {
       wasPence: p.wasPence || null,
       featured: !!p.featured,
       intro: intro
-        ? { untilIso: EXAM_DATE_ISO, untilLabel: fmtDate(EXAM_DATE_ISO), offerEndsIso: INTRO_OFFER_ENDS_ISO, offerEndsLabel: fmtDate(INTRO_OFFER_ENDS_ISO) }
+        ? { untilIso: EXAM_DATE_ISO, untilLabel: fmtDate(EXAM_DATE_ISO) }
         : null,
       accessUntilLabel: p.expiresAtIso ? fmtDate(p.expiresAtIso) : null,
       termMonths: p.termMonths || null,
