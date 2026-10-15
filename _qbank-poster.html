@@ -71,6 +71,11 @@
   .price em{font-style:normal;font-size:18px;font-weight:600;color:var(--ink-soft)}
   .until{margin-top:8px;font-size:17px;color:var(--ink-soft)}
   .until strong{font-weight:700}
+  .tiers{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px 22px}
+  .tier{display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-bottom:1.5px solid rgba(36,27,22,.12);padding:4px 0}
+  .tier span{font-size:17px;font-weight:600;color:var(--ink-soft)}
+  .tier b{font-size:30px;font-weight:800;letter-spacing:-.03em;color:var(--coral-deep)}
+  .tier-intro{margin-top:10px;font-size:16px;font-weight:700;color:var(--coral-deep)}
   .url{margin-top:20px;display:flex;align-items:center;gap:14px;font-weight:800;font-size:34px;letter-spacing:-.03em}
 </style>
 </head>
@@ -83,7 +88,7 @@
         <svg width="46" height="46" viewBox="0 0 100 100"><path fill="none" stroke="#F0623C" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/><circle fill="#F5A524" cx="50" cy="13" r="8.5"/></svg>
         <div>Pain<b>Revision</b></div>
       </div>
-      <div class="pill"><i></i>LAUNCH OFFER · ENDS 31 OCT</div>
+      <div class="pill" id="p-pill"><i></i>LAUNCH OFFER · ENDS 31 OCT</div>
     </div>
     <div class="eyebrow"><span></span>FFPMRCA</div>
     <h1>Question<em>Bank</em></h1>
@@ -117,9 +122,12 @@
       <div class="cap">SCAN TO SIGN UP</div>
     </div>
     <div>
-      <div class="label">LAUNCH OFFER · FULL ACCESS</div>
+      <div class="label" id="p-label">LAUNCH OFFER · FULL ACCESS</div>
+      <div id="p-launch">
       <div class="price"><s>£14.99</s><b>£9.99</b><em>one-time</em></div>
       <div class="until">Access to every question until <strong>31 October 2026</strong></div>
+      </div>
+      <div id="p-tiers" style="display:none"></div>
       <div class="url"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F0623C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>painrevision.com/question-bank</div>
     </div>
   </div>
@@ -127,6 +135,24 @@
 <script>
   var q = qrcode(0, 'M'); q.addData('https://painrevision.com/question-bank'); q.make();
   document.getElementById('qr').innerHTML = q.createImgTag(8, 0);
+</script>
+<script>
+  // Same live-mode switch as the site: before the tiers go live (/api/plans
+  // returns the single launch plan) the static launch offer above stays.
+  fetch('/api/plans', { cache: 'no-store' }).then(function(r){ return r.json(); }).then(function(d){
+    if(!d.plans || d.plans.length < 2) return;
+    function money(p){ return '£' + (p/100).toFixed(2); }
+    var intro = d.plans.filter(function(p){ return p.intro; })[0];
+    document.getElementById('p-label').textContent = 'PLANS · FULL ACCESS';
+    document.getElementById("p-pill").innerHTML = "<i></i>NEW PLANS";
+    document.getElementById('p-launch').style.display = 'none';
+    var el = document.getElementById('p-tiers');
+    el.innerHTML = '<div class="tiers">' + d.plans.map(function(p){
+      return '<div class="tier"><span>' + p.label + '</span><b>' + money(p.amountPence) + '</b></div>';
+    }).join('') + '</div>' +
+    (intro ? '<div class="tier-intro">3-month intro offer: access until ' + intro.intro.untilLabel + '</div>' : '');
+    el.style.display = 'block';
+  }).catch(function(){});
 </script>
 </body>
 </html>
