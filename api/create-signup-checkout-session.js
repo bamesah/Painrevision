@@ -7,9 +7,11 @@
 // api/complete-signup.js). The account itself is only created once Stripe
 // confirms payment (api/complete-signup.js, with api/stripe-webhook.js as a
 // safety net) — see api/_lib/account.js.
+// Price and expiry come from api/_lib/plans.js, never from the browser.
+// `allow_promotion_codes` shows Stripe's "Add promotion code" box.
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
-import { PLANS, DEFAULT_PLAN_ID } from './_lib/plans.js';
+import { getActivePlan, getDefaultPlanId, computeExpiryIso, checkoutName } from './_lib/plans.js';
 
 const SUPABASE_URL = 'https://vxlxcxqyankqugwiypac.supabase.co';
 
@@ -21,8 +23,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  const plan = PLANS[planId || DEFAULT_PLAN_ID];
-  if (!plan) return res.status(400).json({ error: 'Unknown plan' });
+  const now = new Date();
+  const effectivePlanId = planId || getDefaultPlanId(now);
+  const plan = getActivePlan(effectivePlanId, now);
+  if (!plan) return res.status(400).json({ error: 'Unknown or unavailable plan' });
+  const expiresAt = computeExpiryIso(plan, now);
 
   const supabase = createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
   const [usernameCheck, emailCheck] = await Promise.all([
@@ -46,10 +51,11 @@ export default async function handler(req, res) {
         price_data: {
           currency: plan.currency,
           unit_amount: plan.amountPence,
-          product_data: { name: plan.name },
+          product_data: { name: checkoutName(plan, now) },
         },
         quantity: 1,
       }],
+      allow_promotion_codes: true,
       invoice_creation: { enabled: true },
       metadata: {
         kind: 'signup',
@@ -57,8 +63,8 @@ export default async function handler(req, res) {
         first_name: firstName,
         last_name: lastName,
         username,
-        plan: planId || DEFAULT_PLAN_ID,
-        expires_at: plan.expiresAtIso,
+        plan: effectivePlanId,
+        expires_at: expiresAt,
       },
       customer_email: email,
       success_url: `${origin}/signup-complete.html?session_id={CHECKOUT_SESSION_ID}`,

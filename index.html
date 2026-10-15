@@ -401,9 +401,9 @@ footer{background:var(--ink);padding:52px 0;border-top:none}
           <p>The question bank is currently in active development. This discounted offer gives candidates a chance to start studying now at a reduced rate — while helping us shape the platform with their feedback.</p>
         </div>
         <div class="qb-cta-price">
-          <div class="amt">Only <s class="price-was">£14.99</s>£9.99<span>one-time</span></div>
-          <div class="until">FULL ACCESS UNTIL 31 OCTOBER 2026</div>
-          <div class="then">Monthly &amp; annual plans launch from November 2026</div>
+          <div class="amt" data-tier-swap="index-amt">Only <s class="price-was">£14.99</s>£9.99<span>one-time</span></div>
+          <div class="until" data-tier-swap="index-until">FULL ACCESS UNTIL 31 OCTOBER 2026</div>
+          <div class="then" data-tier-swap="index-then">Monthly &amp; annual plans launch from November 2026</div>
         </div>
         <div>
           <a href="signup.html" class="btn btn-primary">Start Today →</a>
@@ -596,5 +596,6 @@ function loadHomeVideo(){
   el.innerHTML = '<iframe src="https://www.youtube.com/embed/UEr6smHM6gk?autoplay=1&rel=0&modestbranding=1" title="Why we built PainRevision" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;display:block"></iframe>';
 }
 </script>
+<script src="js/pricing-swap.js"></script>
 </body>
 </html>

@@ -253,13 +253,8 @@ footer{background:var(--ink);padding:52px 0}
         </div>
         <div class="form-group">
           <label class="form-label">Plan</label>
-          <div class="plan-select" id="plan-select">
-            <label class="plan-opt checked" data-plan="launch_offer_2026_oct">
-              <input type="radio" name="plan" value="launch_offer_2026_oct" checked/>
-              <span class="plan-opt-text">Full access until 31 October 2026<small>Intro offer — mock exams, practice sets, stats and more</small></span>
-              <span class="plan-opt-price"><s class="price-was">£14.99</s>£9.99</span>
-            </label>
-          </div>
+          <div class="plan-select" id="plan-select"><p class="form-hint">Loading plans…</p></div>
+          <span class="form-hint">Have a discount code? You can enter it on the next (payment) page.</span>
         </div>
 
         <button class="btn-submit" type="submit" id="submit-btn">Continue to payment</button>
@@ -269,7 +264,7 @@ footer{background:var(--ink);padding:52px 0}
     <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
     </div>
 
-    <aside class="offer-panel" aria-labelledby="offer-heading">
+    <aside class="offer-panel" id="offer-panel" aria-labelledby="offer-heading">
       <div class="offer-top">
         <span class="eyebrow">Launch offer</span>
       </div>
@@ -311,6 +306,7 @@ footer{background:var(--ink);padding:52px 0}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/auth-nav.js"></script>
+<script src="js/plan-picker.js"></script>
 <script>
 (function(){
   var nav = document.getElementById('main-nav');
@@ -364,12 +360,23 @@ footer{background:var(--ink);padding:52px 0}
   pw2Input.addEventListener('input', updatePwMatch);
   pwInput.addEventListener('input', updatePwMatch);
 
-  document.querySelectorAll('#plan-select input[name="plan"]').forEach(function(input){
-    input.addEventListener('change', function(){
-      document.querySelectorAll('#plan-select .plan-opt').forEach(function(opt){
-        opt.classList.toggle('checked', opt.querySelector('input').checked);
-      });
-    });
+  // Plans come from /api/plans (api/_lib/plans.js is the source of truth).
+  var planSelectEl = document.getElementById('plan-select');
+  var plansReady = PlanPicker.load().then(function(data){
+    var wanted = new URLSearchParams(location.search).get('plan');
+    PlanPicker.render(planSelectEl, data, { mode: 'select', layout: 'list', selected: wanted });
+    if(data.plans.length > 1){
+      var intro = data.plans.filter(function(p){ return p.intro; })[0];
+      var panel = document.getElementById('offer-panel');
+      panel.innerHTML =
+        '<div class="offer-top"><span class="eyebrow">Plans</span></div>' +
+        '<h2 id="offer-heading">Full access to the PainRevision question bank</h2>' +
+        '<p class="offer-copy">Every SBA, MTF and EMQ, timed mock exams, custom practice sets and stats. Pick the length of access that suits your revision timeline — each plan is a one-time payment, with no automatic renewal.</p>' +
+        '<span class="offer-live"><span class="offer-live-dot" aria-hidden="true"></span>New questions added daily</span>' +
+        (intro ? '<div class="offer-schedule"><div class="offer-schedule-row"><span class="offer-schedule-when">3 months — intro offer</span><span class="offer-schedule-what">Access until ' + intro.intro.untilLabel + '</span></div><div class="offer-schedule-row is-future"><span class="offer-schedule-when">Offer ends</span><span class="offer-schedule-what">' + intro.intro.offerEndsLabel + '</span></div></div>' : '');
+    }
+  }).catch(function(){
+    planSelectEl.innerHTML = '<p class="form-hint">Could not load plans — please refresh the page.</p>';
   });
 
   form.addEventListener('submit', async function(e){
@@ -382,7 +389,11 @@ footer{background:var(--ink);padding:52px 0}
     var email = document.getElementById('su-email').value.trim().toLowerCase();
     var password = document.getElementById('su-password').value;
     var password2 = document.getElementById('su-password2').value;
-    var planId = document.querySelector('#plan-select input[name="plan"]:checked').value;
+    var planId = PlanPicker.getSelected(planSelectEl);
+    if(!planId){
+      showError('Please choose a plan.');
+      return;
+    }
 
     if(!firstName || !lastName || !username || !email || !password){
       showError('Please fill in all fields.');

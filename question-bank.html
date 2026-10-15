@@ -234,29 +234,32 @@ a{color:inherit;text-decoration:none}
 
     <div class="offer-grid">
       <div class="offer-card">
-        <span class="offer-badge">Launch offer</span>
-        <h2>Get full access</h2>
-        <p class="offer-sub">Every SBA, MTF and EMQ in the bank — including everything added between now and the offer's end date.</p>
+        <span class="offer-badge" id="qb-badge">Launch offer</span>
+        <h2 id="qb-heading">Get full access</h2>
+        <p class="offer-sub">Every SBA, MTF and EMQ in the bank — including everything added while your access is active.</p>
 
+        <div id="launch-price">
         <div class="offer-price"><s class="price-was">£14.99</s>£9.99<span>one-time</span></div>
         <p class="offer-until">Sign up today, access runs until <strong>31 October 2026</strong>.</p>
         <p class="offer-then">Monthly &amp; annual plans launch from November 2026.</p>
+        </div>
+        <div id="qb-plans" style="display:none;margin:6px 0 26px"></div>
 
         <ul class="offer-features">
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Unlimited practice sets and full timed mock exams</li>
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Track per-category stats</li>
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bookmark questions and write your own notes</li>
           <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SBA, MTF and EMQ formats across every topic</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added through 31 Oct 2026</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added while your access is active</li>
         </ul>
 
-        <div class="offer-dev-note">
+        <div class="offer-dev-note" id="qb-devnote">
           <span class="offer-dev-status"><span class="offer-dev-dot" aria-hidden="true"></span>In active development</span>
           <p>The question bank is currently in active development. This discounted offer gives candidates a chance to start studying now at a reduced rate — while helping us shape the platform with their feedback.</p>
         </div>
 
-        <a class="btn-cta" href="signup.html">Get access</a>
-        <p class="offer-note">You'll enter your details and complete payment on the next step.</p>
+        <a class="btn-cta" id="qb-cta" href="signup.html">Get access</a>
+        <p class="offer-note" id="qb-note">You'll enter your details and complete payment on the next step.</p>
       </div>
 
       <div class="preview-box">
@@ -291,6 +294,24 @@ a{color:inherit;text-decoration:none}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/auth-nav.js"></script>
+<script src="js/plan-picker.js"></script>
+<script>
+// Once the tiered plans are live, swap the launch-offer block for the plan
+// cards (prices come from /api/plans). Before then the static launch offer
+// above is left exactly as it was.
+PlanPicker.load().then(function(data){
+  if(data.plans.length < 2) return;
+  document.getElementById('qb-badge').textContent = 'Plans';
+  document.getElementById('qb-heading').textContent = 'Choose your plan';
+  document.getElementById('launch-price').style.display = 'none';
+  document.getElementById('qb-devnote').style.display = 'none';
+  document.getElementById('qb-cta').style.display = 'none';
+  document.getElementById('qb-note').textContent = 'One-time payment, no automatic renewal. Choose a plan, then enter your details and pay on the next step. Discount codes can be entered at payment.';
+  var el = document.getElementById('qb-plans');
+  el.style.display = 'block';
+  PlanPicker.render(el, data, { mode: 'buy', layout: 'list', linkBase: 'signup.html?plan=', ctaLabel: 'Choose' });
+}).catch(function(){});
+</script>
 <script>
 (function(){
   var hamburger = document.getElementById('hamburger');

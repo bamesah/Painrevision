@@ -26,7 +26,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid checkout session' });
   }
 
-  if (session.payment_status !== 'paid' || session.metadata?.kind !== 'signup') {
+  // 'no_payment_required' = a 100%-off promotion code was applied.
+  const settled = session.payment_status === 'paid' || session.payment_status === 'no_payment_required';
+  if (!settled ||session.metadata?.kind !== 'signup') {
     return res.status(400).json({ error: 'This checkout was not completed' });
   }
 
