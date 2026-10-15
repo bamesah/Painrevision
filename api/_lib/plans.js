@@ -59,11 +59,11 @@ export const PLANS = {
   },
   monthly: {
     kind: 'tier',
-    label: 'Monthly',
+    label: '1 month',
     amountPence: 5999,
     currency: 'gbp',
     termMonths: 1,
-    name: 'PainRevision — Monthly access (1 month)',
+    name: 'PainRevision — 1 month access',
     blurb: '1 month of full access',
   },
   three_month: {

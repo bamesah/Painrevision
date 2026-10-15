@@ -14,7 +14,7 @@
     var copy = {
       promo: 'Plans ' + from + '.' + introTxt,
       'index-amt': 'Plans <span style="font-size:.6em">' + from + '</span>',
-      'index-until': 'MONTHLY, 3-MONTH, 6-MONTH &amp; 12-MONTH ACCESS',
+      'index-until': '1-MONTH, 3-MONTH, 6-MONTH &amp; 12-MONTH ACCESS',
       'index-then': intro ? ('3-MONTH INTRO OFFER: ACCESS UNTIL ' + intro.intro.untilLabel.toUpperCase()) : 'ONE-TIME PAYMENT, NO AUTO-RENEWAL',
       'demo-p': 'Get full access to every question, mock exam, and feature you just tried — plans ' + from + '.',
       'demo-btn': 'See plans'
