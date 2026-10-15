@@ -105,9 +105,9 @@ a{color:inherit;text-decoration:none}
 .btn-cta:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
 .offer-note{font-size:12.5px;color:var(--stone-light);margin-top:16px}
 
-.demo-section{padding:0 0 22px}
-.preview-strip{max-width:980px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:14px 22px;display:flex;align-items:center;gap:22px}
-.preview-strip .preview-mock{width:132px;max-width:132px;margin:0;flex-shrink:0}
+.demo-section{padding:0 0 12px}
+.preview-strip{max-width:980px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:10px 20px;display:flex;align-items:center;gap:20px}
+.preview-strip .preview-mock{width:112px;max-width:112px;margin:0;flex-shrink:0}
 .preview-strip .preview-mock-bar{padding:6px 8px}
 .preview-strip .preview-mock-bar span{width:6px;height:6px}
 .preview-strip .preview-mock-body{padding:10px;gap:9px}
@@ -118,13 +118,19 @@ a{color:inherit;text-decoration:none}
 .preview-strip-text p{font-size:13.5px;color:var(--stone);line-height:1.5;margin:0}
 .preview-strip .btn-cta-ghost{width:auto;padding:11px 22px;font-size:14px;white-space:nowrap;flex-shrink:0}
 @media(max-width:700px){.preview-strip{flex-direction:column;text-align:center;padding:20px;gap:12px}.preview-strip-text{text-align:center}.preview-strip .btn-cta-ghost{width:100%}}
-.page-hero{padding:34px 0 18px}
+.page-hero{padding:26px 0 12px}
 .page-hero h1{margin:6px 0 8px}
-.member-box{padding:10px;margin-bottom:14px}
-.plans-section{padding-top:6px}
-.plans-title{text-align:center;font-size:clamp(24px,4vw,30px);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
+.member-box{padding:7px;margin-bottom:10px}
+.plans-section{padding-top:0}
+.plans-title{text-align:center;font-size:clamp(24px,4vw,30px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
 .plans-box{max-width:1040px;margin:0 auto}
-.plans-note{text-align:center;font-family:var(--mono);font-size:12px;color:var(--stone);letter-spacing:.02em;margin:18px 0 32px}
+.plans-note{text-align:center;font-family:var(--mono);font-size:12px;color:var(--stone);letter-spacing:.02em;margin:18px 0 8px}
+.hero-feats{margin-top:14px!important;text-align:left}
+.hero-feats .feat{padding:12px 14px 14px}
+.hero-feats .feat-ic{width:30px;height:30px;border-radius:9px;margin-bottom:4px}
+.hero-feats .feat-ic svg{width:16px;height:16px}
+.hero-feats .feat-t{font-size:14px}
+.hero-feats .feat-d{font-size:12.5px;line-height:1.4}
 .feat-grid{list-style:none;max-width:1040px;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
 .feat{background:linear-gradient(180deg,var(--surface),var(--surface-warm));border:1px solid var(--border);border-radius:16px;padding:16px 16px 18px;display:flex;flex-direction:column;gap:4px;box-shadow:0 1px 2px rgba(36,27,22,.04),0 10px 24px -16px rgba(240,98,60,.28);transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s}
 .feat:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(36,27,22,.05),0 16px 30px -14px rgba(240,98,60,.4)}
@@ -245,7 +251,13 @@ a{color:inherit;text-decoration:none}
   <div class="wrap">
     <span class="eyebrow">Question Bank</span>
     <h1 id="qb-heading">Full access to the <span style="color:var(--coral)">FFPMRCA question bank</span></h1>
-    <p class="page-hero-sub">Mock exams, custom practice sets, per-category stats, bookmarks and notes — everything you need to prepare, in one place.</p>
+    <ul class="feat-grid hero-feats">
+      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/><line x1="9" y1="2" x2="15" y2="2"/></svg></span><span class="feat-t">Practice &amp; mock exams</span><span class="feat-d">Unlimited practice sets and full timed mock exams</span></li>
+      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="9"/></svg></span><span class="feat-t">Per-category stats</span><span class="feat-d">Track your progress in every category</span></li>
+      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span class="feat-t">Bookmarks &amp; notes</span><span class="feat-d">Bookmark questions and write your own notes</span></li>
+      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="12" y2="17"/></svg></span><span class="feat-t">SBA, MTF &amp; EMQ</span><span class="feat-d">All three formats across every topic</span></li>
+      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-t">Always growing</span><span class="feat-d">Every question added while your access is active</span></li>
+    </ul>
   </div>
 </section>
 
@@ -279,13 +291,6 @@ a{color:inherit;text-decoration:none}
     <div class="plans-box"><div id="qb-plans"><p class="offer-until" style="text-align:center">Loading plans…</p></div></div>
     <p class="plans-note">Have a discount code? You can enter it on the payment page.</p>
 
-    <ul class="feat-grid">
-      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><polyline points="12 9 12 13 15 15"/><line x1="9" y1="2" x2="15" y2="2"/></svg></span><span class="feat-t">Practice &amp; mock exams</span><span class="feat-d">Unlimited practice sets and full timed mock exams</span></li>
-      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="5"/><line x1="18" y1="20" x2="18" y2="9"/></svg></span><span class="feat-t">Per-category stats</span><span class="feat-d">Track your progress in every category</span></li>
-      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span><span class="feat-t">Bookmarks &amp; notes</span><span class="feat-d">Bookmark questions and write your own notes</span></li>
-      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="12" y2="17"/></svg></span><span class="feat-t">SBA, MTF &amp; EMQ</span><span class="feat-d">All three formats across every topic</span></li>
-      <li class="feat"><span class="feat-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span><span class="feat-t">Always growing</span><span class="feat-d">Every question added while your access is active</span></li>
-    </ul>
   </div>
 </section>
 
