@@ -111,6 +111,15 @@ a{color:inherit;text-decoration:none}
 .btn-cta:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
 .offer-note{font-size:12.5px;color:var(--stone-light);margin-top:16px}
 
+.demo-section{padding-bottom:36px}
+.preview-wide{max-width:560px;margin:0 auto}
+.plans-section{padding-top:20px}
+.plans-title{text-align:center;font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.03em;margin-bottom:22px}
+.plans-box{max-width:1040px;margin:0 auto}
+.plans-note{text-align:center;font-family:var(--mono);font-size:12px;color:var(--stone);letter-spacing:.02em;margin:18px 0 32px}
+.features-card{padding:32px 40px}
+.features-card .offer-features{margin-bottom:24px}
+@media(max-width:600px){.features-card{padding:26px 22px}}
 .offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;max-width:980px;margin:0 auto}
 @media(max-width:860px){.offer-grid{grid-template-columns:1fr;max-width:560px}}
 .preview-box{background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow);padding:40px 36px;text-align:center;display:flex;flex-direction:column;align-items:center}
@@ -225,54 +234,45 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- ===== OFFER ===== -->
-<section class="offer-section">
+<!-- ===== SEE IT IN ACTION ===== -->
+<section class="offer-section demo-section">
   <div class="wrap">
     <div class="member-box">
       <p>Already a member? <a href="login.html">Log in here</a></p>
     </div>
-
-    <div class="offer-grid">
-      <div class="offer-card">
-        <span class="offer-badge" id="qb-badge">Launch offer</span>
-        <h2 id="qb-heading">Get full access</h2>
-        <p class="offer-sub">Every SBA, MTF and EMQ in the bank — including everything added while your access is active.</p>
-
-        <div id="launch-price">
-        <div class="offer-price"><s class="price-was">£14.99</s>£9.99<span>one-time</span></div>
-        <p class="offer-until">Sign up today, access runs until <strong>31 October 2026</strong>.</p>
-        <p class="offer-then">Monthly &amp; annual plans launch from November 2026.</p>
+    <div class="preview-box preview-wide">
+      <div class="preview-mock" aria-hidden="true">
+        <div class="preview-mock-bar"><span></span><span></span><span></span></div>
+        <div class="preview-mock-body">
+          <div class="preview-mock-ring"></div>
+          <div class="preview-mock-cards"><div></div><div></div></div>
         </div>
-        <div id="qb-plans" style="display:none;margin:6px 0 26px"></div>
-
-        <ul class="offer-features">
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Unlimited practice sets and full timed mock exams</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Track per-category stats</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bookmark questions and write your own notes</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SBA, MTF and EMQ formats across every topic</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added while your access is active</li>
-        </ul>
-
-        <div class="offer-dev-note" id="qb-devnote">
-          <span class="offer-dev-status"><span class="offer-dev-dot" aria-hidden="true"></span>In active development</span>
-          <p>The question bank is currently in active development. This discounted offer gives candidates a chance to start studying now at a reduced rate — while helping us shape the platform with their feedback.</p>
-        </div>
-
-        <a class="btn-cta" id="qb-cta" href="signup.html">Get access</a>
-        <p class="offer-note" id="qb-note">You'll enter your details and complete payment on the next step.</p>
       </div>
+      <h3>See it in action</h3>
+      <p>Take a full tour and explore the question bank features — no account needed.</p>
+      <a class="btn-cta-ghost" href="demo.html">Try the question bank →</a>
+    </div>
+  </div>
+</section>
 
-      <div class="preview-box">
-        <div class="preview-mock" aria-hidden="true">
-          <div class="preview-mock-bar"><span></span><span></span><span></span></div>
-          <div class="preview-mock-body">
-            <div class="preview-mock-ring"></div>
-            <div class="preview-mock-cards"><div></div><div></div></div>
-          </div>
-        </div>
-        <h3>See it in action</h3>
-        <p>Take a full tour and explore the question bank features — no account needed.</p>
-        <a class="btn-cta-ghost" href="demo.html">Try the question bank →</a>
+<!-- ===== PLANS ===== -->
+<section class="offer-section plans-section" aria-labelledby="qb-plans-heading">
+  <div class="wrap">
+    <h2 class="plans-title" id="qb-plans-heading">Choose your plan</h2>
+    <div class="plans-box"><div id="qb-plans"><p class="offer-until" style="text-align:center">Loading plans…</p></div></div>
+    <p class="plans-note">Have a discount code? You can enter it on the payment page.</p>
+
+    <div class="offer-card features-card">
+      <ul class="offer-features">
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Unlimited practice sets and full timed mock exams</li>
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Track per-category stats</li>
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Bookmark questions and write your own notes</li>
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SBA, MTF and EMQ formats across every topic</li>
+        <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added while your access is active</li>
+      </ul>
+      <div class="offer-dev-note" id="qb-devnote" style="margin-bottom:0">
+        <span class="offer-dev-status"><span class="offer-dev-dot" aria-hidden="true"></span>In active development</span>
+        <p>The question bank is currently in active development. New questions are added daily, and your feedback helps shape the platform.</p>
       </div>
     </div>
   </div>
@@ -296,21 +296,12 @@ a{color:inherit;text-decoration:none}
 <script src="js/auth-nav.js"></script>
 <script src="js/plan-picker.js"></script>
 <script>
-// Once the tiered plans are live, swap the launch-offer block for the plan
-// cards (prices come from /api/plans). Before then the static launch offer
-// above is left exactly as it was.
+// Plans (prices, expiry dates, intro offer) come from /api/plans.
 PlanPicker.load().then(function(data){
-  if(data.plans.length < 2) return;
-  document.getElementById('qb-badge').textContent = 'Plans';
-  document.getElementById('qb-heading').textContent = 'Choose your plan';
-  document.getElementById('launch-price').style.display = 'none';
-  document.getElementById('qb-devnote').style.display = 'none';
-  document.getElementById('qb-cta').style.display = 'none';
-  document.getElementById('qb-note').textContent = 'One-time payment, no automatic renewal. Choose a plan, then enter your details and pay on the next step. Discount codes can be entered at payment.';
-  var el = document.getElementById('qb-plans');
-  el.style.display = 'block';
-  PlanPicker.render(el, data, { mode: 'buy', layout: 'list', linkBase: 'signup.html?plan=', ctaLabel: 'Choose' });
-}).catch(function(){});
+  PlanPicker.render(document.getElementById('qb-plans'), data, { mode: 'buy', layout: 'row', linkBase: 'signup.html?plan=', ctaLabel: 'Choose plan' });
+}).catch(function(){
+  document.getElementById('qb-plans').innerHTML = '<p class="offer-until" style="text-align:center">Could not load plans. Please refresh the page.</p>';
+});
 </script>
 <script>
 (function(){

@@ -88,11 +88,11 @@ export const PLANS = {
   },
   annual: {
     kind: 'tier',
-    label: 'Annual',
+    label: '12 months',
     amountPence: 49999,
     currency: 'gbp',
     termMonths: 12,
-    name: 'PainRevision — Annual access (12 months)',
+    name: 'PainRevision — 12 months access',
     blurb: '12 months of full access',
   },
 };
@@ -152,6 +152,13 @@ export function computeExpiryIso(plan, now = new Date(), currentExpiryIso = null
   return expiry.toISOString();
 }
 
+// Short UK date for plan cards, e.g. "15 Jan 2027".
+function fmtShort(iso) {
+  const d = new Date(iso);
+  const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()];
+  return `${d.getUTCDate()} ${m} ${d.getUTCFullYear()}`;
+}
+
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 }
@@ -163,12 +170,17 @@ export function checkoutName(plan, now = new Date(), currentExpiryIso = null) {
 }
 
 // Browser-safe description of the active plans (GET /api/plans).
-export function publicPlans(now = new Date()) {
+// `currentExpiryIso` (optional, a signed-in user's existing expiry) makes
+// each card's expiry date count from it, exactly as checkout will.
+export function publicPlans(now = new Date(), currentExpiryIso = null) {
   return getActivePlanIds(now).map(id => {
     const p = PLANS[id];
-    const intro = introActive(p, now);
+    const intro = introActive(p, now, currentExpiryIso);
+    const expiresIso = computeExpiryIso(p, now, currentExpiryIso);
     return {
       id,
+      expiresIso,
+      expiresLabel: fmtShort(expiresIso),
       label: p.label,
       blurb: p.blurb,
       amountPence: p.amountPence,

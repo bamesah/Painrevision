@@ -50,6 +50,8 @@ const PlanPicker = (function () {
     .pp-price{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.1;display:flex;align-items:baseline;flex-wrap:wrap;gap:0}
     .pp-price .pp-was{font-size:.55em;font-weight:600;color:var(--stone,#7C7068);text-decoration:line-through;text-decoration-color:var(--coral,#F0623C);text-decoration-thickness:2px;margin-right:.4em}
     .pp-sub{font-family:var(--mono,'IBM Plex Mono',monospace);font-size:11.5px;color:var(--stone,#7C7068);letter-spacing:.01em}
+    .pp-until{font-size:13px;font-weight:700;color:var(--ink-soft,#3A2D25);margin-top:4px}
+    .pp-row .pp-cta{margin-top:auto}
     .pp-intro{margin-top:8px;font-size:12.5px;line-height:1.45;font-weight:600;color:var(--coral-deep,#D2491F);background:var(--amber-soft,#FCE6BF);border-radius:10px;padding:8px 10px}
     .pp-intro small{display:block;font-weight:500;color:var(--ink-soft,#3A2D25);font-size:11.5px;margin-top:2px}
     .pp-cta{margin-top:12px;display:inline-flex;align-items:center;justify-content:center;background:var(--coral,#F0623C);color:#fff;border:2px solid var(--coral,#F0623C);border-radius:999px;font-family:inherit;font-size:13.5px;font-weight:700;padding:9px 16px;cursor:pointer;transition:background .2s,transform .2s cubic-bezier(.2,.7,.2,1)}
@@ -67,7 +69,16 @@ const PlanPicker = (function () {
   }
 
   async function load() {
-    const res = await fetch('/api/plans', { cache: 'no-store' });
+    // Send the session token when signed in so expiry dates count from the
+    // user's current expiry (same rule as checkout).
+    const headers = {};
+    try {
+      if (typeof sb !== 'undefined' && sb.auth) {
+        const { data } = await sb.auth.getSession();
+        if (data && data.session) headers.Authorization = 'Bearer ' + data.session.access_token;
+      }
+    } catch (_) {}
+    const res = await fetch('/api/plans', { cache: 'no-store', headers });
     if (!res.ok) throw new Error('plans unavailable');
     return res.json();
   }
@@ -80,10 +91,11 @@ const PlanPicker = (function () {
     const intro = p.intro
       ? `<div class="pp-intro">Intro offer: access extended until the exam, ${p.intro.untilLabel}<small>Instead of a plain 3 months.</small></div>`
       : '';
-    const sub = p.accessUntilLabel ? `Access until ${p.accessUntilLabel}` : perMonth;
+    const sub = p.accessUntilLabel ? 'one-time payment' : perMonth;
+    const until = p.expiresLabel ? `<span class="pp-until">Access until ${p.expiresLabel}</span>` : '';
     const badge = p.intro ? '<span class="pp-badge">Intro offer</span>' : (p.featured ? '<span class="pp-badge">Popular</span>' : '');
     const cls = 'pp-card' + (p.featured || p.intro ? ' is-featured' : '');
-    const body = `${badge}<span class="pp-main"><span class="pp-label">${p.label}</span><span class="pp-price">${was}${money(p.amountPence)}</span><span class="pp-sub">${sub}</span></span>${intro}`;
+    const body = `${badge}<span class="pp-main"><span class="pp-label">${p.label}</span><span class="pp-price">${was}${money(p.amountPence)}</span><span class="pp-sub">${sub}</span>${until}</span>${intro}`;
     if (opts.mode === 'buy') {
       if (opts.linkBase) {
         return `<a class="${cls}" data-plan="${p.id}" href="${opts.linkBase}${encodeURIComponent(p.id)}">${body}<span class="pp-cta">${opts.ctaLabel || 'Choose plan'}</span></a>`;

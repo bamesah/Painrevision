@@ -95,8 +95,8 @@ const Paywall = (function () {
 
     const msgEl = overlay.querySelector('#paywall-msg');
     const plansEl = overlay.querySelector('#paywall-plans');
-    Promise.all([ensurePicker(), fetch('/api/plans', { cache: 'no-store' }).then(r => r.json())])
-      .then(([, data]) => {
+    ensurePicker().then(() => PlanPicker.load())
+      .then((data) => {
         PlanPicker.render(plansEl, data, {
           mode: 'buy',
           ctaLabel: 'Get access',
