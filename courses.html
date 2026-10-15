@@ -133,25 +133,6 @@ a{color:inherit;text-decoration:none}
 .page-hero-sub{font-size:15px;color:var(--stone);max-width:560px;line-height:1.5;font-weight:400;text-wrap:balance}
 
 /* ===== WAITLIST BANNER ===== */
-.waitlist-banner{background:var(--surface);border:1.5px solid var(--border-strong);border-radius:14px;overflow:hidden;margin-bottom:28px}
-.waitlist-banner-top{display:flex;align-items:center;gap:9px;padding:8px 16px;background:var(--coral)}
-.waitlist-banner-top-icon{flex-shrink:0;width:13px;height:13px;stroke:rgba(255,255,255,.85);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.waitlist-banner-eyebrow{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.92)}
-.waitlist-banner-mid{padding:14px 18px 13px;display:flex;align-items:center;gap:20px}
-.waitlist-banner-body{font-size:14px;color:var(--ink);line-height:1.65;font-weight:500;flex:1;margin-bottom:0;min-width:0}
-.waitlist-banner-body-sub{font-size:13px;color:var(--stone);font-weight:400}
-.btn-waitlist{flex-shrink:0}
-.btn-waitlist{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-family:var(--san);font-size:13.5px;font-weight:700;cursor:pointer;border:none;background:var(--coral);color:#fff;letter-spacing:-.01em;transition:transform .22s cubic-bezier(.2,.7,.2,1),background .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s cubic-bezier(.2,.7,.2,1)}
-.btn-waitlist:hover{background:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
-.btn-waitlist:active{transform:translateY(0);box-shadow:none}
-.btn-waitlist-arrow{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.waitlist-banner-foot{display:flex;align-items:flex-start;gap:9px;padding:10px 18px;border-top:1px solid var(--border);background:rgba(245,165,36,.05)}
-.waitlist-banner-foot-icon{flex-shrink:0;margin-top:1px;width:13px;height:13px;stroke:var(--amber);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.waitlist-banner-foot p{font-size:12.5px;color:var(--stone);line-height:1.5}
-.refund-asterisk{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(124,112,104,.18);font-family:var(--mono);font-size:9px;font-weight:700;color:var(--stone);cursor:default;position:relative;vertical-align:middle;margin-left:2px;flex-shrink:0}
-.refund-asterisk .tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--san);font-size:12px;font-weight:400;line-height:1.45;padding:8px 12px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:10;box-shadow:var(--shadow-lg);letter-spacing:0}
-.refund-asterisk .tooltip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink)}
-.refund-asterisk:hover .tooltip{opacity:1}
 /* booking top CTA */
 .booking-top-cta{display:flex;align-items:center;justify-content:center;gap:11px;padding:22px 24px;background:var(--coral);cursor:pointer;transition:background .22s cubic-bezier(.2,.7,.2,1)}
 .booking-top-cta:hover{background:var(--coral-deep)}
@@ -167,6 +148,11 @@ a{color:inherit;text-decoration:none}
 
 /* ===== COURSE CARD ===== */
 .course-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow-lg);overflow:hidden;scroll-margin-top:80px}
+.course-card-past{position:relative}
+.course-card-past .course-card-body,.course-card-past .course-card-top{filter:grayscale(1);opacity:.5;pointer-events:none;user-select:none}
+.course-past-watermark{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;pointer-events:none}
+.course-past-watermark strong{font-family:var(--san);font-size:clamp(34px,7vw,76px);font-weight:800;letter-spacing:-.03em;line-height:1.05;color:rgba(36,27,22,.34);transform:rotate(-12deg)}
+.course-past-watermark span{font-family:var(--mono);font-size:clamp(11px,1.8vw,16px);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(36,27,22,.5);transform:rotate(-12deg)}
 .course-card-top{height:6px;background:linear-gradient(90deg,var(--coral) 0%,var(--amber) 100%)}
 .course-card-body{display:grid;grid-template-columns:1fr 340px;gap:0}
 .course-card-left{padding:48px 48px 48px 48px;border-right:1px solid var(--border)}
@@ -388,27 +374,9 @@ footer{background:var(--ink);padding:52px 0}
 <!-- ===== COURSE LISTING ===== -->
 <section class="courses-intro" aria-labelledby="courses-list-heading">
   <div class="wrap">
-    <!-- WAITLIST BANNER -->
-    <div class="waitlist-banner reveal" role="note">
-      <div class="waitlist-banner-top">
-        <svg class="waitlist-banner-top-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="waitlist-banner-eyebrow">September 2026 Written Exam Candidates</span>
-      </div>
-      <div class="waitlist-banner-mid">
-        <p class="waitlist-banner-body">Apply for the SOE Course after sitting the exam — don't wait for your result.<br><span class="waitlist-banner-body-sub">Places are limited and fill fast on a first-come, first-served basis.</span></p>
-        <a href="https://www.tickettailor.com/events/painrevision/2242524" target="_blank" rel="noopener noreferrer" class="btn-waitlist">
-          <svg class="btn-waitlist-arrow" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          Apply now
-        </a>
-      </div>
-      <div class="waitlist-banner-foot">
-        <svg class="waitlist-banner-foot-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <p>If you're unsuccessful in the written exam and unable to sit the November SOE, we'll issue a <strong>full refund</strong> — no questions asked.<span class="refund-asterisk" role="note" aria-label="Refund terms">*<span class="tooltip">Refund will be issued net of any third-party payment processing fees.</span></span></p>
-      </div>
-    </div>
-
     <!-- COURSE CARD -->
-    <article class="course-card reveal reveal-d1" aria-labelledby="soe-course-title" id="soe-practice-course">
+    <article class="course-card course-card-past reveal reveal-d1" aria-labelledby="soe-course-title" id="soe-practice-course">
+      <div class="course-past-watermark" role="note"><strong>Event has passed</strong><span>Stay tuned for the next SOE course</span></div>
       <div class="course-card-top" aria-hidden="true"></div>
       <div class="course-card-body">
 
