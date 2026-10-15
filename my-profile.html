@@ -95,6 +95,10 @@ button{font-family:var(--san);cursor:pointer}
 .field-row .form-group{flex:1;min-width:200px;margin-bottom:0}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:999px;font-family:var(--san);font-size:14px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap}
+.btn-amber{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700}
+.btn-amber:hover{background:#E8961A;border-color:#E8961A;transform:translateY(-1px);box-shadow:0 8px 22px -8px rgba(245,165,36,.65)}
+.btn-amber:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn-amber:active{transform:translateY(0);box-shadow:none}
 .btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
 .btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 6px 20px -6px rgba(240,98,60,.5)}
 .btn-primary:active{transform:translateY(0);box-shadow:none}
@@ -234,6 +238,7 @@ button{font-family:var(--san);cursor:pointer}
         <h2>Subscription</h2>
         <p class="card-sub" id="sub-status-text">Checking your access…</p>
         <a class="btn btn-primary" id="sub-cta-btn" href="upgrade.html" style="width:100%;justify-content:center;display:none">Get access</a>
+        <a class="btn btn-amber" id="sub-extend-btn" href="upgrade.html" style="width:100%;justify-content:center;display:none">Extend subscription</a>
       </div>
 
       <div class="profile-card">
@@ -302,10 +307,12 @@ async function init() {
     statusEl.textContent = until ? `Active — full access until ${until}.` : 'Active — full access.';
     cta.style.display = 'none';
   } else {
-    statusEl.textContent = 'No active subscription.';
+    statusEl.textContent = access.status ? 'Your subscription has ended.' : 'No active subscription.';
     cta.textContent = 'Get access';
-    cta.style.display = 'inline-flex';
+    cta.style.display = access.status ? 'none' : 'inline-flex';
   }
+  // Any member with a subscription row (active or lapsed) can extend.
+  if (access.status) document.getElementById('sub-extend-btn').style.display = 'inline-flex';
 }
 
 function wireUserMenu() {

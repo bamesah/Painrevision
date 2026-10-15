@@ -86,6 +86,14 @@ button{font-family:var(--san);cursor:pointer}
 .dash-hero{display:flex;flex-wrap:wrap;align-items:center;gap:36px;background:var(--surface);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);padding:36px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .dash-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(480px 260px at 100% -10%,rgba(245,165,36,.10),transparent 65%);pointer-events:none}
 .dash-hero-text{flex:1;min-width:220px;position:relative;z-index:1}
+.renew-warn{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:16px;background:var(--amber-soft,#FCE6BF);border:1px solid rgba(245,165,36,.55);border-radius:14px;padding:10px 14px;max-width:420px}
+.renew-warn[hidden]{display:none}
+.renew-warn-text{font-size:14px;font-weight:700;color:var(--ink);flex:1;min-width:150px}
+.renew-warn-link{display:inline-flex;align-items:center;background:var(--amber,#F5A524);color:var(--ink);font-size:13.5px;font-weight:700;border-radius:999px;padding:8px 16px;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
+.renew-warn-link:hover{background:#E8961A;transform:translateY(-1px);box-shadow:0 6px 16px -6px rgba(245,165,36,.7)}
+.renew-warn-link:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.renew-warn-link:active{transform:translateY(0);box-shadow:none}
+@media(max-width:700px){.renew-warn{margin-left:auto;margin-right:auto;justify-content:center;text-align:center}.renew-warn-text{flex-basis:100%}}
 .dash-hero-text h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
 .dash-hero-text h1 .coral{color:var(--coral)}
 .dash-hero-sub{font-size:14.5px;color:var(--stone);max-width:380px;line-height:1.6}
@@ -223,6 +231,10 @@ button{font-family:var(--san);cursor:pointer}
         <span class="eyebrow" style="margin-bottom:8px">Welcome back</span>
         <h1 id="greeting">Hi <span class="coral" id="greeting-name">there</span></h1>
         <p class="dash-hero-sub">Pick up where you left off, or start something new below.</p>
+        <div class="renew-warn" id="renew-warn" hidden role="status">
+          <span class="renew-warn-text" id="renew-warn-text"></span>
+          <a class="renew-warn-link" href="upgrade.html">Renew here</a>
+        </div>
       </div>
       <div class="ring-wrap-col">
         <div class="ring-wrap">
@@ -309,6 +321,14 @@ async function init() {
 
   const access = await Paywall.enforce(currentUser.id, document.getElementById('dash-main'));
   if (!access.active) return;
+
+  // Warn when fewer than 31 days remain (lapsed users get the paywall instead).
+  const left = SubscriptionGate.daysLeft(access.expiresAt);
+  if (left !== null && left < 31) {
+    document.getElementById('renew-warn-text').textContent =
+      left <= 0 ? 'Your subscription expires today' : (left === 1 ? '1 day left till end of subscription' : left + ' days left till end of subscription');
+    document.getElementById('renew-warn').hidden = false;
+  }
 
   loadProgress();
   loadBookmarkCount();

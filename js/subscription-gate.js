@@ -15,5 +15,11 @@ const SubscriptionGate = (function () {
     return { active, status: data.status, plan: data.plan, expiresAt: data.expires_at };
   }
 
-  return { checkAccess };
+  // Whole days left until expiry (floor), or null if no expiry. 0 = under a day.
+  function daysLeft(expiresAt) {
+    if (!expiresAt) return null;
+    return Math.floor((new Date(expiresAt).getTime() - Date.now()) / 86400000);
+  }
+
+  return { checkAccess, daysLeft };
 })();

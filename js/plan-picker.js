@@ -40,6 +40,9 @@ const PlanPicker = (function () {
     @media(max-width:520px){.pp-grid{grid-template-columns:minmax(0,1fr)}}
     .pp-card{position:relative;display:flex;flex-direction:column;gap:4px;text-align:left;background:var(--surface,#fff);border:1.5px solid var(--border,#EDE3D7);border-radius:16px;padding:18px 18px 16px;color:var(--ink,#241B16);font-family:inherit;cursor:pointer;text-decoration:none;box-shadow:0 1px 2px rgba(36,27,22,.04),0 8px 22px -14px rgba(36,27,22,.18);transition:transform .2s cubic-bezier(.2,.7,.2,1),border-color .15s,box-shadow .2s,background .15s}
     .pp-card:hover{border-color:var(--coral,#F0623C);transform:translateY(-2px);box-shadow:0 2px 4px rgba(36,27,22,.05),0 14px 28px -14px rgba(240,98,60,.35)}
+    .pp-card.is-busy{border-color:var(--coral,#F0623C);box-shadow:0 0 0 3px rgba(240,98,60,.18);transform:none}
+    .is-locked .pp-card:not(.is-busy){opacity:.5;pointer-events:none}
+    .is-locked .pp-cta{cursor:progress}
     .pp-card:focus-within{outline:2px solid var(--coral-deep,#D2491F);outline-offset:2px}
     .pp-card:focus-visible{outline:2px solid var(--coral-deep,#D2491F);outline-offset:2px}
     .pp-card:active{transform:translateY(0)}
@@ -144,5 +147,15 @@ const PlanPicker = (function () {
     return c ? c.getAttribute('data-plan') : null;
   }
 
-  return { load, render, money, getSelected };
+  // Loading state for buy mode: marks the clicked card busy and locks the rest.
+  function setBusy(el, btn, busy, label) {
+    const row = el.querySelector('.pp-row, .pp-grid, .pp-list');
+    const card = btn.closest('.pp-card');
+    if (row) row.classList.toggle('is-locked', busy);
+    if (card) card.classList.toggle('is-busy', busy);
+    el.querySelectorAll('.pp-cta').forEach(b => { b.disabled = busy; });
+    if (label) btn.textContent = label;
+  }
+
+  return { load, render, money, getSelected, setBusy };
 })();

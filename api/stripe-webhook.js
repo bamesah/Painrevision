@@ -61,11 +61,17 @@ export default async function handler(req, res) {
     } else {
       const userId = session.metadata?.supabase_user_id;
       if (userId && plan && expiresAt) {
+        // expiresAt was computed at checkout creation as (current expiry or
+        // now) + term. Never let a stale/duplicate session shorten access.
+        const { data: existing } = await supabaseAdmin
+          .from('subscriptions').select('expires_at').eq('user_id', userId).maybeSingle();
+        const finalExpiry = existing?.expires_at && new Date(existing.expires_at) > new Date(expiresAt)
+          ? existing.expires_at : expiresAt;
         const { error } = await supabaseAdmin.from('subscriptions').upsert({
           user_id: userId,
           status: 'active',
           plan,
-          expires_at: expiresAt,
+          expires_at: finalExpiry,
           stripe_customer_id: session.customer,
           stripe_checkout_session_id: session.id,
           stripe_payment_intent_id: session.payment_intent,

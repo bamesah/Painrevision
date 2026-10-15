@@ -92,7 +92,12 @@ button{font-family:var(--san);cursor:pointer}
 .btn-ghost{background:none;color:var(--ink);border-color:var(--border-strong)}
 .btn-ghost:hover{border-color:var(--coral);color:var(--coral)}
 
-.offer-msg{font-size:13.5px;padding:12px 16px;border-radius:12px;margin-top:18px;display:none;line-height:1.5}
+.renew-wrap{max-width:1040px}
+.renew-head{text-align:center;margin-bottom:22px}
+.renew-head h1{font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.03em;margin:10px 0 8px}
+.renew-head .offer-sub{margin:0 auto;max-width:520px}
+.renew-note{text-align:center;font-family:var(--mono);font-size:12px;color:var(--stone);letter-spacing:.02em;margin-top:18px}
+.offer-msg{max-width:620px;margin-left:auto;margin-right:auto;margin-bottom:18px;font-size:13.5px;padding:12px 16px;border-radius:12px;margin-top:18px;display:none;line-height:1.5}
 .offer-msg.show{display:block}
 .offer-msg.error{background:var(--wrong-bg);border:1px solid var(--wrong-border);color:var(--wrong)}
 .offer-msg.success{background:var(--correct-bg);border:1px solid var(--correct-border);color:var(--correct)}
@@ -153,28 +158,15 @@ button{font-family:var(--san);cursor:pointer}
 </div>
 
 <main class="upgrade-main" id="upgrade-main">
-  <div class="wrap">
-    <div class="offer-card">
-      <span class="offer-badge" id="offer-badge">Choose your plan</span>
-      <h1>Full access to the question bank</h1>
-      <p class="offer-sub">Every SBA, MTF and EMQ in the bank, mock exams, custom practice sets, stats and more.</p>
-
-      <div id="offer-body">
-        <div id="plan-picker"><p class="offer-until">Loading plans…</p></div>
-        <p class="offer-until">One-time payment, no automatic renewal. Have a discount code? Enter it on the payment page.</p>
-        <ul class="offer-features">
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Unlimited practice sets and full timed mock exams</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Per-category stats, bookmarks and personal notes</li>
-          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added while your plan is active</li>
-        </ul>
-        <div class="offer-msg" id="offer-msg"></div>
-      </div>
-
-      <div id="already-active-body" style="display:none">
-        <p class="offer-until" id="active-until-text" style="margin-bottom:22px"></p>
-        <a class="btn btn-primary" href="dashboard.html">Go to dashboard</a>
-      </div>
+  <div class="wrap renew-wrap">
+    <div class="renew-head">
+      <span class="offer-badge">Extend subscription</span>
+      <h1>Choose how long to add</h1>
+      <p class="offer-sub" id="renew-status">Your chosen time is added on top of the days you have left.</p>
     </div>
+    <div class="offer-msg" id="offer-msg"></div>
+    <div id="plan-picker"><p class="offer-until" style="text-align:center">Loading plans…</p></div>
+    <p class="renew-note">You go straight to secure payment. Have a discount code? You can enter it on the payment page. One-time payment, no automatic renewal.</p>
   </div>
 </main>
 
@@ -192,29 +184,66 @@ function showMsg(text, kind) {
   el.classList.add('show', kind);
 }
 
-function showAlreadyActive(access) {
-  document.getElementById('offer-body').style.display = 'none';
-  const body = document.getElementById('already-active-body');
-  body.style.display = 'block';
-  const until = access.expiresAt
-    ? new Date(access.expiresAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-    : null;
-  document.getElementById('active-until-text').textContent = until
-    ? `You already have full access, until ${until}.`
-    : 'You already have full access.';
+function fmtLong(iso) {
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-async function pollForAccess(userId, attemptsLeft) {
+// After Stripe sends the user back with ?success=1, the webhook may take a few
+// seconds to write the new expiry. Poll until it differs from the pre-payment
+// one (saved before redirecting), then show the new date.
+async function pollForNewExpiry(userId, prevExpiry, attemptsLeft) {
   const access = await SubscriptionGate.checkAccess(userId);
-  if (access.active) {
-    showAlreadyActive(access);
+  const changed = access.expiresAt && (!prevExpiry || new Date(access.expiresAt) > new Date(prevExpiry));
+  if (changed) {
+    document.getElementById('renew-status').textContent = 'Your access now runs until ' + fmtLong(access.expiresAt) + '.';
+    showMsg('Payment received. Your subscription now runs until ' + fmtLong(access.expiresAt) + '.', 'success');
+    try { sessionStorage.removeItem('pr_prev_expiry'); } catch (_) {}
+    await renderPlans();
     return;
   }
   if (attemptsLeft <= 0) {
-    showMsg('Payment received — this can take a minute to activate. Check your dashboard shortly.', 'info');
+    showMsg('Payment received. Your new expiry date can take a minute to appear: check your profile shortly.', 'info');
     return;
   }
-  setTimeout(() => pollForAccess(userId, attemptsLeft - 1), 1500);
+  setTimeout(() => pollForNewExpiry(userId, prevExpiry, attemptsLeft - 1), 1500);
+}
+
+async function buy(planId, btn) {
+  const picker = document.getElementById('plan-picker');
+  const label = btn.textContent;
+  PlanPicker.setBusy(picker, btn, true, 'Redirecting to checkout…');
+  document.getElementById('offer-msg').classList.remove('show');
+  try {
+    const { data: { session: liveSession } } = await sb.auth.getSession();
+    const access = await SubscriptionGate.checkAccess(currentUser.id);
+    try { sessionStorage.setItem('pr_prev_expiry', access.expiresAt || ''); } catch (_) {}
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + liveSession.access_token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ planId }),
+    });
+    const body = await res.json();
+    if (body.url) {
+      window.location.href = body.url;
+      return;
+    }
+    showMsg(body.error || 'Could not start checkout. Please try again.', 'error');
+  } catch (err) {
+    showMsg('Could not start checkout. Please try again.', 'error');
+  }
+  PlanPicker.setBusy(picker, btn, false, label);
+}
+
+async function renderPlans() {
+  const picker = document.getElementById('plan-picker');
+  try {
+    // PlanPicker.load sends the session token, so each card's "Access until"
+    // date is stacked on the user's current expiry (same rule as checkout).
+    const data = await PlanPicker.load();
+    PlanPicker.render(picker, data, { mode: 'buy', layout: 'row', ctaLabel: 'Choose plan', onBuy: buy });
+  } catch (err) {
+    picker.innerHTML = '<p class="offer-until" style="text-align:center">Could not load plans. Please refresh the page.</p>';
+  }
 }
 
 async function init() {
@@ -235,50 +264,26 @@ async function init() {
   });
 
   const params = new URLSearchParams(window.location.search);
-
   const access = await SubscriptionGate.checkAccess(currentUser.id);
-  if (access.active) {
-    showAlreadyActive(access);
-    return;
+  if (access.expiresAt) {
+    const left = SubscriptionGate.daysLeft(access.expiresAt);
+    document.getElementById('renew-status').textContent = access.active
+      ? 'Your access runs until ' + fmtLong(access.expiresAt) + '. Your chosen time is added on top of the days you have left.'
+      : 'Your access ended on ' + fmtLong(access.expiresAt) + '. Choose a plan to get back in.';
   }
 
   if (params.get('success') === '1') {
-    showMsg('Payment received — activating your access…', 'info');
-    pollForAccess(currentUser.id, 6);
-  } else if (params.get('cancelled') === '1') {
-    // Just re-show the offer, no error styling — the user simply backed out.
+    showMsg('Payment received. Updating your subscription…', 'info');
+    let prev = '';
+    try { prev = sessionStorage.getItem('pr_prev_expiry') || ''; } catch (_) {}
+    pollForNewExpiry(currentUser.id, prev || null, 8);
+  } else {
+    await renderPlans();
+    return;
   }
-
-  async function buy(planId, btn) {
-    const label = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'Redirecting to checkout…';
-    try {
-      const { data: { session: liveSession } } = await sb.auth.getSession();
-      const res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${liveSession.access_token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planId }),
-      });
-      const body = await res.json();
-      if (body.url) {
-        window.location.href = body.url;
-        return;
-      }
-      showMsg(body.error || 'Could not start checkout. Please try again.', 'error');
-    } catch (err) {
-      showMsg('Could not start checkout. Please try again.', 'error');
-    }
-    btn.disabled = false;
-    btn.textContent = label;
-  }
-
-  try {
-    const data = await PlanPicker.load();
-    PlanPicker.render(document.getElementById('plan-picker'), data, { mode: 'buy', ctaLabel: 'Get access', onBuy: buy });
-  } catch (err) {
-    document.getElementById('plan-picker').innerHTML = '<p class="offer-until">Could not load plans. Please refresh the page.</p>';
-  }
+  // success path: the plans are rendered once the new expiry is confirmed,
+  // but show them straight away too so the page is never empty.
+  renderPlans();
 }
 
 function wireUserMenu() {

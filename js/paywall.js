@@ -110,7 +110,7 @@ const Paywall = (function () {
 
   async function enforce(userId, mainEl) {
     const access = await SubscriptionGate.checkAccess(userId);
-    if (access.active) return { active: true };
+    if (access.active) return access;
     if (mainEl) {
       mainEl.classList.add('paywall-locked');
       mainEl.inert = true;
