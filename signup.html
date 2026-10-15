@@ -93,6 +93,24 @@ a{color:inherit;text-decoration:none}
 .pw-match-msg.show{display:block}
 .pw-match-msg.is-match{color:#1F8A4C}
 .pw-match-msg.is-mismatch{color:#C0392B}
+.page-hero.is-plan-chosen .hero-mark,.page-hero.is-plan-chosen .page-hero-eyebrow,.page-hero.is-plan-chosen .page-hero-tag{display:none}
+.page-hero.is-plan-chosen .feat-grid{display:none}
+.page-hero.is-plan-chosen{padding:10px 0 4px}
+.page-hero.is-plan-chosen h1{font-size:clamp(24px,3.6vw,30px);margin:14px 0 0}
+.plan-summary{background:linear-gradient(180deg,var(--surface),var(--surface-warm));border:1.5px solid var(--coral);border-radius:16px;padding:14px 18px 16px;margin-bottom:18px;box-shadow:0 1px 2px rgba(36,27,22,.04),0 12px 26px -16px rgba(240,98,60,.35)}
+.plan-summary[hidden]{display:none}
+.ps-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.ps-eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-deep)}
+.ps-change{background:none;border:none;font-family:var(--san);font-size:13px;font-weight:700;color:var(--coral);cursor:pointer;padding:4px 8px;border-radius:8px;transition:background .15s,color .15s}
+.ps-change:hover{background:var(--coral-soft);color:var(--coral-deep)}
+.ps-change:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
+.ps-main{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.ps-name{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.ps-price{font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink)}
+.ps-until{display:block;font-size:13.5px;font-weight:600;color:var(--ink-soft);margin-top:2px}
+.ps-intro{margin-top:10px;font-size:12.5px;line-height:1.45;font-weight:600;color:var(--coral-deep);background:var(--amber-soft);border-radius:10px;padding:8px 10px}
+.ps-intro[hidden]{display:none}
+.ps-note{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--stone);letter-spacing:.02em}
 .plans-section{padding:8px 0 28px}
 .plans-wrap{max-width:1040px;margin:0 auto;padding:0 32px}
 .plans-note{text-align:center;font-family:var(--mono);font-size:12px;color:var(--stone);letter-spacing:.02em;margin-top:18px}
@@ -178,7 +196,7 @@ footer{background:var(--ink);padding:52px 0}
 </div>
 
 <!-- ===== PAGE HERO ===== -->
-<section class="page-hero" aria-labelledby="signup-heading">
+<section class="page-hero" id="page-hero" aria-labelledby="signup-heading">
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="wrap">
     <script src="js/feature-tiles.js"></script>
@@ -195,7 +213,7 @@ footer{background:var(--ink);padding:52px 0}
 </section>
 
 <!-- ===== AUTH CARD ===== -->
-<section class="plans-section" aria-labelledby="signup-heading">
+<section class="plans-section" id="plans-section" aria-labelledby="signup-heading">
   <div class="plans-wrap">
     <div id="plan-select" role="radiogroup" aria-label="Choose your plan"><p class="form-hint" style="text-align:center">Loading plans…</p></div>
     <p class="plans-note">Have a discount code? You can enter it on the payment page.</p>
@@ -205,6 +223,19 @@ footer{background:var(--ink);padding:52px 0}
 <section class="auth-section">
   <div class="auth-wrap">
     <div class="auth-col">
+      <div class="plan-summary" id="plan-summary" hidden>
+        <div class="ps-top">
+          <span class="ps-eyebrow">Your plan</span>
+          <button type="button" class="ps-change" id="ps-change">Change plan</button>
+        </div>
+        <div class="ps-main">
+          <span class="ps-name" id="ps-name"></span>
+          <span class="ps-price" id="ps-price"></span>
+        </div>
+        <span class="ps-until" id="ps-until"></span>
+        <div class="ps-intro" id="ps-intro" hidden></div>
+        <span class="ps-note">Have a discount code? You can enter it on the payment page.</span>
+      </div>
       <h2 class="details-heading">Your details</h2>
     <div class="auth-card" id="auth-card">
 
@@ -324,10 +355,45 @@ footer{background:var(--ink);padding:52px 0}
 
   // Plans come from /api/plans (api/_lib/plans.js is the source of truth).
   var planSelectEl = document.getElementById('plan-select');
+  if(new URLSearchParams(location.search).get('plan')) document.getElementById('plans-section').hidden = true; // avoid a flash of the picker
   var plansReady = PlanPicker.load().then(function(data){
     var wanted = new URLSearchParams(location.search).get('plan');
     PlanPicker.render(planSelectEl, data, { mode: 'select', layout: 'row', selected: wanted });
+
+    // Opened with a valid ?plan= (from question-bank, poster...): skip the
+    // picker and show a summary of that plan above the form instead.
+    var chosen = null;
+    data.plans.forEach(function(p){ if(p.id === wanted) chosen = p; });
+    if(chosen){
+      var heroEl = document.getElementById('page-hero');
+      var headingEl = document.getElementById('signup-heading');
+      var origHeading = headingEl.innerHTML;
+      document.getElementById('ps-name').textContent = chosen.label;
+      document.getElementById('ps-price').innerHTML = (chosen.wasPence ? '<s class="price-was">' + PlanPicker.money(chosen.wasPence) + '</s>' : '') + PlanPicker.money(chosen.amountPence);
+      document.getElementById('ps-until').textContent = 'Access until ' + chosen.expiresLabel;
+      if(chosen.intro){
+        var introEl = document.getElementById('ps-intro');
+        introEl.textContent = 'Intro offer: access extended until the exam, ' + chosen.intro.untilLabel + ' (instead of a plain 3 months).';
+        introEl.hidden = false;
+      }
+      var summaryEl = document.getElementById('plan-summary');
+      var sectionEl = document.getElementById('plans-section');
+      summaryEl.hidden = false;
+      sectionEl.hidden = true;
+      heroEl.classList.add('is-plan-chosen');
+      headingEl.innerHTML = '<span class="pain">Create your </span><span class="rev">account</span>';
+      document.getElementById('ps-change').addEventListener('click', function(){
+        summaryEl.hidden = true;
+        sectionEl.hidden = false;
+        heroEl.classList.remove('is-plan-chosen');
+        headingEl.innerHTML = origHeading;
+        sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    } else {
+      document.getElementById('plans-section').hidden = false; // no/invalid ?plan=
+    }
   }).catch(function(){
+    document.getElementById('plans-section').hidden = false;
     planSelectEl.innerHTML = '<p class="form-hint">Could not load plans — please refresh the page.</p>';
   });
 

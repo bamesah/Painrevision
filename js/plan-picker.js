@@ -136,7 +136,7 @@ const PlanPicker = (function () {
     el.querySelectorAll('.pp-card').forEach(c => {
       c.addEventListener('click', e => { e.preventDefault(); select(c.getAttribute('data-plan')); });
     });
-    select(plans.some(p => p.id === selectedId) ? selectedId : plans[0].id);
+    select(plans.some(p => p.id === selectedId) ? selectedId : (plans.some(p => p.id === data.defaultPlanId) ? data.defaultPlanId : plans[0].id));
   }
 
   function getSelected(el) {
