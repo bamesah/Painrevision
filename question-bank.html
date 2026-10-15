@@ -100,21 +100,29 @@ a{color:inherit;text-decoration:none}
 .offer-features{list-style:none;text-align:left;margin:0 0 28px;display:flex;flex-direction:column;gap:13px}
 .offer-features li{display:flex;align-items:flex-start;gap:10px;font-size:14.5px;color:var(--ink-soft)}
 .offer-features svg{width:18px;height:18px;stroke:var(--correct);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
-.offer-dev-note{background:var(--surface-warm);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:0 0 28px;text-align:left}
-.offer-dev-status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
-.offer-dev-dot{width:7px;height:7px;border-radius:50%;background:var(--correct);flex-shrink:0;animation:offer-dev-pulse 2s ease-in-out infinite}
-@keyframes offer-dev-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(26,138,74,.35)}50%{opacity:.75;box-shadow:0 0 0 5px rgba(26,138,74,0)}}
-@media(prefers-reduced-motion:reduce){.offer-dev-dot{animation:none}}
-.offer-dev-note p{font-size:13.5px;line-height:1.6;color:var(--stone);margin:0}
 .btn-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px 26px;border-radius:999px;font-family:var(--san);font-size:15.5px;font-weight:700;cursor:pointer;border:2px solid var(--coral);background:var(--coral);color:#fff;letter-spacing:-.01em;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
 .btn-cta:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(240,98,60,.5)}
 .btn-cta:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
 .offer-note{font-size:12.5px;color:var(--stone-light);margin-top:16px}
 
-.demo-section{padding-bottom:36px}
-.preview-wide{max-width:560px;margin:0 auto}
-.plans-section{padding-top:20px}
-.plans-title{text-align:center;font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.03em;margin-bottom:22px}
+.demo-section{padding:0 0 22px}
+.preview-strip{max-width:980px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:14px 22px;display:flex;align-items:center;gap:22px}
+.preview-strip .preview-mock{width:132px;max-width:132px;margin:0;flex-shrink:0}
+.preview-strip .preview-mock-bar{padding:6px 8px}
+.preview-strip .preview-mock-bar span{width:6px;height:6px}
+.preview-strip .preview-mock-body{padding:10px;gap:9px}
+.preview-strip .preview-mock-ring{width:32px;height:32px}
+.preview-strip .preview-mock-ring::after{inset:5px}
+.preview-strip-text{flex:1;min-width:0;text-align:left}
+.preview-strip-text h3{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:0 0 2px}
+.preview-strip-text p{font-size:13.5px;color:var(--stone);line-height:1.5;margin:0}
+.preview-strip .btn-cta-ghost{width:auto;padding:11px 22px;font-size:14px;white-space:nowrap;flex-shrink:0}
+@media(max-width:700px){.preview-strip{flex-direction:column;text-align:center;padding:20px;gap:12px}.preview-strip-text{text-align:center}.preview-strip .btn-cta-ghost{width:100%}}
+.page-hero{padding:34px 0 18px}
+.page-hero h1{margin:6px 0 8px}
+.member-box{padding:10px;margin-bottom:14px}
+.plans-section{padding-top:6px}
+.plans-title{text-align:center;font-size:clamp(24px,4vw,30px);font-weight:800;letter-spacing:-.03em;margin-bottom:14px}
 .plans-box{max-width:1040px;margin:0 auto}
 .plans-note{text-align:center;font-family:var(--mono);font-size:12px;color:var(--stone);letter-spacing:.02em;margin:18px 0 32px}
 .features-card{padding:32px 40px}
@@ -240,7 +248,7 @@ a{color:inherit;text-decoration:none}
     <div class="member-box">
       <p>Already a member? <a href="login.html">Log in here</a></p>
     </div>
-    <div class="preview-box preview-wide">
+    <div class="preview-strip">
       <div class="preview-mock" aria-hidden="true">
         <div class="preview-mock-bar"><span></span><span></span><span></span></div>
         <div class="preview-mock-body">
@@ -248,8 +256,10 @@ a{color:inherit;text-decoration:none}
           <div class="preview-mock-cards"><div></div><div></div></div>
         </div>
       </div>
-      <h3>See it in action</h3>
-      <p>Take a full tour and explore the question bank features — no account needed.</p>
+      <div class="preview-strip-text">
+        <h3>See it in action</h3>
+        <p>Take a full tour and explore the question bank features — no account needed.</p>
+      </div>
       <a class="btn-cta-ghost" href="demo.html">Try the question bank →</a>
     </div>
   </div>
@@ -270,10 +280,6 @@ a{color:inherit;text-decoration:none}
         <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>SBA, MTF and EMQ formats across every topic</li>
         <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Access to every question added while your access is active</li>
       </ul>
-      <div class="offer-dev-note" id="qb-devnote" style="margin-bottom:0">
-        <span class="offer-dev-status"><span class="offer-dev-dot" aria-hidden="true"></span>In active development</span>
-        <p>The question bank is currently in active development. New questions are added daily, and your feedback helps shape the platform.</p>
-      </div>
     </div>
   </div>
 </section>
