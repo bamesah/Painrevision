@@ -93,6 +93,14 @@ button{font-family:var(--san);cursor:pointer}
 .btn-ghost:hover{border-color:var(--coral);color:var(--coral)}
 
 .renew-wrap{max-width:1040px}
+.renew-success{max-width:520px;margin:30px auto 0;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow);padding:40px 36px}
+.renew-success[hidden]{display:none}
+.renew-success h1{font-size:clamp(26px,4vw,32px);font-weight:800;letter-spacing:-.03em;margin:12px 0 10px}
+.renew-success-text{font-size:15px;color:var(--ink-soft);line-height:1.6;margin-bottom:26px}
+.btn-amber{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700}
+.btn-amber:hover{background:#E8961A;border-color:#E8961A;transform:translateY(-1px);box-shadow:0 8px 22px -8px rgba(245,165,36,.65)}
+.btn-amber:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn-amber:active{transform:translateY(0);box-shadow:none}
 .renew-head{text-align:center;margin-bottom:22px}
 .renew-head h1{font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.03em;margin:10px 0 8px}
 .renew-head .offer-sub{margin:0 auto;max-width:520px}
@@ -159,14 +167,22 @@ button{font-family:var(--san);cursor:pointer}
 
 <main class="upgrade-main" id="upgrade-main">
   <div class="wrap renew-wrap">
-    <div class="renew-head">
+    <div class="renew-success" id="renew-success" hidden>
+      <span class="offer-badge">Payment received</span>
+      <h1>Thank you</h1>
+      <p class="renew-success-text" id="renew-success-text">Updating your subscription…</p>
+      <a class="btn btn-amber" href="dashboard.html">Return to dashboard</a>
+    </div>
+    <div class="renew-head" id="renew-head">
       <span class="offer-badge">Extend subscription</span>
       <h1>Choose how long to add</h1>
       <p class="offer-sub" id="renew-status">Your chosen time is added on top of the days you have left.</p>
     </div>
     <div class="offer-msg" id="offer-msg"></div>
+    <div id="renew-plans">
     <div id="plan-picker"><p class="offer-until" style="text-align:center">Loading plans…</p></div>
     <p class="renew-note">You go straight to secure payment. Have a discount code? You can enter it on the payment page. One-time payment, no automatic renewal.</p>
+    </div>
   </div>
 </main>
 
@@ -195,14 +211,12 @@ async function pollForNewExpiry(userId, prevExpiry, attemptsLeft) {
   const access = await SubscriptionGate.checkAccess(userId);
   const changed = access.expiresAt && (!prevExpiry || new Date(access.expiresAt) > new Date(prevExpiry));
   if (changed) {
-    document.getElementById('renew-status').textContent = 'Your access now runs until ' + fmtLong(access.expiresAt) + '.';
-    showMsg('Payment received. Your subscription now runs until ' + fmtLong(access.expiresAt) + '.', 'success');
+    document.getElementById('renew-success-text').textContent = 'Payment received. Your subscription now runs until ' + fmtLong(access.expiresAt) + '.';
     try { sessionStorage.removeItem('pr_prev_expiry'); } catch (_) {}
-    await renderPlans();
     return;
   }
   if (attemptsLeft <= 0) {
-    showMsg('Payment received. Your new expiry date can take a minute to appear: check your profile shortly.', 'info');
+    document.getElementById('renew-success-text').textContent = 'Payment received. Your new expiry date can take a minute to appear: check your profile shortly.';
     return;
   }
   setTimeout(() => pollForNewExpiry(userId, prevExpiry, attemptsLeft - 1), 1500);
@@ -273,7 +287,11 @@ async function init() {
   }
 
   if (params.get('success') === '1') {
-    showMsg('Payment received. Updating your subscription…', 'info');
+    // Clean confirmation state: no plan cards, discount note or renew heading.
+    document.getElementById('renew-head').hidden = true;
+    document.getElementById('renew-plans').hidden = true;
+    document.getElementById('renew-success').hidden = false;
+    document.getElementById('renew-success-text').textContent = 'Payment received. Updating your subscription…';
     let prev = '';
     try { prev = sessionStorage.getItem('pr_prev_expiry') || ''; } catch (_) {}
     pollForNewExpiry(currentUser.id, prev || null, 8);
@@ -281,9 +299,6 @@ async function init() {
     await renderPlans();
     return;
   }
-  // success path: the plans are rendered once the new expiry is confirmed,
-  // but show them straight away too so the page is never empty.
-  renderPlans();
 }
 
 function wireUserMenu() {
