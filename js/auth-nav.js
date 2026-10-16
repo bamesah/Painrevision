@@ -139,15 +139,29 @@
 
   function redirectQuestionBankLinks() {
     // Signed-in visitors already have full access — send them straight to
-    // the dashboard instead of the question-bank sales/preview page.
-    document.querySelectorAll('a[href="question-bank.html"]').forEach(a => {
+    // the dashboard instead of the question-bank sales/preview page, and
+    // instead of the sign-up page (landing "Start Today", plan cards, ...).
+    document.querySelectorAll('a[href="question-bank.html"], a[href^="signup.html"]').forEach(a => {
       a.href = 'dashboard.html';
     });
+    // Links rendered later (e.g. the plan cards on question-bank.html) are
+    // caught at click time.
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest && e.target.closest('a[href^="signup.html"]');
+      if (!a) return;
+      e.preventDefault();
+      window.location.href = 'dashboard.html';
+    }, true);
   }
 
   async function init() {
     if (typeof sb === 'undefined') return;
-    const { data: { session } } = await sb.auth.getSession();
+    let session = null;
+    try {
+      ({ data: { session } } = await sb.auth.getSession());
+    } catch (_) {
+      return; // Supabase unreachable: leave the public links exactly as they are
+    }
     if (session) {
       addAccountMenu();
       redirectQuestionBankLinks();
