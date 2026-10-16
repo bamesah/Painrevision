@@ -49,6 +49,7 @@ const PlanPicker = (function () {
     .pp-card.is-selected{border-color:var(--coral,#F0623C);background:var(--coral-soft,#FBD9CC);box-shadow:0 0 0 3px rgba(240,98,60,.15)}
     .pp-card.is-featured{border-color:var(--coral,#F0623C)}
     .pp-badge{position:absolute;top:-10px;right:14px;font-family:var(--mono,'IBM Plex Mono',monospace);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--coral,#F0623C);border-radius:999px;padding:3px 10px}
+    .pp-main{display:flex;flex-direction:column;gap:2px;min-width:0}
     .pp-label{font-size:14px;font-weight:700;letter-spacing:-.01em}
     .pp-price{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1.1;display:flex;align-items:baseline;flex-wrap:wrap;gap:0}
     .pp-price .pp-was{font-size:.55em;font-weight:600;color:var(--stone,#7C7068);text-decoration:line-through;text-decoration-color:var(--coral,#F0623C);text-decoration-thickness:2px;margin-right:.4em}
