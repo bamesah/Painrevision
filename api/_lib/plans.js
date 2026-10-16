@@ -73,6 +73,7 @@ export const PLANS = {
     currency: 'gbp',
     termMonths: 3,
     introUntilExam: true, // intro offer: extend to EXAM_DATE_ISO while inside the intro window
+    stripeProductId: 'pr_three_month', // stable Stripe Product so a promo code can be restricted to this plan (see stripe-catalog.js)
     name: 'PainRevision — 3 months access',
     blurb: '3 months of full access',
     featured: true,
@@ -96,6 +97,9 @@ export const PLANS = {
     blurb: '12 months of full access',
   },
 };
+
+// Feedback reward: single-use code, this percentage off, valid on this plan only.
+export const FEEDBACK_REWARD = { percent: 30, planId: 'three_month' };
 
 export function getActivePlanIds(now = new Date()) {
   return tiersLive(now)
@@ -161,6 +165,16 @@ function fmtShort(iso) {
 
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+}
+
+// Note shown on the Stripe Checkout page (custom_text.submit.message). The
+// 3-month plan uses a stable Stripe Product, so its line-item name can't carry
+// the intro wording; this note does.
+export function checkoutNote(plan, now = new Date(), currentExpiryIso = null, expiresIso = null) {
+  const exp = expiresIso || computeExpiryIso(plan, now, currentExpiryIso);
+  let note = `Access until ${fmtDate(exp)}.`;
+  if (introActive(plan, now, currentExpiryIso)) note += ` Intro offer: access extended until the exam, ${fmtDate(EXAM_DATE_ISO)}.`;
+  return note;
 }
 
 // Stripe line-item name (shown on the Checkout page and the invoice).

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Feedback — PainRevision</title>
+<meta name="description" content="Give feedback on the PainRevision question bank and get a discount code."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+:root{
+  --coral:#F0623C;--coral-deep:#D2491F;--coral-faint:rgba(240,98,60,.08);
+  --amber:#F5A524;--amber-soft:#FCE6BF;
+  --ink:#241B16;--ink-soft:#3A2D25;
+  --stone:#7C7068;--stone-light:#A99E95;
+  --cream:#FBF5EE;--surface:#FFFFFF;--surface-warm:#FFFAF4;
+  --border:#EDE3D7;--border-strong:#E0D3C4;
+  --correct:#1A8A4A;--correct-bg:rgba(26,138,74,.1);--correct-border:rgba(26,138,74,.32);
+  --wrong:#C0392B;--wrong-bg:rgba(192,57,43,.1);--wrong-border:rgba(192,57,43,.32);
+  --shadow:0 1px 2px rgba(36,27,22,.04),0 18px 40px -22px rgba(36,27,22,.22);
+  --shadow-sm:0 1px 2px rgba(36,27,22,.05),0 8px 20px -14px rgba(36,27,22,.18);
+  --maxw:1120px;
+  --san:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body{font-family:var(--san);background:var(--cream);color:var(--ink);line-height:1.5;overflow-x:hidden}
+::selection{background:var(--coral);color:#fff}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--san);cursor:pointer}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);display:inline-block}
+
+.app-topbar{position:sticky;top:0;z-index:100;background:rgba(251,245,238,.92);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--border)}
+.app-topbar-in{display:flex;align-items:center;gap:8px;padding:14px 32px;max-width:var(--maxw);margin:0 auto}
+.app-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.03em;flex-shrink:0}
+.app-logo svg{width:28px;height:28px;flex-shrink:0}
+.app-logo .pain{color:var(--ink)}
+.app-logo .rev{color:var(--coral)}
+.app-nav{display:flex;align-items:center;gap:2px;margin-left:28px}
+.app-nav a{font-size:14px;font-weight:600;color:var(--stone);padding:8px 14px;border-radius:999px;transition:color .18s,background .18s}
+.app-nav a:hover{color:var(--ink);background:var(--surface-warm)}
+.app-topbar-right{display:flex;align-items:center;gap:14px;margin-left:auto}
+.app-logout{font-family:var(--san);font-size:13px;font-weight:600;color:var(--stone);background:none;border:1.5px solid var(--border-strong);border-radius:999px;padding:7px 16px;cursor:pointer;transition:all .18s}
+.app-logout:hover{border-color:var(--coral);color:var(--coral)}
+.app-logout:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.user-menu{position:relative}
+.user-menu-trigger{display:inline-flex;align-items:center;gap:6px;background:var(--coral);color:#fff;font-family:var(--san);font-size:13px;font-weight:700;padding:8px 16px;border-radius:999px;border:none;cursor:pointer;transition:box-shadow .25s ease,transform .2s ease}
+.user-menu-trigger svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.user-menu-trigger:hover,.user-menu.open .user-menu-trigger{box-shadow:0 0 0 5px rgba(240,98,60,.22),0 8px 22px -6px rgba(240,98,60,.65);transform:translateY(-1px)}
+.user-menu.open .user-menu-trigger svg{transform:rotate(180deg)}
+.user-menu-dropdown{position:absolute;top:100%;right:0;padding-top:10px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}
+.user-menu.open .user-menu-dropdown{opacity:1;pointer-events:all}
+.user-menu-dropdown-inner{min-width:168px;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow);transform:translateY(-6px);transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.user-menu.open .user-menu-dropdown-inner{transform:translateY(0)}
+@media (hover:hover) and (pointer:fine){
+  .user-menu:hover .user-menu-dropdown{opacity:1;pointer-events:all}
+  .user-menu:hover .user-menu-dropdown-inner{transform:translateY(0)}
+}
+.user-menu-dropdown a{display:block;padding:9px 12px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--ink-soft);transition:background .15s}
+.user-menu-dropdown a:hover{background:var(--surface-warm)}
+@media(max-width:700px){.app-nav{display:none}}
+
+#auth-gate{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.gate-card{max-width:360px;text-align:center}
+.gate-spinner{width:28px;height:28px;border-radius:999px;border:3px solid var(--border);border-top-color:var(--coral);margin:0 auto 16px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gate-text{font-size:14px;color:var(--stone)}
+
+.upgrade-main{padding:56px 0 90px;display:none}
+.offer-card{max-width:620px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow);padding:44px;text-align:center}
+.offer-badge{display:inline-block;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-deep);background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:999px;padding:5px 14px;margin-bottom:18px}
+.offer-card h1{font-size:28px;font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.offer-sub{font-size:14.5px;color:var(--stone);line-height:1.6;margin-bottom:28px}
+.offer-price{font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.offer-price span{font-size:16px;font-weight:600;color:var(--stone);margin-left:6px}
+.offer-price .price-was{font-size:.55em;font-weight:600;color:var(--stone);text-decoration:line-through;text-decoration-color:var(--coral);text-decoration-thickness:2px;margin-right:.3em;letter-spacing:0}
+.offer-until{font-size:13.5px;color:var(--stone);margin:8px 0 30px}
+.offer-features{list-style:none;text-align:left;margin:0 0 30px;display:flex;flex-direction:column;gap:12px}
+.offer-features li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ink-soft)}
+.offer-features svg{width:18px;height:18px;stroke:var(--correct);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;margin-top:1px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:999px;font-family:var(--san);font-size:15px;font-weight:700;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap;width:100%}
+.btn-primary{background:var(--coral);color:#fff;border-color:var(--coral)}
+.btn-primary:hover{background:var(--coral-deep);border-color:var(--coral-deep);transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(240,98,60,.5)}
+.btn-primary:active{transform:translateY(0);box-shadow:none}
+.btn-primary:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:none;color:var(--ink);border-color:var(--border-strong)}
+.btn-ghost:hover{border-color:var(--coral);color:var(--coral)}
+
+.renew-wrap{max-width:1040px}
+.renew-success{max-width:520px;margin:30px auto 0;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow);padding:40px 36px}
+.renew-success[hidden]{display:none}
+.renew-success h1{font-size:clamp(26px,4vw,32px);font-weight:800;letter-spacing:-.03em;margin:12px 0 10px}
+.renew-success-text{font-size:15px;color:var(--ink-soft);line-height:1.6;margin-bottom:26px}
+.btn-amber{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700}
+.btn-amber:hover{background:#E8961A;border-color:#E8961A;transform:translateY(-1px);box-shadow:0 8px 22px -8px rgba(245,165,36,.65)}
+.btn-amber:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn-amber:active{transform:translateY(0);box-shadow:none}
+.renew-head{text-align:center;margin-bottom:22px}
+.renew-head h1{font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.03em;margin:10px 0 8px}
+.renew-head .offer-sub{margin:0 auto;max-width:520px}
+.renew-note{text-align:center;font-family:var(--mono);font-size:12px;color:var(--stone);letter-spacing:.02em;margin-top:18px}
+.offer-msg{max-width:620px;margin-left:auto;margin-right:auto;margin-bottom:18px;font-size:13.5px;padding:12px 16px;border-radius:12px;margin-top:18px;display:none;line-height:1.5}
+.offer-msg.show{display:block}
+.offer-msg.error{background:var(--wrong-bg);border:1px solid var(--wrong-border);color:var(--wrong)}
+.offer-msg.success{background:var(--correct-bg);border:1px solid var(--correct-border);color:var(--correct)}
+.offer-msg.info{background:var(--surface-warm);border:1px solid var(--border);color:var(--stone)}
+
+@media(max-width:600px){
+  .wrap{padding:0 20px}
+  .app-topbar-in{padding:12px 20px;gap:4px}
+  .offer-card{padding:30px 24px}
+  .offer-price{font-size:42px}
+  .upgrade-main{padding:36px 0 60px}
+}
+
+.fb-main{padding:48px 0 90px;display:none}
+.fb-wrap{max-width:720px;margin:0 auto;padding:0 24px}
+.fb-head{text-align:center;margin-bottom:26px}
+.fb-head h1{font-size:clamp(26px,4vw,34px);font-weight:800;letter-spacing:-.03em;margin:10px 0 8px}
+.fb-head p{font-size:15px;color:var(--stone);line-height:1.6;max-width:520px;margin:0 auto}
+.fb-reward-pill{display:inline-block;margin-top:14px;background:var(--amber-soft);color:var(--ink);font-size:13px;font-weight:700;border-radius:999px;padding:7px 14px;border:1px solid rgba(245,165,36,.5)}
+.fb-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow);padding:34px}
+.fb-q{margin-bottom:26px}
+.fb-q:last-of-type{margin-bottom:0}
+.fb-label{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+.fb-req{color:var(--coral)}
+.fb-opts{display:flex;flex-wrap:wrap;gap:8px}
+.fb-opt{position:relative}
+.fb-opt input{position:absolute;opacity:0;pointer-events:none}
+.fb-opt span{display:inline-flex;align-items:center;justify-content:center;min-width:44px;padding:9px 16px;border:1.5px solid var(--border-strong);border-radius:999px;font-size:14px;font-weight:600;color:var(--ink-soft);background:var(--surface);cursor:pointer;transition:transform .18s cubic-bezier(.2,.7,.2,1),border-color .15s,background .15s,color .15s}
+.fb-opt span:hover{border-color:var(--coral);transform:translateY(-1px)}
+.fb-opt input:focus-visible + span{outline:2px solid var(--coral-deep);outline-offset:2px}
+.fb-opt input:checked + span{background:var(--coral);border-color:var(--coral);color:#fff}
+.fb-opt span:active{transform:translateY(0)}
+.fb-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--stone-light);margin-top:6px;max-width:300px}
+.fb-text{width:100%;min-height:96px;resize:vertical;font-family:var(--san);font-size:14.5px;color:var(--ink);background:var(--surface-warm);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;outline:none;transition:border-color .15s,box-shadow .15s}
+.fb-text:hover{border-color:var(--border-strong)}
+.fb-text:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(240,98,60,.12);background:var(--surface)}
+.fb-count{font-family:var(--mono);font-size:11px;color:var(--stone-light);text-align:right;margin-top:4px}
+.fb-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.fb-submit{margin-top:28px;width:100%}
+.fb-error{display:none;background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.32);color:#C0392B;font-size:13.5px;font-weight:500;padding:12px 16px;border-radius:12px;margin-top:18px;line-height:1.5}
+.fb-error.show{display:block}
+.fb-done{text-align:center}
+.fb-done h2{font-size:26px;font-weight:800;letter-spacing:-.03em;margin:10px 0 8px}
+.fb-done p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;max-width:460px;margin:0 auto 16px}
+.fb-code{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:clamp(20px,5vw,28px);font-weight:600;letter-spacing:.06em;background:var(--coral-soft);color:var(--coral-deep);border-radius:14px;padding:14px 22px;margin:6px 0 10px;user-select:all}
+.fb-copy{font-family:var(--san);font-size:12.5px;font-weight:700;letter-spacing:0;background:var(--surface);color:var(--coral-deep);border:1.5px solid var(--coral);border-radius:999px;padding:6px 14px;cursor:pointer;transition:background .15s,color .15s,transform .15s}
+.fb-copy:hover{background:var(--coral);color:#fff;transform:translateY(-1px)}
+.fb-copy:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
+.fb-copy:active{transform:translateY(0)}
+.fb-price{font-size:15px;font-weight:700;margin-bottom:6px}
+.fb-price s{color:var(--stone);font-weight:600;margin-right:6px}
+.fb-small{font-size:13px!important;color:var(--stone)!important}
+.fb-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.fb-actions .btn{width:auto;min-width:200px}
+.btn-amber{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700}
+.btn-amber:hover{background:#E8961A;border-color:#E8961A;transform:translateY(-1px);box-shadow:0 8px 22px -8px rgba(245,165,36,.65)}
+.btn-amber:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btn-amber:active{transform:translateY(0);box-shadow:none}
+@media(max-width:600px){.fb-card{padding:24px 20px}.fb-main{padding:32px 0 60px}.fb-wrap{padding:0 16px}.fb-actions .btn{width:100%}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="pr-mark" viewBox="0 0 100 100">
+      <path fill="none" stroke="var(--mark-stroke,#F0623C)" stroke-width="14" stroke-linecap="round" d="M68.35 23.79 A32 32 0 1 1 31.65 23.79"/>
+      <circle fill="var(--mark-dot,#F5A524)" cx="50" cy="13" r="8.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app-topbar">
+  <div class="app-topbar-in">
+    <a class="app-logo" href="dashboard.html" aria-label="PainRevision dashboard">
+      <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
+      <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
+    </a>
+    <nav class="app-nav" aria-label="App navigation">
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+    <div class="app-topbar-right">
+      <div class="user-menu" id="user-menu">
+        <button class="user-menu-trigger" id="user-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+          <span id="user-menu-username">…</span>
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="user-menu-dropdown" role="menu">
+          <div class="user-menu-dropdown-inner">
+            <a href="my-profile.html" role="menuitem">My Profile</a>
+            <a href="my-progress.html" role="menuitem">My Progress</a>
+          </div>
+        </div>
+      </div>
+      <button class="app-logout" id="logout-btn">Log out</button>
+    </div>
+  </div>
+</div>
+
+<div id="auth-gate">
+  <div class="gate-card">
+    <div class="gate-spinner" aria-hidden="true"></div>
+    <p class="gate-text">Checking your session…</p>
+  </div>
+</div>
+
+<main class="fb-main" id="fb-main">
+  <div class="fb-wrap">
+    <div class="fb-head" id="fb-head">
+      <span class="offer-badge">Member feedback</span>
+      <h1>Help us improve PainRevision</h1>
+      <p>A couple of minutes of feedback shapes what we build next. As a thank-you, you get a personal discount code.</p>
+      <span class="fb-reward-pill" id="fb-reward-pill">Give feedback, get 30% off the 3-month plan</span>
+    </div>
+    <div class="fb-card" id="fb-form-card" hidden>
+      <form id="fb-form" novalidate>
+        <div id="fb-questions"></div>
+        <div class="fb-hp" aria-hidden="true"><label>Website <input type="text" name="website" id="fb-website" tabindex="-1" autocomplete="off"/></label></div>
+        <div class="fb-error" id="fb-error" role="alert"></div>
+        <button class="btn btn-primary fb-submit" type="submit" id="fb-submit">Submit feedback and get my code</button>
+      </form>
+    </div>
+    <div class="fb-card fb-done" id="fb-done" hidden>
+      <span class="offer-badge" id="fb-done-badge">Thank you</span>
+      <h2 id="fb-done-title">Thanks for your feedback</h2>
+      <p id="fb-done-text">Here is your personal discount code.</p>
+      <div class="fb-code"><span id="fb-code"></span><button type="button" class="fb-copy" id="fb-copy">Copy</button></div>
+      <p class="fb-price" id="fb-price"></p>
+      <p class="fb-small" id="fb-done-note"></p>
+      <div class="fb-actions">
+        <a class="btn btn-amber" id="fb-use" href="upgrade.html">Use my code</a>
+        <a class="btn btn-ghost" href="dashboard.html">Back to dashboard</a>
+      </div>
+    </div>
+    <div class="fb-error" id="fb-fatal"></div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/subscription-gate.js"></script>
+<script>
+var fbStarted = Date.now();
+var fbConfig = null;
+var fbToken = null;
+
+function money(p) { return '\u00a3' + (p / 100).toFixed(2); }
+function el(id) { return document.getElementById(id); }
+
+function showFatal(msg) {
+  var f = el('fb-fatal'); f.textContent = msg; f.classList.add('show');
+}
+
+// ---- form rendering (questions come from api/_lib/feedback-questions.js) ----
+function renderQuestions(questions) {
+  var root = el('fb-questions');
+  root.innerHTML = '';
+  questions.forEach(function (q) {
+    var wrap = document.createElement('div');
+    wrap.className = 'fb-q';
+    var label = document.createElement('span');
+    label.className = 'fb-label';
+    label.textContent = q.label + ' ';
+    if (q.required) { var r = document.createElement('span'); r.className = 'fb-req'; r.textContent = '*'; label.appendChild(r); }
+    wrap.appendChild(label);
+
+    if (q.type === 'text') {
+      var ta = document.createElement('textarea');
+      ta.className = 'fb-text'; ta.name = q.id; ta.maxLength = q.maxLength || 1000;
+      ta.setAttribute('aria-label', q.label);
+      var cnt = document.createElement('div'); cnt.className = 'fb-count'; cnt.textContent = '0 / ' + ta.maxLength;
+      ta.addEventListener('input', function () { cnt.textContent = ta.value.length + ' / ' + ta.maxLength; });
+      wrap.appendChild(ta); wrap.appendChild(cnt);
+    } else {
+      var opts = document.createElement('div'); opts.className = 'fb-opts';
+      opts.setAttribute('role', q.type === 'multi' ? 'group' : 'radiogroup');
+      opts.setAttribute('aria-label', q.label);
+      var list = q.type === 'rating' ? ['1', '2', '3', '4', '5'] : q.options;
+      list.forEach(function (o) {
+        var lab = document.createElement('label'); lab.className = 'fb-opt';
+        var inp = document.createElement('input');
+        inp.type = q.type === 'multi' ? 'checkbox' : 'radio'; inp.name = q.id; inp.value = o;
+        var sp = document.createElement('span'); sp.textContent = o;
+        lab.appendChild(inp); lab.appendChild(sp); opts.appendChild(lab);
+      });
+      wrap.appendChild(opts);
+      if (q.type === 'rating') {
+        var sc = document.createElement('div'); sc.className = 'fb-scale';
+        sc.innerHTML = '<span>Poor</span><span>Excellent</span>';
+        wrap.appendChild(sc);
+      }
+    }
+    root.appendChild(wrap);
+  });
+}
+
+function collectAnswers() {
+  var answers = {};
+  fbConfig.questions.forEach(function (q) {
+    var form = el('fb-form');
+    if (q.type === 'text') {
+      answers[q.id] = form.elements[q.id].value;
+    } else if (q.type === 'multi') {
+      answers[q.id] = Array.prototype.map.call(form.querySelectorAll('input[name="' + q.id + '"]:checked'), function (i) { return i.value; });
+    } else {
+      var c = form.querySelector('input[name="' + q.id + '"]:checked');
+      answers[q.id] = c ? c.value : '';
+    }
+  });
+  return answers;
+}
+
+function showError(msg) {
+  var e = el('fb-error'); e.textContent = msg; e.classList.add('show');
+}
+
+// ---- reward panel ----
+function showReward(data, opts) {
+  opts = opts || {};
+  el('fb-form-card').hidden = true;
+  el('fb-head').hidden = true;
+  el('fb-done').hidden = false;
+  el('fb-code').textContent = data.code;
+  var r = data.reward;
+  el('fb-done-title').textContent = opts.returning ? 'Your feedback reward' : 'Thanks for your feedback';
+  el('fb-done-text').textContent = 'Your personal code gives ' + r.percent + '% off the ' + r.planName + ' plan. It works once, on the ' + r.planName + ' plan only.';
+  el('fb-price').innerHTML = '<s>' + money(r.fullPricePence) + '</s>' + money(r.discountedPricePence);
+  var note;
+  if (opts.lapsed) note = 'Renew your membership, choose the ' + r.planName + ' plan, then enter the code in the promotion code box at payment.';
+  else if (data.emailed === false) note = 'We could not email it just now, so please keep this code. Enter it in the promotion code box at payment.';
+  else note = 'We have also emailed it to you. Enter it in the promotion code box at payment.';
+  el('fb-done-note').textContent = note;
+  el('fb-use').textContent = opts.lapsed ? 'Renew with my code' : 'Use my code';
+}
+
+async function submitForm(e) {
+  e.preventDefault();
+  el('fb-error').classList.remove('show');
+  var answers = collectAnswers();
+  for (var i = 0; i < fbConfig.questions.length; i++) {
+    var q = fbConfig.questions[i], v = answers[q.id];
+    if (q.required && (!v || (Array.isArray(v) && !v.length))) { showError('Please answer: ' + q.label); return; }
+  }
+  var btn = el('fb-submit');
+  btn.disabled = true; var label = btn.textContent; btn.textContent = 'Submitting\u2026';
+  try {
+    var res = await fetch('/api/submit-feedback', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + fbToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: answers, website: el('fb-website').value, elapsedMs: Date.now() - fbStarted })
+    });
+    var data = await res.json();
+    if (res.ok && data.code) { showReward(data); return; }
+    if (data.lapsed) { window.location.href = 'upgrade.html'; return; }
+    showError(data.error || 'Something went wrong. Please try again.');
+  } catch (err) {
+    showError('Something went wrong. Please try again.');
+  }
+  btn.disabled = false; btn.textContent = label;
+}
+
+async function init() {
+  var s = await sb.auth.getSession();
+  var session = s.data.session;
+  if (!session) { window.location.href = 'login.html'; return; }
+  fbToken = session.access_token;
+  var user = session.user;
+
+  var prof = await sb.from('profiles').select('username').eq('id', user.id).single();
+  el('user-menu-username').textContent = (prof.data && prof.data.username) || user.email.split('@')[0];
+  wireUserMenu();
+  el('logout-btn').addEventListener('click', async function () { await sb.auth.signOut(); window.location.href = 'login.html'; });
+
+  var access = await SubscriptionGate.checkAccess(user.id);
+  var status = null;
+  try {
+    var sr = await fetch('/api/submit-feedback', { headers: { Authorization: 'Bearer ' + fbToken } });
+    if (sr.ok) status = await sr.json();
+  } catch (_) {}
+
+  el('auth-gate').style.display = 'none';
+  el('fb-main').style.display = 'block';
+
+  if (!status) { el('fb-head').hidden = true; showFatal('The feedback form is not available right now. Please try again later.'); return; }
+
+  if (status.submitted) {
+    if (!status.ready) {
+      // Saved earlier but the Stripe code was not created: a POST repairs it (no new code is minted).
+      try {
+        var rr = await fetch('/api/submit-feedback', { method: 'POST', headers: { Authorization: 'Bearer ' + fbToken, 'Content-Type': 'application/json' }, body: '{}' });
+        var rd = await rr.json();
+        if (rr.ok && rd.code) { showReward(rd, { returning: true, lapsed: !access.active }); return; }
+      } catch (_) {}
+      el('fb-head').hidden = true; showFatal('Your code is being prepared. Please refresh in a minute.'); return;
+    }
+    showReward({ code: status.code, reward: status.reward, emailed: true }, { returning: true, lapsed: !access.active });
+    return;
+  }
+
+  if (!access.active) { window.location.replace('upgrade.html'); return; }
+
+  try {
+    var cr = await fetch('/api/submit-feedback?config=1');
+    fbConfig = await cr.json();
+  } catch (_) { showFatal('The feedback form is not available right now.'); return; }
+  el('fb-reward-pill').textContent = 'Give feedback, get ' + fbConfig.reward.percent + '% off the ' + fbConfig.reward.planName + ' plan';
+  renderQuestions(fbConfig.questions);
+  el('fb-form-card').hidden = false;
+  fbStarted = Date.now();
+  el('fb-form').addEventListener('submit', submitForm);
+}
+
+el('fb-copy').addEventListener('click', function () {
+  var code = el('fb-code').textContent;
+  var done = function () { el('fb-copy').textContent = 'Copied'; setTimeout(function () { el('fb-copy').textContent = 'Copy'; }, 1800); };
+  if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, done); else done();
+});
+
+function wireUserMenu() {
+  var menu = el('user-menu'), trigger = el('user-menu-trigger');
+  trigger.addEventListener('click', function (e) { e.stopPropagation(); var open = menu.classList.toggle('open'); trigger.setAttribute('aria-expanded', String(open)); });
+  document.addEventListener('click', function (e) { if (!menu.contains(e.target)) menu.classList.remove('open'); });
+}
+
+init();
+</script>
+</body>
+</html>

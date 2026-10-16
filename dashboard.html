@@ -86,6 +86,13 @@ button{font-family:var(--san);cursor:pointer}
 .dash-hero{display:flex;flex-wrap:wrap;align-items:center;gap:36px;background:var(--surface);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);padding:36px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .dash-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(480px 260px at 100% -10%,rgba(245,165,36,.10),transparent 65%);pointer-events:none}
 .dash-hero-text{flex:1;min-width:220px;position:relative;z-index:1}
+.fb-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px;margin:-14px 0 26px;padding:12px 20px;background:var(--surface);border:1px dashed var(--amber);border-radius:16px;font-size:14px;color:var(--ink-soft);transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s,border-color .2s}
+.fb-strip[hidden]{display:none}
+.fb-strip strong{color:var(--ink)}
+.fb-strip-go{font-weight:700;color:var(--coral-deep);font-size:13.5px}
+.fb-strip:hover{transform:translateY(-1px);border-color:var(--coral);box-shadow:0 10px 24px -16px rgba(240,98,60,.4)}
+.fb-strip:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
+.fb-strip:active{transform:translateY(0)}
 .renew-warn{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:16px;background:var(--amber-soft,#FCE6BF);border:1px solid rgba(245,165,36,.55);border-radius:14px;padding:10px 14px;max-width:420px}
 .renew-warn[hidden]{display:none}
 .renew-warn-text{font-size:14px;font-weight:700;color:var(--ink);flex:1;min-width:150px}
@@ -253,6 +260,11 @@ button{font-family:var(--san);cursor:pointer}
       </div>
     </div>
 
+    <a class="fb-strip" id="fb-strip" href="feedback.html" hidden>
+      <span class="fb-strip-text"><strong>Give feedback, get 30% off</strong> the 3-month plan</span>
+      <span class="fb-strip-go">Take 2 minutes &rarr;</span>
+    </a>
+
     <div class="launch-grid">
       <a class="launch-card" href="practice.html?mode=mock">
         <div class="launch-icon mock">
@@ -329,6 +341,12 @@ async function init() {
       left <= 0 ? 'Your subscription expires today' : (left === 1 ? '1 day left till end of subscription' : left + ' days left till end of subscription');
     document.getElementById('renew-warn').hidden = false;
   }
+
+  // Feedback reward entry point (members only, hidden once they've claimed it).
+  // Fails safe: if the table isn't there yet the strip simply stays hidden.
+  sb.from('feedback_submissions').select('code').eq('user_id', currentUser.id).maybeSingle().then(({ data, error }) => {
+    if (!error && !data) document.getElementById('fb-strip').hidden = false;
+  });
 
   loadProgress();
   loadBookmarkCount();

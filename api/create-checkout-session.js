@@ -11,7 +11,8 @@
 // promotion code" box on the Checkout page.
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
-import { getActivePlan, getDefaultPlanId, computeExpiryIso, checkoutName } from './_lib/plans.js';
+import { getActivePlan, getDefaultPlanId, computeExpiryIso, checkoutName, checkoutNote } from './_lib/plans.js';
+import { ensureProduct } from './_lib/stripe-catalog.js';
 
 const SUPABASE_URL = 'https://vxlxcxqyankqugwiypac.supabase.co';
 
@@ -41,6 +42,15 @@ export default async function handler(req, res) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const origin = req.headers.origin || `https://${req.headers.host}`;
 
+  // Plans with a stable Stripe Product (the 3-month plan) reference it so a
+  // product-restricted promotion code (the feedback reward) can only ever
+  // apply to that plan. If the catalog call fails, fall back to inline
+  // product data: checkout still works, the restricted code just won't apply.
+  let productRef = { product_data: { name: checkoutName(plan, now, currentExpiry) } };
+  if (plan.stripeProductId) {
+    try { productRef = { product: await ensureProduct(stripe, plan) }; } catch (e) { console.error('ensureProduct failed', e); }
+  }
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -49,11 +59,12 @@ export default async function handler(req, res) {
         price_data: {
           currency: plan.currency,
           unit_amount: plan.amountPence,
-          product_data: { name: checkoutName(plan, now, currentExpiry) },
+          ...productRef,
         },
         quantity: 1,
       }],
       allow_promotion_codes: true,
+      custom_text: { submit: { message: checkoutNote(plan, now, currentExpiry, expiresAt) } },
       invoice_creation: { enabled: true },
       client_reference_id: user.id,
       metadata: {

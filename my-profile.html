@@ -95,6 +95,8 @@ button{font-family:var(--san);cursor:pointer}
 .field-row .form-group{flex:1;min-width:200px;margin-bottom:0}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:999px;font-family:var(--san);font-size:14px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,box-shadow .2s;letter-spacing:-.01em;white-space:nowrap}
+.btn-ghost{background:none;color:var(--ink);border-color:var(--border-strong)}
+.btn-ghost:hover{border-color:var(--coral);color:var(--coral)}
 .btn-amber{background:var(--amber);color:var(--ink);border-color:var(--amber);font-weight:700}
 .btn-amber:hover{background:#E8961A;border-color:#E8961A;transform:translateY(-1px);box-shadow:0 8px 22px -8px rgba(245,165,36,.65)}
 .btn-amber:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
@@ -241,6 +243,13 @@ button{font-family:var(--san);cursor:pointer}
         <a class="btn btn-amber" id="sub-extend-btn" href="upgrade.html" style="width:100%;justify-content:center;display:none">Extend subscription</a>
       </div>
 
+      <div class="profile-card" id="fb-card" hidden>
+        <h2>Feedback reward</h2>
+        <p class="card-sub" id="fb-card-text"></p>
+        <div id="fb-card-code" style="display:none;font-family:var(--mono);font-size:16px;font-weight:600;letter-spacing:.05em;background:var(--coral-soft);color:var(--coral-deep);border-radius:10px;padding:10px 14px;margin-bottom:14px;text-align:center;user-select:all"></div>
+        <a class="btn btn-ghost" id="fb-card-btn" href="feedback.html" style="width:100%;justify-content:center">Give feedback</a>
+      </div>
+
       <div class="profile-card">
         <h2>FFPMRCA exam date</h2>
         <p class="card-sub">Set your exam date to see a countdown on your dashboard.</p>
@@ -311,6 +320,25 @@ async function init() {
     cta.textContent = 'Get access';
     cta.style.display = access.status ? 'none' : 'inline-flex';
   }
+  // Feedback reward card: active members who haven't claimed it get the
+  // call to action; anyone who has claimed it sees their code again.
+  try {
+    const { data: fb, error: fbErr } = await sb.from('feedback_submissions').select('code').eq('user_id', currentUser.id).maybeSingle();
+    if (!fbErr) {
+      const card = document.getElementById('fb-card');
+      if (fb) {
+        document.getElementById('fb-card-text').textContent = '30% off the 3-month plan, single use. Enter it in the promotion code box at payment.';
+        const codeEl = document.getElementById('fb-card-code');
+        codeEl.textContent = fb.code; codeEl.style.display = 'block';
+        document.getElementById('fb-card-btn').textContent = 'View reward';
+        card.hidden = false;
+      } else if (access.active) {
+        document.getElementById('fb-card-text').textContent = 'Tell us what you think of the question bank and get 30% off the 3-month plan.';
+        card.hidden = false;
+      }
+    }
+  } catch (_) {}
+
   // Any member with a subscription row (active or lapsed) can extend.
   if (access.status) document.getElementById('sub-extend-btn').style.display = 'inline-flex';
 }
