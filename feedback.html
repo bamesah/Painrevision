@@ -159,6 +159,9 @@ button{font-family:var(--san);cursor:pointer}
 .fb-copy:hover{background:var(--coral);color:#fff;transform:translateY(-1px)}
 .fb-copy:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
 .fb-copy:active{transform:translateY(0)}
+.fb-until{font-size:14px;font-weight:600;color:var(--ink-soft);margin-top:10px}
+.fb-until[hidden]{display:none}
+.fb-done .fb-until{margin:0 0 10px}
 .fb-price{font-size:15px;font-weight:700;margin-bottom:6px}
 .fb-price s{color:var(--stone);font-weight:600;margin-right:6px}
 .fb-small{font-size:13px!important;color:var(--stone)!important}
@@ -223,6 +226,7 @@ button{font-family:var(--san);cursor:pointer}
       <h1>Help us improve PainRevision</h1>
       <p>A couple of minutes of feedback shapes what we build next. As a thank-you, you get a personal discount code.</p>
       <span class="fb-reward-pill" id="fb-reward-pill">Give feedback, get 30% off the 3-month plan</span>
+      <p class="fb-until" id="fb-until" hidden></p>
     </div>
     <div class="fb-card" id="fb-form-card" hidden>
       <form id="fb-form" novalidate>
@@ -238,6 +242,7 @@ button{font-family:var(--san);cursor:pointer}
       <p id="fb-done-text">Here is your personal discount code.</p>
       <div class="fb-code"><span id="fb-code"></span><button type="button" class="fb-copy" id="fb-copy">Copy</button></div>
       <p class="fb-price" id="fb-price"></p>
+      <p class="fb-until" id="fb-until-done" hidden></p>
       <p class="fb-small" id="fb-done-note"></p>
       <div class="fb-actions">
         <a class="btn btn-amber" id="fb-use" href="upgrade.html">Use my code</a>
@@ -407,6 +412,22 @@ async function submitForm(e) {
   btn.disabled = false; btn.textContent = label;
 }
 
+// "This gives you access till <date>." — the date comes from /api/plans, the
+// same (token-aware, stacked, intro-rule-aware) calculation as the plan cards.
+// If it can't be loaded the line simply stays hidden.
+async function loadAccessUntil() {
+  try {
+    var res = await fetch('/api/plans', { cache: 'no-store', headers: { Authorization: 'Bearer ' + fbToken } });
+    if (!res.ok) return;
+    var data = await res.json();
+    var plan = (data.plans || []).filter(function (p) { return p.id === 'three_month'; })[0];
+    if (!plan || !plan.expiresLabel) return;
+    ['fb-until', 'fb-until-done'].forEach(function (id) {
+      var e = el(id); e.textContent = 'This gives you access till ' + plan.expiresLabel + '.'; e.hidden = false;
+    });
+  } catch (_) {}
+}
+
 async function init() {
   var s = await sb.auth.getSession();
   var session = s.data.session;
@@ -428,6 +449,7 @@ async function init() {
 
   el('auth-gate').style.display = 'none';
   el('fb-main').style.display = 'block';
+  loadAccessUntil();
 
   if (!status) { el('fb-head').hidden = true; showFatal('The feedback form is not available right now. Please try again later.'); return; }
 
