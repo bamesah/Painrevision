@@ -55,7 +55,7 @@ function makeStripe() {
   return s;
 }
 
-const good = { overall: 5, quality: 4, usability: 4, recommend: 'Definitely', improve: 'x' };
+const good = { overall: 5, quality: 4, usability: 4, recommend: 'Definitely', improve: 'x', features: 'y', other: 'z' };
 function call(deps, method, token, body) {
   return new Promise(resolve => {
     const res = { code: 200, setHeader() {}, status(c) { this.code = c; return this; }, json(o) { resolve({ code: this.code, body: o }); } };
@@ -104,6 +104,16 @@ const check = (name, ok, extra = '') => { console.log((ok ? 'PASS ' : 'FAIL ') +
   const deps = { createClient: () => db.client, Stripe: stripe.Ctor, sendFeedbackRewardEmail: async () => true };
   const missing = await call(deps, 'POST', 'a1', { answers: { overall: 5 } });
   check('missing required => 400', missing.code === 400);
+  // every question is mandatory
+  const ws = await call(deps, 'POST', 'a1', { answers: { ...good, improve: '    ' } });
+  check('whitespace-only text => 400 listing id', ws.code === 400 && JSON.stringify(ws.body.missing) === '["improve"]', JSON.stringify(ws.body));
+  const nof = await call(deps, 'POST', 'a1', { answers: { ...good, features: undefined, other: '' } });
+  check('missing answers => 400 listing all missing ids', nof.code === 400 && JSON.stringify(nof.body.missing) === '["features","other"]', JSON.stringify(nof.body));
+  const stale = await call(deps, 'POST', 'a1', { answers: { overall: 5, formats: ['SBA'], quality: 4, usability: 4, recommend: 'Definitely', improve: 'x', topics: 't' } });
+  check('old cached payload (missing features/other) rejected', stale.code === 400 && stale.body.missing.includes('features'), JSON.stringify(stale.body));
+  const emptyMulti = await call(deps, 'POST', 'a1', { answers: null });
+  check('null answers => 400', emptyMulti.code === 400);
+  check('rejections create no row', db.tables.feedback_submissions.length === 0);
   const old = await call(deps, 'POST', 'a1', { answers: { ...good, formats: ['SBA'], topics: 'old topic text' } });
   check('old payload extra keys ignored, accepted', old.code === 200);
   const stored = db.tables.feedback_submissions[0].answers;

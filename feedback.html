@@ -130,6 +130,10 @@ button{font-family:var(--san);cursor:pointer}
 .fb-q:last-of-type{margin-bottom:0}
 .fb-label{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
 .fb-req{color:var(--coral)}
+.fb-qerr{display:none;color:#C0392B;font-size:13px;font-weight:600;margin-top:8px}
+.fb-q.is-missing .fb-qerr{display:block}
+.fb-q.is-missing .fb-text{border-color:#C0392B}
+.fb-q.is-missing .fb-opt span{border-color:rgba(192,57,43,.5)}
 .fb-opts{display:flex;flex-wrap:wrap;gap:8px}
 .fb-opt{position:relative}
 .fb-opt input{position:absolute;opacity:0;pointer-events:none}
@@ -298,8 +302,36 @@ function renderQuestions(questions) {
         wrap.appendChild(sc);
       }
     }
+    var qe = document.createElement('div');
+    qe.className = 'fb-qerr'; qe.setAttribute('role', 'alert'); qe.textContent = 'Please answer this question.';
+    wrap.appendChild(qe);
+    wrap.dataset.qid = q.id;
     root.appendChild(wrap);
   });
+}
+
+// Clears an inline error as soon as the member answers that question.
+document.addEventListener('input', function (e) {
+  var w = e.target.closest && e.target.closest('.fb-q');
+  if (w) w.classList.remove('is-missing');
+});
+document.addEventListener('change', function (e) {
+  var w = e.target.closest && e.target.closest('.fb-q');
+  if (w) w.classList.remove('is-missing');
+});
+
+function focusFirstMissing(ids) {
+  var first = null;
+  document.querySelectorAll('.fb-q').forEach(function (w) {
+    var miss = ids.indexOf(w.dataset.qid) !== -1;
+    w.classList.toggle('is-missing', miss);
+    if (miss && !first) first = w;
+  });
+  if (first) {
+    first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var target = first.querySelector('textarea, input');
+    if (target) target.focus({ preventScroll: true });
+  }
 }
 
 function collectAnswers() {
@@ -345,9 +377,16 @@ async function submitForm(e) {
   e.preventDefault();
   el('fb-error').classList.remove('show');
   var answers = collectAnswers();
-  for (var i = 0; i < fbConfig.questions.length; i++) {
-    var q = fbConfig.questions[i], v = answers[q.id];
-    if (q.required && (!v || (Array.isArray(v) && !v.length))) { showError('Please answer: ' + q.label); return; }
+  var missing = [];
+  fbConfig.questions.forEach(function (q) {
+    var v = answers[q.id];
+    var empty = !v || (typeof v === 'string' && !v.trim()) || (Array.isArray(v) && !v.length);
+    if (q.required && empty) missing.push(q.id);
+  });
+  if (missing.length) {
+    showError('Please answer every question (' + missing.length + ' left). All questions are required.');
+    focusFirstMissing(missing);
+    return;
   }
   var btn = el('fb-submit');
   btn.disabled = true; var label = btn.textContent; btn.textContent = 'Submitting\u2026';
@@ -360,6 +399,7 @@ async function submitForm(e) {
     var data = await res.json();
     if (res.ok && data.code) { showReward(data); return; }
     if (data.lapsed) { window.location.href = 'upgrade.html'; return; }
+    if (data.missing && data.missing.length) focusFirstMissing(data.missing);
     showError(data.error || 'Something went wrong. Please try again.');
   } catch (err) {
     showError('Something went wrong. Please try again.');

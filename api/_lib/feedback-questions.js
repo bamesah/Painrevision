@@ -12,24 +12,29 @@ export const FEEDBACK_QUESTIONS = [
   { id: 'quality', type: 'rating', label: 'How accurate and useful are the questions and explanations?', required: true },
   { id: 'usability', type: 'rating', label: 'How easy is the site to use?', required: true },
   { id: 'recommend', type: 'choice', label: 'Would you recommend PainRevision to a colleague?', options: ['Definitely', 'Probably', 'Not sure', 'Probably not'], required: true },
-  { id: 'improve', type: 'text', label: 'What can we improve on?', maxLength: 1000, required: false },
-  { id: 'features', type: 'text', label: 'What other features would you like to see?', maxLength: 1000, required: false },
-  { id: 'other', type: 'text', label: 'Anything else you would like to tell us?', maxLength: 1500, required: false },
+  { id: 'improve', type: 'text', label: 'What can we improve on?', maxLength: 1000, required: true },
+  { id: 'features', type: 'text', label: 'What other features would you like to see?', maxLength: 1000, required: true },
+  { id: 'other', type: 'text', label: 'Anything else you would like to tell us?', maxLength: 1500, required: true },
 ];
 
 function clean(s, max) {
   return String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').replace(/[<>]/g, '').trim().slice(0, max);
 }
 
-// Returns { ok: true, answers } or { ok: false, error }.
+// Returns { ok: true, answers } or { ok: false, error, missing?: [question ids] }.
+// Empty, whitespace-only and missing answers are all "missing" for a required
+// question; every missing id is reported at once.
 export function validateAnswers(raw) {
-  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { ok: false, error: 'Please complete the form.' };
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    return { ok: false, error: 'Please complete the form.', missing: FEEDBACK_QUESTIONS.filter(q => q.required).map(q => q.id) };
+  }
   const answers = {};
+  const missing = [];
   for (const q of FEEDBACK_QUESTIONS) {
     const v = raw[q.id];
-    const empty = v === undefined || v === null || v === '' || (Array.isArray(v) && v.length === 0);
+    const empty = v === undefined || v === null || (typeof v === 'string' && !v.trim()) || (Array.isArray(v) && v.length === 0);
     if (empty) {
-      if (q.required) return { ok: false, error: `Please answer: ${q.label}` };
+      if (q.required) missing.push(q.id);
       continue;
     }
     if (q.type === 'rating') {
@@ -48,8 +53,11 @@ export function validateAnswers(raw) {
       if (typeof v !== 'string') return { ok: false, error: 'Invalid answer.' };
       const t = clean(v, q.maxLength || 1000);
       if (t) answers[q.id] = t;
-      else if (q.required) return { ok: false, error: `Please answer: ${q.label}` };
+      else if (q.required) missing.push(q.id);
     }
+  }
+  if (missing.length) {
+    return { ok: false, error: 'Please answer every question: ' + missing.map(id => FEEDBACK_QUESTIONS.find(q => q.id === id).label).join(' | '), missing };
   }
   return { ok: true, answers };
 }

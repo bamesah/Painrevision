@@ -154,7 +154,7 @@ export async function handleFeedback(req, res, deps) {
     if (JSON.stringify(body).length > 20000) return res.status(413).json({ error: 'Submission too large.' });
 
     const v = validateAnswers(body.answers);
-    if (!v.ok) return res.status(400).json({ error: v.error });
+    if (!v.ok) return res.status(400).json({ error: v.error, ...(v.missing ? { missing: v.missing } : {}) });
 
     // Insert; UNIQUE(user_id) makes a concurrent/duplicate submit lose the race
     // and fall through to the existing row; UNIQUE(code) retries on collision.
