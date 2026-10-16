@@ -13,7 +13,7 @@ import Stripe from 'stripe';
 import crypto from 'crypto';
 import { createClient } from '@supabase/supabase-js';
 import { validateAnswers, publicQuestions } from './_lib/feedback-questions.js';
-import { PLANS, FEEDBACK_REWARD } from './_lib/plans.js';
+import { PLANS, FEEDBACK_REWARD, computeExpiryIso, introIsActive, formatDateLong, examDateLabel } from './_lib/plans.js';
 import { ensureFeedbackCoupon, feedbackAmountOff } from './_lib/stripe-catalog.js';
 import { sendFeedbackRewardEmail } from './_lib/email.js';
 
@@ -36,9 +36,15 @@ function throttled(userId) {
   return recent.length > 6;
 }
 
-function rewardInfo() {
+// currentExpiryIso (optional) = the member's existing expiry, so the wording
+// about access dates matches what checkout will actually give them.
+function rewardInfo(currentExpiryIso = null) {
   const plan = PLANS[FEEDBACK_REWARD.planId];
+  const now = new Date();
   return {
+    extendsToExam: introIsActive(plan, now, currentExpiryIso),
+    examDateLabel: examDateLabel(),
+    accessUntilLabel: formatDateLong(computeExpiryIso(plan, now, currentExpiryIso)),
     percent: FEEDBACK_REWARD.percent,
     planId: FEEDBACK_REWARD.planId,
     planLabel: plan.label,
@@ -58,44 +64,71 @@ async function ensurePromotionCode(stripe, supabase, row) {
   if (found.data.length) {
     promoId = found.data[0].id;
   } else {
-    const created = await stripe.promotionCodes.create({
-      coupon: couponId,
-      code: row.code,
-      max_redemptions: 1,
-      metadata: { user_id: row.user_id, feedback_submission_id: row.id },
-    });
-    promoId = created.id;
+    try {
+      const created = await stripe.promotionCodes.create({
+        coupon: couponId,
+        code: row.code,
+        max_redemptions: 1,
+        metadata: { user_id: row.user_id, feedback_submission_id: row.id },
+      });
+      promoId = created.id;
+    } catch (err) {
+      // A concurrent request may have created it a moment ago: reuse that one.
+      const again = await stripe.promotionCodes.list({ code: row.code, limit: 1 });
+      if (!again.data.length) throw err;
+      promoId = again.data[0].id;
+    }
   }
   const { data: updated } = await supabase
     .from('feedback_submissions').update({ stripe_promotion_code_id: promoId }).eq('id', row.id).select().maybeSingle();
   return updated || { ...row, stripe_promotion_code_id: promoId };
 }
 
-export default async function handler(req, res) {
+async function currentExpiryFor(supabase, token) {
+  try {
+    const { data: u } = await supabase.auth.getUser(token);
+    if (!u?.user) return null;
+    const { data: sub } = await supabase.from('subscriptions').select('expires_at').eq('user_id', u.user.id).maybeSingle();
+    return sub?.expires_at || null;
+  } catch (_) { return null; }
+}
+
+// Real dependencies are injected by the default export below; tests pass fakes.
+export default function handler(req, res) {
+  return handleFeedback(req, res, { createClient, Stripe, sendFeedbackRewardEmail });
+}
+
+export async function handleFeedback(req, res, deps) {
   res.setHeader('Cache-Control', 'no-store');
 
   if (req.method === 'GET' && req.query && req.query.config) {
-    return res.status(200).json({ questions: publicQuestions(), reward: rewardInfo() });
+    // Public; if a token is sent, the access-date wording is personalised.
+    const t = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
+    let cur = null;
+    if (t && process.env.SUPABASE_SERVICE_ROLE_KEY) cur = await currentExpiryFor(deps.createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY), t);
+    return res.status(200).json({ questions: publicQuestions(), reward: rewardInfo(cur) });
   }
   if (req.method !== 'GET' && req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const token = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
   if (!token) return res.status(401).json({ error: 'Not signed in' });
 
-  const supabase = createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+  const supabase = deps.createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
   const { data: userData, error: userErr } = await supabase.auth.getUser(token);
   if (userErr || !userData?.user) return res.status(401).json({ error: 'Invalid session' });
   const user = userData.user;
 
   const { data: existing } = await supabase
     .from('feedback_submissions').select('*').eq('user_id', user.id).maybeSingle();
+  const { data: subRow } = await supabase.from('subscriptions').select('status,expires_at').eq('user_id', user.id).maybeSingle();
+  const reward = rewardInfo(subRow?.expires_at || null);
 
   if (req.method === 'GET') {
     return res.status(200).json({
       submitted: !!existing,
       code: existing ? existing.code : null,
       ready: !!(existing && existing.stripe_promotion_code_id),
-      reward: rewardInfo(),
+      reward,
     });
   }
 
@@ -103,14 +136,13 @@ export default async function handler(req, res) {
   if (throttled(user.id)) return res.status(429).json({ error: 'Too many attempts. Please wait a minute.' });
 
   const body = req.body || {};
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new deps.Stripe(process.env.STRIPE_SECRET_KEY);
   let row = existing;
   let isNew = false;
 
   if (!row) {
     // Only active members can submit (lapsed members are sent to renew).
-    const { data: sub } = await supabase
-      .from('subscriptions').select('status,expires_at').eq('user_id', user.id).maybeSingle();
+    const sub = subRow;
     const active = sub && sub.status === 'active' && (!sub.expires_at || new Date(sub.expires_at) > new Date());
     if (!active) return res.status(403).json({ error: 'The feedback reward is for current members. Please renew to take part.', lapsed: true });
 
@@ -150,22 +182,31 @@ export default async function handler(req, res) {
   }
 
   // Email once. A failure (or missing RESEND_API_KEY) never loses the code.
+  // The send is claimed atomically (emailed_at set where it is still null), so
+  // concurrent/duplicate requests can't both send. If the send fails or is
+  // skipped (no RESEND_API_KEY) the claim is released so a later visit retries.
   let emailed = !!row.emailed_at;
   if (!emailed) {
-    try {
-      const { data: profile } = await supabase.from('profiles').select('first_name').eq('id', user.id).maybeSingle();
-      const sent = await sendFeedbackRewardEmail({
-        email: user.email, firstName: profile?.first_name,
-        code: row.code, percent: FEEDBACK_REWARD.percent, planLabel: '3-month',
-      });
-      if (sent) {
-        emailed = true;
-        await supabase.from('feedback_submissions').update({ emailed_at: new Date().toISOString() }).eq('id', row.id);
+    const { data: claimed } = await supabase
+      .from('feedback_submissions').update({ emailed_at: new Date().toISOString() })
+      .eq('id', row.id).is('emailed_at', null).select('id').maybeSingle();
+    if (claimed) {
+      let sent = false;
+      try {
+        const { data: profile } = await supabase.from('profiles').select('first_name').eq('id', user.id).maybeSingle();
+        sent = await deps.sendFeedbackRewardEmail({
+          email: user.email, firstName: profile?.first_name,
+          code: row.code, percent: FEEDBACK_REWARD.percent, planLabel: '3-month',
+        });
+      } catch (err) {
+        console.error('feedback reward email failed', err);
       }
-    } catch (err) {
-      console.error('feedback reward email failed', err);
+      if (sent) emailed = true;
+      else await supabase.from('feedback_submissions').update({ emailed_at: null }).eq('id', row.id);
+    } else {
+      emailed = true; // another request is sending / has sent it
     }
   }
 
-  return res.status(200).json({ code: row.code, emailed, existing: !isNew, reward: rewardInfo() });
+  return res.status(200).json({ code: row.code, emailed, existing: !isNew, reward });
 }

@@ -3,16 +3,17 @@
 // api/submit-feedback.js validates submissions against it, so this is the
 // only place to change.
 //
+// Unknown keys in a submission (e.g. answers to questions removed from this
+// list, from an old cached form) are ignored, not stored.
 // type: 'rating' (1-5) | 'choice' (pick one of options) | 'multi' (pick any of
 // options) | 'text' (free text, maxLength). Set required: true to force an answer.
 export const FEEDBACK_QUESTIONS = [
   { id: 'overall', type: 'rating', label: 'Overall, how would you rate the PainRevision question bank?', required: true },
-  { id: 'formats', type: 'multi', label: 'Which question formats do you use?', options: ['SBA', 'MTF', 'EMQ', 'Mock exams', 'Practice sets'], required: true },
   { id: 'quality', type: 'rating', label: 'How accurate and useful are the questions and explanations?', required: true },
   { id: 'usability', type: 'rating', label: 'How easy is the site to use?', required: true },
   { id: 'recommend', type: 'choice', label: 'Would you recommend PainRevision to a colleague?', options: ['Definitely', 'Probably', 'Not sure', 'Probably not'], required: true },
-  { id: 'improve', type: 'text', label: 'What is the one thing we should improve?', maxLength: 1000, required: false },
-  { id: 'topics', type: 'text', label: 'Which topics would you like us to add?', maxLength: 1000, required: false },
+  { id: 'improve', type: 'text', label: 'What can we improve on?', maxLength: 1000, required: false },
+  { id: 'features', type: 'text', label: 'What other features would you like to see?', maxLength: 1000, required: false },
   { id: 'other', type: 'text', label: 'Anything else you would like to tell us?', maxLength: 1500, required: false },
 ];
 

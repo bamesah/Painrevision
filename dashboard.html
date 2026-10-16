@@ -86,13 +86,29 @@ button{font-family:var(--san);cursor:pointer}
 .dash-hero{display:flex;flex-wrap:wrap;align-items:center;gap:36px;background:var(--surface);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow);padding:36px 40px;margin-bottom:36px;position:relative;overflow:hidden}
 .dash-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(480px 260px at 100% -10%,rgba(245,165,36,.10),transparent 65%);pointer-events:none}
 .dash-hero-text{flex:1;min-width:220px;position:relative;z-index:1}
-.fb-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px;margin:-14px 0 26px;padding:12px 20px;background:var(--surface);border:1px dashed var(--amber);border-radius:16px;font-size:14px;color:var(--ink-soft);transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s,border-color .2s}
-.fb-strip[hidden]{display:none}
-.fb-strip strong{color:var(--ink)}
-.fb-strip-go{font-weight:700;color:var(--coral-deep);font-size:13.5px}
-.fb-strip:hover{transform:translateY(-1px);border-color:var(--coral);box-shadow:0 10px 24px -16px rgba(240,98,60,.4)}
-.fb-strip:focus-visible{outline:2px solid var(--coral-deep);outline-offset:2px}
-.fb-strip:active{transform:translateY(0)}
+/* ===== FEEDBACK POPUP ===== */
+.fbm{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:20px}
+.fbm[hidden]{display:none}
+.fbm-backdrop{position:absolute;inset:0;background:rgba(36,27,22,.55);opacity:0;transition:opacity .25s}
+.fbm.open .fbm-backdrop{opacity:1}
+.fbm-dialog{position:relative;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:0 2px 6px rgba(36,27,22,.08),0 30px 70px -20px rgba(36,27,22,.45);padding:34px 32px 26px;text-align:center;opacity:0;transform:translateY(14px) scale(.98);transition:opacity .25s,transform .3s cubic-bezier(.2,.7,.2,1)}
+.fbm.open .fbm-dialog{opacity:1;transform:none}
+.fbm-dialog:focus{outline:none}
+.fbm-dialog h2{font-size:23px;font-weight:800;letter-spacing:-.03em;margin:10px 0 12px}
+.fbm-text{font-size:14.5px;line-height:1.65;color:var(--ink-soft);margin-bottom:22px}
+.fbm-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:none;background:none;color:var(--stone);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,color .15s}
+.fbm-x svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round}
+.fbm-x:hover{background:var(--surface-warm);color:var(--ink)}
+.fbm-x:focus-visible,.fbm-later:focus-visible,.fbm-primary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.fbm-primary{display:flex;align-items:center;justify-content:center;width:100%;background:var(--amber);color:var(--ink);border:2px solid var(--amber);border-radius:999px;font-family:var(--san);font-size:15px;font-weight:700;padding:14px 24px;cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s,box-shadow .2s}
+.fbm-primary:hover{background:#E8961A;border-color:#E8961A;transform:translateY(-1px);box-shadow:0 8px 22px -8px rgba(245,165,36,.65)}
+.fbm-primary:active{transform:translateY(0);box-shadow:none}
+.fbm-check{display:flex;align-items:center;justify-content:center;gap:9px;font-size:13px;color:var(--stone);margin-top:16px;cursor:pointer}
+.fbm-check input{width:17px;height:17px;accent-color:var(--coral);cursor:pointer}
+.fbm-later{margin-top:8px;background:none;border:none;font-family:var(--san);font-size:13.5px;font-weight:600;color:var(--stone);padding:8px 14px;border-radius:999px;cursor:pointer;transition:color .15s,background .15s}
+.fbm-later:hover{color:var(--ink);background:var(--surface-warm)}
+@media(max-width:600px){.fbm{align-items:flex-end;padding:12px}.fbm-dialog{padding:30px 22px 22px}}
+@media(prefers-reduced-motion:reduce){.fbm-backdrop,.fbm-dialog{transition:none}}
 .renew-warn{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:16px;background:var(--amber-soft,#FCE6BF);border:1px solid rgba(245,165,36,.55);border-radius:14px;padding:10px 14px;max-width:420px}
 .renew-warn[hidden]{display:none}
 .renew-warn-text{font-size:14px;font-weight:700;color:var(--ink);flex:1;min-width:150px}
@@ -260,11 +276,6 @@ button{font-family:var(--san);cursor:pointer}
       </div>
     </div>
 
-    <a class="fb-strip" id="fb-strip" href="feedback.html" hidden>
-      <span class="fb-strip-text"><strong>Give feedback, get 30% off</strong> the 3-month plan</span>
-      <span class="fb-strip-go">Take 2 minutes &rarr;</span>
-    </a>
-
     <div class="launch-grid">
       <a class="launch-card" href="practice.html?mode=mock">
         <div class="launch-icon mock">
@@ -305,10 +316,24 @@ button{font-family:var(--san);cursor:pointer}
   </div>
 </main>
 
+<div class="fbm" id="fbm" hidden>
+  <div class="fbm-backdrop" data-fbm-close></div>
+  <div class="fbm-dialog" role="dialog" aria-modal="true" aria-labelledby="fbm-title" aria-describedby="fbm-text" tabindex="-1">
+    <button type="button" class="fbm-x" aria-label="Close" data-fbm-close><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+    <span class="eyebrow">Member feedback</span>
+    <h2 id="fbm-title">We would love your feedback</h2>
+    <p class="fbm-text" id="fbm-text"></p>
+    <a class="fbm-primary" id="fbm-go" href="feedback.html">Fill in feedback</a>
+    <label class="fbm-check"><input type="checkbox" id="fbm-dont"/> Don't show me this popup again</label>
+    <button type="button" class="fbm-later" data-fbm-close>Maybe later</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/subscription-gate.js"></script>
 <script src="js/paywall.js"></script>
+<script src="js/feedback-offer.js"></script>
 <script src="js/app-shell.js"></script>
 <script src="js/reset-progress.js"></script>
 <script>
@@ -342,14 +367,75 @@ async function init() {
     document.getElementById('renew-warn').hidden = false;
   }
 
-  // Feedback reward entry point (members only, hidden once they've claimed it).
-  // Fails safe: if the table isn't there yet the strip simply stays hidden.
-  sb.from('feedback_submissions').select('code').eq('user_id', currentUser.id).maybeSingle().then(({ data, error }) => {
-    if (!error && !data) document.getElementById('fb-strip').hidden = false;
-  });
+  maybeShowFeedbackPopup(currentUser.id);
 
   loadProgress();
   loadBookmarkCount();
+}
+
+// ---- Feedback popup (eligible members only) ----
+// Eligible = active subscription (the paywall returns early otherwise), no
+// feedback_submissions row, not opted out. Shown once per browser session.
+// Anything unexpected (table missing, query/network error, storage blocked)
+// means NO popup.
+async function maybeShowFeedbackPopup(userId) {
+  const OPT = 'pr_fb_popup_optout_' + userId;
+  const SEEN = 'pr_fb_popup_seen_' + userId;
+  try {
+    if (localStorage.getItem(OPT) || sessionStorage.getItem(SEEN)) return;
+  } catch (_) { return; }
+  try {
+    const { data, error } = await sb.from('feedback_submissions').select('code').eq('user_id', userId).maybeSingle();
+    if (error || data) return;
+    const reward = await FeedbackOffer.loadReward();
+    openFeedbackPopup(reward, OPT, SEEN);
+  } catch (_) { /* fail safe: no popup */ }
+}
+
+function openFeedbackPopup(reward, OPT, SEEN) {
+  const modal = document.getElementById('fbm');
+  const dialog = modal.querySelector('.fbm-dialog');
+  const dont = document.getElementById('fbm-dont');
+  const main = document.getElementById('dash-main');
+  const previouslyFocused = document.activeElement;
+  document.getElementById('fbm-text').textContent = FeedbackOffer.popupText(reward);
+  try { sessionStorage.setItem(SEEN, '1'); } catch (_) {}
+
+  function focusables() {
+    return Array.prototype.filter.call(modal.querySelectorAll('a[href],button,input'), function (el) { return !el.disabled && el.offsetParent !== null; });
+  }
+  function persist() {
+    if (dont.checked) { try { localStorage.setItem(OPT, '1'); } catch (_) {} }
+  }
+  function close() {
+    persist();
+    document.removeEventListener('keydown', onKey, true);
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    main.inert = false;
+    setTimeout(function () { modal.hidden = true; }, 260);
+    if (previouslyFocused && previouslyFocused.focus) previouslyFocused.focus();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+    if (e.key !== 'Tab') return;
+    const f = focusables();
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === dialog)) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  modal.querySelectorAll('[data-fbm-close]').forEach(function (el) { el.addEventListener('click', close); });
+  document.getElementById('fbm-go').addEventListener('click', persist); // navigates to feedback.html
+  document.addEventListener('keydown', onKey, true);
+  document.body.style.overflow = 'hidden';
+  main.inert = true;
+  modal.hidden = false;
+  requestAnimationFrame(function () {
+    modal.classList.add('open');
+    document.getElementById('fbm-go').focus();
+  });
 }
 
 async function loadBookmarkCount() {

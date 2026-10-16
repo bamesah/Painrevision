@@ -163,6 +163,13 @@ function fmtShort(iso) {
   return `${d.getUTCDate()} ${m} ${d.getUTCFullYear()}`;
 }
 
+// Exports used by the feedback reward wording (see api/submit-feedback.js).
+export function introIsActive(plan, now = new Date(), currentExpiryIso = null) {
+  return introActive(plan, now, currentExpiryIso);
+}
+export function formatDateLong(iso) { return fmtDate(iso); }
+export function examDateLabel() { return fmtDate(EXAM_DATE_ISO); }
+
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 }
