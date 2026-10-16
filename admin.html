@@ -210,6 +210,52 @@ select.field{appearance:none;-webkit-appearance:none;background-image:url("data:
 .view-actions{display:flex;gap:10px;padding:20px 28px;border-top:1px solid var(--border);background:var(--surface-warm);flex-wrap:wrap}
 .btn-danger{background:transparent;color:#c0392b;border-color:rgba(192,57,43,.3)}
 .btn-danger:hover{background:rgba(192,57,43,.08);border-color:#c0392b;color:#c0392b}
+/* ===== FEEDBACK VIEW ===== */
+.fbv-wrap{max-width:980px;margin:0 auto;padding:32px 28px 80px}
+#feedback-view .sumstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+#feedback-view .sumcard{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow-sm)}
+#feedback-view .sumcard .k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone)}
+#feedback-view .sumcard .v{font-size:26px;font-weight:800;letter-spacing:-.03em;margin-top:4px;color:var(--ink)}
+#feedback-view .sumcard .v small{font-size:13px;font-weight:600;color:var(--stone);margin-left:3px}
+#feedback-view .sumcard .split{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+#feedback-view .chip{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--coral-faint);color:var(--coral-deep);border:1.5px solid rgba(240,98,60,.25)}
+#feedback-view .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+#feedback-view .toolbar input[type=search]{flex:1;min-width:200px;padding:10px 13px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);font-size:14px;color:var(--ink)}
+#feedback-view .toolbar input[type=search]:focus,#feedback-view .toolbar select:focus{outline:none;border-color:var(--coral)}
+#feedback-view .toolbar select{padding:10px 12px;border-radius:10px;border:1.5px solid var(--border-strong);background:var(--surface);font-size:13.5px;color:var(--ink)}
+#feedback-view .toolbar .count{font-family:var(--mono);font-size:12px;color:var(--stone)}
+#feedback-view .csv-btn{margin-left:auto;padding:10px 16px;border-radius:10px;border:1.5px solid var(--coral);background:var(--coral);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s,transform .15s}
+#feedback-view .csv-btn:hover{background:var(--coral-deep);transform:translateY(-1px)}
+#feedback-view .csv-btn:active{transform:none}
+#feedback-view .csv-btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+#feedback-view .fcard{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+#feedback-view .fhead{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:15px 18px;width:100%;background:none;border:none;text-align:left;cursor:pointer;border-radius:16px;color:inherit}
+#feedback-view .fhead:hover{background:var(--surface-warm)}
+#feedback-view .fhead:focus-visible{outline:2px solid var(--coral);outline-offset:-2px}
+#feedback-view .fwho{font-size:14.5px;font-weight:700;letter-spacing:-.01em;min-width:0;overflow-wrap:anywhere}
+#feedback-view .fwho small{display:block;font-weight:500;color:var(--stone);font-size:12.5px}
+#feedback-view .favg{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--amber-soft);color:#8a5a00;border-radius:999px;padding:3px 10px}
+#feedback-view .fcode{font-family:var(--mono);font-size:11.5px;color:var(--coral-deep);background:var(--coral-faint);border-radius:6px;padding:3px 8px}
+#feedback-view .fred{font-size:11px;font-weight:700;border-radius:999px;padding:3px 10px;border:1.5px solid}
+#feedback-view .fred-yes{background:rgba(26,122,90,.1);border-color:rgba(26,122,90,.3);color:#146149}
+#feedback-view .fred-no{background:var(--cream);border-color:var(--border-strong);color:var(--stone)}
+#feedback-view .fdate{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--stone-light)}
+#feedback-view .fbody{display:none;padding:2px 18px 18px;border-top:1px dashed var(--border-strong)}
+#feedback-view .fcard.open .fbody{display:block}
+#feedback-view .qa{margin-top:14px}
+#feedback-view .qa .ql{font-size:12px;font-weight:700;color:var(--stone);letter-spacing:-.005em}
+#feedback-view .qa .qv{font-size:14.5px;line-height:1.6;color:var(--ink);white-space:pre-wrap;word-break:break-word;margin-top:3px}
+#feedback-view .qa .qv.rating{font-family:var(--mono);font-weight:600;color:var(--coral-deep)}
+#feedback-view .qa.unknown .ql{color:var(--stone-light);font-style:italic}
+@media (max-width:640px){.fbv-wrap{padding:22px 16px 60px}#feedback-view .fdate{margin-left:0;width:100%}#feedback-view .csv-btn{margin-left:0;width:100%}}
+
+/* ===== TOP-LEVEL TABS ===== */
+.tb-tabs{display:flex;gap:2px;margin-left:12px}
+.tb-tab{font-size:13px;font-weight:600;color:rgba(255,255,255,.55);padding:7px 12px;border-radius:8px;background:none;border:none;cursor:pointer;transition:color .16s,background .16s;font-family:inherit}
+.tb-tab:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tb-tab.active{color:#fff;background:rgba(255,255,255,.12)}
+.tb-tab:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
+#feedback-view{display:none}
 </style>
 </head>
 <body>
@@ -224,8 +270,11 @@ select.field{appearance:none;-webkit-appearance:none;background-image:url("data:
     <span>Pain<span class="rev">Revision</span></span>
   </div>
   <span class="topbar-badge">Admin</span>
+  <div class="tb-tabs" role="tablist" aria-label="Admin area">
+    <button type="button" class="tb-tab active" data-tab="questions">Questions</button>
+    <button type="button" class="tb-tab" data-tab="feedback">Feedback</button>
+  </div>
   <a href="admin-reports.html" class="tb-btn tb-btn-site" style="margin-left:4px">Reports</a>
-  <a href="admin-feedback.html" class="tb-btn tb-btn-site" style="margin-left:4px">Feedback</a>
   <div class="topbar-actions">
     <span class="topbar-user" id="topbar-user"></span>
     <button class="tb-btn tb-btn-export" id="export-btn">Export JSON</button>
@@ -299,6 +348,30 @@ select.field{appearance:none;-webkit-appearance:none;background-image:url("data:
 </div>
 
 <!-- TOAST -->
+
+<!-- FEEDBACK TAB -->
+<div id="feedback-view">
+  <div class="fbv-wrap">
+    <div class="fb-page-head">
+      <h1 style="font-size:24px;font-weight:800;letter-spacing:-.03em">Member feedback</h1>
+      <p style="font-size:13.5px;color:var(--stone);margin:4px 0 24px;max-width:60ch">Responses to the member feedback form, newest first. Read the answers, search, sort, or download everything as CSV.</p>
+    </div>
+    <div class="sumstrip" id="fbv-summary"></div>
+    <div class="toolbar">
+      <input type="search" id="fbv-search" placeholder="Search email, name or answers…" aria-label="Search feedback"/>
+      <select id="fbv-sort" aria-label="Sort">
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="high">Highest rating</option>
+        <option value="low">Lowest rating</option>
+      </select>
+      <span class="count" id="fbv-count"></span>
+      <button class="csv-btn" id="fbv-csv" type="button">Download CSV</button>
+    </div>
+    <div id="fbv-list"></div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -337,9 +410,10 @@ async function checkAdminAndProceed(user) {
     return;
   }
   document.getElementById('auth-gate').style.display = 'none';
-  document.getElementById('admin-layout').style.display = 'grid';
+  adminOk = true;
   document.getElementById('topbar-user').textContent = profile.username || user.email;
   document.getElementById('logout-btn').style.display = '';
+  applyTab();
   loadData();
 }
 
@@ -361,6 +435,7 @@ function showLoginForm() {
     </form>`;
   document.getElementById('auth-gate').style.display = 'flex';
   document.getElementById('admin-layout').style.display = 'none';
+  document.getElementById('feedback-view').style.display = 'none';
 
   document.getElementById('auth-gate-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -387,6 +462,7 @@ function showNotAuthorized(email) {
     <button class="btn btn-secondary" id="ag-logout" style="width:100%;justify-content:center">Log out</button>`;
   document.getElementById('auth-gate').style.display = 'flex';
   document.getElementById('admin-layout').style.display = 'none';
+  document.getElementById('feedback-view').style.display = 'none';
   document.getElementById('ag-logout').addEventListener('click', () => sb.auth.signOut());
 }
 
@@ -1277,6 +1353,189 @@ function parseAndFill(text, type, container) {
     }
   }
 }
+
+
+/* ===== FEEDBACK TAB (reuses escHtml/toast above; own scope) ===== */
+const FeedbackTab = (function () {
+let questions = [];
+let subs = [];
+let redeemedKnown = false;
+let loaded = false;
+/* ===== LOAD (via the admin-only endpoint; no direct table access) ===== */
+async function loadFeedback() {
+  loaded = false;
+  const list = document.getElementById('fbv-list');
+  list.innerHTML = '<div class="state"><p>Loading feedback…</p></div>';
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    const res = await fetch('/api/admin-feedback', { headers: { Authorization: 'Bearer ' + session.access_token } });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || 'Could not load feedback');
+    questions = body.questions || [];
+    subs = body.submissions || [];
+    redeemedKnown = !!body.redeemedKnown;
+  } catch (err) {
+    list.innerHTML = '<div class="state"><h3>Couldn\'t load feedback</h3><p>' + escHtml(err.message) + '</p></div>';
+    return;
+  }
+  loaded = true;
+  renderSummary();
+  render();
+}
+
+function ratingQs() { return questions.filter(q => q.type === 'rating'); }
+function choiceQs() { return questions.filter(q => q.type === 'choice'); }
+
+function avgRating(s) {
+  const v = ratingQs().map(q => Number(s.answers[q.id])).filter(n => n >= 1 && n <= 5);
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+}
+
+function renderSummary() {
+  const el = document.getElementById('fbv-summary');
+  let html = '<div class="sumcard"><div class="k">Responses</div><div class="v">' + subs.length + '</div></div>';
+  ratingQs().forEach(q => {
+    const v = subs.map(s => Number(s.answers[q.id])).filter(n => n >= 1 && n <= 5);
+    const avg = v.length ? (v.reduce((a, b) => a + b, 0) / v.length).toFixed(2) : '–';
+    html += '<div class="sumcard"><div class="k">' + escHtml(q.label.length > 46 ? q.label.slice(0, 44) + '…' : q.label) + '</div><div class="v">' + avg + '<small>/ 5</small></div></div>';
+  });
+  choiceQs().forEach(q => {
+    const counts = {};
+    subs.forEach(s => { const a = s.answers[q.id]; if (typeof a === 'string') counts[a] = (counts[a] || 0) + 1; });
+    const order = (q.options || []).concat(Object.keys(counts).filter(k => !(q.options || []).includes(k)));
+    html += '<div class="sumcard"><div class="k">' + escHtml(q.label.length > 46 ? q.label.slice(0, 44) + '…' : q.label) + '</div><div class="split">' +
+      order.map(o => '<span class="chip">' + escHtml(o) + ': ' + (counts[o] || 0) + '</span>').join('') + '</div></div>';
+  });
+  if (!redeemedKnown && subs.length) html += '<div class="sumcard"><div class="k">Redeemed</div><div class="v"><small>not available</small></div></div>';
+  else if (subs.length) html += '<div class="sumcard"><div class="k">Codes redeemed</div><div class="v">' + subs.filter(s => s.redeemed).length + '<small>/ ' + subs.length + '</small></div></div>';
+  el.innerHTML = html;
+}
+
+function answerText(v) {
+  if (Array.isArray(v)) return v.join(', ');
+  return v === undefined || v === null ? '' : String(v);
+}
+
+function searchText(s) {
+  return [s.email, s.name, s.username, s.code].concat(Object.values(s.answers).map(answerText)).join(' \n ').toLowerCase();
+}
+
+function view() {
+  const q = document.getElementById('fbv-search').value.trim().toLowerCase();
+  const sort = document.getElementById('fbv-sort').value;
+  let rows = subs.filter(s => !q || searchText(s).includes(q));
+  const t = s => new Date(s.created_at).getTime();
+  const r = s => { const a = avgRating(s); return a === null ? 0 : a; };
+  if (sort === 'oldest') rows.sort((a, b) => t(a) - t(b));
+  else if (sort === 'high') rows.sort((a, b) => r(b) - r(a) || t(b) - t(a));
+  else if (sort === 'low') rows.sort((a, b) => r(a) - r(b) || t(b) - t(a));
+  else rows.sort((a, b) => t(b) - t(a));
+  return rows;
+}
+
+function fmtDate(iso) {
+  return new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function render() {
+  const list = document.getElementById('fbv-list');
+  const rows = view();
+  document.getElementById('fbv-count').textContent = rows.length + ' of ' + subs.length;
+  if (!subs.length) {
+    list.innerHTML = '<div class="state"><h3>No feedback yet</h3><p>Responses will appear here once members fill in the form.</p></div>';
+    return;
+  }
+  if (!rows.length) {
+    list.innerHTML = '<div class="state"><h3>No matches</h3><p>Try a different search.</p></div>';
+    return;
+  }
+  const known = new Set(questions.map(q => q.id));
+  list.innerHTML = rows.map((s, i) => {
+    const avg = avgRating(s);
+    const who = s.name || s.username || s.email || 'Unknown member';
+    const sub = [s.email, s.username && s.name ? '@' + s.username : null].filter(Boolean).join(' · ');
+    const redeemed = s.redeemed === null ? '' : '<span class="fred ' + (s.redeemed ? 'fred-yes' : 'fred-no') + '">' + (s.redeemed ? 'Redeemed' : 'Not redeemed') + '</span>';
+    const qa = questions.filter(q => s.answers[q.id] !== undefined).map(q =>
+      '<div class="qa"><div class="ql">' + escHtml(q.label) + '</div><div class="qv' + (q.type === 'rating' ? ' rating' : '') + '">' +
+      escHtml(q.type === 'rating' ? answerText(s.answers[q.id]) + ' / 5' : answerText(s.answers[q.id])) + '</div></div>').join('') +
+      Object.keys(s.answers).filter(k => !known.has(k)).map(k =>
+        '<div class="qa unknown"><div class="ql">' + escHtml(k) + ' (no longer in the form)</div><div class="qv">' + escHtml(answerText(s.answers[k])) + '</div></div>').join('');
+    return '<div class="fcard" data-i="' + i + '">' +
+      '<button class="fhead" type="button" aria-expanded="false">' +
+        '<span class="fwho">' + escHtml(who) + (sub ? '<small>' + escHtml(sub) + '</small>' : '') + '</span>' +
+        (avg !== null ? '<span class="favg">' + avg.toFixed(1) + ' avg</span>' : '') +
+        '<span class="fcode">' + escHtml(s.code) + '</span>' + redeemed +
+        '<span class="fdate">' + escHtml(fmtDate(s.created_at)) + '</span>' +
+      '</button><div class="fbody">' + (qa || '<div class="qa"><div class="qv">No answers recorded.</div></div>') + '</div></div>';
+  }).join('');
+}
+
+document.getElementById('fbv-list').addEventListener('click', e => {
+  const head = e.target.closest('.fhead');
+  if (!head) return;
+  const card = head.parentElement;
+  const open = card.classList.toggle('open');
+  head.setAttribute('aria-expanded', String(open));
+});
+document.getElementById('fbv-search').addEventListener('input', render);
+document.getElementById('fbv-sort').addEventListener('change', render);
+
+/* ===== CSV ===== */
+function csvCell(v) {
+  let s = answerText(v).replace(/\r?\n/g, ' ');
+  if (/^[=+\-@\t]/.test(s)) s = "'" + s; // neutralise spreadsheet formulas
+  return '"' + s.replace(/"/g, '""') + '"';
+}
+document.getElementById('fbv-csv').addEventListener('click', () => {
+  const known = new Set(questions.map(q => q.id));
+  const extra = [];
+  subs.forEach(s => Object.keys(s.answers).forEach(k => { if (!known.has(k) && !extra.includes(k)) extra.push(k); }));
+  const header = ['Email', 'Username', 'Name', 'Submitted (ISO)', 'Code', 'Redeemed'].concat(questions.map(q => q.label), extra.map(k => k + ' (old question)'));
+  const lines = [header.map(csvCell).join(',')];
+  view().forEach(s => {
+    lines.push([s.email, s.username, s.name, s.created_at, s.code, s.redeemed === null ? 'unknown' : (s.redeemed ? 'yes' : 'no')]
+      .concat(questions.map(q => s.answers[q.id]), extra.map(k => s.answers[k])).map(csvCell).join(','));
+  });
+  const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'painrevision-feedback-' + new Date().toISOString().slice(0, 10) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  toast('CSV downloaded');
+});
+
+
+return { open() { if (loaded) { renderSummary(); render(); } else loadFeedback(); } };
+})();
+
+/* ===== TOP-LEVEL TABS: Questions | Feedback (#feedback) ===== */
+let adminOk = false;
+function currentTab() {
+  if (new URLSearchParams(location.search).get('q')) return 'questions'; // deep link to a question
+  return location.hash === '#feedback' ? 'feedback' : 'questions';
+}
+function applyTab() {
+  if (!adminOk) return;
+  const t = currentTab();
+  document.getElementById('admin-layout').style.display = t === 'questions' ? 'grid' : 'none';
+  document.getElementById('feedback-view').style.display = t === 'feedback' ? 'block' : 'none';
+  document.getElementById('export-btn').style.display = t === 'questions' ? '' : 'none';
+  document.querySelectorAll('.tb-tab').forEach(b => {
+    const on = b.dataset.tab === t;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-current', on ? 'page' : 'false');
+  });
+  if (t === 'feedback') FeedbackTab.open();
+}
+function switchTab(t) {
+  const p = new URLSearchParams(location.search);
+  p.delete('q'); // switching tabs leaves any open deep link behind
+  const qs = p.toString();
+  history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + (t === 'feedback' ? '#feedback' : ''));
+  applyTab();
+}
+document.querySelectorAll('.tb-tab').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+window.addEventListener('hashchange', applyTab);
 
 /* ===== UTILS ===== */
 function escHtml(s) {
