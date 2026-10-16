@@ -401,7 +401,9 @@ async function loadSummaries(){
 
   const map = new Map();   // label -> { category, boxes: Map(normHtml -> {html,count}), reading: Map(url -> {label,source,url}) }
   (data || []).forEach(row => {
-    const box = extractKnowledgeBox(row.data && row.data.explanation);
+    // MTF/SBA keep the box in `explanation`; EMQs keep it in `reference`.
+    const box = extractKnowledgeBox(row.data && row.data.explanation)
+      || extractKnowledgeBox(row.data && row.data.reference);
     if(!box) return;
     const category = (row.question_categories && row.question_categories[0] && row.question_categories[0].categories && row.question_categories[0].categories.name) || '';
     if(!map.has(box.title)) map.set(box.title, { category, boxes: new Map(), reading: new Map() });
