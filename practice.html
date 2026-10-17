@@ -8,6 +8,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script>
+/* Deep links with autostart=1 (dashboard Quick 10, My Progress topic links) skip the config screen entirely:
+   mark <html> before first paint so the config card is never shown or clickable. */
+(function(){var p=new URLSearchParams(location.search),m=p.get('mode');
+  if(p.get('autostart')==='1'&&m!=='mock'&&m!=='bookmarks'&&m!=='notes')document.documentElement.classList.add('autostarting');})();
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
@@ -116,6 +122,9 @@ button{font-family:var(--san);cursor:pointer}
 .mock-stat{background:var(--surface-warm);border:1px solid var(--border);border-radius:14px;padding:14px 18px;flex:1;min-width:130px}
 .mock-stat .n{font-size:22px;font-weight:800;color:var(--coral);letter-spacing:-.02em}
 .mock-stat .l{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light);margin-top:2px}
+#autostart-loader{display:none;min-height:50vh;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+html.autostarting #config-screen > .config-card{display:none}
+html.autostarting #autostart-loader{display:flex}
 .config-error{display:none;background:rgba(192,57,43,.1);border:1px solid var(--wrong-border);color:var(--wrong);font-size:13.5px;padding:11px 15px;border-radius:10px;margin-bottom:20px}
 .config-error.show{display:block}
 
@@ -500,6 +509,12 @@ button{font-family:var(--san);cursor:pointer}
 
     <!-- CONFIG SCREEN -->
     <div id="config-screen">
+      <div id="autostart-loader" role="status" aria-live="polite">
+        <div>
+          <div class="gate-spinner" aria-hidden="true"></div>
+          <p class="gate-text">Preparing your questions…</p>
+        </div>
+      </div>
       <div class="config-card">
         <span class="eyebrow" id="config-eyebrow" style="margin-bottom:8px">Practice Set</span>
         <h1 id="config-title">Build a practice set</h1>
@@ -690,6 +705,7 @@ let categories = [];       // [{id, name, count}]
 let questionMeta = [];     // custom mode: [{id, type, catIds}] for every published question — powers the live "available" count
 let answeredMap = {};       // question_id -> last is_correct
 let answeredAt = {};        // question_id -> ms timestamp of that last answer
+let lockedFilters = null;      // autostart: the question selection, fixed from the URL alone (never read back from the config UI)
 let wrongSince = null;      // ms; when set (URL: wrongscope=session&since=<ISO>) 'wrong' only counts mistakes made at/after this time
 let bookmarkedSet = new Set(); // question_ids the user has bookmarked (kept live as they toggle)
 let notedSet = new Set();       // question_ids the user has a non-empty note on (mode === 'notes')
@@ -745,9 +761,16 @@ async function init() {
   } else {
     document.getElementById('custom-config-block').style.display = 'block';
     document.getElementById('finish-btn').textContent = 'Submit Set';
-    await loadCategoriesAndHistory();
-    wireConfigControls();
-    applyUrlPreselect();
+    const autostarting = document.documentElement.classList.contains('autostarting');
+    if (autostarting) document.querySelector('.config-card').inert = true;
+    try {
+      await loadCategoriesAndHistory();
+      wireConfigControls();
+      applyUrlPreselect();
+    } catch (err) {
+      console.error('Practice setup failed:', err);
+      if (autostarting) { revealConfig(); showConfigError('Could not prepare your questions automatically. Choose a set below.'); }
+    }
   }
 
   document.getElementById('start-btn').addEventListener('click', startSession);
@@ -917,20 +940,22 @@ function applyUrlPreselect() {
   if (srcEl) { srcEl.checked = true; fire(srcEl); }
 
   let catMiss = false;
+  const lockCats = [];
   const catParam = params.get('category');
   if (catParam) {
     catParam.split(',').map(s => s.trim()).filter(Boolean).forEach(tok => {
       const hit = categories.find(c => String(c.id) === tok || c.name.toLowerCase() === tok.toLowerCase());
       const box = hit && document.querySelector(`#cat-grid input[value="${hit.id}"]`);
-      if (box) { box.checked = true; fire(box); } else catMiss = true;
+      if (box) { box.checked = true; fire(box); lockCats.push(String(hit.id)); } else catMiss = true;
     });
   }
 
   const typeParam = params.get('type');
+  const lockTypes = [];
   if (typeParam) {
     typeParam.split(',').map(s => s.trim().toUpperCase()).forEach(t => {
       const box = document.querySelector(`#type-grid input[value="${t.replace(/[^A-Z]/g, '')}"]`);
-      if (box) { box.checked = true; fire(box); }
+      if (box) { box.checked = true; fire(box); lockTypes.push(box.value); }
     });
   }
 
@@ -941,7 +966,19 @@ function applyUrlPreselect() {
     document.getElementById('count-num').textContent = range.value;
   }
 
-  if (params.get('autostart') === '1' && !catMiss && !document.getElementById('count-range').disabled) startSession();
+  if (document.documentElement.classList.contains('autostarting')) {
+    if (catMiss) { revealConfig(); showConfigError('We couldn’t find that topic, so nothing was started. Choose a set below.'); return; }
+    if (document.getElementById('count-range').disabled) { revealConfig(); showConfigError('No questions match that selection right now. Choose a set below.'); return; }
+    // Fixed from the URL alone, so nothing in the (inert, hidden) config UI can alter it.
+    lockedFilters = {
+      count: n > 0 ? n : 10,
+      selectedCatIds: lockCats,
+      selectedTypes: lockTypes,
+      sourceFilter: srcEl ? srcEl.value : 'all',
+      bookmarkedOnly: false
+    };
+    startSession();
+  }
 }
 
 /* Mock chooser: reflect the picked length in the option styling and the
@@ -1018,7 +1055,7 @@ async function startSession() {
   const mockSizeChoice = mode === 'mock' ? mockSize() : null;
 
   if (mode === 'custom') {
-    customFilters = readCustomFilters();
+    customFilters = lockedFilters || readCustomFilters();
     count = customFilters.count;
   }
 
@@ -1145,7 +1182,17 @@ async function startSession() {
   renderSession();
 }
 
+// Autostart could not proceed: bring the config screen back (preselect already applied) so the user is never stuck.
+function revealConfig() {
+  lockedFilters = null;
+  document.documentElement.classList.remove('autostarting');
+  const card = document.querySelector('.config-card');
+  if (card) card.inert = false;
+  const btn = document.getElementById('start-btn');
+  if (btn && mode === 'custom') { btn.disabled = false; btn.textContent = 'Start'; }
+}
 function showConfigError(msg) {
+  revealConfig();
   const el = document.getElementById('config-error');
   el.textContent = msg;
   el.classList.add('show');
