@@ -315,7 +315,7 @@ button{font-family:var(--san);cursor:pointer}
         </div>
         <span class="revise-count-tag" id="revise-count" aria-live="polite"></span>
         <p class="revise-info" id="revise-info"></p>
-        <a class="launch-card-cta revise-cta" id="revise-cta" href="practice.html?mode=custom&source=wrong&count=20">Retry them <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        <a class="launch-card-cta revise-cta" id="revise-cta" href="practice.html?mode=custom&source=wrong&count=20&autostart=1">Retry them <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
       </div>
     </div>
 
@@ -537,7 +537,7 @@ function renderRevise() {
     cta.setAttribute('aria-disabled', 'true');
   } else {
     cta.removeAttribute('aria-disabled');
-    const p = { source: 'wrong', count: Math.min(n, 20) };
+    const p = { source: 'wrong', count: Math.min(n, 20), autostart: 1 };
     if (scope === 'session') { p.wrongscope = 'session'; p.since = new Date(revise.sessionStart).toISOString(); }
     cta.setAttribute('href', practiceHref(p));
   }
