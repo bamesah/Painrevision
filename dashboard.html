@@ -88,7 +88,6 @@ button{font-family:var(--san);cursor:pointer}
 .dash-hero-text{flex:1;min-width:220px;position:relative;z-index:1}
 .dash-hero-text h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
 .dash-hero-text h1 .coral{color:var(--coral)}
-.dash-hero-sub{font-size:14.5px;color:var(--stone);max-width:380px;line-height:1.6}
 .exam-widget{align-items:center;gap:10px;margin-top:16px;padding:12px 16px;border-radius:14px;font-size:13.5px;font-weight:600;max-width:380px}
 .exam-widget.countdown{display:inline-flex;background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);color:var(--coral-deep)}
 .exam-widget.prompt{display:inline-flex;background:var(--amber-soft);border:1px solid rgba(245,165,36,.35);color:#9a6a0a}
@@ -111,6 +110,17 @@ button{font-family:var(--san);cursor:pointer}
 .ring-pct{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--coral);letter-spacing:.03em;margin-top:2px}
 .ring-denom{font-family:var(--mono);font-size:10px;color:var(--stone-light);letter-spacing:.05em;margin-top:1px}
 
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:18px}
+.hero-actions-note{font-size:13px;color:var(--stone)}
+.btn-primary svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ring-link{display:block;border-radius:999px;transition:transform .22s cubic-bezier(.2,.7,.2,1)}
+.ring-link:hover{transform:scale(1.03)}
+.ring-link:active{transform:scale(.99)}
+.ring-link:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+.is-loading .ring-num{animation:dashPulse 1.1s ease-in-out infinite alternate}
+@keyframes dashPulse{from{opacity:.35}to{opacity:.9}}
+@media(prefers-reduced-motion:reduce){.is-loading .ring-num{animation:none;opacity:.5}.ring-link{transition:none}}
+
 /* ===== LAUNCH CARDS ===== */
 .launch-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
 @media(max-width:760px){.launch-grid{grid-template-columns:1fr}}
@@ -125,6 +135,8 @@ button{font-family:var(--san);cursor:pointer}
 .launch-icon.custom svg{stroke:var(--coral-deep)}
 .launch-icon.bookmarks{background:var(--coral-faint)}
 .launch-icon.bookmarks svg{stroke:var(--coral-deep);fill:none}
+.launch-icon.revise{background:var(--amber-soft)}
+.launch-icon.revise svg{stroke:var(--coral-deep)}
 .launch-icon.placeholder{background:var(--cream);border:1px dashed var(--border-strong)}
 .launch-icon.placeholder svg{stroke:var(--stone-light)}
 .launch-card h3{font-size:19px;font-weight:800;letter-spacing:-.02em}
@@ -133,8 +145,29 @@ button{font-family:var(--san);cursor:pointer}
 .launch-card-cta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform .2s}
 .launch-card:hover .launch-card-cta svg{transform:translateX(3px)}
 /* Reserved slot — present but not yet a destination */
+.launch-card.is-static{cursor:default}
+.launch-card.is-static:hover{transform:none;box-shadow:var(--shadow-sm);border-color:var(--border)}
+.revise-controls{display:flex;flex-direction:column;gap:6px}
+.revise-controls[hidden],.revise-count-tag[hidden],.revise-info[hidden],.revise-cta svg[hidden]{display:none}
+.revise-label{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone-light)}
+.revise-select{appearance:none;-webkit-appearance:none;width:100%;min-height:44px;padding:10px 38px 10px 14px;border:1.5px solid var(--border-strong);border-radius:12px;background:var(--surface-warm) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C7068' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 12px center/14px;font-family:var(--san);font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:border-color .16s,box-shadow .16s}
+.revise-select:hover{border-color:var(--stone)}
+.revise-select:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.revise-select:active{border-color:var(--coral)}
+.revise-info{font-size:13px;color:var(--stone);line-height:1.55}
+.revise-cta{align-self:flex-start;min-height:44px;padding:0 6px;margin-left:-6px;border-radius:10px;transition:opacity .16s}
+.revise-cta:hover{text-decoration:underline;text-underline-offset:3px}
+.revise-cta:hover svg{transform:translateX(3px)}
+.revise-cta:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+.revise-cta:active{opacity:.7}
+.revise-cta[aria-disabled="true"]{color:var(--stone-light);pointer-events:none;text-decoration:none}
+.revise-count-tag.is-zero{color:var(--stone);background:var(--cream);border-color:var(--border)}
+@media(prefers-reduced-motion:reduce){.revise-select,.revise-cta{transition:none}}
 .launch-card.is-placeholder{cursor:default;border-style:dashed;background:var(--surface-warm);box-shadow:none}
 .launch-card.is-placeholder:hover{transform:none;box-shadow:none;border-color:var(--border)}
+.launch-card.is-placeholder .launch-icon.revise{background:var(--cream);border:1px dashed var(--border-strong)}
+.launch-card.is-placeholder .launch-icon.revise svg{stroke:var(--stone-light)}
+.revise-count-tag{display:block;width:fit-content;margin-top:10px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--wrong);background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.22);border-radius:999px;padding:3px 9px}
 .launch-card.is-placeholder h3{color:var(--stone)}
 .launch-card.is-placeholder p{color:var(--stone-light)}
 .launch-card-cta.placeholder-cta{color:var(--stone-light);font-weight:600}
@@ -155,8 +188,8 @@ button{font-family:var(--san);cursor:pointer}
   .dash-main{padding:32px 0 60px}
   .dash-hero{flex-direction:column;text-align:center;padding:28px 24px;gap:22px}
   .dash-hero-text{text-align:center}
-  .dash-hero-sub{margin:0 auto}
   .exam-widget{margin:16px auto 0}
+  .hero-actions{justify-content:center;flex-direction:column;gap:8px}
   .ring-wrap{width:120px;height:120px}
   .ring-num{font-size:19px}
   .ring-pct{font-size:11px}
@@ -181,9 +214,6 @@ button{font-family:var(--san);cursor:pointer}
       <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
       <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
     </a>
-    <nav class="app-nav" aria-label="App navigation">
-      <a href="dashboard.html" class="active">Dashboard</a>
-    </nav>
     <div class="app-topbar-right">
       <div class="user-menu" id="user-menu">
         <button class="user-menu-trigger" id="user-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false">
@@ -193,7 +223,6 @@ button{font-family:var(--san);cursor:pointer}
         <div class="user-menu-dropdown" role="menu">
           <div class="user-menu-dropdown-inner">
             <a href="my-profile.html" role="menuitem">My Profile</a>
-            <a href="my-progress.html" role="menuitem">My Progress</a>
           </div>
         </div>
       </div>
@@ -218,24 +247,29 @@ button{font-family:var(--san);cursor:pointer}
 
     <div class="app-shell-content">
 
-    <div class="dash-hero">
+    <div class="dash-hero is-loading" id="dash-hero">
       <div class="dash-hero-text">
         <span class="eyebrow" style="margin-bottom:8px">Welcome back</span>
         <h1 id="greeting">Hi <span class="coral" id="greeting-name">there</span></h1>
-        <p class="dash-hero-sub">Pick up where you left off, or start something new below.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" id="quick10-btn" href="practice.html?mode=custom&count=10&autostart=1"><span id="quick10-label">Quick 10</span> <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          <span class="hero-actions-note">10 questions, starts straight away</span>
+        </div>
       </div>
       <div class="ring-wrap-col">
+        <a class="ring-link" href="my-progress.html" id="ring-link" aria-label="Questions solved. Open My Progress">
         <div class="ring-wrap">
           <svg class="ring-svg" viewBox="0 0 148 148" aria-hidden="true">
             <circle class="ring-track" cx="74" cy="74" r="62"/>
             <circle class="ring-fill" id="ring-fill" cx="74" cy="74" r="62" stroke-dasharray="389.6" stroke-dashoffset="389.6"/>
           </svg>
           <div class="ring-center">
-            <span class="ring-num" id="ring-num">0<span class="sep">/</span>0</span>
-            <span class="ring-pct" id="ring-pct">0%</span>
-            <span class="ring-denom">solved</span>
+            <span class="ring-num" id="ring-num">&ndash;</span>
+            <span class="ring-pct" id="ring-pct">&nbsp;</span>
+            <span class="ring-denom" id="ring-denom">loading</span>
           </div>
         </div>
+        </a>
         <div class="exam-widget" id="exam-widget" style="display:none"></div>
         <button class="reset-progress-btn" id="reset-progress-btn">Reset progress</button>
       </div>
@@ -266,13 +300,22 @@ button{font-family:var(--san);cursor:pointer}
         <p id="bookmarks-card-desc">Every question you’ve saved with the bookmark icon, gathered into one practice set.</p>
         <span class="launch-card-cta">Start review <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
       </a>
-      <div class="launch-card is-placeholder">
-        <div class="launch-icon placeholder">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <div class="launch-card is-static" id="revise-card">
+        <div class="launch-icon revise">
+          <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
         </div>
-        <h3>More soon</h3>
-        <p>Another way to practise is on the way — this space is reserved for it.</p>
-        <span class="launch-card-cta placeholder-cta">Coming soon</span>
+        <h3>Revise Mistakes</h3>
+        <p id="revise-desc">Retry questions you answered incorrectly, gathered into one focused set.</p>
+        <div class="revise-controls" id="revise-controls">
+          <label class="revise-label" for="revise-scope">Which mistakes</label>
+          <select class="revise-select" id="revise-scope">
+            <option value="session" selected>Last session</option>
+            <option value="all">All questions answered incorrectly</option>
+          </select>
+        </div>
+        <span class="revise-count-tag" id="revise-count" aria-live="polite"></span>
+        <p class="revise-info" id="revise-info"></p>
+        <a class="launch-card-cta revise-cta" id="revise-cta" href="practice.html?mode=custom&source=wrong&count=20">Retry them <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
       </div>
     </div>
 
@@ -330,37 +373,177 @@ async function loadBookmarkCount() {
   }
 }
 
-async function loadProgress() {
-  // EMQ questions count as one question per sub-question (not one per card) for
-  // progress purposes, so fetch enough to expand them rather than a row count.
-  const { data: qRows } = await sb.from('questions').select('id, type, data').eq('status', 'published');
+const SESSION_GAP_MS = 30 * 60 * 1000; // a pause longer than this between answers ends a study session
 
-  let totalCount = 0;
-  const subCount = {};
-  (qRows || []).forEach(q => {
-    const n = q.type === 'EMQ' ? (q.data?.questions?.length || 1) : 1;
-    subCount[q.id] = n;
-    totalCount += n;
-  });
-
-  const { data: answered } = await sb
-    .from('attempt_answers')
-    .select('question_id, attempts!inner(user_id)')
-    .eq('attempts.user_id', currentUser.id);
-
-  const answeredIds = new Set((answered || []).map(a => a.question_id));
-  let solvedCount = 0;
-  answeredIds.forEach(id => { solvedCount += subCount[id] || 1; });
-
-  const pct = totalCount ? Math.round((solvedCount / totalCount) * 100) : 0;
-
-  document.getElementById('ring-num').innerHTML = `${solvedCount}<span class="sep">/</span>${totalCount}`;
-  document.getElementById('ring-pct').textContent = `${pct}%`;
-
-  const circumference = 389.6;
-  const fraction = totalCount ? Math.min(solvedCount / totalCount, 1) : 0;
-  document.getElementById('ring-fill').style.strokeDashoffset = String(circumference * (1 - fraction));
+// PostgREST returns at most 1000 rows per request, so page through the history
+// (id as tie-breaker keeps pages stable). Without this a long-time user's newest
+// answers fall off the end of an ascending query.
+async function fetchAllAnswers() {
+  const out = [];
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await sb
+      .from('attempt_answers')
+      .select('id, question_id, is_correct, created_at, attempts!inner(user_id)')
+      .eq('attempts.user_id', currentUser.id)
+      .order('created_at', { ascending: true })
+      .order('id', { ascending: true })
+      .range(from, from + 999);
+    if (error) throw error;
+    out.push(...(data || []));
+    if (!data || data.length < 1000) break;
+  }
+  return out;
 }
+
+function practiceHref(params) {
+  return 'practice.html?mode=custom&' + Object.keys(params).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
+}
+
+// Mistakes data for the Revise card, filled by loadProgress().
+let revise = { first: true, all: 0, session: 0, sessionStart: null, sessionAnswered: 0 };
+
+async function loadProgress() {
+  const hero = document.getElementById('dash-hero');
+  try {
+    const { data: qRows, error: qErr } = await sb
+      .from('questions')
+      .select('id, type, data')
+      .eq('status', 'published');
+    if (qErr) throw qErr;
+
+    let totalCount = 0;
+    const subCount = {};
+    (qRows || []).forEach(q => {
+      const n = q.type === 'EMQ' ? (q.data?.questions?.length || 1) : 1;
+      subCount[q.id] = n;
+      totalCount += n;
+    });
+
+    const answers = await fetchAllAnswers(); // oldest first
+    const latest = {}, latestAt = {};
+    answers.forEach(a => {
+      latest[a.question_id] = !!a.is_correct;
+      latestAt[a.question_id] = Date.parse(a.created_at) || 0;
+    });
+
+    // "Last session" = the most recent run of answers with no gap over SESSION_GAP_MS
+    // between consecutive answers. Walk back from the newest answer until a longer gap.
+    let sessionStart = null, sessionAnswered = 0;
+    if (answers.length) {
+      let i = answers.length - 1;
+      sessionStart = Date.parse(answers[i].created_at) || 0;
+      sessionAnswered = 1;
+      while (i > 0) {
+        const prev = Date.parse(answers[i - 1].created_at) || 0;
+        if (sessionStart - prev > SESSION_GAP_MS) break;
+        sessionStart = prev; sessionAnswered++; i--;
+      }
+    }
+
+    let solved = 0, wrongAll = 0, wrongSession = 0;
+    Object.keys(latest).forEach(id => {
+      const n = subCount[id];
+      if (!n) return; // question no longer published
+      solved += n;
+      if (!latest[id]) {
+        wrongAll += 1;
+        if (sessionStart !== null && latestAt[id] >= sessionStart) wrongSession += 1;
+      }
+    });
+    const unseenQs = (qRows || []).filter(q => !(q.id in latest)).length;
+
+    const pct = totalCount ? Math.round((solved / totalCount) * 100) : 0;
+    document.getElementById('ring-num').innerHTML = solved + '<span class="sep">/</span>' + totalCount;
+    document.getElementById('ring-pct').textContent = pct + '%';
+    document.getElementById('ring-denom').textContent = 'solved';
+    document.getElementById('ring-link').setAttribute('aria-label', solved + ' of ' + totalCount + ' questions solved. Open My Progress');
+    const fraction = totalCount ? Math.min(solved / totalCount, 1) : 0;
+    document.getElementById('ring-fill').style.strokeDashoffset = String(389.6 * (1 - fraction));
+
+    const first = solved === 0;
+    revise = { first, all: wrongAll, session: wrongSession, sessionStart, sessionAnswered };
+    renderFirstSession(first);
+    renderQuick10(unseenQs);
+    renderRevise();
+  } catch (err) {
+    document.getElementById('ring-num').textContent = '—';
+    document.getElementById('ring-pct').textContent = '';
+    document.getElementById('ring-denom').textContent = "couldn't load";
+  } finally {
+    hero.classList.remove('is-loading');
+  }
+}
+
+function renderFirstSession(first) {
+  if (!first) return;
+  document.querySelector('.dash-hero-text .eyebrow').textContent = 'Welcome';
+  document.getElementById('quick10-label').textContent = 'Start your first 10';
+}
+
+function renderQuick10(unseen) {
+  // Prefer questions not yet seen; fall back to the whole bank once fewer than 10 remain.
+  const fresh = unseen >= 10;
+  document.getElementById('quick10-btn').setAttribute('href',
+    practiceHref(fresh ? { count: 10, source: 'new', autostart: 1 } : { count: 10, autostart: 1 }));
+  document.querySelector('.hero-actions-note').textContent = (fresh ? '10 new questions' : '10 random questions') + ', starts straight away';
+}
+
+// Revise Mistakes card. Scope "session" = mistakes made in the most recent study session
+// (see SESSION_GAP_MS); "all" = every question whose latest answer is wrong.
+function renderRevise() {
+  const card = document.getElementById('revise-card');
+  const desc = document.getElementById('revise-desc');
+  const controls = document.getElementById('revise-controls');
+  const tag = document.getElementById('revise-count');
+  const info = document.getElementById('revise-info');
+  const cta = document.getElementById('revise-cta');
+  const scope = document.getElementById('revise-scope').value === 'all' ? 'all' : 'session';
+
+  if (revise.all === 0) {
+    // Nothing to revise at all: a quiet, non-interactive card rather than a dead end.
+    card.classList.add('is-placeholder');
+    controls.hidden = true; tag.hidden = true; info.hidden = true;
+    desc.textContent = revise.first
+      ? 'Questions you get wrong will collect here for a focused retry.'
+      : 'No outstanding mistakes. Every question you have attempted is currently answered correctly.';
+    cta.removeAttribute('href');
+    cta.setAttribute('aria-disabled', 'true');
+    cta.firstChild.textContent = revise.first ? 'Available after your first session' : 'Nothing to revise';
+    cta.querySelector('svg').setAttribute('hidden', '');
+    return;
+  }
+
+  const n = scope === 'all' ? revise.all : revise.session;
+  const when = revise.sessionStart !== null
+    ? new Date(revise.sessionStart).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ', ' +
+      new Date(revise.sessionStart).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+    : '';
+  tag.hidden = false;
+  tag.textContent = n > 0 ? n + ' to revise' : '0 from last session';
+  tag.classList.toggle('is-zero', n === 0);
+
+  info.hidden = false;
+  info.textContent = scope === 'session'
+    ? (n === 0
+        ? 'No mistakes in your last session (' + revise.sessionAnswered + ' answered, from ' + when + '). Switch to all questions answered incorrectly to retry ' + revise.all + '.'
+        : 'Your last session began ' + when + ' and covered ' + revise.sessionAnswered + ' answers.')
+    : 'Every question whose most recent answer was incorrect.';
+
+  const arrowEl = cta.querySelector('svg');
+  arrowEl.removeAttribute('hidden');
+  cta.firstChild.textContent = 'Retry them ';
+  if (n === 0) {
+    cta.removeAttribute('href');
+    cta.setAttribute('aria-disabled', 'true');
+  } else {
+    cta.removeAttribute('aria-disabled');
+    const p = { source: 'wrong', count: Math.min(n, 20) };
+    if (scope === 'session') { p.wrongscope = 'session'; p.since = new Date(revise.sessionStart).toISOString(); }
+    cta.setAttribute('href', practiceHref(p));
+  }
+}
+
+document.getElementById('revise-scope').addEventListener('change', renderRevise);
 
 document.getElementById('logout-btn').addEventListener('click', async () => {
   await sb.auth.signOut();
