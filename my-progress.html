@@ -90,6 +90,14 @@ button{font-family:var(--san);cursor:pointer}
 .cat-row:last-child{border-bottom:none}
 .cat-row.head{background:var(--surface-warm);font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--stone-light)}
 .cat-name{font-size:14.5px;font-weight:600;color:var(--ink-soft)}
+.cat-link{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:44px;margin:-8px -10px;padding:8px 10px;border-radius:12px;transition:background .16s,color .16s}
+.cat-link:hover{background:var(--surface-warm);color:var(--ink)}
+.cat-link:focus-visible{outline:2px solid var(--coral);outline-offset:1px}
+.cat-link:active{background:var(--coral-faint)}
+.cat-go{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--coral-deep);opacity:.75;transition:transform .2s cubic-bezier(.2,.7,.2,1),opacity .16s}
+.cat-go svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.cat-link:hover .cat-go,.cat-link:focus-visible .cat-go{opacity:1;transform:translateX(2px)}
+@media(prefers-reduced-motion:reduce){.cat-go{transition:none}}
 .cat-solved{font-family:var(--mono);font-size:13px;color:var(--stone)}
 .cat-mastered-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--correct)}
 .cat-review-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--amber)}
@@ -168,9 +176,6 @@ button{font-family:var(--san);cursor:pointer}
       <svg viewBox="0 0 100 100" width="28" height="28" aria-hidden="true"><use href="#pr-mark"/></svg>
       <span><span class="pain">Pain</span><span class="rev">Revision</span></span>
     </a>
-    <nav class="app-nav" aria-label="App navigation">
-      <a href="dashboard.html">Dashboard</a>
-    </nav>
     <div class="app-topbar-right">
       <div class="user-menu" id="user-menu">
         <button class="user-menu-trigger" id="user-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false">
@@ -180,7 +185,6 @@ button{font-family:var(--san);cursor:pointer}
         <div class="user-menu-dropdown" role="menu">
           <div class="user-menu-dropdown-inner">
             <a href="my-profile.html" role="menuitem">My Profile</a>
-            <a href="my-progress.html" role="menuitem">My Progress</a>
           </div>
         </div>
       </div>
@@ -436,7 +440,7 @@ function render(stats) {
     const reviewPct = cat.total ? (cat.review / cat.total) * 100 : 0;
     return `
       <div class="cat-row">
-        <span class="cat-name">${escHtml(cat.name)}</span>
+        <a class="cat-name cat-link" href="practice.html?mode=custom&category=${encodeURIComponent(cat.name)}&count=10&autostart=1" title="Start a 10-question set in ${escHtml(cat.name)}">${escHtml(cat.name)}<span class="cat-go">Practise <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
         <div class="cat-stats">
           <span class="cat-cell"><span class="cell-label">Attempted</span><span class="cell-val cat-solved">${fmtRatio(cat.attempted, cat.total, { showTotal: true, compact: true })}</span></span>
           <span class="cat-cell"><span class="cell-label">Mastered</span><span class="cell-val cat-mastered-num">${fmtRatio(cat.mastered, cat.total)}</span></span>

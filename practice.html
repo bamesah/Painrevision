@@ -689,6 +689,8 @@ let currentUser = null;
 let categories = [];       // [{id, name, count}]
 let questionMeta = [];     // custom mode: [{id, type, catIds}] for every published question — powers the live "available" count
 let answeredMap = {};       // question_id -> last is_correct
+let answeredAt = {};        // question_id -> ms timestamp of that last answer
+let wrongSince = null;      // ms; when set (URL: wrongscope=session&since=<ISO>) 'wrong' only counts mistakes made at/after this time
 let bookmarkedSet = new Set(); // question_ids the user has bookmarked (kept live as they toggle)
 let notedSet = new Set();       // question_ids the user has a non-empty note on (mode === 'notes')
 let notesHistory = {};          // question_id -> did the last attempt get it fully right (mode === 'notes')
@@ -745,6 +747,7 @@ async function init() {
     document.getElementById('finish-btn').textContent = 'Submit Set';
     await loadCategoriesAndHistory();
     wireConfigControls();
+    applyUrlPreselect();
   }
 
   document.getElementById('start-btn').addEventListener('click', startSession);
@@ -825,7 +828,7 @@ async function loadCategoriesAndHistory() {
     .select('question_id, is_correct, created_at, attempts!inner(user_id)')
     .eq('attempts.user_id', currentUser.id)
     .order('created_at', { ascending: true });
-  (answered || []).forEach(a => { answeredMap[a.question_id] = a.is_correct; });
+  (answered || []).forEach(a => { answeredMap[a.question_id] = a.is_correct; answeredAt[a.question_id] = Date.parse(a.created_at) || 0; });
 
   // Lightweight per-question metadata + the user's bookmarks, so the config
   // screen can show how many questions match the current filters (and cap the
@@ -863,7 +866,7 @@ function applyCustomFilters(pool, f) {
   if (f.selectedTypes.length) pool = pool.filter(q => f.selectedTypes.includes(q.type));
   if (f.sourceFilter === 'new') pool = pool.filter(q => !(q.id in answeredMap));
   else if (f.sourceFilter === 'answered') pool = pool.filter(q => q.id in answeredMap);
-  else if (f.sourceFilter === 'wrong') pool = pool.filter(q => answeredMap[q.id] === false);
+  else if (f.sourceFilter === 'wrong') pool = pool.filter(q => answeredMap[q.id] === false && (wrongSince === null || answeredAt[q.id] >= wrongSince));
   if (f.bookmarkedOnly) pool = pool.filter(q => bookmarkedSet.has(q.id));
   return pool;
 }
@@ -888,6 +891,57 @@ function updateCountMax() {
     ? 'No questions match these filters'
     : `${avail} question${avail === 1 ? '' : 's'} available`;
   hint.classList.toggle('none', avail === 0);
+}
+
+/* ===== URL PRESELECT (custom mode only) =====
+   Lets the dashboard / My Progress deep-link into a pre-filtered set:
+     ?mode=custom&source=wrong|new|answered|all
+                 &category=<name or id>[,<name or id>…]
+                 &type=SBA|MTF|EMQ[,…]
+                 &count=10
+                 &autostart=1          (skip the config screen)
+                 &wrongscope=session&since=<ISO>   (with source=wrong: only mistakes since that time)
+   Every parameter is optional and unknown values are ignored, so a bare
+   ?mode=custom behaves exactly as before. A category that matches nothing
+   never autostarts (it would otherwise silently become "all questions"). */
+function applyUrlPreselect() {
+  const fire = el => el.dispatchEvent(new Event('change', { bubbles: true }));
+
+  // wrongscope=session&since=<ISO> narrows 'wrong' to mistakes made since that time (the dashboard's
+  // "last session"); without it, source=wrong keeps meaning every question last answered incorrectly.
+  const since = Date.parse(params.get('since'));
+  if (params.get('wrongscope') === 'session' && !isNaN(since)) wrongSince = since;
+
+  const source = params.get('source');
+  const srcEl = source && document.querySelector(`#source-row input[value="${source.replace(/[^a-z]/gi, '')}"]`);
+  if (srcEl) { srcEl.checked = true; fire(srcEl); }
+
+  let catMiss = false;
+  const catParam = params.get('category');
+  if (catParam) {
+    catParam.split(',').map(s => s.trim()).filter(Boolean).forEach(tok => {
+      const hit = categories.find(c => String(c.id) === tok || c.name.toLowerCase() === tok.toLowerCase());
+      const box = hit && document.querySelector(`#cat-grid input[value="${hit.id}"]`);
+      if (box) { box.checked = true; fire(box); } else catMiss = true;
+    });
+  }
+
+  const typeParam = params.get('type');
+  if (typeParam) {
+    typeParam.split(',').map(s => s.trim().toUpperCase()).forEach(t => {
+      const box = document.querySelector(`#type-grid input[value="${t.replace(/[^A-Z]/g, '')}"]`);
+      if (box) { box.checked = true; fire(box); }
+    });
+  }
+
+  const n = parseInt(params.get('count'), 10);
+  if (n > 0) {
+    const range = document.getElementById('count-range');
+    range.value = Math.min(n, parseInt(range.max, 10) || n);
+    document.getElementById('count-num').textContent = range.value;
+  }
+
+  if (params.get('autostart') === '1' && !catMiss && !document.getElementById('count-range').disabled) startSession();
 }
 
 /* Mock chooser: reflect the picked length in the option styling and the

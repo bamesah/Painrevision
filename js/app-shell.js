@@ -10,7 +10,7 @@
    and loading this file after js/supabase-client.js. The rail markup, styling
    (including the edge-to-edge topbar/content width) and the Bookmarked / Notes
    counts are all owned here. data-active is one of: dashboard | progress |
-   knowledge (anything else — e.g. the profile page — leaves no item highlighted).
+   knowledge | practice | mock (anything else — e.g. the profile page — leaves no item highlighted).
 
    AppShell.refreshCounts() re-pulls the badge counts (call it after something
    that changes them, e.g. a progress reset). */
@@ -20,6 +20,10 @@
   const ITEMS = [
     { key: 'dashboard', label: 'Dashboard', short: 'Dashboard', href: 'dashboard.html',
       icon: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/>' },
+    { key: 'practice', label: 'Practice Set', short: 'Practice', href: 'practice.html?mode=custom',
+      icon: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' },
+    { key: 'mock', label: 'Mock Exam', short: 'Mock', href: 'practice.html?mode=mock',
+      icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>' },
     { key: 'progress', label: 'My Progress', short: 'Progress', href: 'my-progress.html',
       icon: '<line x1="6" y1="20" x2="6" y2="13"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="9"/>' },
     { key: 'bookmarks', label: 'Bookmarked', short: 'Bookmarks', href: 'practice.html?mode=bookmarks',
@@ -44,6 +48,7 @@
     .side-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
     .side-nav a:hover{background:var(--surface-warm);color:var(--ink)}
     .side-nav a:focus-visible{outline:2px solid var(--coral);outline-offset:2px}
+    .side-nav a:active{background:rgba(36,27,22,.1)}
     .side-nav a.active{background:rgba(36,27,22,.06);color:var(--ink)}
     .side-nav a .nav-short{display:none}
     .side-nav a .nav-count{margin-left:auto;font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--coral-deep);background:var(--coral-faint);border:1px solid rgba(240,98,60,.22);border-radius:999px;padding:1px 7px;min-width:21px;text-align:center}
@@ -53,17 +58,22 @@
       .app-shell{grid-template-columns:minmax(0,1fr);gap:24px}
       /* Full-bleed compact tab bar sitting flush under the topbar. */
       .app-rail{order:-1;min-width:0;margin:0 calc(-1 * clamp(20px,3.5vw,48px))}
-      .app-rail .side-nav{position:static;min-width:0;flex-flow:row nowrap;gap:0;background:var(--surface);border:1px solid var(--border);border-left:0;border-right:0}
+      /* 7 items no longer fit across 390px at a readable size, so the bar scrolls sideways
+         (the partly-visible last item is the cue) and the active tab is scrolled into view on load. */
+      .app-rail .side-nav{position:relative;top:auto;min-width:0;flex-flow:row nowrap;gap:0;background:var(--surface);border:1px solid var(--border);border-left:0;border-right:0;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none}
+      .app-rail .side-nav::-webkit-scrollbar{display:none}
       .side-nav-label{display:none}
-      .side-nav a{flex:1 1 0;min-width:0;flex-direction:column;gap:5px;padding:10px 3px;border-radius:0;font-size:clamp(9px,2.6vw,10.5px);font-weight:600;line-height:1.15;white-space:nowrap;color:var(--stone-light);text-align:center;position:relative}
+      .side-nav a{flex:0 0 auto;min-width:78px;min-height:64px;justify-content:center;flex-direction:column;gap:5px;padding:10px 8px;border-radius:0;font-size:11.5px;font-weight:600;line-height:1.15;white-space:nowrap;color:var(--stone);text-align:center;position:relative;scroll-snap-align:start}
       .side-nav a+a{border-left:1px solid var(--border)}
-      .side-nav a svg{width:21px;height:21px;stroke-width:1.9}
-      .side-nav a:hover{background:none;color:var(--stone-light)}
+      .side-nav a svg{width:22px;height:22px;stroke-width:1.9}
+      .side-nav a:hover{background:none;color:var(--ink)}
+      .side-nav a:active{background:var(--coral-faint)}
+      .side-nav a:focus-visible{outline-offset:-3px}
       .side-nav a.active{background:var(--coral-faint);color:var(--coral-deep)}
       .side-nav a.active svg{stroke:currentColor}
       .side-nav a .nav-full{display:none}
       .side-nav a .nav-short{display:inline}
-      .side-nav a .nav-count{position:absolute;top:3px;left:calc(50% + 7px);margin:0;font-size:8.5px;line-height:14px;min-width:14px;padding:0 4px;border-radius:999px}
+      .side-nav a .nav-count{position:absolute;top:5px;left:calc(50% + 6px);margin:0;font-size:10px;line-height:16px;min-width:16px;padding:0 4px;border-radius:999px;background:var(--surface)}
     }`;
     document.head.appendChild(s);
   }
@@ -106,6 +116,8 @@
     if (!mount) return;
     injectStyles();
     renderRail(mount, mount.getAttribute('data-active'));
+    const on = mount.querySelector('a.active'), bar = mount.querySelector('.side-nav');
+    if (on && bar && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = Math.max(0, on.offsetLeft - 12);
     refreshCounts();
   }
 
